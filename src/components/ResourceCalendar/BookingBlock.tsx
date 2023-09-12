@@ -4,9 +4,13 @@ import { createPortal } from "react-dom";
 import BookingSummary from "./BookingSummary";
 
 type BookingBlockProps = {
+  /** mandatory, booking object */
   booking: Booking;
+  /** mandatory, left position of booking block */
   positionLeft: string;
+  /** mandatory, top position of booking block */
   positionTop: string;
+  /** mandatory, width of booking block */
   columnWidth: number;
 };
 

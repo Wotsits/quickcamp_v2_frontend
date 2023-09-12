@@ -3,9 +3,12 @@ import "./style.css";
 import { Booking, ResourceGroup } from "./types";
 import BookingsOverlay from "./BookingsOverlay";
 import { generateDateArray } from "../../utils/helpers";
+import ColumnWidthSlider from "./ColumnWidthSlider";
 
 type ResourceCalendarComponentProps = {
+  /** mandatory, resources array */
   resources: ResourceGroup[];
+  /** mandatory, bookings array */
   bookings: Booking[];
 };
 
@@ -44,13 +47,9 @@ const ResourceCalendar = ({
     <div id="resource-calendar" className="resource-calendar">
       {/* Width Selector */}
 
-      <span>Column Width: </span>
-      <input
-        type="range"
-        min={30}
-        max={250}
-        value={columnWidth}
-        onChange={(e) => setColumnWidth(parseInt(e.target.value))}
+      <ColumnWidthSlider
+        columnWidth={columnWidth}
+        setColumnWidth={setColumnWidth}
       />
 
       {/* Calendar */}
@@ -116,8 +115,11 @@ const ResourceCalendar = ({
         </tbody>
       </table>
 
-      <BookingsOverlay bookings={bookings} cells={cells} columnWidth={columnWidth}/>
-
+      <BookingsOverlay
+        bookings={bookings}
+        cells={cells}
+        columnWidth={columnWidth}
+      />
     </div>
   );
 };

@@ -70,7 +70,11 @@
 }
 
 .booking-summary .booking-summary-stay-details, .booking-summary .booking-summary-occupants, .booking-summary .booking-summary-finance-details {
-    margin: 10px 0;
+    margin: 15px 0;
+}
+
+.booking-summary div {
+    margin-bottom: 5px;
 }
 
 

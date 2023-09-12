@@ -4,8 +4,11 @@ import BookingBlock from './BookingBlock';
 import { isSameDate } from '../../utils/helpers';
 
 type BookingOverlayComponentProps = {
+    /** mandatory, bookings array */
     bookings: Booking[],
+    /** mandatory, cells array */
     cells: HTMLTableCellElement[]
+    /** mandatory, column width */
     columnWidth: number
 }
 

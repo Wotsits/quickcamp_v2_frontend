@@ -2,8 +2,11 @@ import React from "react";
 import { Booking } from "./types";
 
 type BookingSummaryProps = {
+  /** mandatory, booking object */
   booking: Booking;
+  /** mandatory, left position of booking block */
   positionLeft: string;
+  /** mandatory, top position of booking block */
   positionTop: string;
 };
 
