@@ -1,0 +1,78 @@
+.resource-calendar {
+    width: 100%;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.resource-calendar-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.resource-calendar .cell {
+    align-items: center;
+    height: 30px;
+    border: 1px solid black;
+}
+
+.resource-calendar .cell-overlay {
+    height: 30px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;   
+    position: absolute;
+}
+
+.resource-calendar .cell-overlay:hover {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.resource-calendar .cell-overlay .occupant-summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    color: black;
+}
+
+.resource-calendar th {
+    text-align: left;
+}
+
+.resource-calendar .min-width-150 {
+    min-width: 150px;
+}
+
+.booking-summary {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+    width: 300px;
+}
+
+.booking-summary .booking-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.booking-summary .booking-summary-header .booking-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.booking-summary .booking-summary-stay-details, .booking-summary .booking-summary-occupants, .booking-summary .booking-summary-finance-details {
+    margin: 10px 0;
+}
+
+
+
+
