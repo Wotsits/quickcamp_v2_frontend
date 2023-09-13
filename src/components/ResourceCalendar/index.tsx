@@ -49,9 +49,6 @@ const ResourceCalendar = ({
     <div id="resource-calendar" className="resource-calendar">
       {/* Controls */}
 
-      <DateSelector />
-      <
-
       <ColumnWidthSlider
         columnWidth={columnWidth}
         setColumnWidth={setColumnWidth}
