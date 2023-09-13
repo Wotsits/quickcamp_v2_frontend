@@ -15,6 +15,7 @@ import BookingCalendar from "./routes/booking-calendar";
 import Guests from "./routes/guests";
 import Bookings from "./routes/bookings";
 import Admin from "./routes/admin";
+import { CssBaseline } from "@mui/material";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ const container = document.getElementById("app-root")!;
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
+    <CssBaseline />
     <RouterProvider router={router} />
   </React.StrictMode>
 );
