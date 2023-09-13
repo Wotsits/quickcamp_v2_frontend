@@ -4,6 +4,8 @@ import { Booking, ResourceGroup } from "./types";
 import BookingsOverlay from "./BookingsOverlay";
 import { generateDateArray } from "../../utils/helpers";
 import ColumnWidthSlider from "./ColumnWidthSlider";
+import ResourceCalendarHeaderRow from "./ResourceCalendarHeaderRow";
+import ResourceCalendarBody from "./ResourceCalendarBody";
 
 type ResourceCalendarComponentProps = {
   /** mandatory, resources array */
@@ -55,71 +57,18 @@ const ResourceCalendar = ({
       {/* Calendar */}
 
       <table id="resource-calendar-table" className="resource-calendar-table">
-        {/* HEADER */}
-
-        <thead
-          id="resource-calendar-table-header"
-          className="resource-calendar-table-header"
-        >
-          <tr>
-            <th className="min-width-150">Resource</th>
-            {dateArray.map((date) => {
-              const day = date.getDay();
-              const isWeekend = day === 0 || day === 6;
-              return (
-                <th
-                  style={{
-                    minWidth: columnWidth.toString() + "px",
-                    backgroundColor: isWeekend ? "lightgrey" : "none",
-                  }}
-                >
-                  {date.toDateString()}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-
-        {/* BODY */}
-
-        <tbody
-          id="resource-calendar-table-body"
-          className="resource-calendar-table-body"
-        >
-          {resources.map((resourceGroup) => (
-            <>
-              <tr>
-                <td colSpan={10000}>{resourceGroup.class}</td>
-              </tr>
-              {resourceGroup.resources.map((resource) => (
-                <tr>
-                  <td>{resource.name}</td>
-                  {dateArray.map((date) => {
-                    const day = date.getDay();
-                    const isWeekend = day === 0 || day === 6;
-                    return (
-                      <td
-                        style={{
-                          backgroundColor: isWeekend ? "lightgrey" : "none",
-                        }}
-                        className="cell"
-                        data-unit={resource.id}
-                        data-start={date}
-                      />
-                    );
-                  })}
-                </tr>
-              ))}
-            </>
-          ))}
-        </tbody>
+        <ResourceCalendarHeaderRow dateArray={dateArray} columnWidth={columnWidth}/>
+        <ResourceCalendarBody resources={resources} dateArray={dateArray} />
       </table>
+
+      {/* Booking Overlay Layer */}
 
       <BookingsOverlay
         bookings={bookings}
         cells={cells}
         columnWidth={columnWidth}
       />
+      
     </div>
   );
 };
