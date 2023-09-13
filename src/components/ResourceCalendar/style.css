@@ -62,18 +62,6 @@
     width: 300px;
 }
 
-.booking-summary .booking-summary-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.booking-summary .booking-summary-header .booking-name {
-    font-size: 20px;
-    font-weight: bold;
-}
-
 .booking-summary .booking-summary-stay-details, .booking-summary .booking-summary-occupants, .booking-summary .booking-summary-finance-details {
     margin: 15px 0;
 }
