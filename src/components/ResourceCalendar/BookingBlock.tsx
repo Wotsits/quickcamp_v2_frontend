@@ -12,6 +12,8 @@ type BookingBlockProps = {
   positionTop: string;
   /** mandatory, width of booking block */
   columnWidth: number;
+  /** mandatory, number of nights remaining in booking */
+  numberOfNightsRemaining: number;
 };
 
 const BookingBlock = ({
@@ -19,6 +21,7 @@ const BookingBlock = ({
   positionLeft,
   positionTop,
   columnWidth,
+  numberOfNightsRemaining,
 }: BookingBlockProps) => {
   // -------------
   // STATE
@@ -26,11 +29,7 @@ const BookingBlock = ({
 
   const [bookingSummaryVisible, setBookingSummaryVisible] = useState(false);
 
-  const timeDiff =
-    new Date(booking.end).getTime() - new Date(booking.start).getTime();
-  const millisecondsInDay = 1000 * 60 * 60 * 24;
-  const days = timeDiff / millisecondsInDay;
-  const width = days * columnWidth + "px";
+  const width = numberOfNightsRemaining * columnWidth + "px";
 
   // -------------
   // HELPER

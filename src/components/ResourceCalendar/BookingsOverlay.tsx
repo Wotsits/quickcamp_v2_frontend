@@ -1,7 +1,7 @@
 import React from 'react';
 import { Booking } from './types';
 import BookingBlock from './BookingBlock';
-import { isSameDate } from '../../utils/helpers';
+import { isBookingForDate } from '../../utils/helpers';
 
 type BookingOverlayComponentProps = {
     /** mandatory, bookings array */
@@ -21,14 +21,17 @@ const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponent
     function getPosition(booking: Booking) {
         const unitId = booking.unit;
         const start = booking.start;
+        const end = booking.end;
         const cellToOverlay = cells.find(cell => {
             const unitMatches = parseInt((cell.dataset.unit as string)) === unitId
-            const dateMatches = isSameDate(new Date(cell.dataset.start as string), new Date(start))
+            const dateMatches = isBookingForDate(new Date(cell.dataset.midpoint as string), new Date(start), new Date(end))
             return unitMatches && dateMatches
         })
         const x = cellToOverlay?.getBoundingClientRect().x + "px"
         const y = cellToOverlay?.getBoundingClientRect().y + "px"
-        return {x, y}
+        const startDateOfCellToOverlay = new Date(cellToOverlay?.dataset.start as string)
+        const numberOfNightsRemaining = Math.ceil((new Date(end).getTime() - startDateOfCellToOverlay.getTime()) / (1000 * 60 * 60 * 24))
+        return {x, y, numberOfNightsRemaining}
     }
 
     // --------------
@@ -40,9 +43,9 @@ const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponent
     }
 
     return bookings.map(booking => {
-        const {x,y} = getPosition(booking)
+        const {x, y, numberOfNightsRemaining} = getPosition(booking)
         return (
-            <BookingBlock key={booking.id} booking={booking} positionLeft={x} positionTop={y} columnWidth={columnWidth} />
+            <BookingBlock key={booking.id} booking={booking} positionLeft={x} positionTop={y} columnWidth={columnWidth} numberOfNightsRemaining={numberOfNightsRemaining}/>
         )
       })
 

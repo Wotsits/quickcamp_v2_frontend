@@ -87,6 +87,22 @@ const bookings = [
         petsCheckedIn: 0,
         vehiclesCheckedIn: 2
     },
+    {
+        id: 4,
+        bookingName: "Robins",
+        adults: 6,
+        children: 2,
+        infants: 0,
+        pets: 0,
+        vehicles: 2,
+        unit: 2,
+        start: "2023-09-12T12:00:00",
+        end: "2023-09-14T11:59:59",
+        paid: true,
+        peopleCheckedIn: 8,
+        petsCheckedIn: 0,
+        vehiclesCheckedIn: 2
+    },
 ]
 
 const Experimental = () => {

@@ -20,6 +20,7 @@ const ResourceCalendarHeaderRow = ({dateArray, columnWidth}: ResourceCalendarHea
             {dateArray.map((date) => {
               return (
                 <th
+                  key={date.toString()}
                   style={{
                     minWidth: columnWidth.toString() + "px",
                   }}
