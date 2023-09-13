@@ -1,5 +1,6 @@
 import React from 'react';
 import { Resource, ResourceGroup } from './types';
+import { weekendHightlight } from '../../settings';
 
 type ResourceCalendarBodyComponentProps = {
     /** mandatory, resources array */
@@ -16,7 +17,7 @@ const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyCompon
         >
           {resources.map((resourceGroup) => (
             <>
-              <tr>
+              <tr className="resource-class-section-header">
                 <td colSpan={10000}>{resourceGroup.class}</td>
               </tr>
               {resourceGroup.resources.map((resource) => (
@@ -28,7 +29,7 @@ const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyCompon
                     return (
                       <td
                         style={{
-                          backgroundColor: isWeekend ? "lightgrey" : "none",
+                          backgroundColor: isWeekend ? weekendHightlight : "none",
                         }}
                         className="cell"
                         data-unit={resource.id}

@@ -1,4 +1,5 @@
 import React from "react";
+import { weekendHightlight } from "../../settings";
 
 type ResourceCalendarHeaderRowComponentProps = {
     /** mandatory, date array */
@@ -17,13 +18,10 @@ const ResourceCalendarHeaderRow = ({dateArray, columnWidth}: ResourceCalendarHea
           <tr>
             <th className="min-width-150">Resource</th>
             {dateArray.map((date) => {
-              const day = date.getDay();
-              const isWeekend = day === 0 || day === 6;
               return (
                 <th
                   style={{
                     minWidth: columnWidth.toString() + "px",
-                    backgroundColor: isWeekend ? "lightgrey" : "none",
                   }}
                 >
                   {date.toDateString()}

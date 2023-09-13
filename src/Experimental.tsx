@@ -22,6 +22,19 @@ const resources = [
                 name: "Unit 4"
             },
         ]
+    },
+    {
+        class: "Silver",
+        resources: [
+            {
+                id: 5,
+                name: "Unit 5"
+            },
+            {
+                id: 6,
+                name: "Unit 6"
+            },
+        ]
     }
 ]
 

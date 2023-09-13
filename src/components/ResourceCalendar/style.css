@@ -10,6 +10,11 @@
     border-collapse: collapse;
 }
 
+.resource-calendar .resource-class-section-header td {
+    font-size: large;
+    padding-top: 20px;
+}
+
 .resource-calendar .cell {
     align-items: center;
     height: 30px;
