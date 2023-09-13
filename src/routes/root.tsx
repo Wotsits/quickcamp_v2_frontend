@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { Outlet } from "react-router-dom";
+import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -161,7 +157,6 @@ const Root = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -219,7 +214,7 @@ const Root = () => {
         </Toolbar>
       </AppBar>
       <NavDrawer open={open} handleDrawerClose={handleDrawerClose} theme={theme} primaryNavOptions={primaryNavOptions} secondaryNavOptions={secondaryNavOptions}/>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 4 }}>
         <Outlet />
       </Box>
     </Box>
