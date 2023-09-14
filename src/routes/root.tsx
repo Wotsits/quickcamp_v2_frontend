@@ -13,12 +13,13 @@ import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MailIcon from "@mui/icons-material/Mail";
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { DRAWERWIDTH, PRIMARYCOLOR, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Badge, InputBase, alpha } from "@mui/material";
+import SearchField from "../components/SearchField";
 
 // -------------
 // SUBCOMPONENTS
@@ -44,48 +45,6 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}));
-
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
 }));
 
 // -------------
@@ -149,7 +108,7 @@ const Root = () => {
 
   const handleProfileMenuOpen = () => {
     console.log("Open profile menu");
-  }
+  };
 
   // -----------
   // RENDER
@@ -157,7 +116,13 @@ const Root = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" open={open} style={{ "background": `linear-gradient(to right, ${PRIMARYCOLOR}, ${SECONDARYCOLOR})`}}>
+      <AppBar
+        position="fixed"
+        open={open}
+        style={{
+          background: `linear-gradient(to right, ${PRIMARYCOLOR}, ${SECONDARYCOLOR})`,
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -174,18 +139,14 @@ const Root = () => {
           <Typography variant="h6" noWrap component="div">
             Ark Booking Management
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <SearchField callback={(a) => console.log(a)}/>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -213,7 +174,13 @@ const Root = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <NavDrawer open={open} handleDrawerClose={handleDrawerClose} theme={theme} primaryNavOptions={primaryNavOptions} secondaryNavOptions={secondaryNavOptions}/>
+      <NavDrawer
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        theme={theme}
+        primaryNavOptions={primaryNavOptions}
+        secondaryNavOptions={secondaryNavOptions}
+      />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 7 }}>
         <Outlet />
       </Box>
