@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Booking } from "./types";
+import { BookingSumm } from "./types";
 import { createPortal } from "react-dom";
 import BookingSummary from "./BookingSummary";
 
 type BookingBlockProps = {
   /** mandatory, booking object */
-  booking: Booking;
+  booking: BookingSumm;
   /** mandatory, left position of booking block */
   positionLeft: string;
   /** mandatory, top position of booking block */

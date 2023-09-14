@@ -1,12 +1,12 @@
 import React from "react";
-import { Booking } from "./types";
+import { BookingSumm } from "./types";
 import { Card, CardActions, CardContent, CardHeader, IconButton } from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 type BookingSummaryProps = {
   /** mandatory, booking object */
-  booking: Booking;
+  booking: BookingSumm;
   /** mandatory, left position of booking block */
   positionLeft: string;
   /** mandatory, top position of booking block */

@@ -1,4 +1,4 @@
-
+export const APIURL = process.env.APIURL || "http://localhost:8000";
 
 export const DRAWERWIDTH = 240;
 

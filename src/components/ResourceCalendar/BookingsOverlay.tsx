@@ -1,11 +1,11 @@
 import React from 'react';
-import { Booking } from './types';
+import { BookingSumm } from './types';
 import BookingBlock from './BookingBlock';
 import { isBookingForDate } from '../../utils/helpers';
 
 type BookingOverlayComponentProps = {
     /** mandatory, bookings array */
-    bookings: Booking[],
+    bookings: BookingSumm[],
     /** mandatory, cells array */
     cells: HTMLTableCellElement[]
     /** mandatory, column width */
@@ -18,7 +18,7 @@ const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponent
     // HELPER
     // --------------
 
-    function getPosition(booking: Booking) {
+    function getPosition(booking: BookingSumm) {
         const unitId = booking.unit;
         const start = booking.start;
         const end = booking.end;

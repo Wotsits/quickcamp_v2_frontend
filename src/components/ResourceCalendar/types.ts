@@ -8,7 +8,7 @@ export type ResourceGroup = {
   resources: Resource[];
 };
 
-export type Booking = {
+export type BookingSumm = {
   id: any;
   bookingName: string;
   adults: number;

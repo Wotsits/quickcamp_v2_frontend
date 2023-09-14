@@ -12,13 +12,23 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { router } from "./router";
 import { theme } from "./muiTheme";
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+
+// Create a client
+const queryClient = new QueryClient();
+
 const container = document.getElementById("app-root")!;
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

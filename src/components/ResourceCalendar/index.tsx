@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import { Booking, ResourceGroup } from "./types";
+import { BookingSumm, ResourceGroup } from "./types";
 import BookingsOverlay from "./BookingsOverlay";
 import { generateDateArray } from "../../utils/helpers";
 import ColumnWidthSlider from "./ColumnWidthSlider";
@@ -11,7 +11,7 @@ type ResourceCalendarComponentProps = {
   /** mandatory, resources array */
   resources: ResourceGroup[];
   /** mandatory, bookings array */
-  bookings: Booking[];
+  bookings: BookingSumm[];
 };
 
 const ResourceCalendar = ({
