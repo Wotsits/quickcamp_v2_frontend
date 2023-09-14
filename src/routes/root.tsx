@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { DRAWERWIDTH } from "../settings";
+import { DRAWERWIDTH, PRIMARYCOLOR, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Badge, InputBase, alpha } from "@mui/material";
 
@@ -157,7 +157,7 @@ const Root = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} style={{ "background": `linear-gradient(to right, ${PRIMARYCOLOR}, ${SECONDARYCOLOR})`}}>
         <Toolbar>
           <IconButton
             color="inherit"
