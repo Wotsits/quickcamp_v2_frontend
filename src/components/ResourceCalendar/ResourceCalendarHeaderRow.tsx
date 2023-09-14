@@ -1,5 +1,5 @@
 import React from "react";
-import { weekendHightlight } from "../../settings";
+import { WEEKENDHIGHLIGHT } from "../../settings";
 
 type ResourceCalendarHeaderRowComponentProps = {
     /** mandatory, date array */

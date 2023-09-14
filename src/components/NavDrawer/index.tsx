@@ -8,14 +8,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Link } from "react-router-dom";
-import { drawerWidth } from "../../settings";
+import { DRAWERWIDTH } from "../../settings";
 
 // -------------
 // MIXINS
 // -------------
 
 const openedMixin = (theme: Theme): CSSObject => ({
-    width: drawerWidth,
+    width: DRAWERWIDTH,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -47,7 +47,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
-    width: drawerWidth,
+    width: DRAWERWIDTH,
     flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",

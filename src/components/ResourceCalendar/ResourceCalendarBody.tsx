@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Resource, ResourceGroup } from './types';
-import { weekendHightlight } from '../../settings';
+import { WEEKENDHIGHLIGHT } from '../../settings';
 import { isWeekend } from '../../utils/helpers';
 
 type ResourceCalendarBodyComponentProps = {
@@ -29,7 +29,7 @@ const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyCompon
                       <td
                         key={date.toString()}
                         style={{
-                          backgroundColor: isWeekend(date) ? weekendHightlight : "none",
+                          backgroundColor: isWeekend(date) ? WEEKENDHIGHLIGHT : "none",
                         }}
                         className="cell"
                         data-unit={resource.id}

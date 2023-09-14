@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { drawerWidth } from "../settings";
+import { DRAWERWIDTH } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Badge, InputBase, alpha } from "@mui/material";
 
@@ -37,8 +37,8 @@ const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: DRAWERWIDTH,
+    width: `calc(100% - ${DRAWERWIDTH}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
