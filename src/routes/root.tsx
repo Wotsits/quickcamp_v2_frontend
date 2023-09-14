@@ -214,7 +214,7 @@ const Root = () => {
         </Toolbar>
       </AppBar>
       <NavDrawer open={open} handleDrawerClose={handleDrawerClose} theme={theme} primaryNavOptions={primaryNavOptions} secondaryNavOptions={secondaryNavOptions}/>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 4 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 7 }}>
         <Outlet />
       </Box>
     </Box>

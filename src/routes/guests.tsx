@@ -3,37 +3,42 @@ import { useQuery } from "react-query";
 import { Guest } from "../types";
 import { getGuests } from "../services/queries/getGuests";
 import DataTable from "../components/DataTable";
+import { Typography } from "@mui/material";
 
 const columnSpec = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'firstName', headerName: 'First Name', width: 130 },
-    { field: 'lastName', headerName: 'Surname', width: 130 },
-    { field: 'address1', headerName: 'Address Line 1', width: 90 },
-    { field: 'address2', headerName: 'Address Line 2', width: 160 },
-    { field: 'townCity', headerName: 'Town/City', width: 160 },
-    { field: 'postcode', headerName: 'Postcode', width: 90 },
-    { field: 'tel', headerName: 'Tel', width: 90 },
-    { field: 'email', headerName: 'Email', width: 90 },
-  ];
-  
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "firstName", headerName: "First Name", width: 130 },
+  { field: "lastName", headerName: "Surname", width: 130 },
+  { field: "address1", headerName: "Address Line 1", width: 90 },
+  { field: "address2", headerName: "Address Line 2", width: 160 },
+  { field: "townCity", headerName: "Town/City", width: 160 },
+  { field: "postcode", headerName: "Postcode", width: 90 },
+  { field: "tel", headerName: "Tel", width: 90 },
+  { field: "email", headerName: "Email", width: 90 },
+];
 
 const Guests = () => {
-    const { isLoading, isError, data, error } = useQuery<Guest[], Error>("guests", getGuests);
-    
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+  const { isLoading, isError, data, error } = useQuery<Guest[], Error>(
+    "guests",
+    getGuests
+  );
 
-    if (isError) {
-        return <div>Error: {error.message}</div>;
-    }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-    return (
-        <div id="bookings">
-            <h1>Bookings</h1>
-            <DataTable rows={data!} columns={columnSpec} />
-        </div>
-    );
-}
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return (
+    <div id="guests">
+      <Typography variant="h5" gutterBottom>
+        Guests
+      </Typography>
+      <DataTable rows={data!} columns={columnSpec} />
+    </div>
+  );
+};
 
 export default Guests;
