@@ -9,11 +9,16 @@ import Bookings from "./routes/bookings";
 import Admin from "./routes/admin";
 import CentreFullPage from "./components/CentreFullPage";
 import LoginForm from "./components/LoginForm";
+import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <ProtectedRouteWrapper>
+        <Root />
+      </ProtectedRouteWrapper>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {

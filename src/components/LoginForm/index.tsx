@@ -13,43 +13,46 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { APPLICATIONNAME, INFOWEBSITEADDRESS } from "../../settings";
 import "./style.css";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href={INFOWEBSITEADDRESS}>
-        {APPLICATIONNAME}
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { useContext, useState } from "react";
+import { Alert } from "@mui/material";
+import AuthContext from "../../contexts/authContext";
+import Copyright from "../Copyright";
+import { AxiosError } from "axios";
+import { Navigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const {user, login} = useContext(AuthContext);
+
+  const [loginError, setLoginError] = useState<string>("");
   
   // ----------------
   // EVENT HANDLERS
   // ----------------
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
+    const {success, error} = await login({username, password});
+    if (!success) {
+      console.log(error)
+      if (error instanceof AxiosError) {
+        setLoginError(error.response!.data.message || "An error occurred");
+      }
+      else {
+        setLoginError("An error occurred");
+      }
+    }
   };
 
   // ----------------
   // RENDER
   // ----------------
+
+  if (user) {
+    return <Navigate to="/" />
+  }
 
   return (
     <Container className="login-form" component="main" maxWidth="xs">
@@ -68,15 +71,16 @@ const LoginForm = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {loginError && <Alert severity="error" sx={{mt: 2}}>{loginError}</Alert>}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
           />
           <TextField

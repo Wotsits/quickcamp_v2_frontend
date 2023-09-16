@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -87,12 +87,14 @@ const secondaryNavOptions = [
 // -------------
 
 const Root = () => {
+  
   // -----------
   // STATE
   // -----------
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   // -----------
   // HANDLERS
@@ -114,6 +116,10 @@ const Root = () => {
   // RENDER
   // -----------
 
+  if (location.pathname === "/") {
+    return <Navigate to="/dashboard" />;
+  }
+  
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
