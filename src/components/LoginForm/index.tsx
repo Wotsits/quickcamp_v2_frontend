@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { APPLICATIONNAME, INFOWEBSITEADDRESS } from "../../settings";
+import "./style.css";
 
 function Copyright(props: any) {
   return (
@@ -32,6 +33,11 @@ function Copyright(props: any) {
 }
 
 const LoginForm = () => {
+  
+  // ----------------
+  // EVENT HANDLERS
+  // ----------------
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,6 +46,10 @@ const LoginForm = () => {
       password: data.get("password"),
     });
   };
+
+  // ----------------
+  // RENDER
+  // ----------------
 
   return (
     <Container className="login-form" component="main" maxWidth="xs">

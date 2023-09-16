@@ -1,0 +1,8 @@
+.centre-full-page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #000428, #004E92);
+}
