@@ -4,7 +4,7 @@ import React from "react";
 const Admin = () => {
   return (
     <div id="admin">
-      <Typography variant="h5" gutterBottom>
+      <Typography sx={{mb:3}} variant="h5" gutterBottom>
         Admin
       </Typography>
     </div>

@@ -3,7 +3,6 @@ import "./style.css";
 import { ResourceGroup } from "./types";
 import BookingsOverlay from "./BookingsOverlay";
 import { generateDateArray } from "../../utils/helpers";
-import ColumnWidthSlider from "./ColumnWidthControls";
 import ResourceCalendarHeaderRow from "./ResourceCalendarHeaderRow";
 import ResourceCalendarBody from "./ResourceCalendarBody";
 import { BookingSumm } from "../../types";

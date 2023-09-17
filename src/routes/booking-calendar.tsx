@@ -116,11 +116,11 @@ const BookingCalendar = () => {
 
   return (
     <div id="booking-calendar" className="route-container">
-      <Typography variant="h5" gutterBottom>
+      <Typography sx={{mb:3}} variant="h5" gutterBottom>
         Booking Calendar
       </Typography>
       <Box
-        sx={{ mt: 4, mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        sx={{ mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}
         id="booking-calendar-datepicker"
         className="booking-calendar-datepicker"
       >

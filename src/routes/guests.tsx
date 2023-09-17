@@ -33,7 +33,7 @@ const Guests = () => {
 
   return (
     <div id="guests">
-      <Typography variant="h5" gutterBottom>
+      <Typography sx={{mb:3}} variant="h5" gutterBottom>
         Guests
       </Typography>
       <DataTable rows={data!} columns={columnSpec} />
