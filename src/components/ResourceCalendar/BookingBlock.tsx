@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { BookingSumm } from "./types";
 import { createPortal } from "react-dom";
 import BookingSummary from "./BookingSummary";
+import { BookingSumm } from "../../types";
 
 type BookingBlockProps = {
   /** mandatory, booking object */

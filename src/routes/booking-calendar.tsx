@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ResourceCalendar from "../components/ResourceCalendar";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import ColumnWidthControls from "../components/ResourceCalendar/ColumnWidthControls";
+import './style.css'
 
 const resources = [
   {
@@ -107,12 +111,35 @@ const bookings = [
 ];
 
 const BookingCalendar = () => {
+  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(new Date()));
+  const [columnWidth, setColumnWidth] = useState<number>(100);
+
   return (
-    <div id="booking-calendar">
+    <div id="booking-calendar" className="route-container">
       <Typography variant="h5" gutterBottom>
         Booking Calendar
       </Typography>
-      <ResourceCalendar resources={resources} bookings={bookings} />
+      <Box
+        sx={{ mt: 4, mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        id="booking-calendar-datepicker"
+        className="booking-calendar-datepicker"
+      >
+        <DatePicker
+          value={startDate}
+          onChange={(value) => setStartDate(dayjs(value))}
+          label={"Calendar start date"}
+        />
+        <ColumnWidthControls
+          columnWidth={columnWidth}
+          setColumnWidth={setColumnWidth}
+        />
+      </Box>
+      <ResourceCalendar
+        resources={resources}
+        bookings={bookings}
+        startDate={startDate?.toDate() as Date}
+        columnWidth={columnWidth}
+      />
     </div>
   );
 };

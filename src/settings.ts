@@ -14,4 +14,4 @@ export const PRIMARYCOLOR = "#000428";
 
 export const SECONDARYCOLOR = "#004E92";
 
-export const WEEKENDHIGHLIGHT = "lightyellow";
+export const WEEKENDHIGHLIGHT = "rgba(0,78,146, 0.1)";

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BookingSumm } from './types';
 import BookingBlock from './BookingBlock';
 import { isBookingForDate } from '../../utils/helpers';
+import { BookingSumm } from '../../types';
 
 type BookingOverlayComponentProps = {
     /** mandatory, bookings array */

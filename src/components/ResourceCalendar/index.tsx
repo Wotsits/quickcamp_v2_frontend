@@ -1,38 +1,48 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import { BookingSumm, ResourceGroup } from "./types";
+import { ResourceGroup } from "./types";
 import BookingsOverlay from "./BookingsOverlay";
 import { generateDateArray } from "../../utils/helpers";
-import ColumnWidthSlider from "./ColumnWidthSlider";
+import ColumnWidthSlider from "./ColumnWidthControls";
 import ResourceCalendarHeaderRow from "./ResourceCalendarHeaderRow";
 import ResourceCalendarBody from "./ResourceCalendarBody";
+import { BookingSumm } from "../../types";
 
 type ResourceCalendarComponentProps = {
   /** mandatory, resources array */
   resources: ResourceGroup[];
   /** mandatory, bookings array */
   bookings: BookingSumm[];
+  /** mandatory, start date */
+  startDate: Date;
+  /** mandatory, column width */
+  columnWidth: number;
 };
 
 const ResourceCalendar = ({
   resources,
   bookings,
+  startDate,
+  columnWidth
 }: ResourceCalendarComponentProps) => {
+  console.log(startDate)
   // --------------------
   // STATE
   // --------------------
 
-  const [startDate, setStartDate] = useState(new Date());
   const [numberOfNights, setNumberOfNights] = useState(28);
   const [dateArray, setDateArray] = useState(
     generateDateArray(startDate, numberOfNights)
   );
-  const [columnWidth, setColumnWidth] = useState(100);
   const [cells, setCells] = useState<HTMLTableCellElement[]>([]);
 
   // --------------------
   // USEEFFECTS
   // --------------------
+
+  useEffect(() => {
+    setDateArray(generateDateArray(startDate, numberOfNights));
+  }, [startDate])
 
   useEffect(() => {
     const cells = document.querySelectorAll<HTMLTableCellElement>(
@@ -47,12 +57,6 @@ const ResourceCalendar = ({
 
   return (
     <div id="resource-calendar" className="resource-calendar">
-      {/* Controls */}
-
-      <ColumnWidthSlider
-        columnWidth={columnWidth}
-        setColumnWidth={setColumnWidth}
-      />
 
       {/* Calendar */}
 

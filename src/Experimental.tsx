@@ -1,5 +1,4 @@
 import React from 'react';
-import ResourceCalendar from './components/ResourceCalendar';
 
 const resources = [
     {
@@ -107,7 +106,7 @@ const bookings = [
 
 const Experimental = () => {
     return (
-        <ResourceCalendar resources={resources} bookings={bookings}/>
+        <div>Experimental Component here</div>
     )
 }
 

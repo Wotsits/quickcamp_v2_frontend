@@ -1,8 +1,8 @@
 import React from "react";
-import { BookingSumm } from "./types";
 import { Card, CardActions, CardContent, CardHeader, IconButton } from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { BookingSumm } from "../../types";
 
 type BookingSummaryProps = {
   /** mandatory, booking object */

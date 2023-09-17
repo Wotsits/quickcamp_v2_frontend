@@ -15,6 +15,9 @@ import { theme } from "./muiTheme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthContextProvider } from "./contexts/authContext";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 // Create a client
 const queryClient = new QueryClient();
 
@@ -24,10 +27,12 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          <CssBaseline />
-          <RouterProvider router={router} />
-        </AuthContextProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <AuthContextProvider>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </AuthContextProvider>
+        </LocalizationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
