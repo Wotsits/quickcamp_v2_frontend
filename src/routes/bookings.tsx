@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import { getBookings } from "../services/queries/getBookings";
 import DataTable from "../components/DataTable";
 import { Booking } from "../types";
 import { Typography } from "@mui/material";
+import AuthContext from "../contexts/authContext";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -20,9 +21,11 @@ const columnSpec = [
 ];
 
 const Bookings = () => {
+  const { user } = useContext(AuthContext);
+
   const { isLoading, isError, data, error } = useQuery<Booking[], Error>(
-    "bookings",
-    getBookings
+    ["bookings"],
+    () => getBookings({ token: user.token })
   );
 
   if (isLoading) {
@@ -35,7 +38,7 @@ const Bookings = () => {
 
   return (
     <div id="bookings">
-      <Typography sx={{mb:3}} variant="h5" gutterBottom>
+      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
         Bookings
       </Typography>
       <DataTable rows={data!} columns={columnSpec} />

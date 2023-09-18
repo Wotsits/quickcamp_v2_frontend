@@ -1,194 +1,110 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ResourceCalendar from "../components/ResourceCalendar";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 
 import ColumnWidthControls from "../components/ResourceCalendar/ColumnWidthControls";
-import './style.css'
+import "./style.css";
 import { useQuery } from "react-query";
-import { Booking, BookingSumm } from "../types";
-import { getBookingsByDateRange } from "../services/queries/getBookingByDateRange";
-import set from "date-fns/set";
-import add from "date-fns/add";
+import { Booking, Unit } from "../types";
+import { getBookingsByDateRange } from "../services/queries/getBookingsByDateRange";
+import { addOneMonth, today1200 } from "../utils/dateTimeManipulation";
+import AuthContext from "../contexts/authContext";
+import { getUnits } from "../services/queries/getUnits";
+import { ResourceGroup } from "../components/ResourceCalendar/types";
 
-const resources = [
-  {
-    class: "Gold",
-    resources: [
-      {
-        id: 1,
-        name: "Unit 1",
-      },
-      {
-        id: 2,
-        name: "Unit 2",
-      },
-      {
-        id: 3,
-        name: "Unit 3",
-      },
-      {
-        id: 4,
-        name: "Unit 4",
-      },
-    ],
-  },
-  {
-    class: "Silver",
-    resources: [
-      {
-        id: 5,
-        name: "Unit 5",
-      },
-      {
-        id: 6,
-        name: "Unit 6",
-      },
-    ],
-  },
-];
-
-const bookings = [
-  {
-    id: 1,
-    bookingName: "Smith",
-    adults: 2,
-    children: 2,
-    infants: 0,
-    pets: 1,
-    vehicles: 2,
-    unit: 1,
-    start: "2023-09-13T12:00:00",
-    end: "2023-09-15T11:59:59",
-    paid: true,
-    peopleCheckedIn: 2,
-    petsCheckedIn: 1,
-    vehiclesCheckedIn: 1,
-  },
-  {
-    id: 2,
-    bookingName: "Jones",
-    adults: 4,
-    children: 0,
-    infants: 0,
-    pets: 0,
-    vehicles: 2,
-    unit: 3,
-    start: "2023-09-14T12:00:00",
-    end: "2023-09-15T11:59:59",
-    paid: false,
-    peopleCheckedIn: 0,
-    petsCheckedIn: 0,
-    vehiclesCheckedIn: 0,
-  },
-  {
-    id: 3,
-    bookingName: "Williams",
-    adults: 6,
-    children: 2,
-    infants: 0,
-    pets: 0,
-    vehicles: 2,
-    unit: 4,
-    start: "2023-09-13T12:00:00",
-    end: "2023-09-14T11:59:59",
-    paid: true,
-    peopleCheckedIn: 8,
-    petsCheckedIn: 0,
-    vehiclesCheckedIn: 2,
-  },
-  {
-    id: 4,
-    bookingName: "Robins",
-    adults: 6,
-    children: 2,
-    infants: 0,
-    pets: 0,
-    vehicles: 2,
-    unit: 2,
-    start: "2023-09-12T12:00:00",
-    end: "2023-09-14T11:59:59",
-    paid: true,
-    peopleCheckedIn: 8,
-    petsCheckedIn: 0,
-    vehiclesCheckedIn: 2,
-  },
-];
-
-const addOneMonth = (date: Date) => {
-  try {
-    const newDate = add(date, { months: 1 });
-    const newDateAt1159 = set(newDate, { hours: 11, minutes: 59, seconds: 59, milliseconds: 999 });
-    return newDateAt1159;
-  }
-  catch (err) {
-    console.log(err);
-    return new Date();
-  }
-};
-
-const today1200 = () => {
-  try {
-    const now = new Date();
-    const todayAt1200 = set(now, { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 });
-    return todayAt1200;
-  }
-  catch (err) {
-    console.log(err);
-    return new Date();
-  }
-}
+// -------------
+// MAIN
+// -------------
 
 const BookingCalendar = () => {
+  const {user} = useContext(AuthContext)
   // -------------
   // STATE
   // -------------
 
   const [startDate, setStartDate] = useState<Date | null>(today1200());
-  const [endDate, setEndDate] = useState<Date | null>(addOneMonth(startDate as Date));
   const [columnWidth, setColumnWidth] = useState<number>(100);
 
-  const { isLoading, isError, data, error } = useQuery<Booking[], Error>(["Bookings", startDate, endDate, () => getBookingsByDateRange({
-    start: startDate as Date,
-    end: endDate as Date
-  })]);
+  const { isLoading: bookingsAreLoading, isError: bookingsAreError, data: bookingsData, error: bookingsError } = useQuery<Booking[], Error>([
+    "Bookings",
+    startDate,
+    addOneMonth(startDate as Date)
+  ],
+    () =>
+      getBookingsByDateRange({
+        start: startDate as Date,
+        end: addOneMonth(startDate as Date),
+        token: user.token
+      }),
+  );
 
-  // -------------
-  // USEEFFECTS
-  // -------------
-
-  useEffect(() => {
-    if (startDate) {
-      const newEndDate = addOneMonth(startDate);
-      setEndDate(newEndDate);
-    }
-    console.log(startDate)
-  }, [startDate])
+  const { isLoading: unitsAreLoading, isError: unitsAreError, data: unitsData, error: unitsError } = useQuery<Unit[], Error>(["Units"], () => getUnits({ token: user.token }));
 
   // -------------
   // RENDER
   // -------------
 
+  if (bookingsAreLoading || unitsAreLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (unitsAreError) {
+    return <Alert severity="error">Error: {unitsError.message}</Alert>;
+  }
+
+  if (bookingsAreError) {
+    return <Alert severity="error">Error: {bookingsError.message}</Alert>;
+  }
+
+  const bookingSummaries = bookingsData ? bookingsData.map((booking) => ({
+    id: booking.id,
+    bookingName: "Smith", // TODO fix this
+    adults: 2, // TODO fix this
+    children: 2, // TODO fix this
+    infants: 0, // TODO fix this
+    pets: 1, // TODO fix this
+    vehicles: 2, // TODO fix this
+    unit: booking.unitId,
+    start: booking.start.toString(),
+    end: booking.end.toString(),
+    paid: true, // TODO fix this
+    peopleCheckedIn: 2, // TODO fix this
+    petsCheckedIn: 1, // TODO fix this
+    vehiclesCheckedIn: 1, // TODO fix this
+  })) : [];
+
+
+  const resources: ResourceGroup[] = unitsData
+  ? unitsData.reduce<ResourceGroup[]>((result, unit) => {
+      // Create a new class object and add the unit
+      result.push({
+        class: unit.unitTypeId.toString(),
+        resources: [{ id: unit.id, name: unit.name }],
+      });
+
+      return result;
+    }, [])
+  : [];
+
+
   return (
     <div id="booking-calendar" className="route-container">
-      <Typography sx={{ mb:3 }} variant="h5" gutterBottom>
+      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
         Booking Calendar
       </Typography>
       <Box
-        sx={{ mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        sx={{
+          mb: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
         id="booking-calendar-datepicker"
         className="booking-calendar-datepicker"
       >
         <DatePicker
-          value={startDate?.toISOString()}
-          onChange={(value: string | null) => {
-            if (value === null) {
-              setStartDate(null)
-            }
-            if (typeof value === "string") {
-              setStartDate(new Date(value))
-            }
-          }}
+          onChange={(value: Date | null) => setStartDate(value)}
           label={"Calendar start date"}
         />
         <ColumnWidthControls
@@ -198,7 +114,7 @@ const BookingCalendar = () => {
       </Box>
       <ResourceCalendar
         resources={resources}
-        bookings={bookings}
+        bookings={bookingSummaries}
         startDate={startDate as Date}
         columnWidth={columnWidth}
       />
