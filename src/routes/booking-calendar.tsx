@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ResourceCalendar from "../components/ResourceCalendar";
 import { Box, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
+
 import ColumnWidthControls from "../components/ResourceCalendar/ColumnWidthControls";
 import './style.css'
+import { useQuery } from "react-query";
+import { Booking, BookingSumm } from "../types";
+import { getBookingsByDateRange } from "../services/queries/getBookingByDateRange";
+import set from "date-fns/set";
+import add from "date-fns/add";
 
 const resources = [
   {
@@ -110,13 +115,63 @@ const bookings = [
   },
 ];
 
+const addOneMonth = (date: Date) => {
+  try {
+    const newDate = add(date, { months: 1 });
+    const newDateAt1159 = set(newDate, { hours: 11, minutes: 59, seconds: 59, milliseconds: 999 });
+    return newDateAt1159;
+  }
+  catch (err) {
+    console.log(err);
+    return new Date();
+  }
+};
+
+const today1200 = () => {
+  try {
+    const now = new Date();
+    const todayAt1200 = set(now, { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 });
+    return todayAt1200;
+  }
+  catch (err) {
+    console.log(err);
+    return new Date();
+  }
+}
+
 const BookingCalendar = () => {
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(new Date()));
+  // -------------
+  // STATE
+  // -------------
+
+  const [startDate, setStartDate] = useState<Date | null>(today1200());
+  const [endDate, setEndDate] = useState<Date | null>(addOneMonth(startDate as Date));
   const [columnWidth, setColumnWidth] = useState<number>(100);
+
+  const { isLoading, isError, data, error } = useQuery<Booking[], Error>(["Bookings", startDate, endDate, () => getBookingsByDateRange({
+    start: startDate as Date,
+    end: endDate as Date
+  })]);
+
+  // -------------
+  // USEEFFECTS
+  // -------------
+
+  useEffect(() => {
+    if (startDate) {
+      const newEndDate = addOneMonth(startDate);
+      setEndDate(newEndDate);
+    }
+    console.log(startDate)
+  }, [startDate])
+
+  // -------------
+  // RENDER
+  // -------------
 
   return (
     <div id="booking-calendar" className="route-container">
-      <Typography sx={{mb:3}} variant="h5" gutterBottom>
+      <Typography sx={{ mb:3 }} variant="h5" gutterBottom>
         Booking Calendar
       </Typography>
       <Box
@@ -125,8 +180,15 @@ const BookingCalendar = () => {
         className="booking-calendar-datepicker"
       >
         <DatePicker
-          value={startDate}
-          onChange={(value) => setStartDate(dayjs(value))}
+          value={startDate?.toISOString()}
+          onChange={(value: string | null) => {
+            if (value === null) {
+              setStartDate(null)
+            }
+            if (typeof value === "string") {
+              setStartDate(new Date(value))
+            }
+          }}
           label={"Calendar start date"}
         />
         <ColumnWidthControls
@@ -137,7 +199,7 @@ const BookingCalendar = () => {
       <ResourceCalendar
         resources={resources}
         bookings={bookings}
-        startDate={startDate?.toDate() as Date}
+        startDate={startDate as Date}
         columnWidth={columnWidth}
       />
     </div>
