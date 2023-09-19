@@ -24,12 +24,11 @@ const ResourceCalendar = ({
   startDate,
   columnWidth
 }: ResourceCalendarComponentProps) => {
-  console.log(startDate)
   // --------------------
   // STATE
   // --------------------
 
-  const [numberOfNights, setNumberOfNights] = useState(28);
+  const [numberOfNights] = useState(28);
   const [dateArray, setDateArray] = useState(
     generateDateArray(startDate, numberOfNights)
   );
@@ -48,7 +47,7 @@ const ResourceCalendar = ({
       "#resource-calendar-table-body .cell"
     );
     setCells(Array.from(cells));
-  }, []);
+  });
 
   // --------------------
   // RENDER

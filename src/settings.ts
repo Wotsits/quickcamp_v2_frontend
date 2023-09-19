@@ -6,6 +6,8 @@ export const APPLICATIONNAME = "Ark Booking Management";
 
 export const INFOWEBSITEADDRESS = "https://www.arkbookingmanagement.co.uk";
 
+export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
+
 // -------------
 // Colors
 // -------------

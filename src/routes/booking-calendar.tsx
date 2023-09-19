@@ -11,6 +11,7 @@ import { addOneMonth, setDateToMidday, today1200 } from "../utils/dateTimeManipu
 import AuthContext from "../contexts/authContext";
 import { ResourceGroup } from "../components/ResourceCalendar/types";
 import { getUnitTypes } from "../services/queries/getUnitTypes";
+import { BOOKINGCALENDARCOLUMNWIDTHMIN } from "../settings";
 
 // -------------
 // MAIN
@@ -112,6 +113,7 @@ const BookingCalendar = () => {
         <ColumnWidthControls
           columnWidth={columnWidth}
           setColumnWidth={setColumnWidth}
+          minWidth={BOOKINGCALENDARCOLUMNWIDTHMIN}
         />
       </Box>
       <ResourceCalendar
