@@ -77,7 +77,7 @@ const BookingBlock = ({
       {bookingSummaryVisible &&
         createPortal(
           <BookingSummary booking={booking} positionLeft={positionLeft} positionTop={positionTop} />,
-          document.body
+          document.querySelector("#resource-calendar") as HTMLElement
         )}
     </div>
   );

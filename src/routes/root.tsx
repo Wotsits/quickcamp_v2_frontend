@@ -179,7 +179,7 @@ const Root = () => {
         primaryNavOptions={primaryNavOptions}
         secondaryNavOptions={secondaryNavOptions}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8, height: '100vh', overflow: "auto" }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 10, height: '100vh', overflow: "auto", boxSizing: "border-box" }}>
         <Outlet />
       </Box>
     </Box>

@@ -3,6 +3,7 @@
     width: 100%;
     overflow: auto;
     position: relative;
+    min-height: 100%;
 }
 
 .resource-calendar-table {
