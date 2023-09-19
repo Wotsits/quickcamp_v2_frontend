@@ -12,10 +12,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
-import MailIcon from "@mui/icons-material/Mail";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import FlightLandIcon from '@mui/icons-material/FlightLand';
 import { DRAWERWIDTH, PRIMARYCOLOR, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Avatar, Badge, InputBase, alpha } from "@mui/material";
@@ -64,6 +61,11 @@ const primaryNavOptions = [
     text: "Booking Calendar",
     path: "/booking-calendar",
     icon: <CalendarTodayIcon />,
+  },
+  {
+    text: "Arrivals",
+    path: "/arrivals",
+    icon: <FlightLandIcon />,
   },
   {
     text: "Booking List",
@@ -149,7 +151,7 @@ const Root = () => {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <SearchField callback={(a) => console.log(a)}/>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
@@ -166,7 +168,7 @@ const Root = () => {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <Avatar sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white"}}>{user && getInitials(user.name)}</Avatar>
             <SiteSelector selectedSite={selectedSite} setSelectedSite={setSelectedSite} sites={user?.sites || []}/>
           </Box>
