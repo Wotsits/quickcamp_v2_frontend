@@ -7,7 +7,7 @@ import "./style.css";
 import { useQuery } from "react-query";
 import { Booking, Unit, UnitType } from "../types";
 import { getBookingsByDateRange } from "../services/queries/getBookingsByDateRange";
-import { addOneMonth, today1200 } from "../utils/dateTimeManipulation";
+import { addOneMonth, setDateToMidday, today1200 } from "../utils/dateTimeManipulation";
 import AuthContext from "../contexts/authContext";
 import { ResourceGroup } from "../components/ResourceCalendar/types";
 import { getUnitTypes } from "../services/queries/getUnitTypes";
@@ -26,7 +26,7 @@ const BookingCalendar = () => {
   const [columnWidth, setColumnWidth] = useState<number>(100);
 
   const { isLoading: bookingsAreLoading, isError: bookingsAreError, data: bookingsData, error: bookingsError } = useQuery<Booking[], Error>([
-    "Bookings",
+    "BookingsByDateRange",
     startDate,
     addOneMonth(startDate as Date)
   ],
@@ -106,7 +106,7 @@ const BookingCalendar = () => {
         className="booking-calendar-datepicker"
       >
         <DatePicker
-          onChange={(value: Date | null) => setStartDate(value)}
+          onChange={(value: Date | null) => setStartDate(setDateToMidday(value as Date))}
           label={"Calendar start date"}
         />
         <ColumnWidthControls

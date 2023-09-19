@@ -14,7 +14,7 @@ export const getBookingsByDateRange = async ({start, end, siteId, token}: GetBoo
         params: {
             start: start.toISOString(),
             end: end.toISOString(),
-            siteId: siteId
+            siteId: siteId,
         },
         headers: { Authorization: "Bearer " + token },
     })
