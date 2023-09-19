@@ -34,7 +34,8 @@ const BookingCalendar = () => {
       getBookingsByDateRange({
         start: startDate as Date,
         end: addOneMonth(startDate as Date),
-        token: user.token
+        token: user.token,
+        siteId: selectedSite!.id,
       }),
   );
 
