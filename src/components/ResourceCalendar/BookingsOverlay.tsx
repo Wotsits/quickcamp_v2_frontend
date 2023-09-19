@@ -27,8 +27,8 @@ const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponent
             const dateMatches = isBookingForDate(new Date(cell.dataset.midpoint as string), new Date(start), new Date(end))
             return unitMatches && dateMatches
         })
-        const x = cellToOverlay?.getBoundingClientRect().x + "px"
-        const y = cellToOverlay?.getBoundingClientRect().y + "px"
+        const x = cellToOverlay?.offsetLeft + "px"
+        const y = cellToOverlay?.offsetTop + "px"
         const startDateOfCellToOverlay = new Date(cellToOverlay?.dataset.start as string)
         const numberOfNightsRemaining = Math.ceil((new Date(end).getTime() - startDateOfCellToOverlay.getTime()) / (1000 * 60 * 60 * 24))
         return {x, y, numberOfNightsRemaining}
