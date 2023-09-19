@@ -12,6 +12,7 @@ import {
 import { PRIMARYCOLOR } from "../../settings";
 import { getInitials } from "../../utils/helpers";
 import { Site } from "../../types";
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -44,9 +45,12 @@ const SiteSelector = ({
         {selectedSite && getInitials(selectedSite.name)}
       </Avatar>
       {menuOpen && (
-        <Modal open={true}>
+        <Modal open={true} onClose={() => setMenuOpen(false)}>
           <Box sx={style}>
+            <Box sx={{width: "100%", display: "flex", justifyContent: "space-between" }}>
             <Typography variant="h6" component="h1">Select a site</Typography>
+            <CloseIcon sx={{cursor: "pointer"}} onClick={() => setMenuOpen(false)} />
+            </Box>
             <FormControl sx={{mt: 4}} fullWidth>
               <InputLabel id="site-select-label">Site</InputLabel>
               <Select
