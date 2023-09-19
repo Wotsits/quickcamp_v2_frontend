@@ -22,12 +22,13 @@
 }
 
 .resource-calendar .cell-overlay {
-    height: 30px;
+    height: 31px;
     padding: 0 5px;
     display: flex;
     align-items: center;   
     position: absolute;
     overflow: hidden;
+    border: 1px solid black;
 }
 
 .resource-calendar .cell-overlay:hover {
