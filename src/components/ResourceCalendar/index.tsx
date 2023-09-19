@@ -47,7 +47,7 @@ const ResourceCalendar = ({
       "#resource-calendar-table-body .cell"
     );
     setCells(Array.from(cells));
-  });
+  }, [columnWidth]);
 
   // --------------------
   // RENDER
