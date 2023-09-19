@@ -1,5 +1,6 @@
 import React from "react";
 import { WEEKENDHIGHLIGHT } from "../../settings";
+import { Typography } from "@mui/material";
 
 type ResourceCalendarHeaderRowComponentProps = {
     /** mandatory, date array */
@@ -16,17 +17,19 @@ const ResourceCalendarHeaderRow = ({dateArray, columnWidth}: ResourceCalendarHea
           className="resource-calendar-table-header"
         >
           <tr>
-            <th className="min-width-150">Resource</th>
+            <Typography variant="body2" component="th" className="min-width-150"></Typography>
             {dateArray.map((date) => {
               return (
-                <th
+                <Typography
+                  variant="body2"
+                  component="th"
                   key={date.toString()}
                   style={{
                     minWidth: columnWidth.toString() + "px",
                   }}
                 >
                   {date.toDateString()}
-                </th>
+                </Typography>
               );
             })}
           </tr>

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Resource, ResourceGroup } from './types';
 import { WEEKENDHIGHLIGHT } from '../../settings';
 import { isWeekend } from '../../utils/helpers';
+import { Typography } from '@mui/material';
 
 type ResourceCalendarBodyComponentProps = {
     /** mandatory, resources array */
@@ -19,11 +20,11 @@ const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyCompon
           {resources.map((resourceGroup) => (
             <Fragment key={resourceGroup.class}>
               <tr className="resource-class-section-header">
-                <td colSpan={10000}>{resourceGroup.class}</td>
+                <Typography variant="subtitle2" component="td" colSpan={10000}>{resourceGroup.class}</Typography>
               </tr>
               {resourceGroup.resources.map((resource) => (
                 <tr key={resource.id.toString()}>
-                  <td>{resource.name}</td>
+                  <Typography variant="body2" component="td">{resource.name}</Typography>
                   {dateArray.map((date) => {
                     return (
                       <td
