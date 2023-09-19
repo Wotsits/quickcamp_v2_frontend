@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,8 +18,11 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { DRAWERWIDTH, PRIMARYCOLOR, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
-import { Badge, InputBase, alpha } from "@mui/material";
+import { Avatar, Badge, InputBase, alpha } from "@mui/material";
 import SearchField from "../components/SearchField";
+import AuthContext from "../contexts/authContext";
+import { getInitials } from "../utils/helpers";
+import SiteSelector from "../components/SiteSelector";
 
 // -------------
 // SUBCOMPONENTS
@@ -95,6 +98,7 @@ const Root = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const {user, selectedSite, setSelectedSite} = useContext(AuthContext)
 
   // -----------
   // HANDLERS
@@ -108,9 +112,6 @@ const Root = () => {
     setOpen(false);
   };
 
-  const handleProfileMenuOpen = () => {
-    console.log("Open profile menu");
-  };
 
   // -----------
   // RENDER
@@ -166,17 +167,8 @@ const Root = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              // aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            <Avatar sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white"}}>{user && getInitials(user.name)}</Avatar>
+            <SiteSelector selectedSite={selectedSite} setSelectedSite={setSelectedSite} sites={user?.sites || []}/>
           </Box>
         </Toolbar>
       </AppBar>

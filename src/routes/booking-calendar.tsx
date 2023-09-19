@@ -2,27 +2,26 @@ import React, { useContext, useState } from "react";
 import ResourceCalendar from "../components/ResourceCalendar";
 import { Alert, Box, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-
 import ColumnWidthControls from "../components/ResourceCalendar/ColumnWidthControls";
 import "./style.css";
 import { useQuery } from "react-query";
-import { Booking, Unit } from "../types";
+import { Booking, Unit, UnitType } from "../types";
 import { getBookingsByDateRange } from "../services/queries/getBookingsByDateRange";
 import { addOneMonth, today1200 } from "../utils/dateTimeManipulation";
 import AuthContext from "../contexts/authContext";
-import { getUnits } from "../services/queries/getUnits";
 import { ResourceGroup } from "../components/ResourceCalendar/types";
+import { getUnitTypes } from "../services/queries/getUnitTypes";
 
 // -------------
 // MAIN
 // -------------
 
 const BookingCalendar = () => {
-  const {user} = useContext(AuthContext)
   // -------------
   // STATE
   // -------------
 
+  const {user, selectedSite} = useContext(AuthContext)
   const [startDate, setStartDate] = useState<Date | null>(today1200());
   const [columnWidth, setColumnWidth] = useState<number>(100);
 
@@ -39,18 +38,18 @@ const BookingCalendar = () => {
       }),
   );
 
-  const { isLoading: unitsAreLoading, isError: unitsAreError, data: unitsData, error: unitsError } = useQuery<Unit[], Error>(["Units"], () => getUnits({ token: user.token }));
+  const { isLoading: unitTypesAreLoading, isError: unitTypesAreError, data: unitTypesData, error: unitTypesError } = useQuery<UnitType[], Error>(["UnitTypes", selectedSite!.id], () => getUnitTypes({ token: user.token, siteId: selectedSite!.id }));
 
   // -------------
   // RENDER
   // -------------
 
-  if (bookingsAreLoading || unitsAreLoading) {
+  if (bookingsAreLoading || unitTypesAreLoading) {
     return <div>Loading...</div>;
   }
 
-  if (unitsAreError) {
-    return <Alert severity="error">Error: {unitsError.message}</Alert>;
+  if (unitTypesAreError) {
+    return <Alert severity="error">Error: {unitTypesError.message}</Alert>;
   }
 
   if (bookingsAreError) {
@@ -74,16 +73,18 @@ const BookingCalendar = () => {
     vehiclesCheckedIn: 1, // TODO fix this
   })) : [];
 
-
-  const resources: ResourceGroup[] = unitsData
-  ? unitsData.reduce<ResourceGroup[]>((result, unit) => {
-      // Create a new class object and add the unit
-      result.push({
-        class: unit.unitTypeId.toString(),
-        resources: [{ id: unit.id, name: unit.name }],
-      });
-
-      return result;
+  const resources: ResourceGroup[] = unitTypesData
+  ? unitTypesData.map(unitType => {
+    const units = unitType.units.map((unit: Unit) => ({
+      id: unit.id,
+      name: unit.name,
+      unitTypeId: unit.unitTypeId,
+      unitType: unitType.name,
+    }));
+    return {
+      class: unitType.name,
+      resources: units,
+    };
     }, [])
   : [];
 

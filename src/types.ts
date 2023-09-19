@@ -1,26 +1,36 @@
 export type Tenant = {
     id: number,
     name: string
+    sites: Site[]
 }
 
 export type Site = {
     id: number,
     name: string,
     tenantId: number
+    tenant: Tenant
 }
 
 export type User = {
     email: string,
     password: string,
     tenantId: number,
+    tenant: Tenant
     name: string,
-    role: string
+    roles: Role[],
+}
+
+export type Role = {
+    id: number,
+    role: string,
+    users: User[]
 }
 
 export type UnitType = {
     id: number,
     name: string,
     siteId: number
+    units: Unit[]
 }
 
 export type Unit = {
@@ -116,3 +126,13 @@ export type BookingSumm = {
     vehiclesCheckedIn: number;
   };
 
+  export type UserResponse = {
+    message: string;
+    name: string;
+    refreshToken: string;
+    roles: Role[];
+    sites: Site[];
+    tenantId: number;
+    token: string;
+    username: string;
+  }
