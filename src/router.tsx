@@ -12,10 +12,11 @@ import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
 import Dashboard from "./routes/dashboard";
 import Arrivals from "./routes/arrivals";
 import IndividualBooking from "./routes/individual-booking";
+import { ROUTES } from "./settings";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.ROOT,
     element: (
       <ProtectedRouteWrapper>
         <Root />
@@ -24,47 +25,47 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "dashboard/",
+        path: ROUTES.DASHBOARD,
         element: <Dashboard />,
       },
       {
-        path: "booking-calendar/",
+        path: ROUTES.BOOKING_CALENDAR,
         element: <BookingCalendar />,
       },
       {
-        path: "arrivals/",
+        path: ROUTES.ARRIVALS,
         element: <Arrivals />,
       },
       {
-        path: "guests/",
+        path: ROUTES.GUESTS,
         element: <Guests />,
       },
       {
-        path: "bookings/",
+        path: ROUTES.BOOKINGS,
         children: [
           {
-            path: "new/",
+            path: ROUTES.NEW,
             element: <div>New Booking</div>,
           },
           {
-            path: "all/",
+            path: ROUTES.ALL,
             element: <Bookings />,
           },
           {
-            path: ":id/",
+            path: ROUTES.ID,
             element: <IndividualBooking />,
           }
         ]
       },
       {
-        path: "admin/",
+        path: ROUTES.ADMIN,
         element: <Admin />,
       },
      
     ],
   },
   {
-    path: "login/",
+    path: ROUTES.LOGIN,
     element: (
       <CentreFullPage>
         <LoginForm />

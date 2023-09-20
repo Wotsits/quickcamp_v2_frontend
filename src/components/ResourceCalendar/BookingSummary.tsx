@@ -4,6 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { BookingSumm } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../settings";
 
 type BookingSummaryProps = {
   /** mandatory, booking object */
@@ -39,7 +40,7 @@ const BookingSummary = ({
     >
       <CardHeader
         action={
-          <IconButton onClick={() => navigate(`/bookings/${id}`)} aria-label="settings">
+          <IconButton onClick={() => navigate(`/${ROUTES.BOOKINGS+id}`)} aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
