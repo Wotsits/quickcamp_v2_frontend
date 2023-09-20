@@ -10,6 +10,7 @@ import CentreFullPage from "./components/CentreFullPage";
 import LoginForm from "./components/LoginForm";
 import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
 import Dashboard from "./routes/dashboard";
+import Arrivals from "./routes/arrivals";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "arrivals/",
-        element: <div>Arrivals</div>,
+        element: <Arrivals />,
       },
       {
         path: "guests/",
