@@ -120,7 +120,7 @@ const Root = () => {
   // -----------
 
   if (location.pathname === "/") {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to={ROUTES.DASHBOARD} />;
   }
   
   return (

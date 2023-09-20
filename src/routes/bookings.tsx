@@ -7,6 +7,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import AuthContext from "../contexts/authContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../settings";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -68,7 +69,7 @@ const Bookings = () => {
         <Typography sx={{ margin: 0 }} variant="h5" gutterBottom>
           Bookings
         </Typography>
-        <IconButton size={"large"} onClick={() => navigate('/bookings/new/') }>
+        <IconButton size={"large"} onClick={() => navigate(ROUTES.ROOT+ROUTES.BOOKINGS+ROUTES.CALENDAR) }>
           <AddCircleIcon color={"primary"} fontSize="large" />
         </IconButton>
       </Box>
