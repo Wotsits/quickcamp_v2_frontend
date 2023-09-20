@@ -21,11 +21,11 @@ const columnSpec = [
 ];
 
 const Bookings = () => {
-  const { user } = useContext(AuthContext);
+  const { user, selectedSite } = useContext(AuthContext);
 
   const { isLoading, isError, data, error } = useQuery<Booking[], Error>(
     ["bookings"],
-    () => getBookings({ token: user.token })
+    () => getBookings({ token: user.token, siteId: selectedSite!.id })
   );
 
   if (isLoading) {
