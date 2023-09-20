@@ -29,10 +29,6 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: ROUTES.BOOKING_CALENDAR,
-        element: <BookingCalendar />,
-      },
-      {
         path: ROUTES.ARRIVALS,
         element: <Arrivals />,
       },
@@ -43,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.BOOKINGS,
         children: [
+          {
+            path: ROUTES.CALENDAR,
+            element: <BookingCalendar />,
+          },
           {
             path: ROUTES.NEW,
             element: <div>New Booking</div>,

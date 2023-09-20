@@ -11,7 +11,7 @@ export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
 export const ROUTES = {
   ROOT: "/",
   DASHBOARD: "dashboard/",
-  BOOKING_CALENDAR: "booking-calendar/",
+  CALENDAR: "calendar/",
   ARRIVALS: "arrivals/",
   GUESTS: "guests/",
   BOOKINGS: "bookings/",

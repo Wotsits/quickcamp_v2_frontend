@@ -13,7 +13,7 @@ import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FlightLandIcon from '@mui/icons-material/FlightLand';
-import { DRAWERWIDTH, PRIMARYCOLOR, SECONDARYCOLOR } from "../settings";
+import { DRAWERWIDTH, PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Avatar, Badge, InputBase, alpha } from "@mui/material";
 import SearchField from "../components/SearchField";
@@ -54,27 +54,27 @@ const AppBar = styled(MuiAppBar, {
 const primaryNavOptions = [
   {
     text: "Dashboard",
-    path: "/dashboard",
+    path: ROUTES.DASHBOARD,
     icon: <DashboardIcon />,
   },
   {
     text: "Booking Calendar",
-    path: "/booking-calendar",
+    path: ROUTES.BOOKINGS+ROUTES.CALENDAR,
     icon: <CalendarTodayIcon />,
   },
   {
     text: "Arrivals",
-    path: "/arrivals",
+    path: ROUTES.ARRIVALS,
     icon: <FlightLandIcon />,
   },
   {
     text: "Booking List",
-    path: "/bookings/all/",
+    path: ROUTES.BOOKINGS+ROUTES.ALL,
     icon: <ListIcon />,
   },
   {
     text: "Guest List",
-    path: "/guests",
+    path: ROUTES.GUESTS,
     icon: <PeopleIcon />,
   },
 ];
@@ -82,7 +82,7 @@ const primaryNavOptions = [
 const secondaryNavOptions = [
   {
     text: "Admin",
-    path: "/admin",
+    path: ROUTES.ADMIN,
     icon: <SettingsIcon />,
   },
 ];
