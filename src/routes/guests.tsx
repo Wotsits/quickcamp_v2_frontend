@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import { Guest } from "../types";
 import { getGuests } from "../services/queries/getGuests";
 import DataTable from "../components/DataTable";
 import { Typography } from "@mui/material";
+import AuthContext from "../contexts/authContext";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -18,9 +19,11 @@ const columnSpec = [
 ];
 
 const Guests = () => {
+  const { user } = useContext(AuthContext);
+
   const { isLoading, isError, data, error } = useQuery<Guest[], Error>(
-    "guests",
-    getGuests
+    ["guests"],
+    () => getGuests({ token: user.token })
   );
 
   if (isLoading) {
