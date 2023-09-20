@@ -3,10 +3,9 @@ import { useQuery } from "react-query";
 import { getBookings } from "../services/queries/getBookings";
 import DataTable from "../components/DataTable";
 import { Booking } from "../types";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import AuthContext from "../contexts/authContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { PRIMARYCOLOR } from "../settings";
 import { useNavigate } from "react-router-dom";
 
 const columnSpec = [
@@ -24,15 +23,31 @@ const columnSpec = [
 ];
 
 const Bookings = () => {
+  // -----------
+  // CONTEXT
+  // -----------
+
   const { user, selectedSite } = useContext(AuthContext);
+  
+  // -----------  
+  // HOOKS
+  // -----------
   
   const navigate = useNavigate();
 
+  // -----------  
+  // QUERIES
+  // -----------  
+  
   const { isLoading, isError, data, error } = useQuery<Booking[], Error>(
     ["bookings"],
     () => getBookings({ token: user.token, siteId: selectedSite!.id })
   );
 
+  // -----------  
+  // RENDER
+  // -----------
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }

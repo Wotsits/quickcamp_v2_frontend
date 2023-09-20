@@ -19,7 +19,15 @@ const BookingSummary = ({
   positionLeft,
   positionTop,
 }: BookingSummaryProps) => {
+  // ----------
+  // HOOKS
+  // ----------
+
   const navigate = useNavigate();
+
+  // ----------
+  // RENDER
+  // ----------
 
   const {id, bookingName, unit, start, end, adults, children, infants, pets, vehicles, paid, peopleCheckedIn, petsCheckedIn, vehiclesCheckedIn} = booking
 
