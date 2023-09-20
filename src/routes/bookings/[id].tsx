@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import AuthContext from '../contexts/authContext';
-import { Booking } from '../types';
-import { getBookingById } from '../services/queries/getBookingById';
+import AuthContext from '../../contexts/authContext';
+import { Booking } from '../../types';
+import { getBookingById } from '../../services/queries/getBookingById';
 
 type BookingComponentProps = {
     params?: any;

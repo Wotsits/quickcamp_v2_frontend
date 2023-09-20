@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
-import { getBookings } from "../services/queries/getBookings";
-import DataTable from "../components/DataTable";
-import { Booking } from "../types";
+import { getBookings } from "../../../services/queries/getBookings";
+import DataTable from "../../../components/DataTable";
+import { Booking } from "../../../types";
 import { Box, IconButton, Typography } from "@mui/material";
-import AuthContext from "../contexts/authContext";
+import AuthContext from "../../../contexts/authContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../settings";
+import { ROUTES } from "../../../settings";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },

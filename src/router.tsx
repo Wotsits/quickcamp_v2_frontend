@@ -1,17 +1,17 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Root from "./routes/root";
+import Root from "./routes";
 import ErrorPage from "./components/ErrorPage";
-import BookingCalendar from "./routes/booking-calendar";
+import BookingCalendar from "./routes/bookings/calendar";
 import Guests from "./routes/guests";
-import Bookings from "./routes/bookings";
-import Admin from "./routes/admin";
+import Bookings from "./routes/bookings/all";
+import Admin from "./routes/arrivals";
 import CentreFullPage from "./components/CentreFullPage";
 import LoginForm from "./components/LoginForm";
 import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
 import Dashboard from "./routes/dashboard";
 import Arrivals from "./routes/arrivals";
-import IndividualBooking from "./routes/individual-booking";
+import IndividualBooking from "./routes/bookings/[id]";
 import { ROUTES } from "./settings";
 
 export const router = createBrowserRouter([

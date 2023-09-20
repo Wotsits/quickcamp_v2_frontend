@@ -1,17 +1,17 @@
 import React, { useContext, useState } from "react";
-import ResourceCalendar from "../components/ResourceCalendar";
+import ResourceCalendar from "../../../components/ResourceCalendar";
 import { Alert, Box, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import ColumnWidthControls from "../components/ResourceCalendar/ColumnWidthControls";
-import "./style.css";
+import ColumnWidthControls from "../../../components/ResourceCalendar/ColumnWidthControls";
+import "../../style.css";
 import { useQuery } from "react-query";
-import { Booking, Unit, UnitType } from "../types";
-import { getBookingsByDateRange } from "../services/queries/getBookingsByDateRange";
-import { addOneMonth, setDateToMidday, today1200 } from "../utils/dateTimeManipulation";
-import AuthContext from "../contexts/authContext";
-import { ResourceGroup } from "../components/ResourceCalendar/types";
-import { getUnitTypes } from "../services/queries/getUnitTypes";
-import { BOOKINGCALENDARCOLUMNWIDTHMIN } from "../settings";
+import { Booking, Unit, UnitType } from "../../../types";
+import { getBookingsByDateRange } from "../../../services/queries/getBookingsByDateRange";
+import { addOneMonth, setDateToMidday, today1200 } from "../../../utils/dateTimeManipulation";
+import AuthContext from "../../../contexts/authContext";
+import { ResourceGroup } from "../../../components/ResourceCalendar/types";
+import { getUnitTypes } from "../../../services/queries/getUnitTypes";
+import { BOOKINGCALENDARCOLUMNWIDTHMIN } from "../../../settings";
 
 // -------------
 // MAIN
