@@ -31,7 +31,7 @@ const BookingSummary = ({
     >
       <CardHeader
         action={
-          <IconButton onClick={() => navigate(`/individual-booking/${id}`)} aria-label="settings">
+          <IconButton onClick={() => navigate(`/bookings/${id}`)} aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }

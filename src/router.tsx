@@ -41,16 +41,26 @@ export const router = createBrowserRouter([
       },
       {
         path: "bookings/",
-        element: <Bookings />,
+        children: [
+          {
+            path: "new/",
+            element: <div>New Booking</div>,
+          },
+          {
+            path: "all/",
+            element: <Bookings />,
+          },
+          {
+            path: ":id/",
+            element: <IndividualBooking />,
+          }
+        ]
       },
       {
         path: "admin/",
         element: <Admin />,
       },
-      {
-        path: "individual-booking/:id/",
-        element: <IndividualBooking />,
-      },
+     
     ],
   },
   {

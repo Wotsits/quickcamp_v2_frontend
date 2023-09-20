@@ -69,7 +69,7 @@ const primaryNavOptions = [
   },
   {
     text: "Booking List",
-    path: "/bookings",
+    path: "/bookings/all/",
     icon: <ListIcon />,
   },
   {

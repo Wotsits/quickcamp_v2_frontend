@@ -3,8 +3,11 @@ import { useQuery } from "react-query";
 import { getBookings } from "../services/queries/getBookings";
 import DataTable from "../components/DataTable";
 import { Booking } from "../types";
-import { Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import AuthContext from "../contexts/authContext";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { PRIMARYCOLOR } from "../settings";
+import { useNavigate } from "react-router-dom";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -22,6 +25,8 @@ const columnSpec = [
 
 const Bookings = () => {
   const { user, selectedSite } = useContext(AuthContext);
+  
+  const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery<Booking[], Error>(
     ["bookings"],
@@ -38,9 +43,21 @@ const Bookings = () => {
 
   return (
     <div id="bookings">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Bookings
-      </Typography>
+      <Box
+        marginBottom={2}
+        display="flex"
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        width="100%"
+      >
+        <Typography sx={{ margin: 0 }} variant="h5" gutterBottom>
+          Bookings
+        </Typography>
+        <IconButton size={"large"} onClick={() => navigate('/bookings/new/') }>
+          <AddCircleIcon color={"primary"} fontSize="large" />
+        </IconButton>
+      </Box>
+
       <DataTable rows={data!} columns={columnSpec} />
     </div>
   );
