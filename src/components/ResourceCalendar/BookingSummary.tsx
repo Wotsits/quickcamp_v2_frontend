@@ -3,6 +3,7 @@ import { Card, CardActions, CardContent, CardHeader, IconButton } from "@mui/mat
 import LockIcon from '@mui/icons-material/Lock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { BookingSumm } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 type BookingSummaryProps = {
   /** mandatory, booking object */
@@ -18,6 +19,10 @@ const BookingSummary = ({
   positionLeft,
   positionTop,
 }: BookingSummaryProps) => {
+  const navigate = useNavigate();
+
+  const {id, bookingName, unit, start, end, adults, children, infants, pets, vehicles, paid, peopleCheckedIn, petsCheckedIn, vehiclesCheckedIn} = booking
+
   return (
     <Card
       variant="outlined"
@@ -26,42 +31,37 @@ const BookingSummary = ({
     >
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <IconButton onClick={() => navigate(`/booking/${id}`)} aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={booking.bookingName}
-        subheader={`Ref: ${booking.id}`}
+        title={bookingName}
+        subheader={`Ref: ${id}`}
       />
 
       <CardContent>
-        <div className="booking-summary-header">
-          <span className="booking-name">{booking.bookingName}</span>
-          <span>Ref: {booking.id}</span>
-        </div>
-
         <div className="booking-summary-stay-details">
-          <div>Unit: {booking.unit}</div>
-          <div>Start: {new Date(booking.start).toLocaleString()}</div>
-          <div>End: {new Date(booking.end).toLocaleString()}</div>
+          <div>Unit: {unit}</div>
+          <div>Start: {new Date(start).toLocaleString()}</div>
+          <div>End: {new Date(end).toLocaleString()}</div>
         </div>
 
         <div className="booking-summary-occupant-details">
-          <div>Adults: {booking.adults}</div>
-          <div>Children: {booking.children}</div>
-          <div>Infants: {booking.infants}</div>
-          <div>Pets: {booking.pets}</div>
-          <div>Vehicles: {booking.vehicles}</div>
+          <div>Adults: {adults}</div>
+          <div>Children: {children}</div>
+          <div>Infants: {infants}</div>
+          <div>Pets: {pets}</div>
+          <div>Vehicles: {vehicles}</div>
         </div>
 
         <div className="booking-summary-finance-details">
-          <div>Paid: {booking.paid ? "Yes" : "No"}</div>
+          <div>Paid: {paid ? "Yes" : "No"}</div>
         </div>
 
         <div className="booking-summary-checkedin-details">
-          <div>People Checked In: {booking.peopleCheckedIn}</div>
-          <div>Pets Checked In: {booking.petsCheckedIn}</div>
-          <div>Vehicles Checked In: {booking.vehiclesCheckedIn}</div>
+          <div>People Checked In: {peopleCheckedIn}</div>
+          <div>Pets Checked In: {petsCheckedIn}</div>
+          <div>Vehicles Checked In: {vehiclesCheckedIn}</div>
         </div>
       </CardContent>
 
