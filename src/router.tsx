@@ -11,6 +11,7 @@ import LoginForm from "./components/LoginForm";
 import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
 import Dashboard from "./routes/dashboard";
 import Arrivals from "./routes/arrivals";
+import IndividualBooking from "./routes/individual-booking";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "admin/",
         element: <Admin />,
+      },
+      {
+        path: "individual-booking/:id/",
+        element: <IndividualBooking />,
       },
     ],
   },
