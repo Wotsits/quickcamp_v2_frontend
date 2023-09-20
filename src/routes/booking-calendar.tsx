@@ -58,26 +58,35 @@ const BookingCalendar = () => {
     return <Alert severity="error">Error: {bookingsError.message}</Alert>;
   }
 
+  const bookingPaymentsTotal = (payments: { amount: number }[]) => {
+    // total the payments
+    let total = 0;
+    payments.forEach((payment) => {
+      total += payment.amount;
+    });
+    return total;
+  }
+
   const bookingSummaries = bookingsData ? bookingsData.map((booking) => ({
     id: booking.id,
-    bookingName: "Smith", // TODO fix this
-    adults: 2, // TODO fix this
-    children: 2, // TODO fix this
-    infants: 0, // TODO fix this
-    pets: 1, // TODO fix this
-    vehicles: 2, // TODO fix this
+    bookingName: booking.leadGuest.lastName, 
+    adults: booking.guests!.filter(guest => guest.age >= 18).length, 
+    children: booking.guests!?.filter(guest => guest.age < 18 && guest.age >= 5).length,
+    infants: booking.guests!.filter(guest => guest.age < 5).length,
+    pets: booking.pets!.length,
+    vehicles: booking.vehicles!.length,
     unit: booking.unitId,
     start: booking.start.toString(),
     end: booking.end.toString(),
-    paid: true, // TODO fix this
-    peopleCheckedIn: 2, // TODO fix this
-    petsCheckedIn: 1, // TODO fix this
-    vehiclesCheckedIn: 1, // TODO fix this
+    paid: bookingPaymentsTotal(booking.payments!) >= booking.totalFee,
+    peopleCheckedIn: booking.guests!.filter(guest => guest.checkedIn).length, 
+    petsCheckedIn: booking.pets!.filter(pet => pet.checkedIn).length,
+    vehiclesCheckedIn: booking.vehicles!.filter(vehicle => vehicle.checkedIn).length,
   })) : [];
 
   const resources: ResourceGroup[] = unitTypesData
   ? unitTypesData.map(unitType => {
-    const units = unitType.units.map((unit: Unit) => ({
+    const units = unitType.units!.map((unit: Unit) => ({
       id: unit.id,
       name: unit.name,
       unitTypeId: unit.unitTypeId,
