@@ -23,7 +23,7 @@
 }
 
 .resource-calendar .cell-overlay {
-    height: 31px;
+    height: 30px;
     padding: 0 5px;
     display: flex;
     align-items: center;   

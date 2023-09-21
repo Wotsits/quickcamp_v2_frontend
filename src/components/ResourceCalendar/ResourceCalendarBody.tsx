@@ -9,9 +9,11 @@ type ResourceCalendarBodyComponentProps = {
     resources: ResourceGroup[],
     /** mandatory, date array */
     dateArray: Date[]
+    /** optional, callback triggered on cell click */
+    onCellClick?: (resourceId: string, start: Date) => void
 }
 
-const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyComponentProps) => {
+const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalendarBodyComponentProps) => {
     return (
         <tbody
           id="resource-calendar-table-body"
@@ -26,16 +28,23 @@ const ResourceCalendarBody = ({resources, dateArray}: ResourceCalendarBodyCompon
                 <tr key={resource.id.toString()}>
                   <Typography variant="body2" component="td">{resource.name}</Typography>
                   {dateArray.map((date) => {
+                    const start = new Date(new Date(date).setHours(12, 0, 0, 0));
                     return (
                       <td
                         key={date.toString()}
                         style={{
                           backgroundColor: isWeekend(date) ? WEEKENDHIGHLIGHT : "none",
+                          cursor: onCellClick ? "pointer" : "default",
                         }}
                         className="cell"
                         data-unit={resource.id}
                         data-midpoint={date}
-                        data-start={new Date(new Date(date).setHours(12))}
+                        data-start={start}
+                        onClick={() => { 
+                          if(onCellClick) {
+                            onCellClick(resource.id, start)
+                          }
+                        }}
                       />
                     );
                   })}

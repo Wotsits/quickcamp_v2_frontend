@@ -1,7 +1,7 @@
 export function generateDateArray(startDate: Date, numberOfNights: number) {
   const startDateCpy = new Date(startDate);
-  startDateCpy.setHours(23, 59, 0, 0); // Set time to 23:59:00
-
+  startDateCpy.setHours(12, 0, 0, 0); // Set time to 12:00:00.000
+  
   const dates: Date[] = [];
 
   for (let i = 0; i <= numberOfNights; i++) {

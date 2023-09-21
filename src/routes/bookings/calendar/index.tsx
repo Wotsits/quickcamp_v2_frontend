@@ -11,7 +11,8 @@ import { addOneMonth, setDateToMidday, today1200 } from "../../../utils/dateTime
 import AuthContext from "../../../contexts/authContext";
 import { ResourceGroup } from "../../../components/ResourceCalendar/types";
 import { getUnitTypes } from "../../../services/queries/getUnitTypes";
-import { BOOKINGCALENDARCOLUMNWIDTHMIN } from "../../../settings";
+import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
+import { useNavigate } from "react-router-dom";
 
 // -------------
 // MAIN
@@ -25,6 +26,16 @@ const BookingCalendar = () => {
   const {user, selectedSite} = useContext(AuthContext)
   const [startDate, setStartDate] = useState<Date | null>(today1200());
   const [columnWidth, setColumnWidth] = useState<number>(100);
+
+  // -------------
+  // HOOKS
+  // -------------
+
+  const navigate = useNavigate();
+
+  // -------------
+  // QUERIES
+  // -------------
 
   const { isLoading: bookingsAreLoading, isError: bookingsAreError, data: bookingsData, error: bookingsError } = useQuery<Booking[], Error>([
     "BookingsByDateRange",
@@ -41,6 +52,14 @@ const BookingCalendar = () => {
   );
 
   const { isLoading: unitTypesAreLoading, isError: unitTypesAreError, data: unitTypesData, error: unitTypesError } = useQuery<UnitType[], Error>(["UnitTypes", selectedSite!.id], () => getUnitTypes({ token: user.token, siteId: selectedSite!.id }));
+
+  // -------------
+  // EVENT HANDLERS
+  // -------------
+
+  function handleCallbackOnCellClick(resourceId: string, start: Date) {
+    navigate(ROUTES.ROOT+ROUTES.BOOKINGS+ROUTES.NEW+'?unitId='+resourceId+'&start='+start.toISOString());
+  }
 
   // -------------
   // RENDER
@@ -130,6 +149,7 @@ const BookingCalendar = () => {
         bookings={bookingSummaries}
         startDate={startDate as Date}
         columnWidth={columnWidth}
+        onCellClick={handleCallbackOnCellClick}
       />
     </div>
   );

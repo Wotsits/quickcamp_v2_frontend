@@ -16,13 +16,16 @@ type ResourceCalendarComponentProps = {
   startDate: Date;
   /** mandatory, column width */
   columnWidth: number;
+  /** optional, callback triggered on cell click */
+  onCellClick?: (resourceId: string, start: Date) => void;
 };
 
 const ResourceCalendar = ({
   resources,
   bookings,
   startDate,
-  columnWidth
+  columnWidth,
+  onCellClick
 }: ResourceCalendarComponentProps) => {
   // --------------------
   // STATE
@@ -60,7 +63,7 @@ const ResourceCalendar = ({
 
       <table id="resource-calendar-table" className="resource-calendar-table">
         <ResourceCalendarHeaderRow dateArray={dateArray} columnWidth={columnWidth}/>
-        <ResourceCalendarBody resources={resources} dateArray={dateArray} />
+        <ResourceCalendarBody resources={resources} dateArray={dateArray} onCellClick={onCellClick} />
       </table>
 
       {/* Booking Overlay Layer */}
