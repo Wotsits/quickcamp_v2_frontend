@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import SearchField from "../SearchField";
+import './style.css'
 
 type LeadGuestDetailsProps = {
   formGuestType: string;
@@ -77,20 +78,22 @@ const LeadGuestDetails = ({
         <ToggleButton value="existing">Existing Guest</ToggleButton>
       </ToggleButtonGroup>
       {formGuestType === "new" && (
-        <Box id="new-guest-form">
-          <Grid container spacing={2}>
+        <div id="new-guest-form">
+          <div id="name-section">
             <TextField
               label="First Name"
+              fullWidth
               value={formGuestFirstName}
               onChange={(event) => setFormGuestFirstName(event.target.value)}
             />
             <TextField
               label="Last Name"
+              fullWidth
               value={formGuestLastName}
               onChange={(event) => setFormGuestLastName(event.target.value)}
             />
-          </Grid>
-          <Grid container spacing={2}>
+          </div>
+          <div id="comm-section">
             <TextField
               label="Email"
               value={formGuestEmail}
@@ -101,8 +104,8 @@ const LeadGuestDetails = ({
               value={formGuestPhone}
               onChange={(event) => setFormGuestPhone(event.target.value)}
             />
-          </Grid>
-          <Grid container spacing={2}>
+          </div>
+          <div id="address-section">
             <TextField
               label="Address 1"
               value={formGuestAddress1}
@@ -128,8 +131,8 @@ const LeadGuestDetails = ({
               value={formGuestPostcode}
               onChange={(event) => setFormGuestPostcode(event.target.value)}
             />
-          </Grid>
-        </Box>
+          </div>
+        </div>
       )}
       {formGuestType === "existing" && (
         <>
