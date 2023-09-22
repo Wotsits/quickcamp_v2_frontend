@@ -6,10 +6,6 @@ import AuthContext from '../../contexts/authContext';
 import { Booking } from '../../types';
 import { getBookingById } from '../../services/queries/getBookingById';
 
-type BookingComponentProps = {
-    params?: any;
-};
-
 const IndividualBooking = () => {
     const {user} = useContext(AuthContext);
     const params = useParams();

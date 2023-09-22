@@ -4,7 +4,6 @@
     width: 100%;
     height: 45px;
     border-radius: 5px;
-    background-color: rgba(255,255,255,0.2);
     padding: 0 10px;
     font-size: 16px;
     outline: none;
@@ -15,11 +14,33 @@
     background-color: transparent;
     border: none;
     outline: none;
-    caret-color: #fff;
-    color: #fff;
     font-size: 16px;
 }
 
-.search-field input::placeholder {
+/* DARK THEME */
+.search-field-on-dark {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.search-field-on-dark input {
+    caret-color: #fff;
+    color: #fff;
+}
+
+.search-field-on-dark input::placeholder {
     color: rgba(255,255,255,0.5);
+}
+
+/* LIGHT THEME */
+.search-field-on-light {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.search-field-on-light input {
+    caret-color: #000;
+    color: #000;
+}
+
+.search-field-on-light input::placeholder {
+    color: rgba(0,0,0,0.5);
 }

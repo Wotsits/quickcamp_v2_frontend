@@ -1,0 +1,19 @@
+#equipment-select-container, #ehu-select-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    grid-auto-rows: 100px;
+}
+
+#equipment-select-container button, #ehu-select-container button {
+    display: block !important;
+}
+
+#equipment-select-container svg, #ehu-select-container svg {
+    height: 30px !important;
+}
+
+#equipment-select-container svg.highlighted, #ehu-select-container svg.highlighted {
+    fill: #fff !important;
+}

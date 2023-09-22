@@ -22,6 +22,14 @@ export const ROUTES = {
   ALL: "all/",
 };
 
+export const EQUIPMENT_TYPES = {
+  HIKER: "hiker",
+  TENT: "tent",
+  CARAVAN: "caravan",
+  SMALLVAN: "smallvan",
+  LARGEVAN: "largevan",
+}
+
 // -------------
 // Colors
 // -------------

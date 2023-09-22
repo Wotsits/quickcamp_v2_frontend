@@ -13,6 +13,7 @@ import Dashboard from "./routes/dashboard";
 import Arrivals from "./routes/arrivals";
 import IndividualBooking from "./routes/bookings/[id]";
 import { ROUTES } from "./settings";
+import NewBooking from "./routes/bookings/new";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.NEW,
-            element: <div>New Booking</div>,
+            element: <NewBooking />,
           },
           {
             path: ROUTES.ALL,
