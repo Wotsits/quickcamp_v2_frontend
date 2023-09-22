@@ -123,13 +123,13 @@ const NewBooking = () => {
 
       <EquipmentDetails formEquipmentType={formEquipmentType} setFormEquipmentType={setFormEquipmentType} formEquipmentEhu={formEquipmentEhu} setFormEquipmentEhu={setFormEquipmentEhu} />
       
-      {/* BOOKING DETAILS */}
-
-      <BookingDetails />
-
       {/* OCCUPANT DETAILS */}
 
       <OccupantDetails />
+
+      {/* BOOKING DETAILS */}
+
+      <BookingDetails />
 
       {/* PAYMENT DETAILS */}
 
