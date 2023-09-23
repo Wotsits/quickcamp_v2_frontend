@@ -1,85 +1,113 @@
 import React from "react";
-import { Box, SvgIcon, Typography } from "@mui/material";
-import AddRemove from "../AddRemove";
-import Adult from "../Icons/Adult";
-import Child from "../Icons/Child";
-import Infant from "../Icons/Infant";
-import Youth from "../Icons/Youth";
-import Old from "../Icons/Old";
-import Pet from "../Icons/Pet";
-import Car from "../Icons/Car";
+import { Box, Typography } from "@mui/material";
+import {
+  BookingProcessGuest,
+  BookingProcessPet,
+  BookingProcessVehicle,
+} from "../../types";
+import OccupantTableWrapper from "../OccupantTable";
+import GuestTable from "../OccupantTable/GuestTable";
+import PetTable from "../OccupantTable/PetTable";
+import VehicleTable from "../OccupantTable/VehicleTable";
 
-const OccupantDetails = () => {
+type OccupantDetailsProps = {
+  guests: BookingProcessGuest[];
+  pets: BookingProcessPet[];
+  vehicles: BookingProcessVehicle[];
+  setGuests: React.Dispatch<React.SetStateAction<BookingProcessGuest[]>>;
+  setPets: React.Dispatch<React.SetStateAction<BookingProcessPet[]>>;
+  setVehicles: React.Dispatch<React.SetStateAction<BookingProcessVehicle[]>>;
+};
+
+const OccupantDetails = ({
+  guests,
+  pets,
+  vehicles,
+  setGuests,
+  setPets,
+  setVehicles,
+}: OccupantDetailsProps) => {
+  const handleAddGuest = () => {
+    const newBlankGuest: BookingProcessGuest = {
+      id: -1,
+      name: "Unnamed Guest",
+      age: 0,
+    };
+    setGuests([...guests, newBlankGuest]);
+  };
+
+  const handleAddPet = () => {
+    const newBlankPet: BookingProcessPet = {
+      id: -1,
+      name: "Unnamed Pet",
+    };
+    setPets([...pets, newBlankPet]);
+  };
+
+  const handleAddVehicle = () => {
+    const newBlankVehicle: BookingProcessVehicle = {
+      id: -1,
+      vehicleReg: "Vehicle Reg Unknown",
+    };
+    setVehicles([...vehicles, newBlankVehicle]);
+  };
+
+  const handleGuestEdit = (index: number) => {
+    console.log("Guest Edit: ", index);
+  };
+
+  const handleGuestDelete = (index: number) => {
+    const guestsCopy = [...guests];
+    guestsCopy.splice(index, 1);
+    setGuests(guestsCopy);
+  };
+
+  const handlePetEdit = (index: number) => {
+    console.log("Pet Edit: ", index);
+  };
+
+  const handlePetDelete = (index: number) => {
+    const petsCopy = [...pets];
+    petsCopy.splice(index, 1);
+    setPets(petsCopy);
+  };
+
+  const handleVehicleEdit = (index: number) => {
+    console.log("Vehicle Edit: ", index);
+  };
+
+  const handleVehicleDelete = (index: number) => {
+    const vehiclesCopy = [...vehicles];
+    vehiclesCopy.splice(index, 1);
+    setVehicles(vehiclesCopy);
+  };
+
   return (
     <Box id="occupant-details">
       <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Booking Details
+        Occupant Details
       </Typography>
-      <div id="occupant-numbers">
-        <div id="occupant-numbers-top">
-          <div id="adult-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Adult} />
-            </AddRemove>
-          </div>
-          <div id="child-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Child} />
-            </AddRemove>
-          </div>
-
-          <div id="infant-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Infant} />
-            </AddRemove>
-          </div>
-        </div>
-        <div id="occupant-numbers-middle">
-          <div id="youth-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-                <SvgIcon fontSize="large" color="primary" component={Youth} />
-            </AddRemove>
-          </div>
-          <div id="oap-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Old} />
-            </AddRemove>
-          </div>
-        </div>
-        <div id="occupant-numbers-bottom">
-          <div id="pet-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Pet} />
-            </AddRemove>
-          </div>
-          <div id="vehicle-numbers">
-            <AddRemove
-              callbackOnMinus={() => console.log("minus")}
-              callbackOnPlus={() => console.log("plus")}
-            >
-              <SvgIcon fontSize="large" color="primary" component={Car} />
-            </AddRemove>
-          </div>
-        </div>
-      </div>
+      <OccupantTableWrapper type="Guests" chipContent={guests.length.toString()} callbackOnAddClick={handleAddGuest}>
+        <GuestTable
+          guests={guests}
+          callbackOnGuestEdit={handleGuestEdit}
+          callbackOnGuestDelete={handleGuestDelete}
+        />
+      </OccupantTableWrapper>
+      <OccupantTableWrapper type="Pets" chipContent={pets.length.toString()} callbackOnAddClick={handleAddPet}>
+        <PetTable
+          pets={pets}
+          callbackOnPetEdit={handlePetEdit}
+          callbackOnPetDelete={handlePetDelete}
+        />
+      </OccupantTableWrapper>
+      <OccupantTableWrapper type="Vehicles" chipContent={vehicles.length.toString()} callbackOnAddClick={handleAddVehicle}>
+        <VehicleTable
+          vehicles={vehicles}
+          callbackOnVehicleEdit={handleVehicleEdit}
+          callbackOnVehicleDelete={handleVehicleDelete}
+        />
+      </OccupantTableWrapper>
     </Box>
   );
 };

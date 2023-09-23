@@ -1,0 +1,39 @@
+.occupant-table-wrapper {
+    margin-bottom: 40px;
+}
+
+.occupant-table-wrapper .occupant-table-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.occupant-table-wrapper .occupant-table-header .occupant-table-header-type-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.occupant-table-wrapper .occupant-table-header .occupant-table-header-type-container h5 {
+    margin-bottom: 0;
+}
+
+.guest-table .row, .pet-table .row, .vehicle-table .row {
+  width: 100%;
+    display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.guest-table .field-container, .pet-table .field-container, .vehicle-table .field-container {
+    flex: 1;
+}
+
+.guest-table .delete-container, .pet-table .delete-container, .vehicle-table .delete-container {
+    flex: 0;
+}

@@ -1,31 +1,44 @@
-import { AddCircleOutlineOutlined, Person2Outlined, RemoveCircleOutline } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import React from 'react';
-import './style.css';
+import {
+  AddCircleOutlineOutlined,
+  RemoveCircleOutline,
+} from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import React from "react";
+import "./style.css";
 
 type AddRemoveProps = {
-    /** The content of the component. */
-    children: React.ReactNode;
-    /** Callback function to be called when the minus button is clicked. */
-    callbackOnMinus: () => void;
-    /** Callback function to be called when the plus button is clicked */
-    callbackOnPlus: () => void;
-}
+  /** Mandatory, the content of the component. */
+  children: React.ReactNode;
+  /** Mandatory, callback function to be called when the minus button is clicked. */
+  callbackOnMinus: () => void;
+  /** Mandatory, callback function to be called when the plus button is clicked */
+  callbackOnPlus: () => void;
+  /** Mandatory, current value to display */
+  value: number;
+};
 
-const AddRemove = ({children, callbackOnMinus, callbackOnPlus}: AddRemoveProps) => {
-    return (
-        <div className="add-remove">
-            <IconButton onClick={callbackOnMinus}>
-                <RemoveCircleOutline/>
-            </IconButton>
-            <IconButton>
-                {children}
-            </IconButton>
-            <IconButton onClick={callbackOnPlus}>
-                <AddCircleOutlineOutlined />
-            </IconButton>
-        </div>
-    );
-}
+const AddRemove = ({
+  children,
+  callbackOnMinus,
+  callbackOnPlus,
+  value,
+}: AddRemoveProps) => {
+  return (
+    <div className="add-remove">
+      <div className="child-holder">
+        <IconButton>{children}</IconButton>
+      </div>
+      <div className="control-holder">
+        <IconButton onClick={callbackOnMinus}>
+          <RemoveCircleOutline />
+        </IconButton>
+        <span>{value.toString()}</span>
+        <IconButton onClick={callbackOnPlus}>
+          <AddCircleOutlineOutlined />
+        </IconButton>
+      </div>
+    </div>
+  );
+};
 
 export default AddRemove;
