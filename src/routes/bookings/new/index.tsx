@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./style.css";
 import LeadGuestDetails from "../../../components/NewBookingForm/LeadGuestDetails";
@@ -7,10 +7,16 @@ import EquipmentDetails from "../../../components/NewBookingForm/EquipmentDetail
 import BookingDetails from "../../../components/NewBookingForm/BookingDetails";
 import OccupantDetails from "../../../components/NewBookingForm/OccupantDetails";
 import PaymentDetails from "../../../components/NewBookingForm/PaymentDetails";
-
-import { BookingProcessGuest, BookingProcessPet, BookingProcessVehicle } from "../../../types";
+import AuthContext from "../../../contexts/authContext";
+import { BookingProcessGuest, BookingProcessPet, BookingProcessVehicle, EquipmentType, GuestType } from "../../../types";
 
 const NewBooking = () => {
+  // -------------
+  // CONTEXT
+  // -------------
+
+  const {selectedSite} = useContext(AuthContext)
+
   // -------------
   // STATE
   // -------------
@@ -27,7 +33,7 @@ const NewBooking = () => {
   const [formGuestCounty, setFormGuestCounty] = useState<string>("");
   const [formGuestPostcode, setFormGuestPostcode] = useState<string>("");
 
-  const [formEquipmentType, setFormEquipmentType] = useState<string>("");
+  const [formEquipmentType, setFormEquipmentType] = useState<number>(-1);
   const [formEquipmentEhu, setFormEquipmentEhu] = useState<boolean>(false);
 
   const [formBookingGuests, setFormBookingGuests] = useState<BookingProcessGuest[]>([]);
@@ -110,6 +116,7 @@ const NewBooking = () => {
       {/* EQUIPMENT DETAILS */}
 
       <EquipmentDetails
+        equipmentTypes={selectedSite?.equipmentTypes as EquipmentType[]}
         formEquipmentType={formEquipmentType}
         setFormEquipmentType={setFormEquipmentType}
         formEquipmentEhu={formEquipmentEhu}
@@ -119,6 +126,7 @@ const NewBooking = () => {
       {/* OCCUPANT DETAILS */}
 
       <OccupantDetails
+        guestTypes={selectedSite?.guestTypes as GuestType[]}
         guests={formBookingGuests}
         setGuests={setFormBookingGuests}
         pets={formBookingPets}

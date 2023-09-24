@@ -4,6 +4,7 @@ import {
   BookingProcessGuest,
   BookingProcessPet,
   BookingProcessVehicle,
+  GuestType,
 } from "../../types";
 import OccupantTableWrapper from "../OccupantTable";
 import GuestTable from "../OccupantTable/GuestTable";
@@ -11,6 +12,7 @@ import PetTable from "../OccupantTable/PetTable";
 import VehicleTable from "../OccupantTable/VehicleTable";
 
 type OccupantDetailsProps = {
+  guestTypes: GuestType[];
   guests: BookingProcessGuest[];
   pets: BookingProcessPet[];
   vehicles: BookingProcessVehicle[];
@@ -20,6 +22,7 @@ type OccupantDetailsProps = {
 };
 
 const OccupantDetails = ({
+  guestTypes,
   guests,
   pets,
   vehicles,
@@ -31,7 +34,7 @@ const OccupantDetails = ({
     const newBlankGuest: BookingProcessGuest = {
       id: -1,
       name: "Unnamed Guest",
-      age: 0,
+      type: -1,
     };
     setGuests([...guests, newBlankGuest]);
   };
@@ -90,6 +93,7 @@ const OccupantDetails = ({
       <OccupantTableWrapper type="Guests" chipContent={guests.length.toString()} callbackOnAddClick={handleAddGuest}>
         <GuestTable
           guests={guests}
+          guestTypes={guestTypes}
           callbackOnGuestEdit={handleGuestEdit}
           callbackOnGuestDelete={handleGuestDelete}
         />

@@ -1,17 +1,19 @@
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, MenuItem, Select, TextField } from "@mui/material";
 import React from "react";
 import "./style.css";
-import { BookingProcessGuest } from "../../types";
+import { BookingProcessGuest, GuestType } from "../../types";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type GuestTableProps = {
   guests: BookingProcessGuest[];
+  guestTypes: GuestType[];
   callbackOnGuestEdit: (index: number) => void;
   callbackOnGuestDelete: (index: number) => void;
 };
 
 const GuestTable = ({
   guests,
+  guestTypes,
   callbackOnGuestEdit,
   callbackOnGuestDelete,
 }: GuestTableProps) => {
@@ -34,12 +36,20 @@ const GuestTable = ({
               />
             </div>
             <div className="field-container">
-              <TextField
-                label="Age"
+              <Select
+                label="Guest Type"
                 variant="outlined"
-                value={guest.age}
+                value={guest.type}
                 fullWidth
-              />
+              >
+                {guestTypes.map((guestType) => {
+                  return (
+                    <MenuItem key={guestType.id} value={guestType.id}>
+                      {guestType.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
             </div>
             <div className="delete-container">
               <IconButton onClick={() => callbackOnGuestDelete(index)}>
