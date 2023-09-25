@@ -36,8 +36,9 @@ const GuestTable = ({
               />
             </div>
             <div className="field-container">
-              <Select
+              <TextField
                 label="Guest Type"
+                select
                 variant="outlined"
                 value={guest.type}
                 fullWidth
@@ -49,7 +50,7 @@ const GuestTable = ({
                     </MenuItem>
                   );
                 })}
-              </Select>
+              </TextField>
             </div>
             <div className="delete-container">
               <IconButton onClick={() => callbackOnGuestDelete(index)}>
