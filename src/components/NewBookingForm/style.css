@@ -68,3 +68,20 @@
 #equipment-select-container svg.highlighted, #extra-select-container svg.highlighted {
     fill: #fff !important;
 }
+
+/* Booking Details */
+
+#booking-details #date-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    #booking-details #date-container {
+        grid-template-columns: 1fr;
+    }
+}
