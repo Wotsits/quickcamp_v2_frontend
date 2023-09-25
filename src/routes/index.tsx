@@ -149,8 +149,8 @@ const Root = () => {
             Ark Booking Management
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <SearchField callback={(a) => console.log(a)}/>
+          <Box sx={{ display: "flex"}}>
+            <Box sx={{ display: {xs: "none", md: "block"}}}><SearchField callback={(a) => console.log(a)}/></Box>
             {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
