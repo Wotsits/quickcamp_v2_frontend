@@ -23,7 +23,8 @@ const EquipmentDetails = ({
 }: EquipmentDetailsProps) => {
   return (
     <Box id="equipment-details" sx={{ mb: 3 }}>
-      <Box id="equipment-select-container" sx={{ mb: 2 }}>
+      <Divider variant="middle">Equipment Type</Divider>
+      <Box id="equipment-select-container" sx={{ mt: 2, mb: 2 }}>
         {equipmentTypes.map((equipmentType) => {
           return (
             <LargeButton
