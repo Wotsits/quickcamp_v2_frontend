@@ -7,6 +7,12 @@
     margin-bottom: 20px;
 }
 
+@media (max-width: 600px) {
+    #formGuest-details #new-guest-form #name-section, #formGuest-details #new-guest-form #comm-section {
+        grid-template-columns: 1fr;
+    }
+}
+
 #formGuest-details #new-guest-form #address-section {
     display: grid;
     grid-template-columns: 1fr;
