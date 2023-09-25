@@ -26,7 +26,6 @@
 }
 
 #occupant-details #occupant-numbers #occupant-numbers-middle, #occupant-details #occupant-numbers #occupant-numbers-bottom {
-
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
@@ -41,8 +40,15 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 30px;
     grid-auto-rows: 100px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+    #equipment-select-container, #extra-select-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 #equipment-select-container button, #extra-select-container button {

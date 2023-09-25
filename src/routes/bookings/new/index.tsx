@@ -25,6 +25,7 @@ import {
 } from "../../../types";
 import { getExtraTypesBySiteId } from "../../../services/queries/getExtraTypes";
 import { useQuery } from "react-query";
+import useWindowDimensions from "../../../hooks/useWindowDimension";
 
 const steps = [
   "Lead Guest Details",
@@ -97,6 +98,7 @@ const NewBooking = () => {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const {width} = useWindowDimensions();
   const unitId = searchParams.get("unitId");
   const start = searchParams.get("start");
 
@@ -139,15 +141,29 @@ const NewBooking = () => {
         Create New Booking
       </Typography>
 
-      <Box sx={{ width: "100%", mb: 4 }}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-      </Box>
+      {/* TITLE on mobile screens */}
+
+      {width <= 468 && (
+        <Box sx={{ width: "100%", mb: 4 }}>
+          <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
+            {steps[activeStep]}
+          </Typography>
+        </Box>
+      )}
+
+      {/* STEPPER on wider screens */}
+
+      {width > 468 && (
+        <Box sx={{ width: "100%", mb: 4 }}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+      )}
 
       {/* LEAD GUEST DETAILS */}
 
