@@ -87,9 +87,6 @@ const OccupantDetails = ({
 
   return (
     <Box id="occupant-details">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Occupant Details
-      </Typography>
       <OccupantTableWrapper type="Guests" chipContent={guests.length.toString()} callbackOnAddClick={handleAddGuest}>
         <GuestTable
           guests={guests}

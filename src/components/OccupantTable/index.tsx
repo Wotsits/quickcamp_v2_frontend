@@ -20,7 +20,7 @@ const OccupantTableWrapper = ({
     <div className="occupant-table-wrapper">
       <div className="occupant-table-header">
         <div className="occupant-table-header-type-container">
-          <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
+          <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
             {type}
           </Typography>
           {chipContent && <Chip label={chipContent} color="primary" sx={{ ml: 2 }} />}

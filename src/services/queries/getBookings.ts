@@ -7,7 +7,7 @@ type GetBookingsArgs = {
   siteId: number;
 };
 
-export const getBookings = async ({ token, siteId }: GetBookingsArgs)  => {
+export const getBookings = async ({ token, siteId }: GetBookingsArgs) => {
   const response = await axios.get<Booking[]>(APIURL + "bookings", {
     headers: { Authorization: "Bearer " + token },
     params: {

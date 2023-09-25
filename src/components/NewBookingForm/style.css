@@ -1,3 +1,5 @@
+/* Guest Details */
+
 #formGuest-details #new-guest-form #name-section, #formGuest-details #new-guest-form #comm-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -11,6 +13,8 @@
     grid-gap: 20px;
     margin-bottom: 20px;
 }
+
+/* Occupant Details */
 
 #occupant-details #occupant-numbers #occupant-numbers-top {
     display: grid;
@@ -29,4 +33,26 @@
     justify-items: center;
     align-items: center;
     margin-bottom: 20px;
+}
+
+/* Equipment Details */
+
+#equipment-select-container, #extra-select-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    grid-auto-rows: 100px;
+}
+
+#equipment-select-container button, #extra-select-container button {
+    display: block !important;
+}
+
+#equipment-select-container svg, #extra-select-container svg {
+    height: 30px !important;
+}
+
+#equipment-select-container svg.highlighted, #extra-select-container svg.highlighted {
+    fill: #fff !important;
 }

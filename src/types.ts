@@ -37,6 +37,7 @@ export type UnitType = {
     name: string,
     siteId: number,
     units?: Unit[]
+    extraTypes?: ExtraType[]
 }
 
 export type Unit = {
@@ -77,6 +78,15 @@ export type EquipmentType = {
     icon: string,
     siteId: number,
     site?: Site,
+}
+
+export type ExtraType = {
+    id: number,
+    name: string,
+    description: string,
+    icon: string,
+    unityTypeId: number,
+    unitTypes?: UnitType[],
 }
 
 export type Booking = {

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import SearchField from "../SearchField";
-import './style.css'
+import "./style.css";
 
 type LeadGuestDetailsProps = {
   formGuestType: string;
@@ -59,24 +59,27 @@ const LeadGuestDetails = ({
   setFormGuestCounty,
   formGuestPostcode,
   setFormGuestPostcode,
-    callbackFromSearchField,
-    searchFieldResults,
+  callbackFromSearchField,
+  searchFieldResults,
 }: LeadGuestDetailsProps) => {
   return (
     <Box id="formGuest-details">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Guest Details
-      </Typography>
-      <ToggleButtonGroup
-        value={formGuestType}
-        exclusive
-        onChange={(event, value) => setFormGuestType(value)}
-        color="primary"
-        sx={{ mb: 3 }}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        marginBottom={3}
       >
-        <ToggleButton value="new">New Guest</ToggleButton>
-        <ToggleButton value="existing">Existing Guest</ToggleButton>
-      </ToggleButtonGroup>
+        <ToggleButtonGroup
+          value={formGuestType}
+          exclusive
+          onChange={(event, value) => setFormGuestType(value)}
+          color="primary"
+        >
+          <ToggleButton value="new">New Guest</ToggleButton>
+          <ToggleButton value="existing">Existing Guest</ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
       {formGuestType === "new" && (
         <div id="new-guest-form">
           <div id="name-section">
@@ -137,10 +140,7 @@ const LeadGuestDetails = ({
       {formGuestType === "existing" && (
         <>
           <Box id="existing-guest-form">
-            <SearchField
-              callback={callbackFromSearchField}
-              variant="onLight"
-            />
+            <SearchField callback={callbackFromSearchField} variant="onLight" />
           </Box>
           {searchFieldResults && (
             <List>
