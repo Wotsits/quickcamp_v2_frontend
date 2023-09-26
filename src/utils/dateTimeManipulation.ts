@@ -24,7 +24,7 @@ export const today1200 = () => {
   try {
     let today = new Date();
     today = setDateToMidday(today);
-    return offsetByClientTimezone(today);
+    return (today);
   } catch (err) {
     console.log(err);
     return new Date();
@@ -40,7 +40,7 @@ export const addOneMonth = (date: Date) => {
       seconds: 59,
       milliseconds: 999,
     });
-    return offsetByClientTimezone(newDateAt1159);
+    return newDateAt1159;
   } catch (err) {
     console.log(err);
     return new Date();

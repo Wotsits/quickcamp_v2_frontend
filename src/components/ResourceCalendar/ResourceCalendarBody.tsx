@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Resource, ResourceGroup } from './types';
+import { ResourceGroup } from './types';
 import { WEEKENDHIGHLIGHT } from '../../settings';
 import { isWeekend } from '../../utils/helpers';
 import { Typography } from '@mui/material';
