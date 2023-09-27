@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import { LeadGuest } from "../../types";
-import { getGuests } from "../../services/queries/getGuests";
+import { getLeadGuests } from "../../services/queries/getGuests";
 import DataTable from "../../components/DataTable";
 import { Typography } from "@mui/material";
 import AuthContext from "../../contexts/authContext";
@@ -23,7 +23,7 @@ const Guests = () => {
 
   const { isLoading, isError, data, error } = useQuery<LeadGuest[], Error>(
     ["guests", user.tenantId],
-    () => getGuests({ token: user.token })
+    () => getLeadGuests({ token: user.token })
   );
 
   if (isLoading) {

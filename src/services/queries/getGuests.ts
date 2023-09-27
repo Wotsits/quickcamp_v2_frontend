@@ -2,11 +2,11 @@ import axios from "axios";
 import { APIURL } from "../../settings";
 import { LeadGuest } from "../../types";
 
-type GetGuestsArgs = {
+type GetLeadGuestsArgs = {
   token: string;
 };
 
-export const getGuests = async ({ token }: GetGuestsArgs) => {
+export const getLeadGuests = async ({ token }: GetLeadGuestsArgs) => {
   const response = await axios.get<LeadGuest[]>(APIURL + "lead-guests", {
     headers: { Authorization: "Bearer " + token },
   });
