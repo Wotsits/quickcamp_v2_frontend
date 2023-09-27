@@ -1,6 +1,5 @@
 import {
   Box,
-  Grid,
   List,
   ListItem,
   ListItemText,
@@ -10,12 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
-import SearchField from "../SearchField";
+import SearchField from "../../SearchField";
 import "./style.css";
+import { LeadGuest } from "../../../types";
 
 type LeadGuestDetailsProps = {
   formGuestType: string;
   setFormGuestType: Dispatch<SetStateAction<"new" | "existing">>;
+  formGuestId: number | null;
+  setFormGuestId: Dispatch<SetStateAction<number | null>>;
   formGuestFirstName: string;
   setFormGuestFirstName: Dispatch<SetStateAction<string>>;
   formGuestLastName: string;
@@ -34,6 +36,8 @@ type LeadGuestDetailsProps = {
   setFormGuestCounty: Dispatch<SetStateAction<string>>;
   formGuestPostcode: string;
   setFormGuestPostcode: Dispatch<SetStateAction<string>>;
+  formGuestCountry: string;
+  setFormGuestCountry: Dispatch<SetStateAction<string>>;
   callbackFromSearchField: (data: any) => void;
   searchFieldResults: any;
 };
@@ -41,6 +45,8 @@ type LeadGuestDetailsProps = {
 const LeadGuestDetails = ({
   formGuestType,
   setFormGuestType,
+  formGuestId,
+  setFormGuestId,
   formGuestFirstName,
   setFormGuestFirstName,
   formGuestLastName,
@@ -59,9 +65,26 @@ const LeadGuestDetails = ({
   setFormGuestCounty,
   formGuestPostcode,
   setFormGuestPostcode,
+  formGuestCountry,
+  setFormGuestCountry,
   callbackFromSearchField,
   searchFieldResults,
 }: LeadGuestDetailsProps) => {
+  
+  function selectExistingGuest(guest: LeadGuest) {
+    setFormGuestId(guest.id);
+    setFormGuestFirstName(guest.firstName);
+    setFormGuestLastName(guest.lastName);
+    setFormGuestEmail(guest.email);
+    setFormGuestPhone(guest.tel);
+    setFormGuestAddress1(guest.address1);
+    setFormGuestAddress2(guest.address2);
+    setFormGuestCity(guest.townCity);
+    setFormGuestCounty(guest.county);
+    setFormGuestPostcode(guest.postcode);
+    setFormGuestCountry(guest.country);
+  }
+
   return (
     <Box id="formGuest-details">
       <Box
@@ -94,6 +117,7 @@ const LeadGuestDetails = ({
               fullWidth
               value={formGuestLastName}
               onChange={(event) => setFormGuestLastName(event.target.value)}
+              required
             />
           </div>
           <div id="comm-section">
@@ -101,6 +125,7 @@ const LeadGuestDetails = ({
               label="Email"
               value={formGuestEmail}
               onChange={(event) => setFormGuestEmail(event.target.value)}
+              required
             />
             <TextField
               label="Phone"
@@ -113,6 +138,7 @@ const LeadGuestDetails = ({
               label="Address 1"
               value={formGuestAddress1}
               onChange={(event) => setFormGuestAddress1(event.target.value)}
+              required
             />
             <TextField
               label="Address 2"
@@ -123,6 +149,7 @@ const LeadGuestDetails = ({
               label="City"
               value={formGuestCity}
               onChange={(event) => setFormGuestCity(event.target.value)}
+              required
             />
             <TextField
               label="County"
@@ -133,6 +160,13 @@ const LeadGuestDetails = ({
               label="Postcode"
               value={formGuestPostcode}
               onChange={(event) => setFormGuestPostcode(event.target.value)}
+              required
+            />
+            <TextField
+              label="Country"
+              value={formGuestCountry}
+              onChange={(event) => setFormGuestCountry(event.target.value)}
+              required
             />
           </div>
         </div>
@@ -155,9 +189,8 @@ const LeadGuestDetails = ({
                 </Typography>
               </Box>
             )}
-            {console.log(searchFieldResults)}
             {searchFieldResults && searchFieldResults.map((guest: any) => (
-              <ListItem alignItems="flex-start">
+              <ListItem alignItems="flex-start" onClick={() => selectExistingGuest(guest)}>
                 <ListItemText
                   primary={guest.firstName + ' ' + guest.lastName}
                   secondary={

@@ -5,11 +5,12 @@ import {
   BookingProcessPet,
   BookingProcessVehicle,
   GuestType,
-} from "../../types";
-import OccupantTableWrapper from "../OccupantTable";
-import GuestTable from "../OccupantTable/GuestTable";
-import PetTable from "../OccupantTable/PetTable";
-import VehicleTable from "../OccupantTable/VehicleTable";
+} from "../../../types";
+import OccupantTableWrapper from "../../OccupantTable";
+import GuestTable from "../../OccupantTable/GuestTable";
+import PetTable from "../../OccupantTable/PetTable";
+import VehicleTable from "../../OccupantTable/VehicleTable";
+import "./style.css";
 
 type OccupantDetailsProps = {
   guestTypes: GuestType[];

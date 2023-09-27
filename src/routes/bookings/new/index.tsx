@@ -62,6 +62,7 @@ const NewBooking = () => {
   const [formGuestCity, setFormGuestCity] = useState<string>("");
   const [formGuestCounty, setFormGuestCounty] = useState<string>("");
   const [formGuestPostcode, setFormGuestPostcode] = useState<string>("");
+  const [formGuestCountry, setFormGuestCountry] = useState<string>("");
 
   const [formGuestSearchFieldContent, setFormGuestSearchFieldContent] =
     useState<string>("");
@@ -223,6 +224,8 @@ const NewBooking = () => {
         <LeadGuestDetails
           formGuestType={formGuestType}
           setFormGuestType={setFormGuestType}
+          formGuestId={formGuestId}
+          setFormGuestId={setFormGuestId}
           formGuestFirstName={formGuestFirstName}
           setFormGuestFirstName={setFormGuestFirstName}
           formGuestLastName={formGuestLastName}
@@ -241,6 +244,8 @@ const NewBooking = () => {
           setFormGuestCounty={setFormGuestCounty}
           formGuestPostcode={formGuestPostcode}
           setFormGuestPostcode={setFormGuestPostcode}
+          formGuestCountry={formGuestCountry}
+          setFormGuestCountry={setFormGuestCountry}
           callbackFromSearchField={setFormGuestSearchFieldContent}
           searchFieldResults={existingGuestSearchResultsData}
         />

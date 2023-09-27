@@ -1,0 +1,18 @@
+#occupant-details #occupant-numbers #occupant-numbers-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#occupant-details #occupant-numbers #occupant-numbers-middle, #occupant-details #occupant-numbers #occupant-numbers-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+

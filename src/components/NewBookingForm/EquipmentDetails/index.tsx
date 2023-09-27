@@ -1,8 +1,9 @@
 import { Box, Divider, SvgIcon, Typography } from "@mui/material";
 import React from "react";
-import LargeButton from "../LargeButton";
-import { EquipmentType, ExtraType } from "../../types";
-import { getIcon } from "../../settings";
+import LargeButton from "../../LargeButton";
+import { EquipmentType, ExtraType } from "../../../types";
+import { getIcon } from "../../../settings";
+import "./style.css";
 
 type EquipmentDetailsProps = {
   equipmentTypes: EquipmentType[];

@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, InputAdornment, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import LargeButton from "../LargeButton";
+import LargeButton from "../../LargeButton";
+import "./style.css";
 
 const paymentMethods = [
   "cash",

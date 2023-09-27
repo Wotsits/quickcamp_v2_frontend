@@ -1,6 +1,7 @@
 import { Box, InputLabel, Menu, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
+import "./style.css";
 
 const BookingDetails = () => {
   return (
