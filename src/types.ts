@@ -47,7 +47,7 @@ export type Unit = {
     unitType?: UnitType
 }
 
-export type Guest = {
+export type LeadGuest = {
     id: number,
     firstName: string,
     lastName: string,
@@ -68,7 +68,7 @@ export type GuestType = {
     description: string,
     siteId: number,
     site?: Site,
-    guests?: Guest[]
+    guests?: LeadGuest[]
 }
 
 export type EquipmentType = {
@@ -97,7 +97,7 @@ export type Booking = {
     unit?: Unit,
     totalFee: number,
     leadGuestId: number,
-    leadGuest: Guest,
+    leadGuest: LeadGuest,
     guests?: BookingGuest[],
     vehicles?: BookingVehicle[],
     pets?: BookingPet[],

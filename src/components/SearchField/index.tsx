@@ -1,32 +1,50 @@
-import React, { useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import './style.css';
+import React, { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import "./style.css";
 
 type SearchFieldProps = {
-    /** Mandatory, callback to parent with search field value */
-    callback: (a: string) => void
-    /** Optional, variant */
-    variant?: "onLight" | "onDark"
+  /** Mandatory, callback to parent with search field value */
+  callback: (a: string) => void;
+  /** Mandatory, trigger for the field to callback */
+  trigger: "BLUR" | "CHANGE" | "ENTER";
+  /** Optional, variant */
+  variant?: "onLight" | "onDark";
+};
 
-}
+const SearchField = ({
+  callback,
+  variant = "onDark",
+  trigger,
+}: SearchFieldProps) => {
 
-const SearchField = ({callback, variant = "onDark"}: SearchFieldProps) => {
-    const [value, setValue] = useState<string>("")
+  const className =
+    variant === "onDark"
+      ? "search-field search-field-on-dark"
+      : "search-field search-field-on-light";
 
-    function handleCallback(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === 'Enter') {
-            callback(value)
-        }
-    }
-
-    const className = variant === "onDark" ? "search-field search-field-on-dark" : "search-field search-field-on-light"
-  
-    return (
+  return (
     <div className={className}>
-        <SearchIcon/>
-        <input type="text" placeholder="Search..." value={value} onChange={(e) => setValue(e.target.value)}onKeyDown={(e) => handleCallback(e)}/>
+      <SearchIcon />
+      <input
+        type="text"
+        placeholder="Search..."
+        onBlur={
+          trigger === "BLUR" ? (e) => callback(e.target.value) : undefined
+        }
+        onKeyDown={
+          trigger === "ENTER"
+            ? (e) => {
+                e.preventDefault();
+                callback(e.currentTarget.value);
+              }
+            : undefined
+        }
+        onChange={
+          trigger === "CHANGE" ? (e) => callback(e.target.value) : undefined
+        }
+      />
     </div>
-  )
+  );
 };
 
 export default SearchField;

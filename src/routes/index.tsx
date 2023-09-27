@@ -12,7 +12,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
-import FlightLandIcon from '@mui/icons-material/FlightLand';
+import FlightLandIcon from "@mui/icons-material/FlightLand";
 import { DRAWERWIDTH, PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Avatar, Badge, InputBase, alpha } from "@mui/material";
@@ -59,7 +59,7 @@ const primaryNavOptions = [
   },
   {
     text: "Booking Calendar",
-    path: ROUTES.BOOKINGS+ROUTES.CALENDAR,
+    path: ROUTES.BOOKINGS + ROUTES.CALENDAR,
     icon: <CalendarTodayIcon />,
   },
   {
@@ -69,7 +69,7 @@ const primaryNavOptions = [
   },
   {
     text: "Booking List",
-    path: ROUTES.BOOKINGS+ROUTES.ALL,
+    path: ROUTES.BOOKINGS + ROUTES.ALL,
     icon: <ListIcon />,
   },
   {
@@ -92,7 +92,6 @@ const secondaryNavOptions = [
 // -------------
 
 const Root = () => {
-  
   // -----------
   // STATE
   // -----------
@@ -100,7 +99,7 @@ const Root = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const {user, selectedSite, setSelectedSite} = useContext(AuthContext)
+  const { user, selectedSite, setSelectedSite } = useContext(AuthContext);
 
   // -----------
   // HANDLERS
@@ -114,7 +113,6 @@ const Root = () => {
     setOpen(false);
   };
 
-
   // -----------
   // RENDER
   // -----------
@@ -122,7 +120,7 @@ const Root = () => {
   if (location.pathname === "/") {
     return <Navigate to={ROUTES.DASHBOARD} />;
   }
-  
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -149,8 +147,10 @@ const Root = () => {
             Ark Booking Management
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: "flex"}}>
-            <Box sx={{ display: {xs: "none", md: "block"}}}><SearchField callback={(a) => console.log(a)}/></Box>
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <SearchField callback={(a) => console.log(a)} trigger="ENTER" />
+            </Box>
             {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -169,8 +169,16 @@ const Root = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            <Avatar sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white"}}>{user && getInitials(user.name)}</Avatar>
-            <SiteSelector selectedSite={selectedSite} setSelectedSite={setSelectedSite} sites={user?.sites || []}/>
+            <Avatar
+              sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white" }}
+            >
+              {user && getInitials(user.name)}
+            </Avatar>
+            <SiteSelector
+              selectedSite={selectedSite}
+              setSelectedSite={setSelectedSite}
+              sites={user?.sites || []}
+            />
           </Box>
         </Toolbar>
       </AppBar>
@@ -181,7 +189,17 @@ const Root = () => {
         primaryNavOptions={primaryNavOptions}
         secondaryNavOptions={secondaryNavOptions}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 10, height: '100vh', overflow: "auto", boxSizing: "border-box" }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          pt: 10,
+          height: "100vh",
+          overflow: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <Outlet />
       </Box>
     </Box>

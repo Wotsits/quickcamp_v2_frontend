@@ -44,3 +44,8 @@
 .search-field-on-light input::placeholder {
     color: rgba(0,0,0,0.5);
 }
+
+.search-field input{
+    width: 100%;
+}
+

@@ -140,34 +140,46 @@ const LeadGuestDetails = ({
       {formGuestType === "existing" && (
         <>
           <Box id="existing-guest-form">
-            <SearchField callback={callbackFromSearchField} variant="onLight" />
+            <SearchField callback={callbackFromSearchField} variant="onLight" trigger="CHANGE" />
           </Box>
-          {searchFieldResults && (
-            <List>
-              {searchFieldResults.map((guest: any) => (
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary="Guest Name"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          sx={{ display: "inline" }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          Guest Address — guest email
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          )}
+          <List>
+            {searchFieldResults && searchFieldResults.length === 0 && (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                marginTop={3}
+              >
+                <Typography variant="body1">
+                  No existing guests found.
+                </Typography>
+              </Box>
+            )}
+            {console.log(searchFieldResults)}
+            {searchFieldResults && searchFieldResults.map((guest: any) => (
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={guest.firstName + ' ' + guest.lastName}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {guest.address1 + ", "}{guest.address2 ? guest.address2 + ", " : ""}{guest.townCity + ", "}{guest.postcode} — {guest.email}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
         </>
       )}
     </Box>
   );
-};
+}
+
 export default LeadGuestDetails;
