@@ -95,7 +95,7 @@ const LeadGuestDetails = ({
         <ToggleButtonGroup
           value={formGuestType}
           exclusive
-          onChange={(event, value) => setFormGuestType(value)}
+          onChange={(event, value) => handleFormGuestTypeChange(value)}
           color="primary"
         >
           <ToggleButton value={NEW_OR_EXISTING.NEW}>New Guest</ToggleButton>
