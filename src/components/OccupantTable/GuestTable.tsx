@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 type GuestTableProps = {
   guests: BookingProcessGuest[];
   guestTypes: GuestType[];
-  callbackOnGuestEdit: (index: number) => void;
+  callbackOnGuestEdit: (index: number, value: string, field: string) => void;
   callbackOnGuestDelete: (index: number) => void;
 };
 
@@ -32,6 +32,7 @@ const GuestTable = ({
                 label="Name"
                 variant="outlined"
                 value={guest.name}
+                onChange={(e) => callbackOnGuestEdit(index, e.target.value, "name")}
                 fullWidth
               />
             </div>
@@ -41,6 +42,7 @@ const GuestTable = ({
                 select
                 variant="outlined"
                 value={guest.type}
+                onChange={(e) => callbackOnGuestEdit(index, e.target.value, "type")}
                 fullWidth
               >
                 {guestTypes.map((guestType) => {

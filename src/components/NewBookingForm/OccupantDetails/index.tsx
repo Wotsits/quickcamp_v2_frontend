@@ -56,18 +56,10 @@ const OccupantDetails = ({
     setVehicles([...vehicles, newBlankVehicle]);
   };
 
-  const handleGuestEdit = (index: number) => {
-    console.log("Guest Edit: ", index);
-  };
-
   const handleGuestDelete = (index: number) => {
     const guestsCopy = [...guests];
     guestsCopy.splice(index, 1);
     setGuests(guestsCopy);
-  };
-
-  const handlePetEdit = (index: number) => {
-    console.log("Pet Edit: ", index);
   };
 
   const handlePetDelete = (index: number) => {
@@ -76,13 +68,42 @@ const OccupantDetails = ({
     setPets(petsCopy);
   };
 
-  const handleVehicleEdit = (index: number) => {
-    console.log("Vehicle Edit: ", index);
-  };
-
   const handleVehicleDelete = (index: number) => {
     const vehiclesCopy = [...vehicles];
     vehiclesCopy.splice(index, 1);
+    setVehicles(vehiclesCopy);
+  };
+
+  const handleGuestEdit = (index: number, value: string, field: string) => {
+    const guestsCopy = [...guests];
+    switch (field) {
+      case "name":
+        guestsCopy[index].name = value;
+        break;
+      case "type":
+        guestsCopy[index].type = parseInt(value);
+        break;
+    }
+    setGuests(guestsCopy);
+  };
+
+  const handlePetEdit = (index: number, value: string, field: string) => {
+    const petsCopy = [...pets];
+    switch (field) {
+      case "name":
+        petsCopy[index].name = value;
+        break;
+    }
+    setPets(petsCopy);
+  };
+
+  const handleVehicleEdit = (index: number, value: string, field: string) => {
+    const vehiclesCopy = [...vehicles];
+    switch (field) {
+      case "vehicleReg":
+        vehiclesCopy[index].vehicleReg = value;
+        break;
+    }
     setVehicles(vehiclesCopy);
   };
 

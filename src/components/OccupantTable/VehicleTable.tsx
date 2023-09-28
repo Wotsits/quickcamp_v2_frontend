@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 type VehicleTableProps = {
   vehicles: BookingProcessVehicle[];
-  callbackOnVehicleEdit: (index: number) => void;
+  callbackOnVehicleEdit: (index: number, value: string, field: string) => void;
   callbackOnVehicleDelete: (index: number) => void;
 };
 
@@ -27,6 +27,9 @@ const VehicleTable = ({
                 variant="outlined"
                 value={vehicle.vehicleReg}
                 fullWidth
+                onChange={(e) =>
+                  callbackOnVehicleEdit(index, e.target.value, "vehicleReg")
+                }
               />
             </div>
             <div className="delete-container">

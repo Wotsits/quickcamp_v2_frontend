@@ -2,6 +2,7 @@ import {
   Box,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   TextField,
   ToggleButton,
@@ -9,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
+import { NEW_OR_EXISTING } from "../../../settings";
 import SearchField from "../../SearchField";
 import "./style.css";
 import { LeadGuest } from "../../../types";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';  
+import { set } from "date-fns";
 
 type LeadGuestDetailsProps = {
   formGuestType: string;
@@ -70,19 +74,14 @@ const LeadGuestDetails = ({
   callbackFromSearchField,
   searchFieldResults,
 }: LeadGuestDetailsProps) => {
-  
-  function selectExistingGuest(guest: LeadGuest) {
-    setFormGuestId(guest.id);
-    setFormGuestFirstName(guest.firstName);
-    setFormGuestLastName(guest.lastName);
-    setFormGuestEmail(guest.email);
-    setFormGuestPhone(guest.tel);
-    setFormGuestAddress1(guest.address1);
-    setFormGuestAddress2(guest.address2);
-    setFormGuestCity(guest.townCity);
-    setFormGuestCounty(guest.county);
-    setFormGuestPostcode(guest.postcode);
-    setFormGuestCountry(guest.country);
+
+  function handleFormGuestTypeChange(value: "new" | "existing") {
+    if (value === "new") {
+      setFormGuestType("new");
+      setFormGuestId(null);
+    } else {
+      setFormGuestType("existing");
+    }
   }
 
   return (
@@ -99,11 +98,13 @@ const LeadGuestDetails = ({
           onChange={(event, value) => setFormGuestType(value)}
           color="primary"
         >
-          <ToggleButton value="new">New Guest</ToggleButton>
-          <ToggleButton value="existing">Existing Guest</ToggleButton>
+          <ToggleButton value={NEW_OR_EXISTING.NEW}>New Guest</ToggleButton>
+          <ToggleButton value={NEW_OR_EXISTING.EXISTING}>
+            Existing Guest
+          </ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      {formGuestType === "new" && (
+      {formGuestType === NEW_OR_EXISTING.NEW && (
         <div id="new-guest-form">
           <div id="name-section">
             <TextField
@@ -171,12 +172,16 @@ const LeadGuestDetails = ({
           </div>
         </div>
       )}
-      {formGuestType === "existing" && (
-        <>
-          <Box id="existing-guest-form">
-            <SearchField callback={callbackFromSearchField} variant="onLight" trigger="CHANGE" />
+      {formGuestType === NEW_OR_EXISTING.EXISTING && (
+        <Box id="existing-guest-form">
+          <Box>
+            <SearchField
+              callback={callbackFromSearchField}
+              variant="onLight"
+              trigger="CHANGE"
+            />
           </Box>
-          <List>
+          <List id="existing-guest-form-results-list">
             {searchFieldResults && searchFieldResults.length === 0 && (
               <Box
                 display="flex"
@@ -189,30 +194,45 @@ const LeadGuestDetails = ({
                 </Typography>
               </Box>
             )}
-            {searchFieldResults && searchFieldResults.map((guest: any) => (
-              <ListItem alignItems="flex-start" onClick={() => selectExistingGuest(guest)}>
-                <ListItemText
-                  primary={guest.firstName + ' ' + guest.lastName}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        {guest.address1 + ", "}{guest.address2 ? guest.address2 + ", " : ""}{guest.townCity + ", "}{guest.postcode} — {guest.email}
-                      </Typography>
-                    </React.Fragment>
+            {searchFieldResults &&
+              searchFieldResults.map((guest: LeadGuest) => (
+                <ListItem
+                  alignItems="flex-start"
+                  key={guest.id}
+                  secondaryAction={
+                    formGuestId === guest.id && <CheckCircleIcon color={'success'} />
                   }
-                />
-              </ListItem>
-            ))}
+                >
+                  <ListItemButton
+                    selected={formGuestId === guest.id}
+                    onClick={() => setFormGuestId(guest.id)}
+                  >
+                    <ListItemText
+                      primary={guest.firstName + " " + guest.lastName}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: "inline" }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {guest.address1 + ", "}
+                            {guest.address2 ? guest.address2 + ", " : ""}
+                            {guest.townCity + ", "}
+                            {guest.postcode} — {guest.email}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
           </List>
-        </>
+        </Box>
       )}
     </Box>
   );
-}
+};
 
 export default LeadGuestDetails;

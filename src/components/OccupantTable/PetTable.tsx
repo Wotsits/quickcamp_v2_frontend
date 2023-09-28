@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 type PetTableProps = {
   pets: BookingProcessPet[];
-  callbackOnPetEdit: (index: number) => void;
+  callbackOnPetEdit: (index: number, value: string, field: string) => void;
   callbackOnPetDelete: (index: number) => void;
 };
 
@@ -22,7 +22,7 @@ const PetTable = ({
         return (
           <div className="row" key={index}>
             <div className="field-container">
-              <TextField label="Name" variant="outlined" value={pet.name} fullWidth />
+              <TextField label="Name" variant="outlined" value={pet.name} fullWidth onChange={(e) => callbackOnPetEdit(index, e.target.value, "name") } />
             </div>
             <div className="delete-container">
               <IconButton onClick={() => callbackOnPetDelete(index)}>

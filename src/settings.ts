@@ -44,7 +44,10 @@ export const SUPPORTED_ICONS = {
   Awning: "Awning",
 };
 
-
+export const NEW_OR_EXISTING: {[key: string]: "new" | "existing"} = {
+  NEW: "new",
+  EXISTING: "existing",
+};
 
 // -------------
 // Colors

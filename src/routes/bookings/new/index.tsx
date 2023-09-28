@@ -28,6 +28,7 @@ import { getExtraTypesBySiteId } from "../../../services/queries/getExtraTypes";
 import { useQuery } from "react-query";
 import useWindowDimensions from "../../../hooks/useWindowDimension";
 import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
+import { NEW_OR_EXISTING } from "../../../settings";
 
 const steps = [
   "Lead Guest Details",
@@ -50,8 +51,18 @@ const NewBooking = () => {
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
+  // Validity
+  const [isSectionOneValid, setIsSectionOneValid] = useState<boolean>(false);
+  const [isSectionTwoValid, setIsSectionTwoValid] = useState<boolean>(false);
+  const [isSectionThreeValid, setIsSectionThreeValid] =
+    useState<boolean>(false);
+  const [isSectionFourValid, setIsSectionFourValid] = useState<boolean>(false);
+  const [isSectionFiveValid, setIsSectionFiveValid] = useState<boolean>(true); // for now, lets allow a booking to be made without a payment
+
   // LeadGuest Details
-  const [formGuestType, setFormGuestType] = useState<"new" | "existing">("new");
+  const [formGuestType, setFormGuestType] = useState<"new" | "existing">(
+    NEW_OR_EXISTING.NEW
+  );
   const [formGuestId, setFormGuestId] = useState<number | null>(null);
   const [formGuestFirstName, setFormGuestFirstName] = useState<string>("");
   const [formGuestLastName, setFormGuestLastName] = useState<string>("");
@@ -76,14 +87,9 @@ const NewBooking = () => {
   const [formExtras, setFormExtras] = useState<number[]>([]);
 
   // Booking Details
-  const [formUnitId, setFormUnitId] = useState<number | null>();
-  const [formUnitName, setFormUnitName] = useState<string>("");
-  const [formUnitTypeId, setFormUnitTypeId] = useState<number | null>(null);
+  const [formUnitId, setFormUnitId] = useState<number | null>(null);
   const [formStartDate, setFormStartDate] = useState<Date | null>(null);
   const [formEndDate, setFormEndDate] = useState<Date | null>(null);
-  const [formNumberOfNights, setFormNumberOfNights] = useState<number | null>(
-    null
-  );
 
   // Occupant Details
   const [formBookingGuests, setFormBookingGuests] = useState<
@@ -97,9 +103,12 @@ const NewBooking = () => {
   >([]);
 
   // Payment Details
-  const [formPaymentMethod, setFormPaymentMethod] = useState<string>("");
   const [formPaymentAmount, setFormPaymentAmount] = useState<number | null>(
     null
+  );
+  const [formPaymentMethod, setFormPaymentMethod] = useState<string>("");
+  const [formPaymentDate, setFormPaymentDate] = useState<Date | null>(
+    new Date()
   );
 
   // -------------
@@ -148,8 +157,6 @@ const NewBooking = () => {
 
   // debounce the search field
   useEffect(() => {
-    console.log("hello")
-
     // if the search field is empty, reset the debounced search field
     if (!formGuestSearchFieldContent) {
       setDebouncedGuestSearchFieldContent("");
@@ -159,13 +166,83 @@ const NewBooking = () => {
     const timeoutId = setTimeout(() => {
       setDebouncedGuestSearchFieldContent(formGuestSearchFieldContent);
     }, 1000);
-    
+
     // clear the timeout if the search field content changes
     return () => {
       clearTimeout(timeoutId);
     };
+  }, [formGuestSearchFieldContent]);
 
-  }, [formGuestSearchFieldContent])
+  useEffect(() => {
+    if (formGuestType === NEW_OR_EXISTING.EXISTING) {
+      setIsSectionOneValid(formGuestId !== null);
+      return;
+    }
+
+    const requiredFields = [
+      formGuestLastName,
+      formGuestEmail,
+      formGuestAddress1,
+      formGuestCity,
+      formGuestCountry,
+      formGuestPostcode,
+    ];
+
+    const allFieldsAreValid = requiredFields.every((field) => {
+      return field !== null && field !== "";
+    });
+
+    setIsSectionOneValid(allFieldsAreValid);
+  }, [
+    formGuestType,
+    formGuestId,
+    formGuestLastName,
+    formGuestEmail,
+    formGuestAddress1,
+    formGuestCity,
+    formGuestCountry,
+    formGuestPostcode,
+  ]);
+
+  useEffect(() => {
+    setIsSectionTwoValid(formEquipmentType !== -1);
+  }, [formEquipmentType]);
+
+  useEffect(() => {
+    // check that the required fields are completed.
+    if (formUnitId === null || formStartDate === null || formEndDate === null) {
+      setIsSectionThreeValid(false);
+      return;
+    }
+
+    // check that the start date is before the end date
+    const startBeforeEnd = formStartDate < formEndDate;
+
+    setIsSectionThreeValid(startBeforeEnd);
+  }, [formUnitId, formStartDate, formEndDate]);
+
+  useEffect(() => {
+    const hasAtleastOneGuest = formBookingGuests.length > 0;
+    const everyGuestHasName = formBookingGuests.every((guest) => {
+      return guest.name !== "";
+    });
+    const everyGuestHasType = formBookingGuests.every((guest) => {
+      return guest.type !== -1;
+    });
+    const everyPetHasName = formBookingPets.every((pet) => {
+      return pet.name !== "";
+    });
+    const everyVehicleHasVehicleReg = formBookingVehicles.every((vehicle) => {
+      return vehicle.vehicleReg !== "";
+    });
+    setIsSectionFourValid(
+      hasAtleastOneGuest &&
+        everyGuestHasName &&
+        everyGuestHasType &&
+        everyPetHasName &&
+        everyVehicleHasVehicleReg
+    );
+  }, [formBookingGuests, formBookingPets, formBookingVehicles]);
 
   // -------------
   // EVENT HANDLERS
@@ -174,6 +251,27 @@ const NewBooking = () => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log("submit");
+  }
+
+  // -------------
+  // HELPERS
+  // -------------
+
+  function isNextButtonDisabled() {
+    switch (activeStep) {
+      case 0:
+        return !isSectionOneValid;
+      case 1:
+        return !isSectionTwoValid;
+      case 2:
+        return !isSectionThreeValid;
+      case 3:
+        return !isSectionFourValid;
+      case 4:
+        return !isSectionFiveValid;
+      default:
+        return true;
+    }
   }
 
   // -------------
@@ -266,7 +364,16 @@ const NewBooking = () => {
 
       {/* BOOKING DETAILS */}
 
-      {activeStep === 2 && <BookingDetails />}
+      {activeStep === 2 && (
+        <BookingDetails
+          formUnitId={formUnitId}
+          setFormUnitId={setFormUnitId}
+          formStartDate={formStartDate}
+          setFormStartDate={setFormStartDate}
+          formEndDate={formEndDate}
+          setFormEndDate={setFormEndDate}
+        />
+      )}
 
       {/* OCCUPANT DETAILS */}
 
@@ -284,7 +391,16 @@ const NewBooking = () => {
 
       {/* PAYMENT DETAILS */}
 
-      {activeStep === 4 && <PaymentDetails />}
+      {activeStep === 4 && (
+        <PaymentDetails
+          formPaymentAmount={formPaymentAmount}
+          setFormPaymentAmount={setFormPaymentAmount}
+          formPaymentMethod={formPaymentMethod}
+          setFormPaymentMethod={setFormPaymentMethod}
+          formPaymentDate={formPaymentDate}
+          setFormPaymentDate={setFormPaymentDate}
+        />
+      )}
 
       {/* STEP CONTROL BUTTONS */}
 
@@ -298,6 +414,7 @@ const NewBooking = () => {
         <Button
           variant="contained"
           onClick={() => setActiveStep(activeStep + 1)}
+          disabled={isNextButtonDisabled()}
         >
           Next
         </Button>
