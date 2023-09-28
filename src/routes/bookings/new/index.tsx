@@ -29,6 +29,12 @@ import { useQuery } from "react-query";
 import useWindowDimensions from "../../../hooks/useWindowDimension";
 import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
 import { NEW_OR_EXISTING } from "../../../settings";
+import { useLeadGuestDetailState } from "./hooks/useLeadGuestDetailState";
+import { useValidityState } from "./hooks/useValidityState";
+import { useEquipmentDetailsState } from "./hooks/useEquipmentDetailsState";
+import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
+import { useOccupantDetailsState } from "./hooks/useOccupantDetailsState";
+import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 
 const steps = [
   "Lead Guest Details",
@@ -52,64 +58,84 @@ const NewBooking = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   // Validity
-  const [isSectionOneValid, setIsSectionOneValid] = useState<boolean>(false);
-  const [isSectionTwoValid, setIsSectionTwoValid] = useState<boolean>(false);
-  const [isSectionThreeValid, setIsSectionThreeValid] =
-    useState<boolean>(false);
-  const [isSectionFourValid, setIsSectionFourValid] = useState<boolean>(false);
-  const [isSectionFiveValid, setIsSectionFiveValid] = useState<boolean>(true); // for now, lets allow a booking to be made without a payment
+  const {
+    isSectionOneValid,
+    setIsSectionOneValid,
+    isSectionTwoValid,
+    setIsSectionTwoValid,
+    isSectionThreeValid,
+    setIsSectionThreeValid,
+    isSectionFourValid,
+    setIsSectionFourValid,
+    isSectionFiveValid,
+    setIsSectionFiveValid,
+  } = useValidityState();
 
   // LeadGuest Details
-  const [formGuestType, setFormGuestType] = useState<"new" | "existing">(
-    NEW_OR_EXISTING.NEW
-  );
-  const [formGuestId, setFormGuestId] = useState<number | null>(null);
-  const [formGuestFirstName, setFormGuestFirstName] = useState<string>("");
-  const [formGuestLastName, setFormGuestLastName] = useState<string>("");
-  const [formGuestEmail, setFormGuestEmail] = useState<string>("");
-  const [formGuestPhone, setFormGuestPhone] = useState<string>("");
-  const [formGuestAddress1, setFormGuestAddress1] = useState<string>("");
-  const [formGuestAddress2, setFormGuestAddress2] = useState<string>("");
-  const [formGuestCity, setFormGuestCity] = useState<string>("");
-  const [formGuestCounty, setFormGuestCounty] = useState<string>("");
-  const [formGuestPostcode, setFormGuestPostcode] = useState<string>("");
-  const [formGuestCountry, setFormGuestCountry] = useState<string>("");
-
-  const [formGuestSearchFieldContent, setFormGuestSearchFieldContent] =
-    useState<string>("");
-  const [
+  const {
+    formGuestType,
+    setFormGuestType,
+    formGuestId,
+    setFormGuestId,
+    formGuestFirstName,
+    setFormGuestFirstName,
+    formGuestLastName,
+    setFormGuestLastName,
+    formGuestEmail,
+    setFormGuestEmail,
+    formGuestPhone,
+    setFormGuestPhone,
+    formGuestAddress1,
+    setFormGuestAddress1,
+    formGuestAddress2,
+    setFormGuestAddress2,
+    formGuestCity,
+    setFormGuestCity,
+    formGuestCounty,
+    setFormGuestCounty,
+    formGuestPostcode,
+    setFormGuestPostcode,
+    formGuestCountry,
+    setFormGuestCountry,
+    formGuestSearchFieldContent,
+    setFormGuestSearchFieldContent,
     debouncedGuestSearchFieldContent,
     setDebouncedGuestSearchFieldContent,
-  ] = useState<string>("");
+  } = useLeadGuestDetailState();
 
   // Equipment Details
-  const [formEquipmentType, setFormEquipmentType] = useState<number>(-1);
-  const [formExtras, setFormExtras] = useState<number[]>([]);
+  const { formEquipmentType, setFormEquipmentType, formExtras, setFormExtras } =
+    useEquipmentDetailsState();
 
   // Booking Details
-  const [formUnitId, setFormUnitId] = useState<number | null>(null);
-  const [formStartDate, setFormStartDate] = useState<Date | null>(null);
-  const [formEndDate, setFormEndDate] = useState<Date | null>(null);
+  const {
+    formUnitId,
+    setFormUnitId,
+    formStartDate,
+    setFormStartDate,
+    formEndDate,
+    setFormEndDate,
+  } = useBookingDetailsState();
 
   // Occupant Details
-  const [formBookingGuests, setFormBookingGuests] = useState<
-    BookingProcessGuest[]
-  >([]);
-  const [formBookingPets, setFormBookingPets] = useState<BookingProcessPet[]>(
-    []
-  );
-  const [formBookingVehicles, setFormBookingVehicles] = useState<
-    BookingProcessVehicle[]
-  >([]);
+  const {
+    formBookingGuests,
+    setFormBookingGuests,
+    formBookingPets,
+    setFormBookingPets,
+    formBookingVehicles,
+    setFormBookingVehicles,
+  } = useOccupantDetailsState();
 
   // Payment Details
-  const [formPaymentAmount, setFormPaymentAmount] = useState<number | null>(
-    null
-  );
-  const [formPaymentMethod, setFormPaymentMethod] = useState<string>("");
-  const [formPaymentDate, setFormPaymentDate] = useState<Date | null>(
-    new Date()
-  );
+  const {
+    formPaymentAmount,
+    setFormPaymentAmount,
+    formPaymentMethod,
+    setFormPaymentMethod,
+    formPaymentDate,
+    setFormPaymentDate,
+  } = usePaymentDetailsState();
 
   // -------------
   // HOOKS
