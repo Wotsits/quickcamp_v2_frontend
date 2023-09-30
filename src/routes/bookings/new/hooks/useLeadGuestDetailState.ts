@@ -9,7 +9,7 @@ export const useLeadGuestDetailState = () => {
       const [formGuestFirstName, setFormGuestFirstName] = useState<string>("");
       const [formGuestLastName, setFormGuestLastName] = useState<string>("");
       const [formGuestEmail, setFormGuestEmail] = useState<string>("");
-      const [formGuestPhone, setFormGuestPhone] = useState<string>("");
+      const [formGuestTel, setFormGuestTel] = useState<string>("");
       const [formGuestAddress1, setFormGuestAddress1] = useState<string>("");
       const [formGuestAddress2, setFormGuestAddress2] = useState<string>("");
       const [formGuestCity, setFormGuestCity] = useState<string>("");
@@ -35,8 +35,8 @@ export const useLeadGuestDetailState = () => {
         setFormGuestLastName,
         formGuestEmail,
         setFormGuestEmail,
-        formGuestPhone,
-        setFormGuestPhone,
+        formGuestTel,
+        setFormGuestTel,
         formGuestAddress1,
         setFormGuestAddress1,
         formGuestAddress2,

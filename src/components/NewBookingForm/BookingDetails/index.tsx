@@ -2,6 +2,7 @@ import { Box, InputLabel, Menu, MenuItem, Select, TextField, Typography } from "
 import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 import "./style.css";
+import { Unit } from "../../../types";
 
 type BookingDetailsProps = {
   formUnitId: number | null;
@@ -10,9 +11,10 @@ type BookingDetailsProps = {
   setFormStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
   formEndDate: Date | null;
   setFormEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  availableUnits: Unit[];
 };
 
-const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartDate, formEndDate, setFormEndDate}: BookingDetailsProps) => {
+const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartDate, formEndDate, setFormEndDate, availableUnits}: BookingDetailsProps) => {
   return (
     <div id="booking-details">
       <Box marginBottom={3}>
@@ -21,9 +23,13 @@ const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartD
           <DatePicker label="End Date*" sx={{width: "100%"}} value={formEndDate} onChange={(date) => setFormEndDate(date)} />
         </div>
         <TextField required fullWidth label="Pitch" select value={formUnitId} onChange={(e) => setFormUnitId(parseInt(e.target.value))}>
-          <MenuItem value={1}>Pitch 1</MenuItem>
-          <MenuItem value={2}>Pitch 2</MenuItem>
-          <MenuItem value={3}>Pitch 3</MenuItem>
+          {availableUnits && availableUnits.map((unit) => {
+            return (
+              <MenuItem key={unit.id} value={unit.id}>
+                <Typography variant="body1">{unit.name}</Typography>
+              </MenuItem>
+            );
+          })}
         </TextField>
       </Box>
     </div>

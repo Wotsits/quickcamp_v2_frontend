@@ -35,7 +35,7 @@ const OccupantDetails = ({
     const newBlankGuest: BookingProcessGuest = {
       id: -1,
       name: "Unnamed Guest",
-      type: -1,
+      guestTypeId: -1,
     };
     setGuests([...guests, newBlankGuest]);
   };
@@ -81,7 +81,7 @@ const OccupantDetails = ({
         guestsCopy[index].name = value;
         break;
       case "type":
-        guestsCopy[index].type = parseInt(value);
+        guestsCopy[index].guestTypeId = parseInt(value);
         break;
     }
     setGuests(guestsCopy);

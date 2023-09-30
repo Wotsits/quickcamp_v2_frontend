@@ -28,8 +28,8 @@ type LeadGuestDetailsProps = {
   setFormGuestLastName: Dispatch<SetStateAction<string>>;
   formGuestEmail: string;
   setFormGuestEmail: Dispatch<SetStateAction<string>>;
-  formGuestPhone: string;
-  setFormGuestPhone: Dispatch<SetStateAction<string>>;
+  formGuestTel: string;
+  setFormGuestTel: Dispatch<SetStateAction<string>>;
   formGuestAddress1: string;
   setFormGuestAddress1: Dispatch<SetStateAction<string>>;
   formGuestAddress2: string;
@@ -57,8 +57,8 @@ const LeadGuestDetails = ({
   setFormGuestLastName,
   formGuestEmail,
   setFormGuestEmail,
-  formGuestPhone,
-  setFormGuestPhone,
+  formGuestTel,
+  setFormGuestTel,
   formGuestAddress1,
   setFormGuestAddress1,
   formGuestAddress2,
@@ -129,9 +129,9 @@ const LeadGuestDetails = ({
               required
             />
             <TextField
-              label="Phone"
-              value={formGuestPhone}
-              onChange={(event) => setFormGuestPhone(event.target.value)}
+              label="Telephone"
+              value={formGuestTel}
+              onChange={(event) => setFormGuestTel(event.target.value)}
             />
           </div>
           <div id="address-section">

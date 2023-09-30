@@ -41,7 +41,7 @@ const GuestTable = ({
                 label="Guest Type"
                 select
                 variant="outlined"
-                value={guest.type}
+                value={guest.guestTypeId}
                 onChange={(e) => callbackOnGuestEdit(index, e.target.value, "type")}
                 fullWidth
               >

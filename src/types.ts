@@ -186,7 +186,7 @@ export type BookingSumm = {
 export type BookingProcessGuest = {
     id: number;
     name: string;
-    type: number;
+    guestTypeId: number;
 }
 
 export type BookingProcessVehicle = {

@@ -16,16 +16,14 @@ import OccupantDetails from "../../../components/NewBookingForm/OccupantDetails"
 import PaymentDetails from "../../../components/NewBookingForm/PaymentDetails";
 import AuthContext from "../../../contexts/authContext";
 import {
-  BookingProcessGuest,
-  BookingProcessPet,
-  BookingProcessVehicle,
   EquipmentType,
   ExtraType,
   GuestType,
   LeadGuest,
+  Unit,
 } from "../../../types";
 import { getExtraTypesBySiteId } from "../../../services/queries/getExtraTypes";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useWindowDimensions from "../../../hooks/useWindowDimension";
 import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
 import { NEW_OR_EXISTING } from "../../../settings";
@@ -35,6 +33,8 @@ import { useEquipmentDetailsState } from "./hooks/useEquipmentDetailsState";
 import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
 import { useOccupantDetailsState } from "./hooks/useOccupantDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
+import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
+import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
 
 const steps = [
   "Lead Guest Details",
@@ -42,14 +42,28 @@ const steps = [
   "Booking Details",
   "Occupant Details",
   "Payment Details",
+  "Making Your Booking",
+  "Booking Complete",
 ];
 
 const NewBooking = () => {
+  // -------------
+  // HOOKS
+  // -------------
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const { width } = useWindowDimensions();
+  const unitId = searchParams.get("unitId");
+  const start = searchParams.get("start");
+  const queryClient = useQueryClient()
+
   // -------------
   // CONTEXT
   // -------------
 
   const { user, selectedSite } = useContext(AuthContext);
+  console.log(selectedSite)
 
   // -------------
   // STATE
@@ -83,8 +97,8 @@ const NewBooking = () => {
     setFormGuestLastName,
     formGuestEmail,
     setFormGuestEmail,
-    formGuestPhone,
-    setFormGuestPhone,
+    formGuestTel,
+    setFormGuestTel,
     formGuestAddress1,
     setFormGuestAddress1,
     formGuestAddress2,
@@ -115,7 +129,10 @@ const NewBooking = () => {
     setFormStartDate,
     formEndDate,
     setFormEndDate,
-  } = useBookingDetailsState();
+  } = useBookingDetailsState({
+    requestedUnitId: unitId ? parseInt(unitId) : null,
+    requestedStartDate: start ? new Date(start) : null,
+  });
 
   // Occupant Details
   const {
@@ -138,16 +155,6 @@ const NewBooking = () => {
   } = usePaymentDetailsState();
 
   // -------------
-  // HOOKS
-  // -------------
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const { width } = useWindowDimensions();
-  const unitId = searchParams.get("unitId");
-  const start = searchParams.get("start");
-
-  // -------------
   // QUERIES
   // -------------
 
@@ -159,6 +166,8 @@ const NewBooking = () => {
   } = useQuery<ExtraType[], Error>(["extraTypes", selectedSite?.id], () =>
     getExtraTypesBySiteId({ token: user.token, siteId: selectedSite!.id })
   );
+
+  // -------------
 
   const {
     isLoading: existingGuestSearchResultsAreLoading,
@@ -176,6 +185,68 @@ const NewBooking = () => {
       enabled: debouncedGuestSearchFieldContent.length > 3,
     }
   );
+
+  // -------------
+
+  const {
+    isLoading: availableUnitsAreLoading,
+    isError: availableUnitsAreError,
+    data: availableUnitsData,
+    error: availableUnitsError,
+  } = useQuery<Unit[], Error>(
+    ["getAvailableUnits", user.tenantId, formStartDate, formEndDate],
+    () =>
+      getAvailableUnits({
+        token: user.token,
+        startDate: formStartDate!,
+        endDate: formEndDate!,
+        siteId: selectedSite!.id,
+        equipmentTypeId: formEquipmentType,
+      }),
+    {
+      enabled: formStartDate !== null && formEndDate !== null,
+    }
+  )
+
+  // -------------
+  // MUTATIONS
+  // -------------
+
+  const mutation = useMutation({
+    mutationFn: () => makeNewBooking(
+      {
+        token: user.token,
+        siteId: selectedSite!.id,
+        leadGuestId: formGuestId!,
+        leadGuestFirstName: formGuestFirstName,
+        leadGuestLastName: formGuestLastName,
+        leadGuestEmail: formGuestEmail,
+        leadGuestTel: formGuestTel,
+        leadGuestAddress1: formGuestAddress1,
+        leadGuestAddress2: formGuestAddress2,
+        leadGuestCity: formGuestCity,
+        leadGuestCounty: formGuestCounty,
+        leadGuestPostcode: formGuestPostcode,
+        leadGuestCountry: formGuestCountry,
+        equipmentTypeId: formEquipmentType!,
+        unitId: formUnitId!,
+        startDate: formStartDate!,
+        endDate: formEndDate!,
+        extras: formExtras,
+        bookingGuests: formBookingGuests,
+        bookingPets: formBookingPets,
+        bookingVehicles: formBookingVehicles,
+        paymentAmount: formPaymentAmount,
+        paymentMethod: formPaymentMethod,
+        paymentDate: formPaymentDate!,
+      }
+    ),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['bookings'] })
+      queryClient.invalidateQueries({ queryKey: ['units'] })
+    },
+  })
 
   // -------------
   // USEEFFECTS
@@ -198,6 +269,8 @@ const NewBooking = () => {
       clearTimeout(timeoutId);
     };
   }, [formGuestSearchFieldContent]);
+
+  // ----------------
 
   useEffect(() => {
     if (formGuestType === NEW_OR_EXISTING.EXISTING) {
@@ -230,6 +303,8 @@ const NewBooking = () => {
     formGuestPostcode,
   ]);
 
+  // -------------
+
   useEffect(() => {
     setIsSectionTwoValid(formEquipmentType !== -1);
   }, [formEquipmentType]);
@@ -247,13 +322,15 @@ const NewBooking = () => {
     setIsSectionThreeValid(startBeforeEnd);
   }, [formUnitId, formStartDate, formEndDate]);
 
+  // -------------
+
   useEffect(() => {
     const hasAtleastOneGuest = formBookingGuests.length > 0;
     const everyGuestHasName = formBookingGuests.every((guest) => {
       return guest.name !== "";
     });
     const everyGuestHasType = formBookingGuests.every((guest) => {
-      return guest.type !== -1;
+      return guest.guestTypeId !== -1;
     });
     const everyPetHasName = formBookingPets.every((pet) => {
       return pet.name !== "";
@@ -274,9 +351,20 @@ const NewBooking = () => {
   // EVENT HANDLERS
   // -------------
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
-    console.log("submit");
+    // check that all sections are valid before submitting
+    if (
+      !isSectionOneValid ||
+      !isSectionTwoValid ||
+      !isSectionThreeValid ||
+      !isSectionFourValid ||
+      !isSectionFiveValid
+    ) {
+      // raise a toast to the user
+      return;
+    }
+    mutation.mutate()
   }
 
   // -------------
@@ -356,8 +444,8 @@ const NewBooking = () => {
           setFormGuestLastName={setFormGuestLastName}
           formGuestEmail={formGuestEmail}
           setFormGuestEmail={setFormGuestEmail}
-          formGuestPhone={formGuestPhone}
-          setFormGuestPhone={setFormGuestPhone}
+          formGuestTel={formGuestTel}
+          setFormGuestTel={setFormGuestTel}
           formGuestAddress1={formGuestAddress1}
           setFormGuestAddress1={setFormGuestAddress1}
           formGuestAddress2={formGuestAddress2}
@@ -398,6 +486,7 @@ const NewBooking = () => {
           setFormStartDate={setFormStartDate}
           formEndDate={formEndDate}
           setFormEndDate={setFormEndDate}
+          availableUnits={availableUnitsData!}
         />
       )}
 
@@ -428,21 +517,44 @@ const NewBooking = () => {
         />
       )}
 
+      {/* MAKING YOUR BOOKING */}
+
+      {activeStep === 5 && (
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="body1">
+            Please wait while we make your booking...
+          </Typography>
+        </Box>
+      )}
+
+      {/* BOOKING COMPLETE */}
+      {activeStep === 6 && (
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="body1">
+            Your booking has been created successfully.
+          </Typography>
+        </Box>
+      )}
+
       {/* STEP CONTROL BUTTONS */}
 
       <Box width="100%" display="flex" justifyContent="space-between">
         <Button
           variant="outlined"
-          onClick={() => setActiveStep(activeStep - 1)}
+          onClick={() => {
+            if (activeStep > 0) {
+              setActiveStep(activeStep - 1)
+            }
+          }}
         >
           Back
         </Button>
         <Button
           variant="contained"
-          onClick={() => setActiveStep(activeStep + 1)}
+          onClick={activeStep <= 3 ? () => setActiveStep(activeStep + 1) : (e) => handleSubmit(e)}
           disabled={isNextButtonDisabled()}
         >
-          Next
+          {activeStep <= 3 ? "Next" : "Complete Booking"}
         </Button>
       </Box>
     </form>
