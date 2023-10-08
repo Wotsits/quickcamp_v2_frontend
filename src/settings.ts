@@ -32,6 +32,13 @@ export const ROUTES = {
   ALL: "all/",
 };
 
+export const API_ENDPOINTS = {
+  BOOKINGS_BY_SITE: "bookings-by-site",
+  BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range",
+  BOOKING_BY_ID: "booking-by-id",
+  BOOKING_NEW: "new-booking",
+}
+
 export const SUPPORTED_ICONS = {
   HikerTent: "HikerTent",
   MediumTent: "MediumTent",

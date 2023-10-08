@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { APIURL } from '../../settings';
+import { APIURL, API_ENDPOINTS, ROUTES } from '../../settings';
 import { Booking, BookingSumm } from '../../types';
 
 type GetBookingSummaries = {
@@ -10,7 +10,7 @@ type GetBookingSummaries = {
 }
 
 export const getBookingsByDateRange = async ({start, end, siteId, token}: GetBookingSummaries) => {
-    const response = await axios.get<Booking[]>(APIURL + "bookings", {
+    const response = await axios.get<Booking[]>(APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE_AND_DATE_RANGE, {
         params: {
             start: start.toISOString(),
             end: end.toISOString(),
