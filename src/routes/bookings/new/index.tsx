@@ -130,6 +130,7 @@ const NewBooking = () => {
     setFormStartDate,
     formEndDate,
     setFormEndDate,
+    dateError,
   } = useBookingDetailsState({
     requestedUnitId: unitId ? parseInt(unitId) : null,
     requestedStartDate: start ? new Date(start) : null,
@@ -498,6 +499,7 @@ const NewBooking = () => {
               formEndDate={formEndDate}
               setFormEndDate={setFormEndDate}
               availableUnits={availableUnitsData!}
+              dateError={dateError}
             />
           )}
 
@@ -541,7 +543,7 @@ const NewBooking = () => {
           {/* BOOKING COMPLETE */}
 
           {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
-          
+
         </form>
       </div>
 

@@ -1,4 +1,4 @@
-import { Box, InputLabel, Menu, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Box, InputLabel, Menu, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 import "./style.css";
@@ -12,9 +12,10 @@ type BookingDetailsProps = {
   formEndDate: Date | null;
   setFormEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
   availableUnits: Unit[];
+  dateError: string | null;
 };
 
-const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartDate, formEndDate, setFormEndDate, availableUnits}: BookingDetailsProps) => {
+const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartDate, formEndDate, setFormEndDate, availableUnits, dateError}: BookingDetailsProps) => {
   return (
     <div id="booking-details">
       <Box marginBottom={3}>
@@ -22,6 +23,11 @@ const BookingDetails = ({formUnitId, setFormUnitId, formStartDate, setFormStartD
           <DatePicker label="Start Date*" sx={{width: "100%"}} value={formStartDate} onChange={(date) => setFormStartDate(date)} />
           <DatePicker label="End Date*" sx={{width: "100%"}} value={formEndDate} onChange={(date) => setFormEndDate(date)} />
         </div>
+        {dateError && (
+          <Alert severity="error" sx={{mb: 3}}>
+            {dateError}
+          </Alert>
+        )}
         <TextField required fullWidth label="Pitch" select value={formUnitId} onChange={(e) => setFormUnitId(parseInt(e.target.value))}>
           {availableUnits && availableUnits.map((unit) => {
             return (
