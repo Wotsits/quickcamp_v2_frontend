@@ -69,8 +69,7 @@ const BookingBlock = ({
         backgroundColor: getBackgroundColor(),
       }}
       className="cell-overlay"
-      onMouseEnter={() => setBookingSummaryVisible(true)}
-      onMouseLeave={() => setBookingSummaryVisible(false)}
+      onClick={() => setBookingSummaryVisible(true)}
     >
       {booking.bookingName}
       <span className="occupant-summary">{getTotalOccupants()}</span>

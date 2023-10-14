@@ -36,9 +36,9 @@ const LoginForm = () => {
     const password = formData.get("password") as string;
     const {success, error} = await login({username, password});
     if (!success) {
-      console.log(error)
+      console.error("Error logging in: ", error)
       if (error instanceof AxiosError) {
-        setLoginError(error.response!.data.message || "An error occurred");
+        setLoginError(error.message || "An error occurred");
       }
       else {
         setLoginError("An error occurred");

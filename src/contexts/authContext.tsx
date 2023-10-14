@@ -28,8 +28,6 @@ type AuthContextType = {
   setSelectedSite: (a: number) => void;
 };
 
-
-
 // *****************
 // CONTEXT
 // *****************

@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./style.css";
 import LeadGuestDetails from "../../../components/NewBookingForm/LeadGuestDetails";
 import EquipmentDetails from "../../../components/NewBookingForm/EquipmentDetails";
@@ -35,6 +35,7 @@ import { useOccupantDetailsState } from "./hooks/useOccupantDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
 import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
+import BookingConfirmation from "../../../components/NewBookingForm/BookingConfirmation";
 
 const steps = [
   "Lead Guest Details",
@@ -56,20 +57,20 @@ const NewBooking = () => {
   const { width } = useWindowDimensions();
   const unitId = searchParams.get("unitId");
   const start = searchParams.get("start");
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   // -------------
   // CONTEXT
   // -------------
 
   const { user, selectedSite } = useContext(AuthContext);
-  console.log(selectedSite)
 
   // -------------
   // STATE
   // -------------
 
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [bookingId, setBookingId] = useState<number>(-1);
 
   // Validity
   const {
@@ -206,15 +207,15 @@ const NewBooking = () => {
     {
       enabled: formStartDate !== null && formEndDate !== null,
     }
-  )
+  );
 
   // -------------
   // MUTATIONS
   // -------------
 
   const mutation = useMutation({
-    mutationFn: () => makeNewBooking(
-      {
+    mutationFn: () =>
+      makeNewBooking({
         token: user.token,
         siteId: selectedSite!.id,
         leadGuestId: formGuestId!,
@@ -239,14 +240,15 @@ const NewBooking = () => {
         paymentAmount: formPaymentAmount,
         paymentMethod: formPaymentMethod,
         paymentDate: formPaymentDate!,
-      }
-    ),
-    onSuccess: () => {
+      }),
+    onSuccess: (res) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['bookings'] })
-      queryClient.invalidateQueries({ queryKey: ['units'] })
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["units"] });
+      setBookingId(res.data.data.id);
+      setActiveStep(6);
     },
-  })
+  });
 
   // -------------
   // USEEFFECTS
@@ -351,7 +353,11 @@ const NewBooking = () => {
   // EVENT HANDLERS
   // -------------
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function handleSubmit(
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
     event.preventDefault();
     // check that all sections are valid before submitting
     if (
@@ -364,7 +370,8 @@ const NewBooking = () => {
       // raise a toast to the user
       return;
     }
-    mutation.mutate()
+    setActiveStep(5);
+    mutation.mutate();
   }
 
   // -------------
@@ -528,35 +535,35 @@ const NewBooking = () => {
       )}
 
       {/* BOOKING COMPLETE */}
-      {activeStep === 6 && (
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body1">
-            Your booking has been created successfully.
-          </Typography>
-        </Box>
-      )}
+      {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
 
       {/* STEP CONTROL BUTTONS */}
 
-      <Box width="100%" display="flex" justifyContent="space-between">
-        <Button
-          variant="outlined"
-          onClick={() => {
-            if (activeStep > 0) {
-              setActiveStep(activeStep - 1)
+      {activeStep < 5 && (
+        <Box width="100%" display="flex" justifyContent="space-between">
+          <Button
+            variant="outlined"
+            onClick={() => {
+              if (activeStep > 0) {
+                setActiveStep(activeStep - 1);
+              }
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            onClick={
+              activeStep <= 3
+                ? () => setActiveStep(activeStep + 1)
+                : (e) => handleSubmit(e)
             }
-          }}
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={activeStep <= 3 ? () => setActiveStep(activeStep + 1) : (e) => handleSubmit(e)}
-          disabled={isNextButtonDisabled()}
-        >
-          {activeStep <= 3 ? "Next" : "Complete Booking"}
-        </Button>
-      </Box>
+            disabled={isNextButtonDisabled()}
+          >
+            {activeStep <= 3 ? "Next" : "Complete Booking"}
+          </Button>
+        </Box>
+      )}
     </form>
   );
 };
