@@ -1,0 +1,9 @@
+#new-booking-form-container {
+    display: flex;
+    justify-content: center;
+}
+
+#new-booking-form {
+    max-width: 700px;
+    width: 100%;
+}

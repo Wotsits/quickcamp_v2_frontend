@@ -408,24 +408,14 @@ const NewBooking = () => {
   }
 
   return (
-    <form id="new-booking" onSubmit={handleSubmit}>
+    <div id="new-booking">
       <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
         Create New Booking
       </Typography>
 
-      {/* TITLE on mobile screens */}
-
-      {width <= 468 && (
-        <Box sx={{ width: "100%", mb: 4 }}>
-          <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
-            {steps[activeStep]}
-          </Typography>
-        </Box>
-      )}
-
       {/* STEPPER on wider screens */}
 
-      {width > 468 && (
+      {width > 600 && (
         <Box sx={{ width: "100%", mb: 4 }}>
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (
@@ -437,105 +427,123 @@ const NewBooking = () => {
         </Box>
       )}
 
-      {/* LEAD GUEST DETAILS */}
+      {/* TITLE on mobile screens */}
 
-      {activeStep === 0 && (
-        <LeadGuestDetails
-          formGuestType={formGuestType}
-          setFormGuestType={setFormGuestType}
-          formGuestId={formGuestId}
-          setFormGuestId={setFormGuestId}
-          formGuestFirstName={formGuestFirstName}
-          setFormGuestFirstName={setFormGuestFirstName}
-          formGuestLastName={formGuestLastName}
-          setFormGuestLastName={setFormGuestLastName}
-          formGuestEmail={formGuestEmail}
-          setFormGuestEmail={setFormGuestEmail}
-          formGuestTel={formGuestTel}
-          setFormGuestTel={setFormGuestTel}
-          formGuestAddress1={formGuestAddress1}
-          setFormGuestAddress1={setFormGuestAddress1}
-          formGuestAddress2={formGuestAddress2}
-          setFormGuestAddress2={setFormGuestAddress2}
-          formGuestCity={formGuestCity}
-          setFormGuestCity={setFormGuestCity}
-          formGuestCounty={formGuestCounty}
-          setFormGuestCounty={setFormGuestCounty}
-          formGuestPostcode={formGuestPostcode}
-          setFormGuestPostcode={setFormGuestPostcode}
-          formGuestCountry={formGuestCountry}
-          setFormGuestCountry={setFormGuestCountry}
-          callbackFromSearchField={setFormGuestSearchFieldContent}
-          searchFieldResults={existingGuestSearchResultsData}
-        />
-      )}
-
-      {/* EQUIPMENT DETAILS */}
-
-      {activeStep === 1 && (
-        <EquipmentDetails
-          equipmentTypes={selectedSite?.equipmentTypes as EquipmentType[]}
-          formEquipmentType={formEquipmentType}
-          setFormEquipmentType={setFormEquipmentType}
-          extraTypes={extraTypesData!}
-          formExtras={formExtras}
-          setFormExtras={setFormExtras}
-        />
-      )}
-
-      {/* BOOKING DETAILS */}
-
-      {activeStep === 2 && (
-        <BookingDetails
-          formUnitId={formUnitId}
-          setFormUnitId={setFormUnitId}
-          formStartDate={formStartDate}
-          setFormStartDate={setFormStartDate}
-          formEndDate={formEndDate}
-          setFormEndDate={setFormEndDate}
-          availableUnits={availableUnitsData!}
-        />
-      )}
-
-      {/* OCCUPANT DETAILS */}
-
-      {activeStep === 3 && (
-        <OccupantDetails
-          guestTypes={selectedSite?.guestTypes as GuestType[]}
-          guests={formBookingGuests}
-          setGuests={setFormBookingGuests}
-          pets={formBookingPets}
-          setPets={setFormBookingPets}
-          vehicles={formBookingVehicles}
-          setVehicles={setFormBookingVehicles}
-        />
-      )}
-
-      {/* PAYMENT DETAILS */}
-
-      {activeStep === 4 && (
-        <PaymentDetails
-          formPaymentAmount={formPaymentAmount}
-          setFormPaymentAmount={setFormPaymentAmount}
-          formPaymentMethod={formPaymentMethod}
-          setFormPaymentMethod={setFormPaymentMethod}
-          formPaymentDate={formPaymentDate}
-          setFormPaymentDate={setFormPaymentDate}
-        />
-      )}
-
-      {/* MAKING YOUR BOOKING */}
-
-      {activeStep === 5 && (
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body1">
-            Please wait while we make your booking...
+      {width <= 600 && (
+        <Box sx={{ width: "100%", mb: 4 }}>
+          <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
+            {steps[activeStep]}
           </Typography>
         </Box>
       )}
 
-      {/* BOOKING COMPLETE */}
-      {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
+      {/* Form container wrapper gives form a max-width */}
+
+      <div id="new-booking-form-container">
+        <form id="new-booking-form" onSubmit={handleSubmit}>
+          {/* LEAD GUEST DETAILS */}
+
+          {activeStep === 0 && (
+            <LeadGuestDetails
+              formGuestType={formGuestType}
+              setFormGuestType={setFormGuestType}
+              formGuestId={formGuestId}
+              setFormGuestId={setFormGuestId}
+              formGuestFirstName={formGuestFirstName}
+              setFormGuestFirstName={setFormGuestFirstName}
+              formGuestLastName={formGuestLastName}
+              setFormGuestLastName={setFormGuestLastName}
+              formGuestEmail={formGuestEmail}
+              setFormGuestEmail={setFormGuestEmail}
+              formGuestTel={formGuestTel}
+              setFormGuestTel={setFormGuestTel}
+              formGuestAddress1={formGuestAddress1}
+              setFormGuestAddress1={setFormGuestAddress1}
+              formGuestAddress2={formGuestAddress2}
+              setFormGuestAddress2={setFormGuestAddress2}
+              formGuestCity={formGuestCity}
+              setFormGuestCity={setFormGuestCity}
+              formGuestCounty={formGuestCounty}
+              setFormGuestCounty={setFormGuestCounty}
+              formGuestPostcode={formGuestPostcode}
+              setFormGuestPostcode={setFormGuestPostcode}
+              formGuestCountry={formGuestCountry}
+              setFormGuestCountry={setFormGuestCountry}
+              callbackFromSearchField={setFormGuestSearchFieldContent}
+              searchFieldResults={existingGuestSearchResultsData}
+            />
+          )}
+
+          {/* EQUIPMENT DETAILS */}
+
+          {activeStep === 1 && (
+            <EquipmentDetails
+              equipmentTypes={selectedSite?.equipmentTypes as EquipmentType[]}
+              formEquipmentType={formEquipmentType}
+              setFormEquipmentType={setFormEquipmentType}
+              extraTypes={extraTypesData!}
+              formExtras={formExtras}
+              setFormExtras={setFormExtras}
+            />
+          )}
+
+          {/* BOOKING DETAILS */}
+
+          {activeStep === 2 && (
+            <BookingDetails
+              formUnitId={formUnitId}
+              setFormUnitId={setFormUnitId}
+              formStartDate={formStartDate}
+              setFormStartDate={setFormStartDate}
+              formEndDate={formEndDate}
+              setFormEndDate={setFormEndDate}
+              availableUnits={availableUnitsData!}
+            />
+          )}
+
+          {/* OCCUPANT DETAILS */}
+
+          {activeStep === 3 && (
+            <OccupantDetails
+              guestTypes={selectedSite?.guestTypes as GuestType[]}
+              guests={formBookingGuests}
+              setGuests={setFormBookingGuests}
+              pets={formBookingPets}
+              setPets={setFormBookingPets}
+              vehicles={formBookingVehicles}
+              setVehicles={setFormBookingVehicles}
+            />
+          )}
+
+          {/* PAYMENT DETAILS */}
+
+          {activeStep === 4 && (
+            <PaymentDetails
+              formPaymentAmount={formPaymentAmount}
+              setFormPaymentAmount={setFormPaymentAmount}
+              formPaymentMethod={formPaymentMethod}
+              setFormPaymentMethod={setFormPaymentMethod}
+              formPaymentDate={formPaymentDate}
+              setFormPaymentDate={setFormPaymentDate}
+            />
+          )}
+
+          {/* MAKING YOUR BOOKING */}
+
+          {activeStep === 5 && (
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="body1">
+                Please wait while we make your booking...
+              </Typography>
+            </Box>
+          )}
+
+          {/* BOOKING COMPLETE */}
+
+          {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
+          
+        </form>
+      </div>
 
       {/* STEP CONTROL BUTTONS */}
 
@@ -564,7 +572,7 @@ const NewBooking = () => {
           </Button>
         </Box>
       )}
-    </form>
+    </div>
   );
 };
 
