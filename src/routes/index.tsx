@@ -13,7 +13,7 @@ import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
-import { DRAWERWIDTH, PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../settings";
+import { APPLICATIONNAME, DRAWERWIDTH, PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../settings";
 import NavDrawer from "../components/NavDrawer";
 import { Avatar, Badge, InputBase, alpha } from "@mui/material";
 import SearchField from "../components/SearchField";
@@ -144,7 +144,7 @@ const Root = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Ark Booking Management
+            {APPLICATIONNAME}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
