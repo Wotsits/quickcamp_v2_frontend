@@ -14,6 +14,7 @@ import Arrivals from "./routes/arrivals";
 import IndividualBooking from "./routes/bookings/[id]";
 import { ROUTES } from "./settings";
 import NewBooking from "./routes/bookings/new";
+import IndividualArrival from "./routes/arrivals/[id]";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,16 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.ARRIVALS,
-        element: <Arrivals />,
+        children: [
+          {
+            path: ROUTES.ALL,
+            element: <Arrivals />,
+          },
+          {
+            path: ROUTES.ID,
+            element: <IndividualArrival />,
+          }
+        ]
       },
       {
         path: ROUTES.GUESTS,

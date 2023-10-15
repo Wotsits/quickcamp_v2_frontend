@@ -1,4 +1,6 @@
 import {
+  Button,
+  IconButton,
   Tab,
   Table,
   TableBody,
@@ -14,6 +16,7 @@ import AuthContext from "../../contexts/authContext";
 import { useQuery } from "react-query";
 import { Booking } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
+import { useNavigate } from "react-router-dom";
 
 const Arrivals = () => {
   // -------------
@@ -21,6 +24,12 @@ const Arrivals = () => {
   // -------------
 
   const { user, selectedSite } = useContext(AuthContext);
+
+  // -------------
+  // HOOKS
+  // -------------
+
+  const navigate = useNavigate();
 
   // -------------
   // STATE
@@ -59,8 +68,10 @@ const Arrivals = () => {
           <TableHead>
             <TableRow>
               <TableCell>Booking Name</TableCell>
-              <TableCell align="right">Arriving Today</TableCell>
-              <TableCell align="right">Arrived Today</TableCell>
+              <TableCell align="right">People Arriving Today</TableCell>
+              <TableCell align="right">Pets Arriving Today</TableCell>
+              <TableCell align="right">Vehicles Arriving Today</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -87,7 +98,20 @@ const Arrivals = () => {
                     {arrival.guests!.length}
                   </TableCell>
                   <TableCell align="right">
-                    {arrival.guests!.length}
+                    {arrival.pets!.length}
+                  </TableCell>
+                  <TableCell align="right">
+                    {arrival.vehicles!.length}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      color="success"
+                      size="small"
+                      sx={{ mr: -1 }}
+                      onClick={() => navigate(`/arrivals/${arrival.id}/`)}
+                    >
+                      CheckIn
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

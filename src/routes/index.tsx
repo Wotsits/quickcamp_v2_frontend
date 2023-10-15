@@ -64,7 +64,7 @@ const primaryNavOptions = [
   },
   {
     text: "Arrivals",
-    path: ROUTES.ARRIVALS,
+    path: ROUTES.ARRIVALS + ROUTES.ALL,
     icon: <FlightLandIcon />,
   },
   {
