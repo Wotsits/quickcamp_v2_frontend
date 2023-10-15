@@ -12,9 +12,9 @@ export const APIURL = process.env.APIURL || "http://localhost:8000";
 
 export const DRAWERWIDTH = 240;
 
-export const APPLICATIONNAME = "Ark Booking Management";
+export const APPLICATIONNAME = "QuickCamp";
 
-export const INFOWEBSITEADDRESS = "https://www.arkbookingmanagement.co.uk";
+export const INFOWEBSITEADDRESS = "https://www.quickcamp.co.uk";
 
 export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
 
@@ -37,6 +37,7 @@ export const API_ENDPOINTS = {
   BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range",
   BOOKING_BY_ID: "booking-by-id",
   BOOKING_NEW: "new-booking",
+  ARRIVALS_BY_DATE: "arrivals-by-date",
 }
 
 export const SUPPORTED_ICONS = {

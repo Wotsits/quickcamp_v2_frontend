@@ -96,7 +96,7 @@ export type Booking = {
     start: Date,
     end: Date,
     unitId: number, 
-    unit?: Unit,
+    unit: Unit,
     totalFee: number,
     leadGuestId: number,
     leadGuest: LeadGuest,

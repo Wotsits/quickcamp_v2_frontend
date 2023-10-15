@@ -245,6 +245,7 @@ const NewBooking = () => {
     onSuccess: (res) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["arrivalsByDate", formStartDate] });
       queryClient.invalidateQueries({ queryKey: ["units"] });
       setBookingId(res.data.data.id);
       setActiveStep(6);
