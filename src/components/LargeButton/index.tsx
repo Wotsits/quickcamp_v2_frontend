@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import React, { ReactNode } from "react";
-import "./style.css";
 
 type LargeButtonProps = {
     /** mandatory, button text */
