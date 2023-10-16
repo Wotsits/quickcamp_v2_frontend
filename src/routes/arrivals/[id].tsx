@@ -7,15 +7,11 @@ import { getBookingById } from "../../services/queries/getBookingById";
 import {
   Box,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Divider,
   Typography,
 } from "@mui/material";
 import LargeButton from "../../components/LargeButton";
+import "./style.css";
 
 const IndividualArrival = () => {
   // -------------
@@ -75,24 +71,22 @@ const IndividualArrival = () => {
 
   return (
     <div id="individual-arrival">
-      <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
-        Arrival {id}
-      </Typography>
-
-      {/* CHECKIN ALL */}
-
-      <Box sx={{ mb: 3 }}>
-        <LargeButton onClick={() => checkinAll()} highlighted={false}>
-          Checkin All
-        </LargeButton>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
+          Arrival {id}
+        </Typography>
+        <Button variant="contained" onClick={checkinAll} sx={{mb: 3}}>
+          Check-in All
+        </Button>
       </Box>
 
       {/* PEOPLE */}
 
-      <Typography variant="h6" gutterBottom>
-        People Arriving
-      </Typography>
-      <Box sx={{ mb: 3 }} display="flex" justifyContent="space-between">
+      <Divider variant="middle" sx={{ mb: 3 }}>
+        People
+      </Divider>
+
+      <Box className={data.guests!.length === 1 ? "button-grid one-column" : "button-grid"} sx={{ mb: 3 }}>
         {data.guests!.map((guest) => (
           <LargeButton
             onClick={() => checkinOne(guest.id, "GUEST")}
@@ -105,10 +99,11 @@ const IndividualArrival = () => {
 
       {/* PETS */}
 
-      <Typography variant="h6" gutterBottom>
-        Pets Arriving
-      </Typography>
-      <Box sx={{ mb: 3 }} display="flex" justifyContent="space-between">
+      <Divider variant="middle" sx={{ mb: 3 }}>
+        Pets
+      </Divider>
+
+      <Box className={data.pets!.length === 1 ? "button-grid one-column" : "button-grid"} sx={{ mb: 3 }}>
         {data.pets!.map((pet) => (
           <LargeButton
             onClick={() => checkinOne(pet.id, "GUEST")}
@@ -121,10 +116,11 @@ const IndividualArrival = () => {
 
       {/* VEHICLES */}
 
-      <Typography variant="h6" gutterBottom>
-        Vehicles Arriving
-      </Typography>
-      <Box sx={{ mb: 3 }} display="flex" justifyContent="space-between">
+      <Divider variant="middle" sx={{ mb: 3 }}>
+        Vehicles
+      </Divider>
+
+      <Box className={data.vehicles!.length === 1 ? "button-grid one-column" : "button-grid"} sx={{ mb: 3 }}>
         {data.vehicles!.map((vehicle) => (
           <LargeButton
             onClick={() => checkinOne(vehicle.id, "GUEST")}
