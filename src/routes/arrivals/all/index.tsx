@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Icon,
   IconButton,
   Tab,
   Table,
@@ -11,12 +13,18 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { today1200 } from "../../utils/dateTimeManipulation";
-import AuthContext from "../../contexts/authContext";
+import {
+  setDateToMidday,
+  today1200,
+} from "../../../utils/dateTimeManipulation";
+import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { Booking } from "../../types";
-import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
+import { Booking } from "../../../types";
+import { getArrivalsByDate } from "../../../services/queries/getArrivalsByDate";
 import { useNavigate } from "react-router-dom";
+import { DatePicker } from "@mui/x-date-pickers";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const Arrivals = () => {
   // -------------
@@ -63,6 +71,41 @@ const Arrivals = () => {
       <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
         Arrivals
       </Typography>
+
+      <Box
+        sx={{
+          mb: 4,
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+        id="booking-calendar-datepicker"
+        className="booking-calendar-datepicker"
+      >
+        <DatePicker
+          onChange={(value: Date | null) =>
+            setDate(setDateToMidday(value as Date))
+          }
+          value={date}
+          label={"Calendar start date"}
+        />
+        <Box sx={{ ml: 2 }}>
+          <Button variant="contained" onClick={() => setDate(today1200())}>
+            Today
+          </Button>
+          <IconButton
+            onClick={() => setDate(new Date(date!.getTime() - 86400000))}
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => setDate(new Date(date!.getTime() + 86400000))}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </Box>
+      </Box>
+
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -94,12 +137,8 @@ const Arrivals = () => {
                   <TableCell component="th" scope="row">
                     {arrival.leadGuest.firstName} {arrival.leadGuest.lastName}
                   </TableCell>
-                  <TableCell align="right">
-                    {arrival.guests!.length}
-                  </TableCell>
-                  <TableCell align="right">
-                    {arrival.pets!.length}
-                  </TableCell>
+                  <TableCell align="right">{arrival.guests!.length}</TableCell>
+                  <TableCell align="right">{arrival.pets!.length}</TableCell>
                   <TableCell align="right">
                     {arrival.vehicles!.length}
                   </TableCell>
