@@ -1,7 +1,14 @@
 import React from "react";
-import { Card, CardActions, CardContent, CardHeader, IconButton } from "@mui/material";
-import LockIcon from '@mui/icons-material/Lock';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import CloseIcon from "@mui/icons-material/Close";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { BookingSumm } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../settings";
@@ -13,12 +20,15 @@ type BookingSummaryProps = {
   positionLeft: string;
   /** mandatory, top position of booking block */
   positionTop: string;
+  /** mandatory, callback to close booking summary */
+  callbackOnClose: () => void;
 };
 
 const BookingSummary = ({
   booking,
   positionLeft,
   positionTop,
+  callbackOnClose,
 }: BookingSummaryProps) => {
   // ----------
   // HOOKS
@@ -30,7 +40,22 @@ const BookingSummary = ({
   // RENDER
   // ----------
 
-  const {id, bookingName, unit, start, end, adults, children, infants, pets, vehicles, paid, peopleCheckedIn, petsCheckedIn, vehiclesCheckedIn} = booking
+  const {
+    id,
+    bookingName,
+    unit,
+    start,
+    end,
+    adults,
+    children,
+    infants,
+    pets,
+    vehicles,
+    paid,
+    peopleCheckedIn,
+    petsCheckedIn,
+    vehiclesCheckedIn,
+  } = booking;
 
   return (
     <Card
@@ -39,11 +64,17 @@ const BookingSummary = ({
       className="booking-summary"
     >
       <CardHeader
-        action={
-          <IconButton onClick={() => navigate(ROUTES.ROOT+ROUTES.BOOKINGS+id)} aria-label="settings">
+        action={[
+          <IconButton
+            onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKINGS + id)}
+            aria-label="settings"
+          >
             <MoreVertIcon />
-          </IconButton>
-        }
+          </IconButton>,
+          <IconButton onClick={callbackOnClose} aria-label="close">
+            <CloseIcon />
+          </IconButton>,
+        ]}
         title={bookingName}
         subheader={`Ref: ${id}`}
       />

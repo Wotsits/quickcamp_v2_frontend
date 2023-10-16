@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import BookingSummary from "./BookingSummary";
 import { BookingSumm } from "../../types";
@@ -35,6 +35,10 @@ const BookingBlock = ({
   // HELPER
   // -------------
 
+  useEffect(() => {
+    console.log("bookingSummaryVisible", bookingSummaryVisible);
+  }, [bookingSummaryVisible]);
+
   function getTotalOccupants() {
     const adults = booking.adults;
     const children = booking.children;
@@ -60,25 +64,34 @@ const BookingBlock = ({
   // -------------
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        left: positionLeft,
-        top: positionTop,
-        width: width,
-        backgroundColor: getBackgroundColor(),
-      }}
-      className="cell-overlay"
-      onClick={() => setBookingSummaryVisible(true)}
-    >
-      {booking.bookingName}
-      <span className="occupant-summary">{getTotalOccupants()}</span>
+    <>
+      <div
+        style={{
+          position: "absolute",
+          left: positionLeft,
+          top: positionTop,
+          width: width,
+          backgroundColor: getBackgroundColor(),
+        }}
+        className="cell-overlay"
+        onClick={() => setBookingSummaryVisible(true)}
+      >
+        {booking.bookingName}
+        <span className="occupant-summary">{getTotalOccupants()}</span>
+      </div>
       {bookingSummaryVisible &&
         createPortal(
-          <BookingSummary booking={booking} positionLeft={positionLeft} positionTop={positionTop} />,
+          <BookingSummary
+            booking={booking}
+            positionLeft={positionLeft}
+            positionTop={positionTop}
+            callbackOnClose={() => {
+              setBookingSummaryVisible(false);
+            }}
+          />,
           document.querySelector("#resource-calendar") as HTMLElement
         )}
-    </div>
+    </>
   );
 };
 
