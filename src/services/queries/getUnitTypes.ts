@@ -3,7 +3,9 @@ import { APIURL } from "../../settings";
 import { UnitType } from "../../types";
 
 type GetUnitTypesArgs = {
+  /** mandatory, token */
   token: string;
+  /** mandatory, siteId */
   siteId: number;
 };
 

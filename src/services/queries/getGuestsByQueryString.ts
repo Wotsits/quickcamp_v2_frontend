@@ -3,8 +3,10 @@ import { APIURL } from '../../settings';
 import { LeadGuest } from '../../types';
 
 type GetGuestsByQueryString = {
+    /** mandatory, token */
+    token: string,
+    /** mandatory, query string */
     q: string,
-    token: string
 }
 
 export const getGuestsByQueryString = async ({q, token}: GetGuestsByQueryString) => {

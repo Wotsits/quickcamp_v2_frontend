@@ -3,8 +3,11 @@ import { APIURL, API_ENDPOINTS, ROUTES } from '../../settings';
 import { Booking, BookingSumm } from '../../types';
 
 type GetArrivalsByDate = {
+    /** mandatory, date */
     date: Date,
+    /** mandatory, siteId */
     siteId: number,
+    /** mandatory, token */
     token: string
 }
 

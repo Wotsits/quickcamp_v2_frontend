@@ -3,7 +3,9 @@ import { APIURL, API_ENDPOINTS, ROUTES } from "../../settings";
 import { Booking } from "../../types";
 
 type GetBookingsArgs = {
+  /** mandatory, token */
   token: string;
+  /** mandatory, siteId */
   siteId: number;
 };
 

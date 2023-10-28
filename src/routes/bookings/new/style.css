@@ -1,3 +1,7 @@
+#new-booking {
+    height: 100vh;
+}
+
 #new-booking-form-container {
     display: flex;
     justify-content: center;

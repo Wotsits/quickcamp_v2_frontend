@@ -164,6 +164,14 @@ export type UserResponse = {
   username: string;
 };
 
+export type FeeCalcResponse = {
+    data: {
+        status: "SUCCESS" | "ERROR";
+        message: string;
+        totalFee: number;
+    }
+};
+
 // ----------------- USED IN FRONTEND ONLY -----------------
 
 export type BookingSumm = {

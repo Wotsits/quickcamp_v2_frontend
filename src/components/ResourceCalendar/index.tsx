@@ -17,7 +17,7 @@ type ResourceCalendarComponentProps = {
   /** mandatory, column width */
   columnWidth: number;
   /** optional, callback triggered on cell click */
-  onCellClick?: (resourceId: string, start: Date) => void;
+  onCellClick?: (resourceId: string, reourceTypeId: string, start: Date) => void;
 };
 
 const ResourceCalendar = ({

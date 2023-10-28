@@ -3,7 +3,9 @@ import { APIURL } from "../../settings";
 import { ExtraType } from "../../types";
 
 type GetExtraTypesBySiteIdArgs = {
+  /** mandatory, token */
   token: string;
+  /** mandatory, siteId */
   siteId: number;
 };
 

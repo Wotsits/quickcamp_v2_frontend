@@ -18,6 +18,7 @@ import AuthContext from "../../../contexts/authContext";
 import {
   EquipmentType,
   ExtraType,
+  FeeCalcResponse,
   GuestType,
   LeadGuest,
   Unit,
@@ -36,6 +37,7 @@ import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
 import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
 import BookingConfirmation from "../../../components/NewBookingForm/BookingConfirmation";
+import { getFeeCalc } from "../../../services/queries/getFeeCalc";
 
 const steps = [
   "Lead Guest Details",
@@ -56,6 +58,7 @@ const NewBooking = () => {
   const searchParams = new URLSearchParams(location.search);
   const { width } = useWindowDimensions();
   const unitId = searchParams.get("unitId");
+  const unitTypeId = searchParams.get("unitTypeId");
   const start = searchParams.get("start");
   const queryClient = useQueryClient();
 
@@ -71,6 +74,8 @@ const NewBooking = () => {
 
   const [activeStep, setActiveStep] = useState<number>(0);
   const [bookingId, setBookingId] = useState<number>(-1);
+  const [bookingFee, setBookingFee] = useState<number | null>(null);
+  const [fireFeeCalc, setFireFeeCalc] = useState<boolean>(false);
 
   // Validity
   const {
@@ -126,6 +131,8 @@ const NewBooking = () => {
   const {
     formUnitId,
     setFormUnitId,
+    formUnitTypeId,
+    setFormUnitTypeId,
     formStartDate,
     setFormStartDate,
     formEndDate,
@@ -133,6 +140,7 @@ const NewBooking = () => {
     dateError,
   } = useBookingDetailsState({
     requestedUnitId: unitId ? parseInt(unitId) : null,
+    requestedUnitTypeId: unitTypeId ? parseInt(unitTypeId) : null,
     requestedStartDate: start ? new Date(start) : null,
   });
 
@@ -211,6 +219,36 @@ const NewBooking = () => {
   );
 
   // -------------
+
+  const {
+    isLoading: feeCalcIsLoading,
+    isError: feeCalcIsError,
+    data: feeCalcData,
+    error: feeCalcError,
+  } = useQuery<FeeCalcResponse, Error>(
+    ["feeCalc", selectedSite?.id],
+    () =>
+      getFeeCalc({
+        token: user.token,
+        unitTypeId: formUnitTypeId!,
+        startDate: formStartDate!,
+        endDate: formEndDate!,
+        extras: formExtras,
+        bookingGuests: formBookingGuests,
+        bookingPets: formBookingPets,
+        bookingVehicles: formBookingVehicles,
+      }),
+    {
+      enabled: fireFeeCalc,
+      onSuccess: (res) => {
+        if (res.data.status === "SUCCESS") {
+          setBookingFee(res.data.totalFee);
+        }
+      }
+    }
+  );
+
+  // -------------
   // MUTATIONS
   // -------------
 
@@ -245,7 +283,9 @@ const NewBooking = () => {
     onSuccess: (res) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["arrivalsByDate", formStartDate] });
+      queryClient.invalidateQueries({
+        queryKey: ["arrivalsByDate", formStartDate],
+      });
       queryClient.invalidateQueries({ queryKey: ["units"] });
       setBookingId(res.data.data.id);
       setActiveStep(6);
@@ -255,6 +295,11 @@ const NewBooking = () => {
   // -------------
   // USEEFFECTS
   // -------------
+
+  // DEBUG
+  useEffect(() => {
+    console.log("step: ", activeStep);
+  }, [activeStep]);
 
   // debounce the search field
   useEffect(() => {
@@ -397,6 +442,20 @@ const NewBooking = () => {
     }
   }
 
+  function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (activeStep === 3) {
+      setFireFeeCalc(true);
+      setActiveStep(activeStep + 1);
+      return;
+    }
+    if (activeStep === 4) {
+      handleSubmit(e);
+      return;
+    }
+    setActiveStep(activeStep + 1);
+  }
+
   // -------------
   // RENDER
   // -------------
@@ -520,8 +579,22 @@ const NewBooking = () => {
 
           {/* PAYMENT DETAILS */}
 
-          {activeStep === 4 && (
+          {activeStep === 4 && bookingFee === null && (
+            <Box
+              sx={{ mb: 3 }}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography variant="body1">
+                Please wait while we calculate the booking fee...
+              </Typography>
+            </Box>
+          )}
+
+          {activeStep === 4 && bookingFee !== null && (
             <PaymentDetails
+              bookingFee={bookingFee}
               formPaymentAmount={formPaymentAmount}
               setFormPaymentAmount={setFormPaymentAmount}
               formPaymentMethod={formPaymentMethod}
@@ -544,7 +617,6 @@ const NewBooking = () => {
           {/* BOOKING COMPLETE */}
 
           {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
-
         </form>
       </div>
 
@@ -564,11 +636,7 @@ const NewBooking = () => {
           </Button>
           <Button
             variant="contained"
-            onClick={
-              activeStep <= 3
-                ? () => setActiveStep(activeStep + 1)
-                : (e) => handleSubmit(e)
-            }
+            onClick={(e) => handleNextButtonClick(e)}
             disabled={isNextButtonDisabled()}
           >
             {activeStep <= 3 ? "Next" : "Complete Booking"}

@@ -1,9 +1,10 @@
 export type Resource = {
-  id: any;
+  id: number;
   name: string;
 };
 
 export type ResourceGroup = {
-  class: string;
+  id: number;
+  resourceTypeName: string;
   resources: Resource[];
 };

@@ -5,6 +5,7 @@ import LargeButton from "../../LargeButton";
 import "./style.css";
 
 type PaymentDetailsProps = {
+  bookingFee: number;
   formPaymentAmount: number | null;
   setFormPaymentAmount: React.Dispatch<React.SetStateAction<number | null>>;
   formPaymentMethod: string;
@@ -13,25 +14,62 @@ type PaymentDetailsProps = {
   setFormPaymentDate: React.Dispatch<React.SetStateAction<Date | null>>;
 };
 
+const paymentMethods = ["cash", "card", "bank transfer"];
 
-const paymentMethods = [
-  "cash",
-  "card",
-  "bank transfer",
-]
-
-const PaymentDetails = ({formPaymentAmount, setFormPaymentAmount, formPaymentMethod, setFormPaymentMethod, formPaymentDate, setFormPaymentDate}: PaymentDetailsProps) => {
+const PaymentDetails = ({
+  bookingFee,
+  formPaymentAmount,
+  setFormPaymentAmount,
+  formPaymentMethod,
+  setFormPaymentMethod,
+  formPaymentDate,
+  setFormPaymentDate,
+}: PaymentDetailsProps) => {
+  const [fullPayment, setFullPayment] = React.useState<boolean>(true);
 
   return (
-    <Box id="payment-details" sx={{mb: 3}}>
+    <Box id="payment-details" sx={{ mb: 3 }}>
       <TextField
         fullWidth
-        label="Amount Paid"
+        label="Booking Fee"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">£</InputAdornment>,
+        }}
         sx={{ mb: 2 }}
         type="number"
-        value={formPaymentAmount}
-        onChange={(e) => setFormPaymentAmount(parseFloat(e.target.value))}
+        value={bookingFee}
+        disabled
       />
+      <Box id="full-part-payment-button-container">
+        <LargeButton
+          onClick={() => {
+            setFormPaymentAmount(bookingFee);
+            setFullPayment(true);
+          }}
+          highlighted={fullPayment}
+        >
+          <Typography variant="body1">Full Payment</Typography>
+        </LargeButton>
+        <LargeButton
+          onClick={() => setFullPayment(false)}
+          highlighted={!fullPayment}
+        >
+          <Typography variant="body1">Part Payment</Typography>
+        </LargeButton>
+      </Box>
+      {!fullPayment && (
+        <TextField
+          fullWidth
+          label="Amount Paid"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">£</InputAdornment>,
+          }}
+          sx={{ mb: 2 }}
+          type="number"
+          value={formPaymentAmount}
+          onChange={(e) => setFormPaymentAmount(parseFloat(e.target.value))}
+        />
+      )}
       <div id="payment-method-button-container">
         {paymentMethods.map((paymentMethodType) => {
           return (
@@ -47,7 +85,7 @@ const PaymentDetails = ({formPaymentAmount, setFormPaymentAmount, formPaymentMet
       </div>
       <DatePicker
         label="Payment Date"
-        sx={{ mb: 2, width: "100%"}}
+        sx={{ mb: 2, width: "100%" }}
         value={formPaymentDate}
         onChange={(date) => setFormPaymentDate(date)}
       />

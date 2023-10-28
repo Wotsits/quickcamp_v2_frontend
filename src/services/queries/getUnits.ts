@@ -3,6 +3,7 @@ import { APIURL } from "../../settings";
 import { Unit } from "../../types";
 
 type GetUnitsArgs = {
+  /** mandatory, token */
   token: string;
 };
 

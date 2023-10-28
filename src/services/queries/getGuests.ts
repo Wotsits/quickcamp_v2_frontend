@@ -3,6 +3,7 @@ import { APIURL } from "../../settings";
 import { LeadGuest } from "../../types";
 
 type GetLeadGuestsArgs = {
+  /** mandatory, token */
   token: string;
 };
 

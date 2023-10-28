@@ -3,10 +3,15 @@ import { APIURL } from "../../settings";
 import { Unit } from "../../types";
 
 type GetAvailableUnits = {
+  /** mandatory, token */
   token: string;
+  /** mandatory, startDate */
   startDate: Date;
+  /** mandatory, endDate */
   endDate: Date;
+  /** mandatory, siteId */
   siteId: number;
+  /** mandatory, equipmentTypeId */
   equipmentTypeId: number;
 };
 

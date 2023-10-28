@@ -57,8 +57,8 @@ const BookingCalendar = () => {
   // EVENT HANDLERS
   // -------------
 
-  function handleCallbackOnCellClick(resourceId: string, start: Date) {
-    navigate(ROUTES.ROOT+ROUTES.BOOKINGS+ROUTES.NEW+'?unitId='+resourceId+'&start='+start.toISOString());
+  function handleCallbackOnCellClick(resourceId: string, resourceTypeId: string, start: Date) {
+    navigate(ROUTES.ROOT+ROUTES.BOOKINGS+ROUTES.NEW+'?unitId='+resourceId+'&unitTypeId='+resourceTypeId+'&start='+start.toISOString());
   }
 
   // -------------
@@ -112,7 +112,8 @@ const BookingCalendar = () => {
       unitType: unitType.name,
     }));
     return {
-      class: unitType.name,
+      id: unitType.id,
+      resourceTypeName: unitType.name,
       resources: units,
     };
     }, [])

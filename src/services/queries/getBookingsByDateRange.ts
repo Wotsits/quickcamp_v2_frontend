@@ -3,9 +3,13 @@ import { APIURL, API_ENDPOINTS, ROUTES } from '../../settings';
 import { Booking, BookingSumm } from '../../types';
 
 type GetBookingSummaries = {
+    /** mandatory, start date */
     start: Date,
+    /** mandatory, end date */
     end: Date,
+    /** mandatory, siteId */
     siteId: number,
+    /** mandatory, token */
     token: string
 }
 

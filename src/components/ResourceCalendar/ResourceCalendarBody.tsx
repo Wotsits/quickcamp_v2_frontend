@@ -10,7 +10,7 @@ type ResourceCalendarBodyComponentProps = {
     /** mandatory, date array */
     dateArray: Date[]
     /** optional, callback triggered on cell click */
-    onCellClick?: (resourceId: string, start: Date) => void
+    onCellClick?: (resourceId: string, resourceTypeId: string, start: Date) => void
 }
 
 const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalendarBodyComponentProps) => {
@@ -20,9 +20,9 @@ const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalen
           className="resource-calendar-table-body"
         >
           {resources.map((resourceGroup) => (
-            <Fragment key={resourceGroup.class}>
+            <Fragment key={resourceGroup.resourceTypeName}>
               <tr className="resource-class-section-header">
-                <Typography variant="subtitle2" component="td" colSpan={10000}>{resourceGroup.class}</Typography>
+                <Typography variant="subtitle2" component="td" colSpan={10000}>{resourceGroup.resourceTypeName}</Typography>
               </tr>
               {resourceGroup.resources.map((resource) => (
                 <tr key={resource.id.toString()}>
@@ -42,7 +42,7 @@ const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalen
                         data-start={start}
                         onClick={() => { 
                           if(onCellClick) {
-                            onCellClick(resource.id, start)
+                            onCellClick(resource.id.toString(), resourceGroup.id.toString(), start)
                           }
                         }}
                       />
