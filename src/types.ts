@@ -172,8 +172,6 @@ export type FeeCalcResponse = {
     }
 };
 
-// ----------------- USED IN FRONTEND ONLY -----------------
-
 export type BookingSumm = {
   id: any;
   bookingName: string;
@@ -190,6 +188,8 @@ export type BookingSumm = {
   petsCheckedIn: number;
   vehiclesCheckedIn: number;
 };
+
+// -----------------
 
 export type BookingProcessGuest = {
     id: number;

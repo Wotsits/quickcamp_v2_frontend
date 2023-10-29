@@ -15,7 +15,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
-import { DRAWERWIDTH, PRIMARYCOLOR } from "../../settings";
+import { DRAWERWIDTH, PRIMARYCOLOR } from "../../../settings";
 
 // -------------
 // MIXINS
