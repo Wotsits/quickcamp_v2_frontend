@@ -1,10 +1,17 @@
 #new-booking {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
 }
 
-#new-booking-form-container {
+#new-booking-content-container {
     display: flex;
     justify-content: center;
+    min-height: 1px;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-top: 10px;
+    margin-bottom: 20px;
 }
 
 #new-booking-form {

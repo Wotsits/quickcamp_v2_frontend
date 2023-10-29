@@ -244,7 +244,7 @@ const NewBooking = () => {
         if (res.data.status === "SUCCESS") {
           setBookingFee(res.data.totalFee);
         }
-      }
+      },
     }
   );
 
@@ -470,38 +470,42 @@ const NewBooking = () => {
 
   return (
     <div id="new-booking">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Create New Booking
-      </Typography>
+      <div id="new-booking-title-container">
+        <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
+          Create New Booking
+        </Typography>
+      </div>
 
-      {/* STEPPER on wider screens */}
+      <div id="new-booking-stepper-container">
+        {/* STEPPER on wider screens */}
+        {width > 600 && (
+          <Box sx={{ width: "100%", mb: 4 }}>
+            <Stepper activeStep={activeStep} alternativeLabel>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
+        )}
 
-      {width > 600 && (
-        <Box sx={{ width: "100%", mb: 4 }}>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Box>
-      )}
+        {/* TITLE on mobile screens */}
 
-      {/* TITLE on mobile screens */}
-
-      {width <= 600 && (
-        <Box sx={{ width: "100%", mb: 4 }}>
-          <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
-            {steps[activeStep]}
-          </Typography>
-        </Box>
-      )}
+        {width <= 600 && (
+          <Box sx={{ width: "100%", mb: 4 }}>
+            <Typography sx={{ mb: 3 }} variant="h6" gutterBottom>
+              {steps[activeStep]}
+            </Typography>
+          </Box>
+        )}
+      </div>
 
       {/* Form container wrapper gives form a max-width */}
 
-      <div id="new-booking-form-container">
-        <form id="new-booking-form" onSubmit={handleSubmit}>
+      <div id="new-booking-content-container">
+
+        <form id="new-booking-form">
           {/* LEAD GUEST DETAILS */}
 
           {activeStep === 0 && (
@@ -618,31 +622,39 @@ const NewBooking = () => {
 
           {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
         </form>
+      
       </div>
 
       {/* STEP CONTROL BUTTONS */}
 
-      {activeStep < 5 && (
-        <Box width="100%" display="flex" justifyContent="space-between">
-          <Button
-            variant="outlined"
-            onClick={() => {
-              if (activeStep > 0) {
-                setActiveStep(activeStep - 1);
-              }
-            }}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            onClick={(e) => handleNextButtonClick(e)}
-            disabled={isNextButtonDisabled()}
-          >
-            {activeStep <= 3 ? "Next" : "Complete Booking"}
-          </Button>
-        </Box>
-      )}
+      <div id="new-booking-controls-container">
+
+        {activeStep < 5 && (
+          <Box width="100%" display="flex" justifyContent="space-between">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                if (activeStep > 0) {
+                  setActiveStep(activeStep - 1);
+                }
+              }}
+            >
+              Back
+            </Button>
+
+            <Button
+              variant="contained"
+              onClick={(e) => handleNextButtonClick(e)}
+              disabled={isNextButtonDisabled()}
+            >
+              {activeStep <= 3 ? "Next" : "Complete Booking"}
+            </Button>
+
+          </Box>
+        )}
+
+      </div>
+
     </div>
   );
 };
