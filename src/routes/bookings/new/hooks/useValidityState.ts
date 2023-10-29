@@ -6,7 +6,7 @@ export const useValidityState = () => {
     const [isSectionThreeValid, setIsSectionThreeValid] =
       useState<boolean>(false);
     const [isSectionFourValid, setIsSectionFourValid] = useState<boolean>(false);
-    const [isSectionFiveValid, setIsSectionFiveValid] = useState<boolean>(true); // for now, lets allow a booking to be made without a payment
+    const [isSectionFiveValid, setIsSectionFiveValid] = useState<boolean>(false); // for now, lets allow a booking to be made without a payment
 
     return {
         isSectionOneValid,

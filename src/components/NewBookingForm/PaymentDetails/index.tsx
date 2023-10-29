@@ -8,8 +8,8 @@ type PaymentDetailsProps = {
   bookingFee: number;
   formPaymentAmount: number | null;
   setFormPaymentAmount: React.Dispatch<React.SetStateAction<number | null>>;
-  formPaymentMethod: string;
-  setFormPaymentMethod: React.Dispatch<React.SetStateAction<string>>;
+  formPaymentMethod: string | null;
+  setFormPaymentMethod: React.Dispatch<React.SetStateAction<string | null>>;
   formPaymentDate: Date | null;
   setFormPaymentDate: React.Dispatch<React.SetStateAction<Date | null>>;
 };

@@ -244,7 +244,9 @@ const NewBooking = () => {
       enabled: fireFeeCalc,
       onSuccess: (res) => {
         if (res.data.status === "SUCCESS") {
-          setBookingFee(res.data.totalFee);
+          const fee = res.data.totalFee;
+          setBookingFee(fee);
+          setFormPaymentAmount(fee);
         }
       },
     }
@@ -358,6 +360,8 @@ const NewBooking = () => {
     setIsSectionTwoValid(formEquipmentType !== -1);
   }, [formEquipmentType]);
 
+  // -------------
+
   useEffect(() => {
     // check that the required fields are completed.
     if (formUnitId === null || formStartDate === null || formEndDate === null) {
@@ -395,6 +399,17 @@ const NewBooking = () => {
         everyVehicleHasVehicleReg
     );
   }, [formBookingGuests, formBookingPets, formBookingVehicles]);
+
+  // -------------
+
+  useEffect(() => {
+    if (formPaymentAmount === null || formPaymentMethod === null || formPaymentDate === null) {
+      setIsSectionFiveValid(false);
+    }
+    else {
+      setIsSectionFiveValid(true);
+    }
+  }, [formPaymentAmount, formPaymentMethod, formPaymentDate]);
 
   // -------------
   // EVENT HANDLERS

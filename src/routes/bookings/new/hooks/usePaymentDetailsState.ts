@@ -4,7 +4,7 @@ export const usePaymentDetailsState = () => {
   const [formPaymentAmount, setFormPaymentAmount] = useState<number | null>(
     null
   );
-  const [formPaymentMethod, setFormPaymentMethod] = useState<string>("");
+  const [formPaymentMethod, setFormPaymentMethod] = useState<string | null>(null);
   const [formPaymentDate, setFormPaymentDate] = useState<Date | null>(
     new Date()
   );
