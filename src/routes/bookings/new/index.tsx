@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Step,
@@ -76,6 +77,7 @@ const NewBooking = () => {
   const [bookingId, setBookingId] = useState<number>(-1);
   const [bookingFee, setBookingFee] = useState<number | null>(null);
   const [fireFeeCalc, setFireFeeCalc] = useState<boolean>(false);
+  const [createBookingError, setCreateBookingError] = useState<string>("");
 
   // Validity
   const {
@@ -290,16 +292,14 @@ const NewBooking = () => {
       setBookingId(res.data.data.id);
       setActiveStep(6);
     },
+    onError: (err: any) => {
+      setCreateBookingError(err.response.data.message || err.message || "An error occurred");
+    }
   });
 
   // -------------
   // USEEFFECTS
   // -------------
-
-  // DEBUG
-  useEffect(() => {
-    console.log("step: ", activeStep);
-  }, [activeStep]);
 
   // debounce the search field
   useEffect(() => {
@@ -623,6 +623,14 @@ const NewBooking = () => {
           {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
         </form>
       
+      </div>
+
+      <div id="new-booking-error-container">
+        {createBookingError && (
+          <Alert severity="error">
+            {createBookingError}
+          </Alert>
+        )}
       </div>
 
       {/* STEP CONTROL BUTTONS */}
