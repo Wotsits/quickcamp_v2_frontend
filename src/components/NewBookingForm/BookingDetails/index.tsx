@@ -119,15 +119,15 @@ const BookingDetails = ({
         guestsCopy[index].name = value;
         break;
       case "type":
-        if (typeof value !== "string") return;
-        guestsCopy[index].guestTypeId = parseInt(value);
+        if (typeof value !== "string" && typeof value !== "number" ) return;
+        guestsCopy[index].guestTypeId = typeof value === "number" ? value : parseInt(value);
         break;
       case "start":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         guestsCopy[index].start = value as Date;
         break;
       case "end":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         guestsCopy[index].end = value as Date;
         break;
     }
@@ -141,11 +141,11 @@ const BookingDetails = ({
         petsCopy[index].name = value;
         break;
       case "start":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         petsCopy[index].start = value as Date;
         break;
       case "end":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         petsCopy[index].end = value as Date;
         break;
     }
@@ -159,11 +159,11 @@ const BookingDetails = ({
         vehiclesCopy[index].vehicleReg = value;
         break;
       case "start":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         vehiclesCopy[index].start = value as Date;
         break;
       case "end":
-        if (typeof value !== "object" || typeof value !== null) return;
+        if (typeof value !== "object" && value !== null) return;
         vehiclesCopy[index].end = value as Date;
         break;
     }
