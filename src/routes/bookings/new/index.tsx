@@ -593,6 +593,8 @@ const NewBooking = () => {
               setPets={setFormBookingPets}
               vehicles={formBookingVehicles}
               setVehicles={setFormBookingVehicles}
+              formStartDate={formStartDate}
+              formEndDate={formEndDate}
             />
           )}
 

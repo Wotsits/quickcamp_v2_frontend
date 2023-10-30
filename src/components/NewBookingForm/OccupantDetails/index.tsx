@@ -20,6 +20,8 @@ type OccupantDetailsProps = {
   setGuests: React.Dispatch<React.SetStateAction<BookingProcessGuest[]>>;
   setPets: React.Dispatch<React.SetStateAction<BookingProcessPet[]>>;
   setVehicles: React.Dispatch<React.SetStateAction<BookingProcessVehicle[]>>;
+  formStartDate: Date | null;
+  formEndDate: Date | null;
 };
 
 const OccupantDetails = ({
@@ -30,12 +32,16 @@ const OccupantDetails = ({
   setGuests,
   setPets,
   setVehicles,
+  formStartDate,
+  formEndDate,
 }: OccupantDetailsProps) => {
   const handleAddGuest = () => {
     const newBlankGuest: BookingProcessGuest = {
       id: -1,
       name: "Unnamed Guest",
       guestTypeId: -1,
+      start: formStartDate as Date,
+      end: formEndDate as Date,
     };
     setGuests([...guests, newBlankGuest]);
   };
@@ -44,6 +50,8 @@ const OccupantDetails = ({
     const newBlankPet: BookingProcessPet = {
       id: -1,
       name: "Unnamed Pet",
+      start: formStartDate as Date,
+      end: formEndDate as Date,
     };
     setPets([...pets, newBlankPet]);
   };
@@ -52,6 +60,8 @@ const OccupantDetails = ({
     const newBlankVehicle: BookingProcessVehicle = {
       id: -1,
       vehicleReg: "Vehicle Reg Unknown",
+      start: formStartDate as Date,
+      end: formEndDate as Date,
     };
     setVehicles([...vehicles, newBlankVehicle]);
   };
@@ -74,14 +84,24 @@ const OccupantDetails = ({
     setVehicles(vehiclesCopy);
   };
 
-  const handleGuestEdit = (index: number, value: string, field: string) => {
+  const handleGuestEdit = (index: number, value: string | Date | number | null, field: string) => {
     const guestsCopy = [...guests];
     switch (field) {
       case "name":
+        if (typeof value !== "string") return;
         guestsCopy[index].name = value;
         break;
       case "type":
+        if (typeof value !== "string") return;
         guestsCopy[index].guestTypeId = parseInt(value);
+        break;
+      case "start":
+        if (typeof value !== "object" || typeof value !== null) return;
+        guestsCopy[index].start = value as Date;
+        break;
+      case "end":
+        if (typeof value !== "object" || typeof value !== null) return;
+        guestsCopy[index].end = value as Date;
         break;
     }
     setGuests(guestsCopy);
@@ -93,6 +113,14 @@ const OccupantDetails = ({
       case "name":
         petsCopy[index].name = value;
         break;
+      case "start":
+        if (typeof value !== "object" || typeof value !== null) return;
+        petsCopy[index].start = value as Date;
+        break;
+      case "end":
+        if (typeof value !== "object" || typeof value !== null) return;
+        petsCopy[index].end = value as Date;
+        break;
     }
     setPets(petsCopy);
   };
@@ -102,6 +130,14 @@ const OccupantDetails = ({
     switch (field) {
       case "vehicleReg":
         vehiclesCopy[index].vehicleReg = value;
+        break;
+      case "start":
+        if (typeof value !== "object" || typeof value !== null) return;
+        vehiclesCopy[index].start = value as Date;
+        break;
+      case "end":
+        if (typeof value !== "object" || typeof value !== null) return;
+        vehiclesCopy[index].end = value as Date;
         break;
     }
     setVehicles(vehiclesCopy);
@@ -114,7 +150,7 @@ const OccupantDetails = ({
           guests={guests}
           guestTypes={guestTypes}
           callbackOnGuestEdit={handleGuestEdit}
-          callbackOnGuestDelete={handleGuestDelete}
+          callbackOnGuestDelete={handleGuestDelete}          
         />
       </OccupantTableWrapper>
       <OccupantTableWrapper type="Pets" chipContent={pets.length.toString()} callbackOnAddClick={handleAddPet}>

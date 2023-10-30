@@ -195,14 +195,20 @@ export type BookingProcessGuest = {
     id: number;
     name: string;
     guestTypeId: number;
+    start: Date;
+    end: Date;
 }
 
 export type BookingProcessVehicle = {
     id: number;
     vehicleReg: string;
+    start: Date;
+    end: Date;
 }
 
 export type BookingProcessPet = {
     id: number;
     name: string;
+    start: Date;
+    end: Date;
 }
