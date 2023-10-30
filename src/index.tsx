@@ -17,6 +17,7 @@ import { AuthContextProvider } from "./contexts/authContext";
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { enGB } from 'date-fns/locale';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -27,7 +28,7 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
           <AuthContextProvider>
             <CssBaseline />
             <RouterProvider router={router} />
