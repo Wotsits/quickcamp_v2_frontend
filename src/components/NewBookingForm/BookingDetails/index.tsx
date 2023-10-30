@@ -217,7 +217,7 @@ const BookingDetails = ({
             })}
         </TextField>
       </Box>
-      <Divider sx={{ mb: 3 }} />
+      <Divider sx={{ mb: 4 }} />
       <Box id="occupant-details">
         <OccupantTableWrapper
           type="Guests"

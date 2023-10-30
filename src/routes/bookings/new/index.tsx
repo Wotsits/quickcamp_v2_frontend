@@ -75,6 +75,7 @@ const NewBooking = () => {
   const [bookingFee, setBookingFee] = useState<number | null>(null);
   const [fireFeeCalc, setFireFeeCalc] = useState<boolean>(false);
   const [createBookingError, setCreateBookingError] = useState<string>("");
+  const contentRef = React.useRef<HTMLDivElement>(null);
 
   // Validity
   const {
@@ -295,6 +296,11 @@ const NewBooking = () => {
   // -------------
   // USEEFFECTS
   // -------------
+
+  // each time the step changes, reset the scroll on the content container. 
+  useEffect(() => {
+    contentRef.current?.scrollTo(0, 0);
+  }, [activeStep])
 
   // debounce the search field
   useEffect(() => {
@@ -543,7 +549,7 @@ const NewBooking = () => {
 
       {/* Form container wrapper gives form a max-width */}
 
-      <div id="new-booking-content-container">
+      <div id="new-booking-content-container" ref={contentRef}>
         <form id="new-booking-form">
           {/* LEAD GUEST DETAILS */}
 
