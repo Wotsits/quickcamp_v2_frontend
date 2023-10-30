@@ -13,7 +13,6 @@ import "./style.css";
 import LeadGuestDetails from "../../../components/NewBookingForm/LeadGuestDetails";
 import EquipmentDetails from "../../../components/NewBookingForm/EquipmentDetails";
 import BookingDetails from "../../../components/NewBookingForm/BookingDetails";
-import OccupantDetails from "../../../components/NewBookingForm/OccupantDetails";
 import PaymentDetails from "../../../components/NewBookingForm/PaymentDetails";
 import AuthContext from "../../../contexts/authContext";
 import {
@@ -33,7 +32,6 @@ import { useLeadGuestDetailState } from "./hooks/useLeadGuestDetailState";
 import { useValidityState } from "./hooks/useValidityState";
 import { useEquipmentDetailsState } from "./hooks/useEquipmentDetailsState";
 import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
-import { useOccupantDetailsState } from "./hooks/useOccupantDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
 import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
@@ -44,7 +42,6 @@ const steps = [
   "Lead Guest Details",
   "Equipment Details",
   "Booking Details",
-  "Occupant Details",
   "Payment Details",
   "Making Your Booking",
   "Booking Complete",
@@ -89,8 +86,6 @@ const NewBooking = () => {
     setIsSectionThreeValid,
     isSectionFourValid,
     setIsSectionFourValid,
-    isSectionFiveValid,
-    setIsSectionFiveValid,
   } = useValidityState();
 
   // LeadGuest Details
@@ -140,21 +135,17 @@ const NewBooking = () => {
     formEndDate,
     setFormEndDate,
     dateError,
-  } = useBookingDetailsState({
-    requestedUnitId: unitId ? parseInt(unitId) : null,
-    requestedUnitTypeId: unitTypeId ? parseInt(unitTypeId) : null,
-    requestedStartDate: start ? new Date(start) : null,
-  });
-
-  // Occupant Details
-  const {
     formBookingGuests,
     setFormBookingGuests,
     formBookingPets,
     setFormBookingPets,
     formBookingVehicles,
     setFormBookingVehicles,
-  } = useOccupantDetailsState();
+  } = useBookingDetailsState({
+    requestedUnitId: unitId ? parseInt(unitId) : null,
+    requestedUnitTypeId: unitTypeId ? parseInt(unitTypeId) : null,
+    requestedStartDate: start ? new Date(start) : null,
+  });
 
   // Payment Details
   const {
@@ -295,8 +286,10 @@ const NewBooking = () => {
       setActiveStep(6);
     },
     onError: (err: any) => {
-      setCreateBookingError(err.response.data.message || err.message || "An error occurred");
-    }
+      setCreateBookingError(
+        err.response.data.message || err.message || "An error occurred"
+      );
+    },
   });
 
   // -------------
@@ -372,42 +365,77 @@ const NewBooking = () => {
     // check that the start date is before the end date
     const startBeforeEnd = formStartDate < formEndDate;
 
-    setIsSectionThreeValid(startBeforeEnd);
-  }, [formUnitId, formStartDate, formEndDate]);
-
-  // -------------
-
-  useEffect(() => {
+    // check guest details are valid
     const hasAtleastOneGuest = formBookingGuests.length > 0;
+    if (!hasAtleastOneGuest) return setIsSectionThreeValid(false);
     const everyGuestHasName = formBookingGuests.every((guest) => {
       return guest.name !== "";
     });
+    if (!everyGuestHasName) return setIsSectionThreeValid(false);
     const everyGuestHasType = formBookingGuests.every((guest) => {
       return guest.guestTypeId !== -1;
     });
+    if (!everyGuestHasType) return setIsSectionThreeValid(false);
     const everyPetHasName = formBookingPets.every((pet) => {
       return pet.name !== "";
     });
+    if (!everyPetHasName) return setIsSectionThreeValid(false);
     const everyVehicleHasVehicleReg = formBookingVehicles.every((vehicle) => {
       return vehicle.vehicleReg !== "";
     });
-    setIsSectionFourValid(
-      hasAtleastOneGuest &&
-        everyGuestHasName &&
-        everyGuestHasType &&
-        everyPetHasName &&
-        everyVehicleHasVehicleReg
-    );
-  }, [formBookingGuests, formBookingPets, formBookingVehicles]);
+    if (!everyVehicleHasVehicleReg) return setIsSectionThreeValid(false);
+    const everyGuestHasStartAndEndDates = formBookingGuests.every((guest) => {
+      return guest.start !== null && guest.end !== null;
+    });
+    if (!everyGuestHasStartAndEndDates) return setIsSectionThreeValid(false);
+    const everyPetHasStartAndEndDates = formBookingPets.every((pet) => {
+      return pet.start !== null && pet.end !== null;
+    });
+    if (!everyPetHasStartAndEndDates) return setIsSectionThreeValid(false);
+    const everyVehicleHasStartAndEndDates = formBookingVehicles.every((vehicle) => {
+      return vehicle.start !== null && vehicle.end !== null;
+    });
+    if (!everyVehicleHasStartAndEndDates) return setIsSectionThreeValid(false);
+    const everyGuestStartBeforeEnd = formBookingGuests.every((guest) => {
+      return guest.start! < guest.end!;
+    });
+    if (!everyGuestStartBeforeEnd) return setIsSectionThreeValid(false);
+    const everyPetStartBeforeEnd = formBookingPets.every((pet) => {
+      return pet.start! < pet.end!;
+    });
+    if (!everyPetStartBeforeEnd) return setIsSectionThreeValid(false);
+    const everyVehicleStartBeforeEnd = formBookingVehicles.every((vehicle) => {
+      return vehicle.start! < vehicle.end!;
+    });
+    if (!everyVehicleStartBeforeEnd) return setIsSectionThreeValid(false);
+  }, [
+    formUnitId,
+    formStartDate,
+    formEndDate,
+    formBookingGuests,
+    formBookingPets,
+    formBookingVehicles,
+  ]);
+
+  // -------------
+
+  useEffect(() => {}, [
+    formBookingGuests,
+    formBookingPets,
+    formBookingVehicles,
+  ]);
 
   // -------------
 
   useEffect(() => {
-    if (formPaymentAmount === null || formPaymentMethod === null || formPaymentDate === null) {
-      setIsSectionFiveValid(false);
-    }
-    else {
-      setIsSectionFiveValid(true);
+    if (
+      formPaymentAmount === null ||
+      formPaymentMethod === null ||
+      formPaymentDate === null
+    ) {
+      setIsSectionFourValid(false);
+    } else {
+      setIsSectionFourValid(true);
     }
   }, [formPaymentAmount, formPaymentMethod, formPaymentDate]);
 
@@ -426,8 +454,7 @@ const NewBooking = () => {
       !isSectionOneValid ||
       !isSectionTwoValid ||
       !isSectionThreeValid ||
-      !isSectionFourValid ||
-      !isSectionFiveValid
+      !isSectionFourValid 
     ) {
       // raise a toast to the user
       return;
@@ -450,8 +477,6 @@ const NewBooking = () => {
         return !isSectionThreeValid;
       case 3:
         return !isSectionFourValid;
-      case 4:
-        return !isSectionFiveValid;
       default:
         return true;
     }
@@ -459,12 +484,12 @@ const NewBooking = () => {
 
   function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (activeStep === 3) {
+    if (activeStep === 2) {
       setFireFeeCalc(true);
       setActiveStep(activeStep + 1);
       return;
     }
-    if (activeStep === 4) {
+    if (activeStep === 3) {
       handleSubmit(e);
       return;
     }
@@ -519,7 +544,6 @@ const NewBooking = () => {
       {/* Form container wrapper gives form a max-width */}
 
       <div id="new-booking-content-container">
-
         <form id="new-booking-form">
           {/* LEAD GUEST DETAILS */}
 
@@ -579,13 +603,6 @@ const NewBooking = () => {
               setFormEndDate={setFormEndDate}
               availableUnits={availableUnitsData!}
               dateError={dateError}
-            />
-          )}
-
-          {/* OCCUPANT DETAILS */}
-
-          {activeStep === 3 && (
-            <OccupantDetails
               guestTypes={selectedSite?.guestTypes as GuestType[]}
               guests={formBookingGuests}
               setGuests={setFormBookingGuests}
@@ -593,14 +610,12 @@ const NewBooking = () => {
               setPets={setFormBookingPets}
               vehicles={formBookingVehicles}
               setVehicles={setFormBookingVehicles}
-              formStartDate={formStartDate}
-              formEndDate={formEndDate}
             />
           )}
 
           {/* PAYMENT DETAILS */}
 
-          {activeStep === 4 && bookingFee === null && (
+          {activeStep === 3 && bookingFee === null && (
             <Box
               sx={{ mb: 3 }}
               display="flex"
@@ -639,21 +654,17 @@ const NewBooking = () => {
 
           {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
         </form>
-      
       </div>
 
       <div id="new-booking-error-container">
         {createBookingError && (
-          <Alert severity="error">
-            {createBookingError}
-          </Alert>
+          <Alert severity="error">{createBookingError}</Alert>
         )}
       </div>
 
       {/* STEP CONTROL BUTTONS */}
 
       <div id="new-booking-controls-container">
-
         {activeStep < 5 && (
           <Box width="100%" display="flex" justifyContent="space-between">
             <Button
@@ -674,12 +685,9 @@ const NewBooking = () => {
             >
               {activeStep <= 3 ? "Next" : "Complete Booking"}
             </Button>
-
           </Box>
         )}
-
       </div>
-
     </div>
   );
 };
