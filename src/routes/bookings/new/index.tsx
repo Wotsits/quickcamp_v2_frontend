@@ -284,7 +284,7 @@ const NewBooking = () => {
       });
       queryClient.invalidateQueries({ queryKey: ["units"] });
       setBookingId(res.data.data.id);
-      setActiveStep(6);
+      setActiveStep(5);
     },
     onError: (err: any) => {
       setCreateBookingError(
@@ -636,7 +636,7 @@ const NewBooking = () => {
             </Box>
           )}
 
-          {activeStep === 4 && bookingFee !== null && (
+          {activeStep === 3 && bookingFee !== null && (
             <PaymentDetails
               bookingFee={bookingFee}
               formPaymentAmount={formPaymentAmount}
@@ -650,7 +650,7 @@ const NewBooking = () => {
 
           {/* MAKING YOUR BOOKING */}
 
-          {activeStep === 5 && (
+          {activeStep === 4 && (
             <Box sx={{ mb: 3 }}>
               <Typography variant="body1">
                 Please wait while we make your booking...
@@ -660,7 +660,7 @@ const NewBooking = () => {
 
           {/* BOOKING COMPLETE */}
 
-          {activeStep === 6 && <BookingConfirmation bookingId={bookingId} />}
+          {activeStep === 5 && <BookingConfirmation bookingId={bookingId} />}
         </form>
       </div>
 
@@ -673,7 +673,7 @@ const NewBooking = () => {
       {/* STEP CONTROL BUTTONS */}
 
       <div id="new-booking-controls-container">
-        {activeStep < 5 && (
+        {activeStep < 4 && (
           <Box width="100%" display="flex" justifyContent="space-between">
             <Button
               variant="outlined"
@@ -691,7 +691,7 @@ const NewBooking = () => {
               onClick={(e) => handleNextButtonClick(e)}
               disabled={isNextButtonDisabled()}
             >
-              {activeStep <= 3 ? "Next" : "Complete Booking"}
+              {activeStep <= 2 ? "Next" : "Complete Booking"}
             </Button>
           </Box>
         )}
