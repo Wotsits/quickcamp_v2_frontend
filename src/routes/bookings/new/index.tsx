@@ -364,12 +364,12 @@ const NewBooking = () => {
   useEffect(() => {
     // check that the required fields are completed.
     if (formUnitId === null || formStartDate === null || formEndDate === null) {
-      setIsSectionThreeValid(false);
-      return;
+      return setIsSectionThreeValid(false);
     }
 
     // check that the start date is before the end date
     const startBeforeEnd = formStartDate < formEndDate;
+    if (!startBeforeEnd) return setIsSectionThreeValid(false);
 
     // check guest details are valid
     const hasAtleastOneGuest = formBookingGuests.length > 0;
@@ -414,6 +414,8 @@ const NewBooking = () => {
       return vehicle.start! < vehicle.end!;
     });
     if (!everyVehicleStartBeforeEnd) return setIsSectionThreeValid(false);
+    // if you get this far, it's all good
+    return setIsSectionThreeValid(true);
   }, [
     formUnitId,
     formStartDate,
