@@ -55,7 +55,6 @@ const BookingSummary = ({
     vehiclesCheckedIn,
   } = booking;
 
-  console.log(guests);
   const guestTypes = Object.keys(guests);
 
   return (
