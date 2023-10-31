@@ -7,17 +7,15 @@ import {
 } from "../../../../types";
 
 type BookingDetailsStateHookArgs = {
-  requestedUnitId: number | null;
   requestedUnitTypeId: number | null;
   requestedStartDate: Date | null;
 };
 
 export const useBookingDetailsState = ({
-  requestedUnitId,
   requestedStartDate,
   requestedUnitTypeId,
 }: BookingDetailsStateHookArgs) => {
-  const [formUnitId, setFormUnitId] = useState<number | null>(requestedUnitId);
+  const [formUnitId, setFormUnitId] = useState<number | null>(null);
   const [formUnitTypeId, setFormUnitTypeId] = useState<number | null>(
     requestedUnitTypeId
   );

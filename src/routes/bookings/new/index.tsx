@@ -55,8 +55,8 @@ const NewBooking = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const { width } = useWindowDimensions();
-  const unitId = searchParams.get("unitId");
-  const unitTypeId = searchParams.get("unitTypeId");
+  const requestedUnitId = searchParams.get("unitId");
+  const requestedUnitTypeId = searchParams.get("unitTypeId");
   const start = searchParams.get("start");
   const queryClient = useQueryClient();
 
@@ -143,8 +143,7 @@ const NewBooking = () => {
     formBookingVehicles,
     setFormBookingVehicles,
   } = useBookingDetailsState({
-    requestedUnitId: unitId ? parseInt(unitId) : null,
-    requestedUnitTypeId: unitTypeId ? parseInt(unitTypeId) : null,
+    requestedUnitTypeId: requestedUnitTypeId ? parseInt(requestedUnitTypeId) : null,
     requestedStartDate: start ? new Date(start) : null,
   });
 
@@ -208,7 +207,26 @@ const NewBooking = () => {
         equipmentTypeId: formEquipmentType,
       }),
     {
-      enabled: formStartDate !== null && formEndDate !== null,
+      enabled: formStartDate !== null && formEndDate !== null && formEquipmentType !== -1,
+      onSuccess: (data) => {
+        if (data.length === 0 || data === null) return;
+        if (requestedUnitId) {
+          if (data.find((unit) => unit.id === parseInt(requestedUnitId))) {
+            setFormUnitId(parseInt(requestedUnitId));
+            setFormUnitTypeId(parseInt(requestedUnitTypeId!));
+          }
+          else {
+            const firstUnit = data[0]
+            setFormUnitId(firstUnit.id);
+            setFormUnitTypeId(firstUnit.unitTypeId)
+          }
+        }
+        else {
+          const firstUnit = data[0]
+          setFormUnitId(firstUnit.id);
+          setFormUnitTypeId(firstUnit.unitTypeId);
+        }
+      }
     }
   );
 
