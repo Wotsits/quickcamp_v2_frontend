@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { APIURL } from '../../settings';
+import { APIURL, API_ENDPOINTS } from '../../settings';
 import { BookingProcessGuest, BookingProcessPet, BookingProcessVehicle, FeeCalcResponse } from '../../types';
 
 type GetFeeCalc = {
@@ -22,7 +22,7 @@ type GetFeeCalc = {
 }
 
 export const getFeeCalc = async ({token, unitTypeId, startDate, endDate, extras, bookingGuests, bookingPets, bookingVehicles }: GetFeeCalc) => {
-    const response = await axios.get<FeeCalcResponse>(APIURL + "get-fee-calc", {
+    const response = await axios.get<FeeCalcResponse>(APIURL + API_ENDPOINTS.GET_FEE_CALC, {
         params: {
             token,
             unitTypeId,

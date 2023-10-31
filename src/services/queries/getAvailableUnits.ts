@@ -1,5 +1,5 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL, API_ENDPOINTS } from "../../settings";
 import { Unit } from "../../types";
 
 type GetAvailableUnits = {
@@ -22,7 +22,7 @@ export const getAvailableUnits = async ({
   siteId,
   equipmentTypeId,
 }: GetAvailableUnits) => {
-  const response = await axios.get<Unit[]>(APIURL + "units", {
+  const response = await axios.get<Unit[]>(APIURL + API_ENDPOINTS.AVAILABLE_UNITS, {
     headers: { Authorization: "Bearer " + token },
     params: {
       startDate: startDate.toISOString(),

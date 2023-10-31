@@ -33,11 +33,17 @@ export const ROUTES = {
 };
 
 export const API_ENDPOINTS = {
-  BOOKINGS_BY_SITE: "bookings-by-site",
-  BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range",
-  BOOKING_BY_ID: "booking-by-id",
-  BOOKING_NEW: "new-booking",
-  ARRIVALS_BY_DATE: "arrivals-by-date",
+  BOOKINGS_BY_SITE: "bookings-by-site/",
+  BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range/",
+  BOOKING_BY_ID: "booking-by-id/",
+  BOOKING_NEW: "new-booking/",
+  ARRIVALS_BY_DATE: "arrivals-by-date/",
+  AVAILABLE_UNITS: "available-units/",
+  EXTRA_TYPES: "extra-types/",
+  GET_FEE_CALC: "get-fee-calc/",
+  LEAD_GUESTS: "lead-guests/",
+  UNITS: "units/",
+  UNIT_TYPES: "unit-types/",
 }
 
 export const SUPPORTED_ICONS = {

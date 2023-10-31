@@ -1,5 +1,5 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL, API_ENDPOINTS } from "../../settings";
 import { UnitType } from "../../types";
 
 type GetUnitTypesArgs = {
@@ -10,7 +10,7 @@ type GetUnitTypesArgs = {
 };
 
 export const getUnitTypes = async ({ token, siteId }: GetUnitTypesArgs)  => {
-  const response = await axios.get<UnitType[]>(APIURL + "unit-types/" + siteId, {
+  const response = await axios.get<UnitType[]>(APIURL + API_ENDPOINTS.UNIT_TYPES + siteId, {
     headers: { Authorization: "Bearer " + token },
   });
   return response.data;

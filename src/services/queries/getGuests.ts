@@ -1,5 +1,5 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL, API_ENDPOINTS } from "../../settings";
 import { LeadGuest } from "../../types";
 
 type GetLeadGuestsArgs = {
@@ -8,7 +8,7 @@ type GetLeadGuestsArgs = {
 };
 
 export const getLeadGuests = async ({ token }: GetLeadGuestsArgs) => {
-  const response = await axios.get<LeadGuest[]>(APIURL + "lead-guests", {
+  const response = await axios.get<LeadGuest[]>(APIURL + API_ENDPOINTS.LEAD_GUESTS, {
     headers: { Authorization: "Bearer " + token },
   });
   return response.data;
