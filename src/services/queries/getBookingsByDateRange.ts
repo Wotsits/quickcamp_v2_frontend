@@ -14,7 +14,7 @@ type GetBookingSummaries = {
 }
 
 export const getBookingsByDateRange = async ({start, end, siteId, token}: GetBookingSummaries) => {
-    const response = await axios.get<Booking[]>(APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE_AND_DATE_RANGE, {
+    const response = await axios.get<BookingSumm[]>(APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE_AND_DATE_RANGE, {
         params: {
             start: start.toISOString(),
             end: end.toISOString(),

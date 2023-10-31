@@ -40,10 +40,11 @@ const BookingBlock = ({
   }, [bookingSummaryVisible]);
 
   function getTotalOccupants() {
-    const adults = booking.adults;
-    const children = booking.children;
-    const infants = booking.infants;
-    return adults + children + infants;
+    let guestsCount = 0;
+    for (let guestType in booking.guests) {
+      guestsCount += booking.guests[guestType];
+    }
+    return guestsCount;
   }
 
   function getBackgroundColor() {

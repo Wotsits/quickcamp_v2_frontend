@@ -5,7 +5,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import ColumnWidthControls from "../../../components/ResourceCalendar/ColumnWidthControls";
 import "../../style.css";
 import { useQuery } from "react-query";
-import { Booking, Unit, UnitType } from "../../../types";
+import { BookingSumm, Unit, UnitType } from "../../../types";
 import { getBookingsByDateRange } from "../../../services/queries/getBookingsByDateRange";
 import { addOneMonth, setDateToMidday, today1200 } from "../../../utils/dateTimeManipulation";
 import AuthContext from "../../../contexts/authContext";
@@ -37,7 +37,7 @@ const BookingCalendar = () => {
   // QUERIES
   // -------------
 
-  const { isLoading: bookingsAreLoading, isError: bookingsAreError, data: bookingsData, error: bookingsError } = useQuery<Booking[], Error>([
+  const { isLoading: bookingsAreLoading, isError: bookingsAreError, data: bookingsData, error: bookingsError } = useQuery<BookingSumm[], Error>([
     "BookingsByDateRange",
     startDate,
     addOneMonth(startDate as Date)
@@ -65,7 +65,7 @@ const BookingCalendar = () => {
   // RENDER
   // -------------
 
-  if (bookingsAreLoading || unitTypesAreLoading) {
+  if (bookingsAreLoading || unitTypesAreLoading || bookingsData === undefined) {
     return <div>Loading...</div>;
   }
 
@@ -76,32 +76,6 @@ const BookingCalendar = () => {
   if (bookingsAreError) {
     return <Alert severity="error">Error: {bookingsError.message}</Alert>;
   }
-
-  const bookingPaymentsTotal = (payments: { amount: number }[]) => {
-    // total the payments
-    let total = 0;
-    payments.forEach((payment) => {
-      total += payment.amount;
-    });
-    return total;
-  }
-
-  const bookingSummaries = bookingsData ? bookingsData.map((booking) => ({
-    id: booking.id,
-    bookingName: booking.leadGuest.lastName, 
-    adults: booking.guests!.filter(guest => guest.age >= 18).length, 
-    children: booking.guests!?.filter(guest => guest.age < 18 && guest.age >= 5).length,
-    infants: booking.guests!.filter(guest => guest.age < 5).length,
-    pets: booking.pets!.length,
-    vehicles: booking.vehicles!.length,
-    unit: booking.unitId,
-    start: booking.start.toString(),
-    end: booking.end.toString(),
-    paid: bookingPaymentsTotal(booking.payments!) >= booking.totalFee,
-    peopleCheckedIn: booking.guests!.filter(guest => guest.checkedIn).length, 
-    petsCheckedIn: booking.pets!.filter(pet => pet.checkedIn).length,
-    vehiclesCheckedIn: booking.vehicles!.filter(vehicle => vehicle.checkedIn).length,
-  })) : [];
 
   const resources: ResourceGroup[] = unitTypesData
   ? unitTypesData.map(unitType => {
@@ -118,7 +92,6 @@ const BookingCalendar = () => {
     };
     }, [])
   : [];
-
 
   return (
     <div id="booking-calendar" className="route-container">
@@ -147,7 +120,7 @@ const BookingCalendar = () => {
       </Box>
       <ResourceCalendar
         resources={resources}
-        bookings={bookingSummaries}
+        bookings={bookingsData}
         startDate={startDate as Date}
         columnWidth={columnWidth}
         onCellClick={handleCallbackOnCellClick}

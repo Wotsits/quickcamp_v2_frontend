@@ -46,9 +46,7 @@ const BookingSummary = ({
     unit,
     start,
     end,
-    adults,
-    children,
-    infants,
+    guests,
     pets,
     vehicles,
     paid,
@@ -56,6 +54,9 @@ const BookingSummary = ({
     petsCheckedIn,
     vehiclesCheckedIn,
   } = booking;
+
+  console.log(guests);
+  const guestTypes = Object.keys(guests);
 
   return (
     <Card
@@ -87,9 +88,11 @@ const BookingSummary = ({
         </div>
 
         <div className="booking-summary-occupant-details">
-          <div>Adults: {adults}</div>
-          <div>Children: {children}</div>
-          <div>Infants: {infants}</div>
+          {guestTypes.map((guestType) => (
+            <div key={guestType}>
+              {guestType}: {guests[guestType]}
+            </div>
+          ))}
           <div>Pets: {pets}</div>
           <div>Vehicles: {vehicles}</div>
         </div>
