@@ -552,7 +552,7 @@ const NewBooking = () => {
       {/* Form container wrapper gives form a max-width */}
 
       <div id="new-booking-content-container" ref={contentRef}>
-        <form id="new-booking-form">
+        <form id="new-booking-form" onSubmit={(e) => e.preventDefault()}>
           {/* LEAD GUEST DETAILS */}
 
           {activeStep === 0 && (
