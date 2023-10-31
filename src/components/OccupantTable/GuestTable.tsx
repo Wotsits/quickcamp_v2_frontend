@@ -14,6 +14,8 @@ type GuestTableProps = {
     field: string
   ) => void;
   callbackOnGuestDelete: (index: number) => void;
+  bookingStartDate: Date | null;
+  bookingEndDate: Date | null;
 };
 
 const GuestTable = ({
@@ -21,6 +23,8 @@ const GuestTable = ({
   guestTypes,
   callbackOnGuestEdit,
   callbackOnGuestDelete,
+  bookingStartDate,
+  bookingEndDate,
 }: GuestTableProps) => {
   return (
     <div className="guest-table">
@@ -70,6 +74,8 @@ const GuestTable = ({
                     onChange={(date: Date | null) =>
                       callbackOnGuestEdit(index, date, "start")
                     }
+                    minDate={bookingStartDate as Date}
+                    maxDate={bookingEndDate as Date}
                   />
                 </div>
                 <div className="field-container">
@@ -80,6 +86,8 @@ const GuestTable = ({
                     onChange={(date: Date | null) =>
                       callbackOnGuestEdit(index, date, "end")
                     }
+                    minDate={bookingStartDate as Date}
+                    maxDate={bookingEndDate as Date}
                   />
                 </div>
               </div>

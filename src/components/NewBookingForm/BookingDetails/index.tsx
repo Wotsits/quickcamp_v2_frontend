@@ -134,10 +134,11 @@ const BookingDetails = ({
     setGuests(guestsCopy);
   };
 
-  const handlePetEdit = (index: number, value: string, field: string) => {
+  const handlePetEdit = (index: number, value: string | Date | number | null, field: string) => {
     const petsCopy = [...pets];
     switch (field) {
       case "name":
+        if (typeof value !== "string") return;
         petsCopy[index].name = value;
         break;
       case "start":
@@ -152,10 +153,11 @@ const BookingDetails = ({
     setPets(petsCopy);
   };
 
-  const handleVehicleEdit = (index: number, value: string, field: string) => {
+  const handleVehicleEdit = (index: number, value: string | Date | number | null, field: string) => {
     const vehiclesCopy = [...vehicles];
     switch (field) {
       case "vehicleReg":
+        if (typeof value !== "string") return;
         vehiclesCopy[index].vehicleReg = value;
         break;
       case "start":
@@ -229,6 +231,8 @@ const BookingDetails = ({
             guestTypes={guestTypes}
             callbackOnGuestEdit={handleGuestEdit}
             callbackOnGuestDelete={handleGuestDelete}
+            bookingStartDate={formStartDate as Date}
+            bookingEndDate={formEndDate as Date}
           />
         </OccupantTableWrapper>
         <OccupantTableWrapper
@@ -240,6 +244,8 @@ const BookingDetails = ({
             pets={pets}
             callbackOnPetEdit={handlePetEdit}
             callbackOnPetDelete={handlePetDelete}
+            bookingStartDate={formStartDate as Date}
+            bookingEndDate={formEndDate as Date}
           />
         </OccupantTableWrapper>
         <OccupantTableWrapper
@@ -251,6 +257,8 @@ const BookingDetails = ({
             vehicles={vehicles}
             callbackOnVehicleEdit={handleVehicleEdit}
             callbackOnVehicleDelete={handleVehicleDelete}
+            bookingStartDate={formStartDate as Date}
+            bookingEndDate={formEndDate as Date}
           />
         </OccupantTableWrapper>
       </Box>
