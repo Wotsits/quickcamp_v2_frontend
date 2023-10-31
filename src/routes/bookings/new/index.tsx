@@ -320,6 +320,23 @@ const NewBooking = () => {
     contentRef.current?.scrollTo(0, 0);
   }, [activeStep])
 
+  // -------------
+
+  // if the booking guest start and ends are changed and they fall within the booking start and end dates, update the booking start and end dates
+  useEffect(() => {
+    if (formBookingGuests.length === 0) return;
+    const earliestStart = formBookingGuests.reduce((a, b) => {
+      return a.start! < b.start! ? a : b;
+    });
+    const latestEnd = formBookingGuests.reduce((a, b) => {
+      return a.end! > b.end! ? a : b;
+    });
+    setFormStartDate(earliestStart.start);
+    setFormEndDate(latestEnd.end);
+  }, [formBookingGuests])
+
+  // -------------
+
   // debounce the search field
   useEffect(() => {
     // if the search field is empty, reset the debounced search field
