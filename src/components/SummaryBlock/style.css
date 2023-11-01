@@ -1,0 +1,19 @@
+.summary-block {
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.summary-block .summary-block-label {
+    font-size: 90%;
+    font-weight: 500;
+    text-align: center;
+}
+
+.summary-block .summary-block-content {
+    font-size: 300%;
+    font-weight: 700;
+}

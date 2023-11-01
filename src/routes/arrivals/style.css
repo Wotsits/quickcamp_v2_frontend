@@ -1,3 +1,21 @@
+/* ALL ARRIVALS */
+
+#arrivals {
+    width: 100%;
+}
+
+#arrivals #summary-blocks {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+/* INDIVIDUAL ARRIVAL */
+
 #individual-arrival .button-grid {
     width: 100%;
     display: grid;

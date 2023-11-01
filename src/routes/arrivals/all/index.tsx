@@ -1,4 +1,7 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Icon,
@@ -25,6 +28,16 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import SummaryBlock from "../../../components/SummaryBlock";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+const summaryBlockSettings = {
+  background:
+    "linear-gradient(90deg, rgba(0,4,40,1) 35%, rgba(0,78,146,1) 100%)",
+  foregroundColor: "white",
+  width: "150px",
+  height: "150px",
+};
 
 const Arrivals = () => {
   // -------------
@@ -44,6 +57,8 @@ const Arrivals = () => {
   // -------------
 
   const [date, setDate] = useState<Date | null>(today1200());
+  const [summaryExpanded, setSummaryExpanded] = useState<boolean>(false);
+  const [tableExpanded, setTableExpanded] = useState<boolean>(true);
 
   // -------------
   // QUERIES
@@ -87,7 +102,7 @@ const Arrivals = () => {
             setDate(setDateToMidday(value as Date))
           }
           value={date}
-          label={"Calendar start date"}
+          label={"Arrival Date"}
         />
         <Box sx={{ ml: 2 }}>
           <Button variant="contained" onClick={() => setDate(today1200())}>
@@ -106,8 +121,62 @@ const Arrivals = () => {
         </Box>
       </Box>
 
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Accordion
+        expanded={summaryExpanded}
+        onChange={() => setSummaryExpanded(!summaryExpanded)}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="daily-arrival-summary-content"
+          id="daily-arrival-summary-header"
+        >
+          <Typography component="h2" variant="h6">Today's Summary</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div id="summary-blocks">
+            <SummaryBlock
+              label="Bookings Arriving Today"
+              content={arrivalsData!.length}
+              {...summaryBlockSettings}
+            />
+            <SummaryBlock
+              label="People Arriving Today"
+              content={arrivalsData!.length}
+              {...summaryBlockSettings}
+            />
+            <SummaryBlock
+              label="Cars Arriving Today"
+              content={arrivalsData!.length}
+              {...summaryBlockSettings}
+            />
+            <SummaryBlock
+              label="Pets Arriving Today"
+              content={arrivalsData!.length}
+              {...summaryBlockSettings}
+            />
+          </div>
+          <div id="arrival-progress">
+            <div style={{ width: "100%", height: "300px", display: "flex", justifyContent: "center", alignItems: "center", border: "1px solid black", borderRadius: "10px" }}>
+              Arrivals Progress Graph Here
+            </div>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion
+        expanded={tableExpanded}
+        onChange={() => setTableExpanded(!tableExpanded)}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="daily-arrival-list-content"
+          id="daily-arrival-list-header"
+        >
+          <Typography component="h2" variant="h6">Today's Arrivals List</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <TableContainer>
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Booking Name</TableCell>
@@ -157,6 +226,10 @@ const Arrivals = () => {
           </TableBody>
         </Table>
       </TableContainer>
+        </AccordionDetails>
+      </Accordion>
+
+      
     </div>
   );
 };
