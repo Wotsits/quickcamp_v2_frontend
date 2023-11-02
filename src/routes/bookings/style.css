@@ -15,3 +15,30 @@
         padding: 20px;
         border-radius: 10px;
     }
+
+    #booking-calendar {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #booking-calendar #booking-calendar-datepicker {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #booking-calendar #booking-calendar-container {
+        flex-grow: 1;
+        overflow-y: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
