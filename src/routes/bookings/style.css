@@ -1,0 +1,13 @@
+    #booking {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #booking #booking-information-container {
+        flex-grow: 1;
+        overflow-y: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
