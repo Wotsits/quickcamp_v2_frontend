@@ -40,7 +40,7 @@ const AppFrame = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", background: "#eef0f2" }}>
       <AppBar
         position="fixed"
         open={open}

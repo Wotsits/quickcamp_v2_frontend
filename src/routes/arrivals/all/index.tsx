@@ -88,12 +88,6 @@ const Arrivals = () => {
       </Typography>
 
       <Box
-        sx={{
-          mb: 4,
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
         id="booking-calendar-datepicker"
         className="booking-calendar-datepicker"
       >
@@ -104,7 +98,7 @@ const Arrivals = () => {
           value={date}
           label={"Arrival Date"}
         />
-        <Box sx={{ ml: 2 }}>
+        <Box>
           <Button variant="contained" onClick={() => setDate(today1200())}>
             Today
           </Button>
@@ -121,115 +115,136 @@ const Arrivals = () => {
         </Box>
       </Box>
 
-      <Accordion
-        expanded={summaryExpanded}
-        onChange={() => setSummaryExpanded(!summaryExpanded)}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="daily-arrival-summary-content"
-          id="daily-arrival-summary-header"
+      <div id="accordion-container">
+        <Accordion
+          expanded={summaryExpanded}
+          onChange={() => setSummaryExpanded(!summaryExpanded)}
         >
-          <Typography component="h2" variant="h6">Today's Summary</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div id="summary-blocks">
-            <SummaryBlock
-              label="Bookings Arriving Today"
-              content={arrivalsData!.length}
-              {...summaryBlockSettings}
-            />
-            <SummaryBlock
-              label="People Arriving Today"
-              content={arrivalsData!.length}
-              {...summaryBlockSettings}
-            />
-            <SummaryBlock
-              label="Cars Arriving Today"
-              content={arrivalsData!.length}
-              {...summaryBlockSettings}
-            />
-            <SummaryBlock
-              label="Pets Arriving Today"
-              content={arrivalsData!.length}
-              {...summaryBlockSettings}
-            />
-          </div>
-          <div id="arrival-progress">
-            <div style={{ width: "100%", height: "300px", display: "flex", justifyContent: "center", alignItems: "center", border: "1px solid black", borderRadius: "10px" }}>
-              Arrivals Progress Graph Here
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="daily-arrival-summary-content"
+            id="daily-arrival-summary-header"
+          >
+            <Typography component="h2" variant="h6">
+              Today's Summary
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div id="summary-blocks">
+              <SummaryBlock
+                label="Bookings Arriving Today"
+                content={arrivalsData!.length}
+                {...summaryBlockSettings}
+              />
+              <SummaryBlock
+                label="People Arriving Today"
+                content={arrivalsData!.length}
+                {...summaryBlockSettings}
+              />
+              <SummaryBlock
+                label="Cars Arriving Today"
+                content={arrivalsData!.length}
+                {...summaryBlockSettings}
+              />
+              <SummaryBlock
+                label="Pets Arriving Today"
+                content={arrivalsData!.length}
+                {...summaryBlockSettings}
+              />
             </div>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        expanded={tableExpanded}
-        onChange={() => setTableExpanded(!tableExpanded)}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="daily-arrival-list-content"
-          id="daily-arrival-list-header"
-        >
-          <Typography component="h2" variant="h6">Today's Arrivals List</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Booking Name</TableCell>
-              <TableCell align="right">People Arriving Today</TableCell>
-              <TableCell align="right">Pets Arriving Today</TableCell>
-              <TableCell align="right">Vehicles Arriving Today</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {arrivalsData && arrivalsData.length === 0 && (
-              <TableRow
-                key="no-arrivals"
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            <div id="arrival-progress">
+              <div
+                style={{
+                  width: "100%",
+                  height: "300px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                }}
               >
-                <TableCell component="th" scope="row" colSpan={3}>
-                  No arrivals today
-                </TableCell>
-              </TableRow>
-            )}
-            {arrivalsData &&
-              arrivalsData.map((arrival) => (
-                <TableRow
-                  key={arrival.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {arrival.leadGuest.firstName} {arrival.leadGuest.lastName}
-                  </TableCell>
-                  <TableCell align="right">{arrival.guests!.length}</TableCell>
-                  <TableCell align="right">{arrival.pets!.length}</TableCell>
-                  <TableCell align="right">
-                    {arrival.vehicles!.length}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      color="success"
-                      size="small"
-                      sx={{ mr: -1 }}
-                      onClick={() => navigate(`/arrivals/${arrival.id}/`)}
-                    >
-                      CheckIn
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-        </AccordionDetails>
-      </Accordion>
+                Arrivals Progress Graph Here
+              </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
 
-      
+        <Accordion
+          expanded={tableExpanded}
+          onChange={() => setTableExpanded(!tableExpanded)}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="daily-arrival-list-content"
+            id="daily-arrival-list-header"
+          >
+            <Typography component="h2" variant="h6">
+              Today's Arrivals List
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TableContainer>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Booking Name</TableCell>
+                    <TableCell align="right">People Arriving Today</TableCell>
+                    <TableCell align="right">Pets Arriving Today</TableCell>
+                    <TableCell align="right">Vehicles Arriving Today</TableCell>
+                    <TableCell align="right">Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {arrivalsData && arrivalsData.length === 0 && (
+                    <TableRow
+                      key="no-arrivals"
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row" colSpan={3}>
+                        No arrivals today
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {arrivalsData &&
+                    arrivalsData.map((arrival) => (
+                      <TableRow
+                        key={arrival.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {arrival.leadGuest.firstName}{" "}
+                          {arrival.leadGuest.lastName}
+                        </TableCell>
+                        <TableCell align="right">
+                          {arrival.guests!.length}
+                        </TableCell>
+                        <TableCell align="right">
+                          {arrival.pets!.length}
+                        </TableCell>
+                        <TableCell align="right">
+                          {arrival.vehicles!.length}
+                        </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            color="success"
+                            size="small"
+                            sx={{ mr: -1 }}
+                            onClick={() => navigate(`/arrivals/${arrival.id}/`)}
+                          >
+                            CheckIn
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </AccordionDetails>
+        </Accordion>
+      </div>
     </div>
   );
 };
