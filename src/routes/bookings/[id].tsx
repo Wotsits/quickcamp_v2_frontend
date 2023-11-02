@@ -41,7 +41,7 @@ const IndividualBooking = () => {
       </Typography>
 
       <div id="booking-information-container">
-        <Box sx={{ mb: 3 }} justifyContent="space-between">
+        <div className="booking-information-section">
           <Typography variant="h5" component="h2" gutterBottom>
             Lead Guest Details
           </Typography>
@@ -52,9 +52,8 @@ const IndividualBooking = () => {
           <Typography variant="body1" gutterBottom>
             Lead Guest Email: {data.leadGuest.email}
           </Typography>
-        </Box>
-        <hr />
-        <Box sx={{ mb: 3 }} justifyContent="space-between">
+        </div>
+        <div className="booking-information-section">
           <Typography variant="h5" component="h2" gutterBottom>
             Booking Details
           </Typography>
@@ -64,9 +63,8 @@ const IndividualBooking = () => {
           <Typography variant="body1" gutterBottom>
             Dates: {data.start.toLocaleString()} - {data.end.toLocaleString()}
           </Typography>
-        </Box>
-        <hr />
-        <Box sx={{ mb: 3 }} justifyContent="space-between">
+        </div>
+        <div className="booking-information-section">
           <Typography variant="h5" component="h2" gutterBottom>
             Occupant Details
           </Typography>
@@ -104,13 +102,12 @@ const IndividualBooking = () => {
               })}
             </ul>
           </Box>
-        </Box>
-        <hr />
-        <Box sx={{ mb: 3 }} justifyContent="space-between">
+        </div>
+        <div className="booking-information-section">
           <Typography variant="h5" component="h1" gutterBottom>
             Finance Details
           </Typography>
-        </Box>
+        </div>
       </div>
     </div>
   );

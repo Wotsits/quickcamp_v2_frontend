@@ -7,7 +7,11 @@
     #booking #booking-information-container {
         flex-grow: 1;
         overflow-y: auto;
+    }
+
+    #booking .booking-information-section {
         background: white;
+        margin-bottom: 20px;
         padding: 20px;
         border-radius: 10px;
     }
