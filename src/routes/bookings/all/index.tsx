@@ -3,11 +3,12 @@ import { useQuery } from "react-query";
 import { getBookings } from "../../../services/queries/getBookings";
 import DataTable from "../../../components/DataTable";
 import { Booking } from "../../../types";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../settings";
+import "./style.css";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -29,26 +30,26 @@ const Bookings = () => {
   // -----------
 
   const { user, selectedSite } = useContext(AuthContext);
-  
-  // -----------  
+
+  // -----------
   // HOOKS
   // -----------
-  
+
   const navigate = useNavigate();
 
-  // -----------  
+  // -----------
   // QUERIES
-  // -----------  
-  
+  // -----------
+
   const { isLoading, isError, data, error } = useQuery<Booking[], Error>(
     ["bookings"],
     () => getBookings({ token: user.token, siteId: selectedSite!.id })
   );
 
-  // -----------  
+  // -----------
   // RENDER
   // -----------
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -59,22 +60,23 @@ const Bookings = () => {
 
   return (
     <div id="bookings">
-      <Box
-        marginBottom={2}
-        display="flex"
-        justifyContent={"space-between"}
-        alignItems={"center"}
-        width="100%"
-      >
+      <div id="bookings-header">
         <Typography sx={{ margin: 0 }} variant="h5" gutterBottom>
           Bookings
         </Typography>
-        <IconButton size={"large"} onClick={() => navigate(ROUTES.ROOT+ROUTES.BOOKINGS+ROUTES.CALENDAR) }>
+        <IconButton
+          size={"large"}
+          onClick={() =>
+            navigate(ROUTES.ROOT + ROUTES.BOOKINGS + ROUTES.CALENDAR)
+          }
+        >
           <AddCircleIcon color={"primary"} fontSize="large" />
         </IconButton>
-      </Box>
+      </div>
 
-      <DataTable rows={data!} columns={columnSpec} />
+      <div id="bookings-table-container">
+        <DataTable rows={data!} columns={columnSpec} />
+      </div>
     </div>
   );
 };

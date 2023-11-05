@@ -88,8 +88,8 @@ const Arrivals = () => {
       </Typography>
 
       <Box
-        id="booking-calendar-datepicker"
-        className="booking-calendar-datepicker"
+        id="arrivals-datepicker"
+        className="arrivals-datepicker"
       >
         <DatePicker
           onChange={(value: Date | null) =>
