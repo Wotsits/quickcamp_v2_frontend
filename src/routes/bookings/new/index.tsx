@@ -143,7 +143,9 @@ const NewBooking = () => {
     formBookingVehicles,
     setFormBookingVehicles,
   } = useBookingDetailsState({
-    requestedUnitTypeId: requestedUnitTypeId ? parseInt(requestedUnitTypeId) : null,
+    requestedUnitTypeId: requestedUnitTypeId
+      ? parseInt(requestedUnitTypeId)
+      : null,
     requestedStartDate: start ? new Date(start) : null,
   });
 
@@ -207,37 +209,59 @@ const NewBooking = () => {
         equipmentTypeId: formEquipmentType,
       }),
     {
-      enabled: formStartDate !== null && formEndDate !== null && formEquipmentType !== -1,
+      enabled:
+        formStartDate !== null &&
+        formEndDate !== null &&
+        formEquipmentType !== -1,
       onSuccess: (data) => {
-        if (data.length === 0 || data === null) return;
-        if (requestedUnitId) {
-          if (data.find((unit) => unit.id === parseInt(requestedUnitId))) {
-            setFormUnitId(parseInt(requestedUnitId));
-            setFormUnitTypeId(parseInt(requestedUnitTypeId!));
+        // if there are no available pitches, set the form unit id to null and return
+        if (data.length === 0 || data === null) {
+          setFormUnitId(null);
+          setFormUnitTypeId(null);
+          return;
+        }
+
+        // if no unit has already beed selected...
+        if (!formUnitId) {
+          // if there's a requestedUnitId in the url, select it if it's in the list of available units and return.
+          if (requestedUnitId) {
+            // check if the requested unit is in the returned data
+            const unit = data.find(
+              (unit) => unit.id === parseInt(requestedUnitId)
+            );
+            // if it is, set the form unit id to the requested unit id
+            if (unit) {
+              if (unit.id === formUnitId) return;
+              setFormUnitId(parseInt(requestedUnitId));
+              setFormUnitTypeId(parseInt(requestedUnitTypeId!));
+              return;
+            }
           }
           else {
-            const firstUnit = data[0]
+            const firstUnit = data[0];
             setFormUnitId(firstUnit.id);
-            setFormUnitTypeId(firstUnit.unitTypeId)
+            setFormUnitTypeId(firstUnit.unitTypeId);
           }
         }
+        // otherwise, if a unit has already been selected...
         else {
-          const firstUnit = data[0]
-          setFormUnitId(firstUnit.id);
-          setFormUnitTypeId(firstUnit.unitTypeId);
+          const unit = data.find((unit) => unit.id === formUnitId);
+          // if the already selected unit is in the new list of available units, do nothing.
+          if (unit) return;
+          // If it's not in the list of available units, select the first unit in the returned data
+          else {
+            const firstUnit = data[0];
+            setFormUnitId(firstUnit.id);
+            setFormUnitTypeId(firstUnit.unitTypeId);
+          }
         }
-      }
+      },
     }
   );
 
   // -------------
 
-  const {
-    isLoading: feeCalcIsLoading,
-    isError: feeCalcIsError,
-    data: feeCalcData,
-    error: feeCalcError,
-  } = useQuery<FeeCalcResponse, Error>(
+  const feeCalcReturn = useQuery<FeeCalcResponse, Error>(
     ["feeCalc", selectedSite?.id],
     () =>
       getFeeCalc({
@@ -315,10 +339,10 @@ const NewBooking = () => {
   // USEEFFECTS
   // -------------
 
-  // each time the step changes, reset the scroll on the content container. 
+  // each time the step changes, reset the scroll on the content container.
   useEffect(() => {
     contentRef.current?.scrollTo(0, 0);
-  }, [activeStep])
+  }, [activeStep]);
 
   // -------------
 
@@ -333,7 +357,7 @@ const NewBooking = () => {
     });
     setFormStartDate(earliestStart.start);
     setFormEndDate(latestEnd.end);
-  }, [formBookingGuests])
+  }, [formBookingGuests]);
 
   // -------------
 
@@ -433,9 +457,11 @@ const NewBooking = () => {
       return pet.start !== null && pet.end !== null;
     });
     if (!everyPetHasStartAndEndDates) return setIsSectionThreeValid(false);
-    const everyVehicleHasStartAndEndDates = formBookingVehicles.every((vehicle) => {
-      return vehicle.start !== null && vehicle.end !== null;
-    });
+    const everyVehicleHasStartAndEndDates = formBookingVehicles.every(
+      (vehicle) => {
+        return vehicle.start !== null && vehicle.end !== null;
+      }
+    );
     if (!everyVehicleHasStartAndEndDates) return setIsSectionThreeValid(false);
     const everyGuestStartBeforeEnd = formBookingGuests.every((guest) => {
       return guest.start! < guest.end!;
@@ -497,7 +523,7 @@ const NewBooking = () => {
       !isSectionOneValid ||
       !isSectionTwoValid ||
       !isSectionThreeValid ||
-      !isSectionFourValid 
+      !isSectionFourValid
     ) {
       // raise a toast to the user
       return;
@@ -644,6 +670,7 @@ const NewBooking = () => {
               setFormStartDate={setFormStartDate}
               formEndDate={formEndDate}
               setFormEndDate={setFormEndDate}
+              availableUnitsAreLoading={availableUnitsAreLoading}
               availableUnits={availableUnitsData!}
               dateError={dateError}
               guestTypes={selectedSite?.guestTypes as GuestType[]}

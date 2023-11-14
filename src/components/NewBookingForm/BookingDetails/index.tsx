@@ -12,7 +12,13 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 import "./style.css";
-import { BookingProcessGuest, BookingProcessPet, BookingProcessVehicle, GuestType, Unit } from "../../../types";
+import {
+  BookingProcessGuest,
+  BookingProcessPet,
+  BookingProcessVehicle,
+  GuestType,
+  Unit,
+} from "../../../types";
 import OccupantTableWrapper from "../../OccupantTable";
 import GuestTable from "../../OccupantTable/GuestTable";
 import PetTable from "../../OccupantTable/PetTable";
@@ -25,6 +31,7 @@ type BookingDetailsProps = {
   setFormStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
   formEndDate: Date | null;
   setFormEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  availableUnitsAreLoading: boolean;
   availableUnits: Unit[];
   dateError: string | null;
   guestTypes: GuestType[];
@@ -43,6 +50,7 @@ const BookingDetails = ({
   setFormStartDate,
   formEndDate,
   setFormEndDate,
+  availableUnitsAreLoading,
   availableUnits,
   dateError,
   guestTypes,
@@ -53,7 +61,6 @@ const BookingDetails = ({
   setPets,
   setVehicles,
 }: BookingDetailsProps) => {
-
   // --------------------
   // EVENT HANDLERS
   // --------------------
@@ -119,8 +126,9 @@ const BookingDetails = ({
         guestsCopy[index].name = value;
         break;
       case "type":
-        if (typeof value !== "string" && typeof value !== "number" ) return;
-        guestsCopy[index].guestTypeId = typeof value === "number" ? value : parseInt(value);
+        if (typeof value !== "string" && typeof value !== "number") return;
+        guestsCopy[index].guestTypeId =
+          typeof value === "number" ? value : parseInt(value);
         break;
       case "start":
         if (typeof value !== "object" && value !== null) return;
@@ -134,7 +142,11 @@ const BookingDetails = ({
     setGuests(guestsCopy);
   };
 
-  const handlePetEdit = (index: number, value: string | Date | number | null, field: string) => {
+  const handlePetEdit = (
+    index: number,
+    value: string | Date | number | null,
+    field: string
+  ) => {
     const petsCopy = [...pets];
     switch (field) {
       case "name":
@@ -153,7 +165,11 @@ const BookingDetails = ({
     setPets(petsCopy);
   };
 
-  const handleVehicleEdit = (index: number, value: string | Date | number | null, field: string) => {
+  const handleVehicleEdit = (
+    index: number,
+    value: string | Date | number | null,
+    field: string
+  ) => {
     const vehiclesCopy = [...vehicles];
     switch (field) {
       case "vehicleReg":
@@ -201,23 +217,33 @@ const BookingDetails = ({
             {dateError}
           </Alert>
         )}
-        <TextField
-          required
-          fullWidth
-          label="Pitch"
-          select
-          value={formUnitId}
-          onChange={(e) => setFormUnitId(parseInt(e.target.value))}
-        >
-          {availableUnits &&
-            availableUnits.map((unit) => {
-              return (
-                <MenuItem key={unit.id} value={unit.id}>
-                  <Typography variant="body1">{unit.name}</Typography>
-                </MenuItem>
-              );
-            })}
-        </TextField>
+        {availableUnitsAreLoading && <TextField required disabled fullWidth label="Pitch" value="Loading..." />}
+        {!availableUnitsAreLoading && (
+          <>
+            {availableUnits.length === 0 && (
+              <TextField required disabled fullWidth label="Pitch" value="No units available" />
+            )}
+            {availableUnits.length > 0 && (
+              <TextField
+                required
+                fullWidth
+                label="Pitch"
+                select
+                value={formUnitId}
+                onChange={(e) => setFormUnitId(parseInt(e.target.value))}
+              >
+                {availableUnits &&
+                  availableUnits.map((unit) => {
+                    return (
+                      <MenuItem key={unit.id} value={unit.id}>
+                        <Typography variant="body1">{unit.name}</Typography>
+                      </MenuItem>
+                    );
+                  })}
+              </TextField>
+            )}
+          </>
+        )}
       </Box>
       <Divider sx={{ mb: 4 }} />
       <Box id="occupant-details">
