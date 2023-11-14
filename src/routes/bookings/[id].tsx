@@ -61,7 +61,7 @@ const IndividualBooking = () => {
             Unit: {data.unit!.name}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Dates: {data.start.toLocaleString()} - {data.end.toLocaleString()}
+            Dates: {new Date(data.start).toUTCString()} - {new Date(data.end).toUTCString()}
           </Typography>
         </div>
         <div className="booking-information-section">
@@ -74,9 +74,13 @@ const IndividualBooking = () => {
             </Typography>
             <ul>
               {data.guests?.map((guest) => {
+                const name = guest.name;
+                const type = guest.guestType!.name;
+                const start = new Date(guest.start).toUTCString();
+                const end = new Date(guest.end).toUTCString();
                 return (
                   <li>
-                    {guest.name} - {guest.age}
+                    {name} - {type} - Arrives: {start} - Departs: {end}
                   </li>
                 );
               })}
@@ -88,7 +92,10 @@ const IndividualBooking = () => {
             </Typography>
             <ul>
               {data.pets?.map((pet) => {
-                return <li>{pet.name}</li>;
+                const name = pet.name;
+                const start = new Date(pet.start).toUTCString();
+                const end = new Date(pet.end).toUTCString();
+                return <li>{name} - Arrives: {start} - Departs {end}</li>;
               })}
             </ul>
           </Box>
@@ -98,7 +105,10 @@ const IndividualBooking = () => {
             </Typography>
             <ul>
               {data.vehicles?.map((vehicle) => {
-                return <li>{vehicle.vehicleReg}</li>;
+                const reg = vehicle.vehicleReg;
+                const start = new Date(vehicle.start).toUTCString();
+                const end = new Date(vehicle.end).toUTCString();
+                return <li>{reg} - Arrives: {start} - Departs: {end}</li>;
               })}
             </ul>
           </Box>

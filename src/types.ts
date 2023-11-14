@@ -118,7 +118,8 @@ export type BookingGuest = {
     bookingId: number,
     booking?: Booking,
     name: string,
-    age: number,
+    guestTypeId: number,
+    guestType?: GuestType,
     start: Date,
     end: Date,
     checkedIn: boolean,
@@ -140,6 +141,7 @@ export type BookingPet = {
     booking?: Booking,
     name: string,
     start: Date,
+    end: Date,
     checkedIn: boolean,
 }
 
