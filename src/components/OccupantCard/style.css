@@ -1,0 +1,36 @@
+.occupant-card {
+    padding: 30px;
+    background: white;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.occupant-card .occupant-card-icon-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.occupant-card .occupant-card-icon-svg {
+    height: 5em;
+}
+
+.occupant-card .occupant-card-detail-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.occupant-card .occupant-card-status-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

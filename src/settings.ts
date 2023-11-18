@@ -117,21 +117,11 @@ export function getIcon(iconKey: string) {
   }
 }
 
-export function getOccupantTypeIcon(iconKey: string): ReactNode | null {
-  switch (iconKey) {
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.ADULT:
-      return Adult as unknown as ReactNode;
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.CHILD:
-      return Child as unknown as ReactNode;
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.INFANT:
-      return Infant as unknown as ReactNode;
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.YOUTH:
-      return Youth as unknown as ReactNode;
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET:
-      return Pet as unknown as ReactNode;
-    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.WEDDINGGUEST:
-      return Adult as unknown as ReactNode;
-    default:
-      return null;
-  }
-}
+export const occupantTypeIconMap = {
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.ADULT]: Adult,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.CHILD]: Child,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.INFANT]: Infant,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.YOUTH]: Youth,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET]: Pet,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.WEDDINGGUEST]: Adult,
+};
