@@ -6,6 +6,8 @@ import AppFrame from "../components/AppFrame";
 const Root = () => {
   const location = useLocation();
 
+  console.log(location.pathname);
+
   if (location.pathname === "/") {
     return <Navigate to={ROUTES.DASHBOARD} />;
   }

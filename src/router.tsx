@@ -15,6 +15,7 @@ import IndividualBooking from "./routes/bookings/[id]";
 import { ROUTES } from "./settings";
 import NewBooking from "./routes/bookings/new";
 import IndividualArrival from "./routes/arrivals/[id]";
+import Experimental from "./Experimental";
 
 export const router = createBrowserRouter([
   {
@@ -72,7 +73,6 @@ export const router = createBrowserRouter([
         path: ROUTES.ADMIN,
         element: <Admin />,
       },
-     
     ],
   },
   {
@@ -84,4 +84,8 @@ export const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
   },
+  {
+    path: ROUTES.EXPERIMENTAL,
+    element: <Experimental />,
+  }
 ]);

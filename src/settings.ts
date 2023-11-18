@@ -1,4 +1,4 @@
-import { QuestionMark } from "@mui/icons-material";
+import { QuestionMark, SvgIconComponent } from "@mui/icons-material";
 import Awning from "./components/Icons/Awning";
 import Caravan from "./components/Icons/Caravan";
 import Electricity from "./components/Icons/Electricity";
@@ -6,7 +6,12 @@ import Hiker from "./components/Icons/Hiker";
 import LargeVan from "./components/Icons/LargeVan";
 import SmallVan from "./components/Icons/SmallVan";
 import Tent from "./components/Icons/Tent";
-import { ElementType } from "react";
+import { ElementType, ReactNode } from "react";
+import Adult from "./components/Icons/Adult";
+import Child from "./components/Icons/Child";
+import Infant from "./components/Icons/Infant";
+import Youth from "./components/Icons/Youth";
+import Pet from "./components/Icons/Pet";
 
 export const APIURL = process.env.APIURL || "http://localhost:8000";
 
@@ -30,6 +35,7 @@ export const ROUTES = {
   ID: ":id/",
   NEW: "new/",
   ALL: "all/",
+  EXPERIMENTAL: "exp/",
 };
 
 export const API_ENDPOINTS = {
@@ -44,7 +50,7 @@ export const API_ENDPOINTS = {
   LEAD_GUESTS: "lead-guests/",
   UNITS: "units/",
   UNIT_TYPES: "unit-types/",
-}
+};
 
 export const SUPPORTED_ICONS = {
   HikerTent: "HikerTent",
@@ -58,7 +64,16 @@ export const SUPPORTED_ICONS = {
   Awning: "Awning",
 };
 
-export const NEW_OR_EXISTING: {[key: string]: "new" | "existing"} = {
+export const OFFICIALLY_SUPPORTED_OCCUPANT_TYPES = {
+  ADULT: "Adult",
+  CHILD: "Child",
+  INFANT: "Infant",
+  YOUTH: "Youth",
+  PET: "Pet",
+  WEDDINGGUEST: "WeddingGuest",
+};
+
+export const NEW_OR_EXISTING: { [key: string]: "new" | "existing" } = {
   NEW: "new",
   EXISTING: "existing",
 };
@@ -99,5 +114,24 @@ export function getIcon(iconKey: string) {
       return Awning as unknown as ElementType;
     default:
       return QuestionMark as unknown as ElementType;
+  }
+}
+
+export function getOccupantTypeIcon(iconKey: string): ReactNode | null {
+  switch (iconKey) {
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.ADULT:
+      return Adult as unknown as ReactNode;
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.CHILD:
+      return Child as unknown as ReactNode;
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.INFANT:
+      return Infant as unknown as ReactNode;
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.YOUTH:
+      return Youth as unknown as ReactNode;
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET:
+      return Pet as unknown as ReactNode;
+    case OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.WEDDINGGUEST:
+      return Adult as unknown as ReactNode;
+    default:
+      return null;
   }
 }
