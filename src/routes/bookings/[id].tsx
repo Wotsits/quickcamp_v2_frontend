@@ -6,6 +6,8 @@ import AuthContext from "../../contexts/authContext";
 import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
+import OccupantCard from "../../components/OccupantCard";
+import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES } from "../../settings";
 
 const IndividualBooking = () => {
   const { user } = useContext(AuthContext);
@@ -61,7 +63,8 @@ const IndividualBooking = () => {
             Unit: {data.unit!.name}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Dates: {new Date(data.start).toUTCString()} - {new Date(data.end).toUTCString()}
+            Dates: {new Date(data.start).toUTCString()} -{" "}
+            {new Date(data.end).toUTCString()}
           </Typography>
         </div>
         <div className="booking-information-section">
@@ -72,32 +75,49 @@ const IndividualBooking = () => {
             <Typography variant="h6" component="h2" gutterBottom>
               Guests
             </Typography>
-            <ul>
+            <div className="occupant-cards">
               {data.guests?.map((guest) => {
                 const name = guest.name;
                 const type = guest.guestType!.name;
-                const start = new Date(guest.start).toUTCString();
-                const end = new Date(guest.end).toUTCString();
+                const start = new Date(guest.start);
+                const end = new Date(guest.end);
                 return (
-                  <li>
-                    {name} - {type} - Arrives: {start} - Departs: {end}
-                  </li>
+                  <div className="occupant-card-container">
+                    <OccupantCard
+                      name={name}
+                      type={type}
+                      start={start}
+                      end={end}
+                      checkedIn={false}
+                    />
+                  </div>
                 );
               })}
-            </ul>
+            </div>
           </Box>
           <Box sx={{ mb: 3 }} justifyContent="space-between">
             <Typography variant="h6" component="h2" gutterBottom>
               Pets
             </Typography>
-            <ul>
+            <div className="occupant-cards">
               {data.pets?.map((pet) => {
                 const name = pet.name;
                 const start = new Date(pet.start).toUTCString();
                 const end = new Date(pet.end).toUTCString();
-                return <li>{name} - Arrives: {start} - Departs {end}</li>;
+                return (
+                  <div className="occupant-card-container">
+                    <OccupantCard
+                      name={name}
+                      type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET}
+                      start={new Date(start)}
+                      end={new Date(end)}
+                      checkedIn={false}
+                    />
+                    ;
+                  </div>
+                );
               })}
-            </ul>
+            </div>
           </Box>
           <Box sx={{ mb: 3 }} justifyContent="space-between">
             <Typography variant="h6" component="h2" gutterBottom>
@@ -108,7 +128,11 @@ const IndividualBooking = () => {
                 const reg = vehicle.vehicleReg;
                 const start = new Date(vehicle.start).toUTCString();
                 const end = new Date(vehicle.end).toUTCString();
-                return <li>{reg} - Arrives: {start} - Departs: {end}</li>;
+                return (
+                  <li>
+                    {reg} - Arrives: {start} - Departs: {end}
+                  </li>
+                );
               })}
             </ul>
           </Box>

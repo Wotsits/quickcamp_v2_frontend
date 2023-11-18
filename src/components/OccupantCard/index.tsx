@@ -18,12 +18,12 @@ const OccupantCard = ({name, type, start, end, checkedIn}: OccupantCardProps) =>
                     {occupantTypeIconMap[type]({className: "occupant-card-icon-svg"})}
                 </div>
                 <div className="occupant-card-detail-container">
-                    <Typography variant="h4" component="h5">{name}</Typography>
-                    <Typography variant="h5" component="h6">Arrives: {start.toDateString()}</Typography>
-                    <Typography variant="h5" component="h6">Departs: {end.toDateString()}</Typography>
+                    <Typography variant="subtitle1">{name}</Typography>
+                    <Typography variant="subtitle2">Arrives: {start.toDateString()}</Typography>
+                    <Typography variant="subtitle2">Departs: {end.toDateString()}</Typography>
                 </div>
                 <div className="occupant-card-status-container">
-                    <Typography variant="h5" component="h4" color={checkedIn ? "green" : "red"}>{checkedIn ? "Checked In" : "Not Checked In"}</Typography>
+                    <Typography variant="subtitle1" color={checkedIn ? "green" : "red"}>{checkedIn ? "Checked In" : "Not Checked In"}</Typography>
                 </div>
         </div>
     );

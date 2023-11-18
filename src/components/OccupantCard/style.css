@@ -1,5 +1,5 @@
 .occupant-card {
-    padding: 30px;
+    padding: 15px;
     background: white;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
@@ -11,11 +11,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .occupant-card .occupant-card-icon-svg {
-    height: 5em;
+    height: 3em;
 }
 
 .occupant-card .occupant-card-detail-container {
@@ -25,7 +25,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .occupant-card .occupant-card-status-container {
