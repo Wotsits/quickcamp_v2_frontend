@@ -12,6 +12,7 @@ import Child from "./components/Icons/Child";
 import Infant from "./components/Icons/Infant";
 import Youth from "./components/Icons/Youth";
 import Pet from "./components/Icons/Pet";
+import Car from "./components/Icons/Car";
 
 export const APIURL = process.env.APIURL || "http://localhost:8000";
 
@@ -71,6 +72,7 @@ export const OFFICIALLY_SUPPORTED_OCCUPANT_TYPES = {
   YOUTH: "Youth",
   PET: "Pet",
   WEDDINGGUEST: "WeddingGuest",
+  VEHICLE: "Vehicle",
 };
 
 export const NEW_OR_EXISTING: { [key: string]: "new" | "existing" } = {
@@ -124,4 +126,5 @@ export const occupantTypeIconMap = {
   [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.YOUTH]: Youth,
   [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET]: Pet,
   [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.WEDDINGGUEST]: Adult,
+  [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.VEHICLE]: Car,
 };

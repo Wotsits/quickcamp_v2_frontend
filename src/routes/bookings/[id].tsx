@@ -123,18 +123,22 @@ const IndividualBooking = () => {
             <Typography variant="h6" component="h2" gutterBottom>
               Vehicles
             </Typography>
-            <ul>
+            <div className="occupant-cards">
               {data.vehicles?.map((vehicle) => {
                 const reg = vehicle.vehicleReg;
                 const start = new Date(vehicle.start).toUTCString();
                 const end = new Date(vehicle.end).toUTCString();
                 return (
-                  <li>
-                    {reg} - Arrives: {start} - Departs: {end}
-                  </li>
+                  <OccupantCard
+                    name={reg}
+                    type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.VEHICLE}
+                    start={new Date(start)}
+                    end={new Date(end)}
+                    checkedIn={false}
+                  />
                 );
               })}
-            </ul>
+            </div>
           </Box>
         </div>
         <div className="booking-information-section">
