@@ -2,7 +2,7 @@ import { Box, Divider, SvgIcon, Typography } from "@mui/material";
 import React from "react";
 import LargeButton from "../../LargeButton";
 import { EquipmentType, ExtraType } from "../../../types";
-import { getIcon } from "../../../settings";
+import { equipmentIcon } from "../../../settings";
 import "./style.css";
 
 type EquipmentDetailsProps = {
@@ -35,7 +35,7 @@ const EquipmentDetails = ({
             >
               <SvgIcon
                 fontSize="large"
-                component={getIcon(equipmentType.icon)}
+                component={equipmentIcon[equipmentType.icon]}
                 className={
                   formEquipmentType === equipmentType.id ? "highlighted" : ""
                 }
@@ -64,7 +64,7 @@ const EquipmentDetails = ({
             >
               <SvgIcon
                 fontSize="large"
-                component={getIcon(extraType.icon)}
+                component={equipmentIcon[extraType.icon]}
                 className={
                   formExtras.includes(extraType.id) ? "highlighted" : ""
                 }

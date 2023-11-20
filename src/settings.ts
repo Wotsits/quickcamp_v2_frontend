@@ -1,4 +1,3 @@
-import { QuestionMark, SvgIconComponent } from "@mui/icons-material";
 import Awning from "./components/Icons/Awning";
 import Caravan from "./components/Icons/Caravan";
 import Electricity from "./components/Icons/Electricity";
@@ -6,7 +5,6 @@ import Hiker from "./components/Icons/Hiker";
 import LargeVan from "./components/Icons/LargeVan";
 import SmallVan from "./components/Icons/SmallVan";
 import Tent from "./components/Icons/Tent";
-import { ElementType, ReactNode } from "react";
 import Adult from "./components/Icons/Adult";
 import Child from "./components/Icons/Child";
 import Infant from "./components/Icons/Infant";
@@ -91,33 +89,20 @@ export const SECONDARYCOLOR = "#004E92";
 export const WEEKENDHIGHLIGHT = "rgba(0,78,146, 0.1)";
 
 // -------------
-// Setting functions
+// Icons
 // -------------
 
-export function getIcon(iconKey: string) {
-  switch (iconKey) {
-    case SUPPORTED_ICONS.HikerTent:
-      return Hiker as unknown as ElementType;
-    case SUPPORTED_ICONS.MediumTent:
-      return Tent as unknown as ElementType;
-    case SUPPORTED_ICONS.LargeTent:
-      return Tent as unknown as ElementType;
-    case SUPPORTED_ICONS.Caravan:
-      return Caravan as unknown as ElementType;
-    case SUPPORTED_ICONS.SmallCampervan:
-      return SmallVan as unknown as ElementType;
-    case SUPPORTED_ICONS.LargeCampervan:
-      return LargeVan as unknown as ElementType;
-    case SUPPORTED_ICONS.Electric:
-      return Electricity as unknown as ElementType;
-    case SUPPORTED_ICONS.Gazebo:
-      return Awning as unknown as ElementType;
-    case SUPPORTED_ICONS.Awning:
-      return Awning as unknown as ElementType;
-    default:
-      return QuestionMark as unknown as ElementType;
-  }
-}
+export const equipmentIcon = {
+  [SUPPORTED_ICONS.HikerTent]: Hiker,
+  [SUPPORTED_ICONS.MediumTent]: Tent,
+  [SUPPORTED_ICONS.LargeTent]: Tent,
+  [SUPPORTED_ICONS.Caravan]: Caravan,
+  [SUPPORTED_ICONS.SmallCampervan]: SmallVan,
+  [SUPPORTED_ICONS.LargeCampervan]: LargeVan,
+  [SUPPORTED_ICONS.Electric]: Electricity,
+  [SUPPORTED_ICONS.Gazebo]: Awning,
+  [SUPPORTED_ICONS.Awning]: Awning,
+};
 
 export const occupantTypeIconMap = {
   [OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.ADULT]: Adult,
