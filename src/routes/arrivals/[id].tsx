@@ -149,8 +149,8 @@ const IndividualArrival = () => {
     if (type === "PET") setPets(cpy as BookingPet[]);
     if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
 
-    // TODO: Update the database
-    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type });
+    // Update the server
+    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type, reverse: false });
   }
 
   function unCheckinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
@@ -170,7 +170,8 @@ const IndividualArrival = () => {
     if (type === "PET") setPets(cpy as BookingPet[]);
     if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
 
-    // TODO: Update the database
+    // Update the server
+    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type, reverse: true });
   }
 
   function checkinAll() {
@@ -211,7 +212,8 @@ const IndividualArrival = () => {
     setPets(petsCpy);
     setVehicles(vehiclesCpy);
 
-    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer });
+    // Update the server
+    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer, reverse: false });
   }
 
   function unCheckinAll() {
@@ -219,19 +221,33 @@ const IndividualArrival = () => {
     const petsCpy = [...pets!];
     const vehiclesCpy = [...vehicles!];
 
+    const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] = []
+
     guestsCpy.forEach((guest) => {
-      guest.checkedIn = null;
+      if (guest.checkedIn) {
+        guest.checkedIn = null;
+        toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
+      }
     });
     petsCpy.forEach((pet) => {
-      pet.checkedIn = null;
+      if (pet.checkedIn) {
+        pet.checkedIn = null;
+        toUpdateOnServer.push({ id: pet.id, type: "PET" });
+      }
     });
     vehiclesCpy.forEach((vehicle) => {
-      vehicle.checkedIn = null;
+      if (vehicle.checkedIn) {
+        vehicle.checkedIn = null;
+        toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
+      }
     });
 
     setGuests(guestsCpy);
     setPets(petsCpy);
     setVehicles(vehiclesCpy);
+
+    // Update the server
+    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer, reverse: true });
   }
 
   // -------------

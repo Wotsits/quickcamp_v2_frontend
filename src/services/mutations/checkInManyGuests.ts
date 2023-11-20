@@ -3,17 +3,20 @@ import { APIURL } from "../../settings";
 
 type CheckInManyGuestArgs = {
   token: string;
-  guests: {id: number, type: "GUEST" | "PET" | "VEHICLE";}[];
+  guests: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[];
+  reverse?: boolean;
 };
 
 export const checkInManyGuests = async ({
   token,
   guests,
+  reverse,
 }: CheckInManyGuestArgs) => {
   return await axios.post(
     APIURL + "check-in-many-guests",
     {
       guests,
+      reverse,
     },
     {
       headers: {

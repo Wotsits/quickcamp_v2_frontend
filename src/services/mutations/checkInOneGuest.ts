@@ -5,18 +5,21 @@ type CheckInOneGuestArgs = {
   token: string;
   id: number;
   type: "GUEST" | "PET" | "VEHICLE";
+  reverse?: boolean;
 };
 
 export const checkInOneGuest = async ({
   token,
   id,
   type,
+  reverse,
 }: CheckInOneGuestArgs) => {
   return await axios.post(
     APIURL + "check-in-guest",
     {
       id, 
-      type
+      type,
+      reverse,
     },
     {
       headers: {
