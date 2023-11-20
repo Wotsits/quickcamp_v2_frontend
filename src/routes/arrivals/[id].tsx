@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
@@ -10,6 +10,7 @@ import "./style.css";
 import { isGuestDue } from "../../utils/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import { ROUTES } from "../../settings";
+import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
 
 const IndividualArrival = () => {
   // -------------
@@ -62,6 +63,20 @@ const IndividualArrival = () => {
   );
 
   // -------------
+  // MUTATIONS
+  // -------------
+
+  const checkInOneGuestMutation = useMutation({
+    mutationFn: checkInOneGuest,
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  // -------------
   // EVENT HANDLERS
   // -------------
 
@@ -86,6 +101,8 @@ const IndividualArrival = () => {
     if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
 
     // TODO: Update the database
+    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type });
+
   }
 
   function unCheckinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
@@ -104,7 +121,7 @@ const IndividualArrival = () => {
     if (type === "GUEST") setGuests(cpy as BookingGuest[]);
     if (type === "PET") setPets(cpy as BookingPet[]);
     if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
-
+  
     // TODO: Update the database
   }
 
@@ -178,13 +195,13 @@ const IndividualArrival = () => {
           <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
             Arrival {id}
             <IconButton
-            size="small"
-            onClick={() => {
-              navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`)
-            }}
-          >
-            <EditIcon />
-          </IconButton>
+              size="small"
+              onClick={() => {
+                navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
           </Typography>
         </div>
         <div id="individual-arrival-header-right">
