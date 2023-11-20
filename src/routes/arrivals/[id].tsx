@@ -18,6 +18,7 @@ import { isGuestDue } from "../../utils/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import { ROUTES } from "../../settings";
 import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
+import { checkInManyGuests } from "../../services/mutations/checkInManyGuests";
 
 const IndividualArrival = () => {
   // -------------
@@ -102,6 +103,28 @@ const IndividualArrival = () => {
     },
   });
 
+  const checkInManyGuestsMutation = useMutation({
+    mutationFn: checkInManyGuests,
+    onSuccess: (res) => {
+      // invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["booking", id],
+      });
+      queryClient.refetchQueries({
+        queryKey: ["bookings"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["arrivalsByDate"],
+      });
+    },
+    onError: (err) => {
+      setError(
+        "There has been an error checking in the party member.  Please reload the application and try again."
+      );
+    },
+  });
+
+
   // -------------
   // EVENT HANDLERS
   // -------------
@@ -157,19 +180,38 @@ const IndividualArrival = () => {
 
     const now = new Date();
 
+    const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] = []
+
     guestsCpy.forEach((guest) => {
-      if (isGuestDue(guest)) guest.checkedIn = now;
+      if (isGuestDue(guest)) {
+        if (!guest.checkedIn) {
+          guest.checkedIn = now;
+          toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
+        }
+      };
     });
     petsCpy.forEach((pet) => {
-      if (isGuestDue(pet)) pet.checkedIn = now;
+      if (isGuestDue(pet)) {
+        if (!pet.checkedIn) {
+          pet.checkedIn = now;
+          toUpdateOnServer.push({ id: pet.id, type: "PET" });
+        }
+      };
     });
     vehiclesCpy.forEach((vehicle) => {
-      if (isGuestDue(vehicle)) vehicle.checkedIn = now;
+      if (isGuestDue(vehicle)) {
+        if (!vehicle.checkedIn) {
+          vehicle.checkedIn = now;
+          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
+        }
+      }
     });
 
     setGuests(guestsCpy);
     setPets(petsCpy);
     setVehicles(vehiclesCpy);
+
+    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer });
   }
 
   function unCheckinAll() {
