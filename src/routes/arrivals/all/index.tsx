@@ -39,6 +39,32 @@ const summaryBlockSettings = {
   height: "150px",
 };
 
+const countTotalToday = (
+  array: Booking["guests"] | Booking["pets"] | Booking["vehicles"],
+  status: "CHECKED-IN" | "DUE"
+) => {
+  if (!array) return 0;
+  if (!status) return array.length;
+
+  const arrivingToday = array.filter((item) => {
+    const arrivalDate = new Date(item.start);
+    const today = new Date();
+    return (
+      arrivalDate.getDate() === today.getDate() &&
+      arrivalDate.getMonth() === today.getMonth() &&
+      arrivalDate.getFullYear() === today.getFullYear()
+    );
+  })
+
+  if (status === "CHECKED-IN") {
+    return arrivingToday.filter((item) => item.checkedIn).length;
+  }
+  if (status === "DUE") {
+    return arrivingToday.length;
+  }
+}
+
+
 const Arrivals = () => {
   // -------------
   // CONTEXT
@@ -87,10 +113,7 @@ const Arrivals = () => {
         Arrivals
       </Typography>
 
-      <div
-        id="arrivals-datepicker"
-        className="arrivals-datepicker"
-      >
+      <div id="arrivals-datepicker" className="arrivals-datepicker">
         <DatePicker
           onChange={(value: Date | null) =>
             setDate(setDateToMidday(value as Date))
@@ -219,13 +242,16 @@ const Arrivals = () => {
                           {arrival.leadGuest.lastName}
                         </TableCell>
                         <TableCell align="right">
-                          {arrival.guests!.length}
+                          {countTotalToday(arrival.guests, "CHECKED-IN")}/
+                          {countTotalToday(arrival.guests, "DUE")}
                         </TableCell>
                         <TableCell align="right">
-                          {arrival.pets!.length}
+                          {countTotalToday(arrival.pets, "CHECKED-IN")}/
+                          {countTotalToday(arrival.pets, "DUE")}
                         </TableCell>
                         <TableCell align="right">
-                          {arrival.vehicles!.length}
+                          {countTotalToday(arrival.vehicles, "CHECKED-IN")}/
+                          {countTotalToday(arrival.vehicles, "DUE")}
                         </TableCell>
                         <TableCell align="right">
                           <Button
