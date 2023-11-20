@@ -10,12 +10,13 @@ type LargeButtonProps = {
     highlighted: boolean
     /** optional, class name */
     className?: string
-
+    /** optional, disabled state */
+    disabled?: boolean
 }
 
-const LargeButton = ({children, onClick, highlighted}: LargeButtonProps) => {
+const LargeButton = ({children, onClick, highlighted, disabled = false}: LargeButtonProps) => {
     return (
-        <Button variant={highlighted ? "contained" : "outlined"} onClick={onClick}>
+        <Button variant={highlighted ? "contained" : "outlined"} onClick={onClick} disabled={disabled}>
             {children}
         </Button>
     );

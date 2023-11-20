@@ -1,3 +1,5 @@
+import { BookingGuest, BookingPet, BookingVehicle } from "../types";
+
 export function generateDateArray(startDate: Date, numberOfNights: number) {
   const startDateCpy = new Date(startDate);
   startDateCpy.setHours(12, 0, 0, 0); // Set time to 12:00:00.000
@@ -52,4 +54,15 @@ export function getInitials(inputString: string) {
   }
 
   return initials;
+}
+
+
+export function isGuestDue(guest: BookingGuest | BookingPet | BookingVehicle) {
+  const now = new Date();
+
+  const start = new Date(guest.start);
+  // set the start to the beginning of the day, allows processing of early arrivals
+  start.setHours(0, 0, 0, 0);
+
+  return now >= start;
 }
