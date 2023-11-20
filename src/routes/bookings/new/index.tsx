@@ -528,7 +528,7 @@ const NewBooking = () => {
       // raise a toast to the user
       return;
     }
-    setActiveStep(5);
+    setActiveStep(4);
     mutation.mutate();
   }
 
