@@ -236,8 +236,7 @@ const NewBooking = () => {
               setFormUnitTypeId(parseInt(requestedUnitTypeId!));
               return;
             }
-          }
-          else {
+          } else {
             const firstUnit = data[0];
             setFormUnitId(firstUnit.id);
             setFormUnitTypeId(firstUnit.unitTypeId);
@@ -322,7 +321,7 @@ const NewBooking = () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({
-        queryKey: ["arrivalsByDate", formStartDate],
+        queryKey: ["arrivalsByDate"],
       });
       queryClient.invalidateQueries({ queryKey: ["units"] });
       setBookingId(res.data.data.id);

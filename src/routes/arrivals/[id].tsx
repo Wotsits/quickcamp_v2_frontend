@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import {
@@ -48,6 +48,7 @@ const IndividualArrival = () => {
 
   const params = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   if (!params || !params.id) {
     return <div>BookingId not found</div>;
@@ -82,6 +83,18 @@ const IndividualArrival = () => {
 
   const checkInOneGuestMutation = useMutation({
     mutationFn: checkInOneGuest,
+    onSuccess: (res) => {
+      // invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["booking", id],
+      });
+      queryClient.refetchQueries({
+        queryKey: ["bookings"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["arrivalsByDate"],
+      });
+    },
     onError: (err) => {
       setError(
         "There has been an error checking in the party member.  Please reload the application and try again."
