@@ -9,12 +9,15 @@ type SearchFieldProps = {
   trigger: "BLUR" | "CHANGE" | "ENTER";
   /** Optional, variant */
   variant?: "onLight" | "onDark";
+  /** Optional, autofocus */
+  autoFocus?: boolean;
 };
 
 const SearchField = ({
   callback,
   variant = "onDark",
   trigger,
+  autoFocus = false,
 }: SearchFieldProps) => {
 
   const className =
@@ -42,6 +45,7 @@ const SearchField = ({
         onChange={
           trigger === "CHANGE" ? (e) => callback(e.target.value) : undefined
         }
+        autoFocus={autoFocus}
       />
     </div>
   );

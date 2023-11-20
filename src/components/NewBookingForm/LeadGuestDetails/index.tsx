@@ -179,6 +179,7 @@ const LeadGuestDetails = ({
               callback={callbackFromSearchField}
               variant="onLight"
               trigger="CHANGE"
+              autoFocus={true}
             />
           </Box>
           <List id="existing-guest-form-results-list">
