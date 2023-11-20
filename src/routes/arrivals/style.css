@@ -41,6 +41,13 @@
     flex-direction: column;
 }
 
+#individual-arrival #individual-arrival-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 #individual-arrival #arrival-button-container {
     flex-grow: 1;
     overflow-y: auto;

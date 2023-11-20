@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { useQuery } from "react-query";
 import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import LargeButton from "../../components/LargeButton";
 import "./style.css";
-import {isGuestDue} from "../../utils/helpers";
+import { isGuestDue } from "../../utils/helpers";
+import EditIcon from "@mui/icons-material/Edit";
+import { ROUTES } from "../../settings";
 
 const IndividualArrival = () => {
   // -------------
@@ -35,6 +37,7 @@ const IndividualArrival = () => {
   // -------------
 
   const params = useParams();
+  const navigate = useNavigate();
 
   if (!params || !params.id) {
     return <div>BookingId not found</div>;
@@ -170,11 +173,21 @@ const IndividualArrival = () => {
 
   return (
     <div id="individual-arrival">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
-          Arrival {id}
-        </Typography>
-        <div>
+      <div id="individual-arrival-header">
+        <div id="individual-arrival-header-left">
+          <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
+            Arrival {id}
+            <IconButton
+            size="small"
+            onClick={() => {
+              navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`)
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          </Typography>
+        </div>
+        <div id="individual-arrival-header-right">
           <Button variant="contained" onClick={checkinAll} sx={{ mb: 3 }}>
             CheckIn All
           </Button>
@@ -186,7 +199,7 @@ const IndividualArrival = () => {
             Un-CheckIn All
           </Button>
         </div>
-      </Box>
+      </div>
 
       {/* PEOPLE */}
 
