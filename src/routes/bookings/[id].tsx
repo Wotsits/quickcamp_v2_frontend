@@ -81,6 +81,7 @@ const IndividualBooking = () => {
                 const type = guest.guestType!.name;
                 const start = new Date(guest.start);
                 const end = new Date(guest.end);
+                const checkedIn = guest.checkedIn !== null;
                 return (
                   <div className="occupant-card-container">
                     <OccupantCard
@@ -88,7 +89,7 @@ const IndividualBooking = () => {
                       type={type}
                       start={start}
                       end={end}
-                      checkedIn={false}
+                      checkedIn={checkedIn}
                     />
                   </div>
                 );
@@ -104,6 +105,7 @@ const IndividualBooking = () => {
                 const name = pet.name;
                 const start = new Date(pet.start).toUTCString();
                 const end = new Date(pet.end).toUTCString();
+                const checkedIn = pet.checkedIn !== null;
                 return (
                   <div className="occupant-card-container">
                     <OccupantCard
@@ -111,7 +113,7 @@ const IndividualBooking = () => {
                       type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET}
                       start={new Date(start)}
                       end={new Date(end)}
-                      checkedIn={false}
+                      checkedIn={checkedIn}
                     />
                     ;
                   </div>
@@ -128,13 +130,14 @@ const IndividualBooking = () => {
                 const reg = vehicle.vehicleReg;
                 const start = new Date(vehicle.start).toUTCString();
                 const end = new Date(vehicle.end).toUTCString();
+                const checkedIn = vehicle.checkedIn !== null;
                 return (
                   <OccupantCard
                     name={reg}
                     type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.VEHICLE}
                     start={new Date(start)}
                     end={new Date(end)}
-                    checkedIn={false}
+                    checkedIn={checkedIn}
                   />
                 );
               })}
