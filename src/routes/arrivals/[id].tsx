@@ -4,7 +4,14 @@ import AuthContext from "../../contexts/authContext";
 import { useMutation, useQuery } from "react-query";
 import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
-import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import LargeButton from "../../components/LargeButton";
 import "./style.css";
 import { isGuestDue } from "../../utils/helpers";
@@ -33,6 +40,8 @@ const IndividualArrival = () => {
     Booking["vehicles"] | undefined
   >(undefined);
 
+  const [error, setError] = React.useState<string | undefined>(undefined);
+
   // -------------
   // HOOKS
   // -------------
@@ -50,7 +59,12 @@ const IndividualArrival = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<Booking, Error>(
+  const {
+    isLoading: isArrivalLoading,
+    isError: isArrivalError,
+    data: arrivalData,
+    error: arrivalError,
+  } = useQuery<Booking, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id }),
     {
@@ -68,11 +82,10 @@ const IndividualArrival = () => {
 
   const checkInOneGuestMutation = useMutation({
     mutationFn: checkInOneGuest,
-    onSuccess: (res) => {
-      console.log(res);
-    },
     onError: (err) => {
-      console.log(err);
+      setError(
+        "There has been an error checking in the party member.  Please reload the application and try again."
+      );
     },
   });
 
@@ -102,7 +115,6 @@ const IndividualArrival = () => {
 
     // TODO: Update the database
     checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type });
-
   }
 
   function unCheckinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
@@ -121,7 +133,7 @@ const IndividualArrival = () => {
     if (type === "GUEST") setGuests(cpy as BookingGuest[]);
     if (type === "PET") setPets(cpy as BookingPet[]);
     if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
-  
+
     // TODO: Update the database
   }
 
@@ -172,7 +184,7 @@ const IndividualArrival = () => {
   // -------------
 
   if (
-    isLoading ||
+    isArrivalLoading ||
     guests === undefined ||
     pets === undefined ||
     vehicles === undefined
@@ -180,11 +192,11 @@ const IndividualArrival = () => {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
-    return <div>Error: {error.message}</div>;
+  if (isArrivalError) {
+    return <div>Error: {arrivalError.message}</div>;
   }
 
-  if (!data) {
+  if (!arrivalData) {
     return <div>Booking not found</div>;
   }
 
@@ -217,6 +229,12 @@ const IndividualArrival = () => {
           </Button>
         </div>
       </div>
+
+      {error && (
+        <div id="individual-arrival-error">
+          <Alert severity="error">{error}</Alert>
+        </div>
+      )}
 
       {/* PEOPLE */}
 
