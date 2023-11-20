@@ -122,7 +122,7 @@ export type BookingGuest = {
     guestType?: GuestType,
     start: Date,
     end: Date,
-    checkedIn: boolean,
+    checkedIn: Date | null,
 }
 
 export type BookingVehicle = {
@@ -132,7 +132,7 @@ export type BookingVehicle = {
     vehicleReg: string,
     start: Date,
     end: Date,
-    checkedIn: boolean,
+    checkedIn: Date | null,
 }
 
 export type BookingPet = {
@@ -142,7 +142,7 @@ export type BookingPet = {
     name: string,
     start: Date,
     end: Date,
-    checkedIn: boolean,
+    checkedIn: Date | null,
 }
 
 export type Payment = {

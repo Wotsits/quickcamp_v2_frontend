@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { useQuery } from "react-query";
-import { Booking } from "../../types";
+import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import { Box, Button, Divider, Typography } from "@mui/material";
 import LargeButton from "../../components/LargeButton";
@@ -14,6 +14,20 @@ const IndividualArrival = () => {
   // -------------
 
   const { user } = useContext(AuthContext);
+
+  // -------------
+  // STATE
+  // -------------
+
+  const [guests, setGuests] = React.useState<Booking["guests"] | undefined>(
+    undefined
+  );
+  const [pets, setPets] = React.useState<Booking["pets"] | undefined>(
+    undefined
+  );
+  const [vehicles, setVehicles] = React.useState<
+    Booking["vehicles"] | undefined
+  >(undefined);
 
   // -------------
   // HOOKS
@@ -33,7 +47,14 @@ const IndividualArrival = () => {
 
   const { isLoading, isError, data, error } = useQuery<Booking, Error>(
     ["booking", params.id],
-    () => getBookingById({ token: user.token, id: id })
+    () => getBookingById({ token: user.token, id: id }),
+    {
+      onSuccess(data) {
+        setGuests(data.guests);
+        setPets(data.pets);
+        setVehicles(data.vehicles);
+      },
+    }
   );
 
   // -------------
@@ -41,18 +62,98 @@ const IndividualArrival = () => {
   // -------------
 
   function checkinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
-    console.log("Checking in: ", type, guestId);
+    const now = new Date();
+    let cpy: BookingGuest[] | BookingPet[] | BookingVehicle[] = [];
+
+    if (type === "GUEST") cpy = [...guests!];
+    if (type === "PET") cpy = [...pets!];
+    if (type === "VEHICLE") cpy = [...vehicles!];
+
+    const target = cpy.find((item) => item.id === guestId);
+
+    if (target) {
+      target.checkedIn = now;
+    }
+
+    if (type === "GUEST") setGuests(cpy as BookingGuest[]);
+    if (type === "PET") setPets(cpy as BookingPet[]);
+    if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
+
+    // TODO: Update the database
+  }
+
+  function unCheckinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
+    let cpy: BookingGuest[] | BookingPet[] | BookingVehicle[] = [];
+
+    if (type === "GUEST") cpy = [...guests!];
+    if (type === "PET") cpy = [...pets!];
+    if (type === "VEHICLE") cpy = [...vehicles!];
+
+    const target = cpy.find((item) => item.id === guestId);
+
+    if (target) {
+      target.checkedIn = null;
+    }
+
+    if (type === "GUEST") setGuests(cpy as BookingGuest[]);
+    if (type === "PET") setPets(cpy as BookingPet[]);
+    if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
+
+    // TODO: Update the database
   }
 
   function checkinAll() {
-    console.log("Checking in all");
+    const guestsCpy = [...guests!];
+    const petsCpy = [...pets!];
+    const vehiclesCpy = [...vehicles!];
+
+    const now = new Date();
+
+    guestsCpy.forEach((guest) => {
+      guest.checkedIn = now;
+    });
+    petsCpy.forEach((pet) => {
+      pet.checkedIn = now;
+    });
+    vehiclesCpy.forEach((vehicle) => {
+      vehicle.checkedIn = now;
+    });
+
+    setGuests(guestsCpy);
+    setPets(petsCpy);
+    setVehicles(vehiclesCpy);
+  }
+
+  function unCheckinAll() {
+    const guestsCpy = [...guests!];
+    const petsCpy = [...pets!];
+    const vehiclesCpy = [...vehicles!];
+
+    guestsCpy.forEach((guest) => {
+      guest.checkedIn = null;
+    });
+    petsCpy.forEach((pet) => {
+      pet.checkedIn = null;
+    });
+    vehiclesCpy.forEach((vehicle) => {
+      vehicle.checkedIn = null;
+    });
+
+    setGuests(guestsCpy);
+    setPets(petsCpy);
+    setVehicles(vehiclesCpy);
   }
 
   // -------------
   // RENDER
   // -------------
 
-  if (isLoading) {
+  if (
+    isLoading ||
+    guests === undefined ||
+    pets === undefined ||
+    vehicles === undefined
+  ) {
     return <div>Loading...</div>;
   }
 
@@ -70,9 +171,14 @@ const IndividualArrival = () => {
         <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
           Arrival {id}
         </Typography>
-        <Button variant="contained" onClick={checkinAll} sx={{ mb: 3 }}>
-          Check-in All
-        </Button>
+        <div>
+          <Button variant="contained" onClick={checkinAll} sx={{ mb: 3 }}>
+            CheckIn All
+          </Button>
+          <Button variant="contained" onClick={unCheckinAll} sx={{ mb: 3, ml: 1}}>
+            Un-CheckIn All
+          </Button>
+        </div>
       </Box>
 
       {/* PEOPLE */}
@@ -84,16 +190,16 @@ const IndividualArrival = () => {
 
         <Box
           className={
-            data.guests!.length === 1 ? "button-grid one-column" : "button-grid"
+            guests.length === 1 ? "button-grid one-column" : "button-grid"
           }
           sx={{ mb: 3 }}
         >
-          {data.guests!.map((guest) => (
+          {guests!.map((guest) => (
             <LargeButton
-              onClick={() => checkinOne(guest.id, "GUEST")}
-              highlighted={false}
+              onClick={!guest.checkedIn ? () => checkinOne(guest.id, "GUEST") : () => unCheckinOne(guest.id, "GUEST")}
+              highlighted={guest.checkedIn !== null}
             >
-              {guest.name}
+              <p>{guest.name}</p>
             </LargeButton>
           ))}
         </Box>
@@ -106,14 +212,14 @@ const IndividualArrival = () => {
 
         <Box
           className={
-            data.pets!.length === 1 ? "button-grid one-column" : "button-grid"
+            pets!.length === 1 ? "button-grid one-column" : "button-grid"
           }
           sx={{ mb: 3 }}
         >
-          {data.pets!.map((pet) => (
+          {pets.map((pet) => (
             <LargeButton
-              onClick={() => checkinOne(pet.id, "GUEST")}
-              highlighted={false}
+              onClick={!pet.checkedIn ? () => checkinOne(pet.id, "PET") : () => unCheckinOne(pet.id, "PET")}
+              highlighted={pet.checkedIn !== null}
             >
               {pet.name}
             </LargeButton>
@@ -128,16 +234,14 @@ const IndividualArrival = () => {
 
         <Box
           className={
-            data.vehicles!.length === 1
-              ? "button-grid one-column"
-              : "button-grid"
+            vehicles.length === 1 ? "button-grid one-column" : "button-grid"
           }
           sx={{ mb: 3 }}
         >
-          {data.vehicles!.map((vehicle) => (
+          {vehicles!.map((vehicle) => (
             <LargeButton
-              onClick={() => checkinOne(vehicle.id, "GUEST")}
-              highlighted={false}
+              onClick={!vehicle.checkedIn ? () => checkinOne(vehicle.id, "VEHICLE") : () => unCheckinOne(vehicle.id, "VEHICLE")}
+              highlighted={vehicle.checkedIn !== null}
             >
               {vehicle.vehicleReg}
             </LargeButton>
