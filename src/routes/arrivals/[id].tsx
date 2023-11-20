@@ -19,6 +19,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ROUTES } from "../../settings";
 import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
 import { checkInManyGuests } from "../../services/mutations/checkInManyGuests";
+import { checkinAll, checkinOne } from "./helpers";
+import { set } from "date-fns";
 
 const IndividualArrival = () => {
   // -------------
@@ -124,132 +126,6 @@ const IndividualArrival = () => {
     },
   });
 
-
-  // -------------
-  // EVENT HANDLERS
-  // -------------
-
-  function checkinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
-    const now = new Date();
-    let cpy: BookingGuest[] | BookingPet[] | BookingVehicle[] = [];
-
-    if (type === "GUEST") cpy = [...guests!];
-    if (type === "PET") cpy = [...pets!];
-    if (type === "VEHICLE") cpy = [...vehicles!];
-
-    const target = cpy.find((item) => item.id === guestId);
-
-    if (target) {
-      if (isGuestDue(target)) {
-        target.checkedIn = now;
-      }
-    }
-
-    if (type === "GUEST") setGuests(cpy as BookingGuest[]);
-    if (type === "PET") setPets(cpy as BookingPet[]);
-    if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
-
-    // Update the server
-    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type, reverse: false });
-  }
-
-  function unCheckinOne(guestId: number, type: "GUEST" | "PET" | "VEHICLE") {
-    let cpy: BookingGuest[] | BookingPet[] | BookingVehicle[] = [];
-
-    if (type === "GUEST") cpy = [...guests!];
-    if (type === "PET") cpy = [...pets!];
-    if (type === "VEHICLE") cpy = [...vehicles!];
-
-    const target = cpy.find((item) => item.id === guestId);
-
-    if (target) {
-      target.checkedIn = null;
-    }
-
-    if (type === "GUEST") setGuests(cpy as BookingGuest[]);
-    if (type === "PET") setPets(cpy as BookingPet[]);
-    if (type === "VEHICLE") setVehicles(cpy as BookingVehicle[]);
-
-    // Update the server
-    checkInOneGuestMutation.mutate({ token: user.token, id: guestId, type, reverse: true });
-  }
-
-  function checkinAll() {
-    const guestsCpy = [...guests!];
-    const petsCpy = [...pets!];
-    const vehiclesCpy = [...vehicles!];
-
-    const now = new Date();
-
-    const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] = []
-
-    guestsCpy.forEach((guest) => {
-      if (isGuestDue(guest)) {
-        if (!guest.checkedIn) {
-          guest.checkedIn = now;
-          toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
-        }
-      };
-    });
-    petsCpy.forEach((pet) => {
-      if (isGuestDue(pet)) {
-        if (!pet.checkedIn) {
-          pet.checkedIn = now;
-          toUpdateOnServer.push({ id: pet.id, type: "PET" });
-        }
-      };
-    });
-    vehiclesCpy.forEach((vehicle) => {
-      if (isGuestDue(vehicle)) {
-        if (!vehicle.checkedIn) {
-          vehicle.checkedIn = now;
-          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
-        }
-      }
-    });
-
-    setGuests(guestsCpy);
-    setPets(petsCpy);
-    setVehicles(vehiclesCpy);
-
-    // Update the server
-    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer, reverse: false });
-  }
-
-  function unCheckinAll() {
-    const guestsCpy = [...guests!];
-    const petsCpy = [...pets!];
-    const vehiclesCpy = [...vehicles!];
-
-    const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] = []
-
-    guestsCpy.forEach((guest) => {
-      if (guest.checkedIn) {
-        guest.checkedIn = null;
-        toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
-      }
-    });
-    petsCpy.forEach((pet) => {
-      if (pet.checkedIn) {
-        pet.checkedIn = null;
-        toUpdateOnServer.push({ id: pet.id, type: "PET" });
-      }
-    });
-    vehiclesCpy.forEach((vehicle) => {
-      if (vehicle.checkedIn) {
-        vehicle.checkedIn = null;
-        toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
-      }
-    });
-
-    setGuests(guestsCpy);
-    setPets(petsCpy);
-    setVehicles(vehiclesCpy);
-
-    // Update the server
-    checkInManyGuestsMutation.mutate({ token: user.token, guests: toUpdateOnServer, reverse: true });
-  }
-
   // -------------
   // RENDER
   // -------------
@@ -288,12 +164,40 @@ const IndividualArrival = () => {
           </Typography>
         </div>
         <div id="individual-arrival-header-right">
-          <Button variant="contained" onClick={checkinAll} sx={{ mb: 3 }}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              checkinAll(
+                guests,
+                setGuests,
+                pets,
+                setPets,
+                vehicles,
+                setVehicles,
+                checkInManyGuestsMutation,
+                user.token,
+                false
+              )
+            }
+            sx={{ mb: 3 }}
+          >
             CheckIn All
           </Button>
           <Button
             variant="contained"
-            onClick={unCheckinAll}
+            onClick={() =>
+              checkinAll(
+                guests,
+                setGuests,
+                pets,
+                setPets,
+                vehicles,
+                setVehicles,
+                checkInManyGuestsMutation,
+                user.token,
+                true
+              )
+            }
             sx={{ mb: 3, ml: 1 }}
           >
             Un-CheckIn All
@@ -324,8 +228,26 @@ const IndividualArrival = () => {
             <LargeButton
               onClick={
                 !guest.checkedIn
-                  ? () => checkinOne(guest.id, "GUEST")
-                  : () => unCheckinOne(guest.id, "GUEST")
+                  ? () =>
+                      checkinOne(
+                        guest.id,
+                        "GUEST",
+                        guests,
+                        setGuests,
+                        checkInOneGuestMutation,
+                        user.token,
+                        false
+                      )
+                  : () =>
+                      checkinOne(
+                        guest.id,
+                        "GUEST",
+                        guests,
+                        setGuests,
+                        checkInOneGuestMutation,
+                        user.token,
+                        true
+                      )
               }
               highlighted={guest.checkedIn !== null}
               disabled={!isGuestDue(guest)}
@@ -354,8 +276,26 @@ const IndividualArrival = () => {
             <LargeButton
               onClick={
                 !pet.checkedIn
-                  ? () => checkinOne(pet.id, "PET")
-                  : () => unCheckinOne(pet.id, "PET")
+                  ? () =>
+                      checkinOne(
+                        pet.id,
+                        "PET",
+                        pets,
+                        setPets,
+                        checkInOneGuestMutation,
+                        user.token,
+                        false
+                      )
+                  : () =>
+                      checkinOne(
+                        pet.id,
+                        "PET",
+                        pets,
+                        setPets,
+                        checkInOneGuestMutation,
+                        user.token,
+                        true
+                      )
               }
               highlighted={pet.checkedIn !== null}
               disabled={!isGuestDue(pet)}
@@ -384,8 +324,26 @@ const IndividualArrival = () => {
             <LargeButton
               onClick={
                 !vehicle.checkedIn
-                  ? () => checkinOne(vehicle.id, "VEHICLE")
-                  : () => unCheckinOne(vehicle.id, "VEHICLE")
+                  ? () =>
+                      checkinOne(
+                        vehicle.id,
+                        "VEHICLE",
+                        vehicles,
+                        setVehicles,
+                        checkInOneGuestMutation,
+                        user.token,
+                        false
+                      )
+                  : () =>
+                      checkinOne(
+                        vehicle.id,
+                        "VEHICLE",
+                        vehicles,
+                        setVehicles,
+                        checkInOneGuestMutation,
+                        user.token,
+                        true
+                      )
               }
               highlighted={vehicle.checkedIn !== null}
               disabled={!isGuestDue(vehicle)}

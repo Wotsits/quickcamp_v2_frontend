@@ -87,7 +87,7 @@ const Arrivals = () => {
         Arrivals
       </Typography>
 
-      <Box
+      <div
         id="arrivals-datepicker"
         className="arrivals-datepicker"
       >
@@ -98,7 +98,7 @@ const Arrivals = () => {
           value={date}
           label={"Arrival Date"}
         />
-        <Box>
+        <div>
           <Button variant="contained" onClick={() => setDate(today1200())}>
             Today
           </Button>
@@ -112,8 +112,8 @@ const Arrivals = () => {
           >
             <ChevronRightIcon />
           </IconButton>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       <div id="accordion-container">
         <Accordion
