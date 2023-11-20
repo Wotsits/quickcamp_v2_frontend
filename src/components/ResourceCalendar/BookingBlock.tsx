@@ -35,10 +35,6 @@ const BookingBlock = ({
   // HELPER
   // -------------
 
-  useEffect(() => {
-    console.log("bookingSummaryVisible", bookingSummaryVisible);
-  }, [bookingSummaryVisible]);
-
   function getTotalOccupants() {
     let guestsCount = 0;
     for (let guestType in booking.guests) {
