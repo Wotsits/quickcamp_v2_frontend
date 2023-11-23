@@ -5,7 +5,7 @@ import ErrorPage from "./components/ErrorPage";
 import BookingCalendar from "./routes/bookings/calendar";
 import Guests from "./routes/guests";
 import Bookings from "./routes/bookings/all";
-import Admin from "./routes/arrivals/all";
+import Admin from "./routes/admin";
 import CentreFullPage from "./components/CentreFullPage";
 import LoginForm from "./components/LoginForm";
 import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper";
