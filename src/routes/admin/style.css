@@ -1,0 +1,35 @@
+#admin {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  overflow: scroll;
+}
+
+#admin .admin-content-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+#admin .admin-content-container .admin-content-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  padding: 1rem;
+}
+
+#admin .admin-content-container .admin-content-item:hover {
+  background-color: #000428;
+  color: #fff;
+  cursor: pointer;
+}
