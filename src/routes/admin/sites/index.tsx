@@ -3,8 +3,11 @@ import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
 import { Booking, Site } from "../../../types";
 import { getSites } from "../../../services/queries/getSites";
-import { TableContainer, Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } from "@mui/material";
+import { TableContainer, Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow, IconButton } from "@mui/material";
+import PageHeader from "../../../components/PageHeader";
 import "./style.css";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { AddCard } from "@mui/icons-material";
 
 const SitesAdmin = () => {
   // -------------
@@ -34,9 +37,11 @@ const SitesAdmin = () => {
 
   return (
     <div id="sites-admin">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Sites
-      </Typography>
+      <PageHeader title="Sites">
+        <IconButton onClick={() => console.log("Add Site")} size="large">
+          <AddCircleOutlineIcon fontSize="large"/>
+        </IconButton>
+      </PageHeader>
       <TableContainer component={Paper} sx={{width: "100%"}}>
         <Table sx={{minWidth: 300, width: "100%"}}>
           <TableHead>
