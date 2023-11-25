@@ -9,12 +9,16 @@ type GetExtraTypesBySiteIdArgs = {
   siteId: number;
 };
 
-export const getExtraTypesBySiteId = async ({ token, siteId }: GetExtraTypesBySiteIdArgs) => {
-  const response = await axios.get<ExtraType[]>(APIURL + API_ENDPOINTS.EXTRA_TYPES, {
-    headers: { Authorization: "Bearer " + token },
-    params: {
-      siteId: siteId,
-    },
-  });
+export const getExtraTypesBySiteId = async ({
+  token,
+  siteId,
+}: GetExtraTypesBySiteIdArgs) => {
+  const response = await axios.get<ExtraType[]>(
+    APIURL + API_ENDPOINTS.EXTRA_TYPES,
+    {
+      headers: { Authorization: "Bearer " + token },
+      params: { siteId },
+    }
+  );
   return response.data;
 };

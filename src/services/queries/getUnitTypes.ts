@@ -5,13 +5,21 @@ import { UnitType } from "../../types";
 type GetUnitTypesArgs = {
   /** mandatory, token */
   token: string;
-  /** mandatory, siteId */
-  siteId: number;
+  /** optional, siteId */
+  siteId?: number;
+  /** optional, include Units */
+  includeUnits?: boolean;
+  /** optional, include Site */
+  includeSite?: boolean;
 };
 
-export const getUnitTypes = async ({ token, siteId }: GetUnitTypesArgs)  => {
-  const response = await axios.get<UnitType[]>(APIURL + API_ENDPOINTS.UNIT_TYPES + siteId, {
-    headers: { Authorization: "Bearer " + token },
-  });
+export const getUnitTypes = async ({ token, siteId, includeUnits = false, includeSite = false }: GetUnitTypesArgs) => {
+  const response = await axios.get<UnitType[]>(
+    APIURL + API_ENDPOINTS.UNIT_TYPES,
+    {
+      headers: { Authorization: "Bearer " + token },
+      params: { siteId, includeUnits, includeSite },
+    }
+  );
   return response.data;
 };

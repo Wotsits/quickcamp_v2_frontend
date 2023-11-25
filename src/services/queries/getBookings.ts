@@ -10,11 +10,12 @@ type GetBookingsArgs = {
 };
 
 export const getBookings = async ({ token, siteId }: GetBookingsArgs) => {
-  const response = await axios.get<Booking[]>(APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE, {
-    headers: { Authorization: "Bearer " + token },
-    params: {
-      siteId: siteId,
-    },
-  });
+  const response = await axios.get<Booking[]>(
+    APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE,
+    {
+      headers: { Authorization: "Bearer " + token },
+      params: { siteId },
+    }
+  );
   return response.data;
 };

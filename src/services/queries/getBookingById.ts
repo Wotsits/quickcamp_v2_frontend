@@ -9,12 +9,13 @@ type GetBookingByIdArgs = {
   id: number;
 };
 
-export const getBookingById = async ({ token, id }: GetBookingByIdArgs)  => {
-  const response = await axios.get<Booking>(APIURL + API_ENDPOINTS.BOOKING_BY_ID, {
-    headers: { Authorization: "Bearer " + token },
-    params: {
-      id,
-    },
-  });
+export const getBookingById = async ({ token, id }: GetBookingByIdArgs) => {
+  const response = await axios.get<Booking>(
+    APIURL + API_ENDPOINTS.BOOKING_BY_ID,
+    {
+      headers: { Authorization: "Bearer " + token },
+      params: { id },
+    }
+  );
   return response.data;
 };

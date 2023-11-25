@@ -22,14 +22,17 @@ export const getAvailableUnits = async ({
   siteId,
   equipmentTypeId,
 }: GetAvailableUnits) => {
-  const response = await axios.get<Unit[]>(APIURL + API_ENDPOINTS.AVAILABLE_UNITS, {
-    headers: { Authorization: "Bearer " + token },
-    params: {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      siteId,
-      equipmentTypeId,
-    },
-  });
+  const response = await axios.get<Unit[]>(
+    APIURL + API_ENDPOINTS.AVAILABLE_UNITS,
+    {
+      headers: { Authorization: "Bearer " + token },
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        siteId,
+        equipmentTypeId,
+      },
+    }
+  );
   return response.data;
 };

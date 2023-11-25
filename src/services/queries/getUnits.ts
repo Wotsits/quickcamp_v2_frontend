@@ -7,7 +7,7 @@ type GetUnitsArgs = {
   token: string;
 };
 
-export const getUnits = async ({ token }: GetUnitsArgs)  => {
+export const getUnits = async ({ token }: GetUnitsArgs) => {
   const response = await axios.get<Unit[]>(APIURL + API_ENDPOINTS.UNITS, {
     headers: { Authorization: "Bearer " + token },
   });

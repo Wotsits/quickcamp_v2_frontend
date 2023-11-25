@@ -8,8 +8,11 @@ type GetLeadGuestsArgs = {
 };
 
 export const getLeadGuests = async ({ token }: GetLeadGuestsArgs) => {
-  const response = await axios.get<LeadGuest[]>(APIURL + API_ENDPOINTS.LEAD_GUESTS, {
-    headers: { Authorization: "Bearer " + token },
-  });
+  const response = await axios.get<LeadGuest[]>(
+    APIURL + API_ENDPOINTS.LEAD_GUESTS,
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
   return response.data;
 };
