@@ -8,6 +8,7 @@ import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
 import OccupantCard from "../../components/OccupantCard";
 import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES } from "../../settings";
+import PageHeader from "../../components/PageHeader";
 
 const IndividualBooking = () => {
   const { user } = useContext(AuthContext);
@@ -38,9 +39,10 @@ const IndividualBooking = () => {
 
   return (
     <div id="booking">
-      <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
-        Booking {data.id}
-      </Typography>
+      <PageHeader
+        title="Booking"
+        subTitle={`Booking ID: ${data.id}`}
+      />
 
       <div id="booking-information-container">
         <div className="booking-information-section">

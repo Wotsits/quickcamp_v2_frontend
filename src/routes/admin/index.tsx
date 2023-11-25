@@ -3,14 +3,12 @@ import React from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../settings";
+import PageHeader from "../../components/PageHeader";
 
 const Admin = () => {
   return (
     <div id="admin">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Admin
-      </Typography>
-
+      <PageHeader title="Admin" />
       <div className="admin-content-container">
         <Link to={"/" + ROUTES.ADMIN + ROUTES.SITES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>

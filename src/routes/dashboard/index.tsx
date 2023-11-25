@@ -1,12 +1,11 @@
 import { Typography } from "@mui/material";
 import React from "react";
+import PageHeader from "../../components/PageHeader";
 
 const Dashboard = () => {
   return (
     <div id="dashboard">
-      <Typography sx={{mb:3}} variant="h5" gutterBottom>
-        Dashboard
-      </Typography>
+      <PageHeader title="Dashboard" />
     </div>
   );
 };

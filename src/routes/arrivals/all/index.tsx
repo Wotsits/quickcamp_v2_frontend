@@ -30,6 +30,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SummaryBlock from "../../../components/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PageHeader from "../../../components/PageHeader";
 
 const summaryBlockSettings = {
   background:
@@ -109,9 +110,7 @@ const Arrivals = () => {
 
   return (
     <div id="arrivals">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Arrivals
-      </Typography>
+      <PageHeader title="Arrivals" />
 
       <div id="arrivals-datepicker" className="arrivals-datepicker">
         <DatePicker

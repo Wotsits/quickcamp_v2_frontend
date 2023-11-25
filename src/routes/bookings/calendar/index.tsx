@@ -17,6 +17,7 @@ import { ResourceGroup } from "../../../components/ResourceCalendar/types";
 import { getUnitTypes } from "../../../services/queries/getUnitTypes";
 import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../../../components/PageHeader";
 
 // -------------
 // MAIN
@@ -122,9 +123,7 @@ const BookingCalendar = () => {
 
   return (
     <div id="booking-calendar" className="route-container">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Booking Calendar
-      </Typography>
+      <PageHeader title="Booking Calendar" />
       <Box
         id="booking-calendar-datepicker"
         className="booking-calendar-datepicker"

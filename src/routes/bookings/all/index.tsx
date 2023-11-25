@@ -9,6 +9,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../settings";
 import "./style.css";
+import PageHeader from "../../../components/PageHeader";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -61,17 +62,13 @@ const Bookings = () => {
   return (
     <div id="bookings">
       <div id="bookings-header">
-        <Typography sx={{ margin: 0 }} variant="h5" gutterBottom>
-          Bookings
-        </Typography>
-        <IconButton
-          size={"large"}
-          onClick={() =>
-            navigate(ROUTES.ROOT + ROUTES.BOOKINGS + ROUTES.CALENDAR)
-          }
-        >
-          <AddCircleIcon color={"primary"} fontSize="large" />
-        </IconButton>
+        <PageHeader title="Bookings">
+          <IconButton
+            onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+          >
+            <AddCircleIcon />
+          </IconButton>
+        </PageHeader>
       </div>
 
       <div id="bookings-table-container">

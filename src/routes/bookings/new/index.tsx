@@ -37,6 +37,7 @@ import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
 import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
 import BookingConfirmation from "../../../components/NewBookingForm/BookingConfirmation";
 import { getFeeCalc } from "../../../services/queries/getFeeCalc";
+import PageHeader from "../../../components/PageHeader";
 
 const steps = [
   "Lead Guest Details",
@@ -578,11 +579,7 @@ const NewBooking = () => {
 
   return (
     <div id="new-booking">
-      <div id="new-booking-title-container">
-        <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-          Create New Booking
-        </Typography>
-      </div>
+      <PageHeader title="New Booking" />
 
       <div id="new-booking-stepper-container">
         {/* STEPPER on wider screens */}
