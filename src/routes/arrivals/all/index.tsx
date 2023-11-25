@@ -42,14 +42,15 @@ const summaryBlockSettings = {
 
 const countTotalToday = (
   array: Booking["guests"] | Booking["pets"] | Booking["vehicles"],
-  status: "CHECKED-IN" | "DUE"
+  status: "CHECKED-IN" | "DUE",
+  today: Date
 ) => {
   if (!array) return 0;
   if (!status) return array.length;
+  if (!today) return array.length;
 
   const arrivingToday = array.filter((item) => {
     const arrivalDate = new Date(item.start);
-    const today = new Date();
     return (
       arrivalDate.getDate() === today.getDate() &&
       arrivalDate.getMonth() === today.getMonth() &&
@@ -241,16 +242,16 @@ const Arrivals = () => {
                           {arrival.leadGuest.lastName}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.guests, "CHECKED-IN")}/
-                          {countTotalToday(arrival.guests, "DUE")}
+                          {countTotalToday(arrival.guests, "CHECKED-IN", date as Date)}/
+                          {countTotalToday(arrival.guests, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.pets, "CHECKED-IN")}/
-                          {countTotalToday(arrival.pets, "DUE")}
+                          {countTotalToday(arrival.pets, "CHECKED-IN", date as Date)}/
+                          {countTotalToday(arrival.pets, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.vehicles, "CHECKED-IN")}/
-                          {countTotalToday(arrival.vehicles, "DUE")}
+                          {countTotalToday(arrival.vehicles, "CHECKED-IN", date as Date)}/
+                          {countTotalToday(arrival.vehicles, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
                           <Button
