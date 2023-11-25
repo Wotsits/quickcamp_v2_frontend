@@ -35,6 +35,14 @@ export const ROUTES = {
   NEW: "new/",
   ALL: "all/",
   EXPERIMENTAL: "exp/",
+  SITES: "/admin/sites/",
+  UNIT_TYPES: "/admin/unit-types/",
+  UNITS: "/admin/units/",
+  GUEST_TYPES: "/admin/guest-types/",
+  EQUIPMENT_TYPES: "/admin/equipment-types/",
+  EXTRA_TYPES: "/admin/extra-types/",
+  USERS: "/admin/users/",
+  MENU: "menu/",
 };
 
 export const API_ENDPOINTS = {

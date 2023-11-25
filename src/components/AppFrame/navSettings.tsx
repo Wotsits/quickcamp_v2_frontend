@@ -38,7 +38,7 @@ export const primaryNavOptions = [
   export const secondaryNavOptions = [
     {
       text: "Admin",
-      path: ROUTES.ADMIN,
+      path: ROUTES.ADMIN + ROUTES.MENU,
       icon: <SettingsIcon />,
     },
   ];

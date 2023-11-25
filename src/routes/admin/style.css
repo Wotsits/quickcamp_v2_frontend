@@ -28,6 +28,11 @@
   padding: 1rem;
 }
 
+#admin .admin-content-container a {
+  text-decoration: none;
+  color: black;
+}
+
 #admin .admin-content-container .admin-content-item:hover {
   background-color: #000428;
   color: #fff;

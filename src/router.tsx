@@ -16,6 +16,7 @@ import { ROUTES } from "./settings";
 import NewBooking from "./routes/bookings/new";
 import IndividualArrival from "./routes/arrivals/[id]";
 import Experimental from "./Experimental";
+import SitesAdmin from "./routes/admin/sites";
 
 export const router = createBrowserRouter([
   {
@@ -71,7 +72,40 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.ADMIN,
-        element: <Admin />,
+        children: [
+          {
+            path: ROUTES.SITES,
+            element: <SitesAdmin />,
+          },
+          {
+            path: ROUTES.UNIT_TYPES,
+            element: <div>Unit Types Admin</div>,
+          },
+          {
+            path: ROUTES.UNITS,
+            element: <div>Units Admin</div>,
+          },
+          {
+            path: ROUTES.GUEST_TYPES,
+            element: <div>Guest Types Admin</div>,
+          },
+          {
+            path: ROUTES.EQUIPMENT_TYPES,
+            element: <div>Equipment Types Admin</div>,
+          },
+          {
+            path: ROUTES.EXTRA_TYPES,
+            element: <div>Extra Types Admin</div>,
+          },
+          {
+            path: ROUTES.USERS,
+            element: <div>Users Admin</div>,
+          },
+          {
+            path: "menu",
+            element: <Admin />,
+          },
+        ],
       },
     ],
   },
