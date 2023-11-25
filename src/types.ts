@@ -69,6 +69,7 @@ export type GuestType = {
     id: number,
     name: string,
     description: string,
+    icon: string,
     siteId: number,
     site?: Site,
     guests?: LeadGuest[]

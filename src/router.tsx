@@ -19,6 +19,7 @@ import Experimental from "./Experimental";
 import SitesAdmin from "./routes/admin/sites";
 import UnitTypesAdmin from "./routes/admin/unitTypes";
 import UnitsAdmin from "./routes/admin/units";
+import GuestTypesAdmin from "./routes/admin/guestTypes";
 
 export const router = createBrowserRouter([
   {
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.GUEST_TYPES,
-            element: <div>Guest Types Admin</div>,
+            element: <GuestTypesAdmin />,
           },
           {
             path: ROUTES.EQUIPMENT_TYPES,
