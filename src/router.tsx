@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
             element: <div>Users Admin</div>,
           },
           {
-            path: "menu",
+            path: ROUTES.MENU,
             element: <Admin />,
           },
         ],
