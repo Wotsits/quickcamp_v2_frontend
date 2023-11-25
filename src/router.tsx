@@ -18,6 +18,7 @@ import IndividualArrival from "./routes/arrivals/[id]";
 import Experimental from "./Experimental";
 import SitesAdmin from "./routes/admin/sites";
 import UnitTypesAdmin from "./routes/admin/unitTypes";
+import UnitsAdmin from "./routes/admin/units";
 
 export const router = createBrowserRouter([
   {
@@ -84,7 +85,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.UNITS,
-            element: <div>Units Admin</div>,
+            element: <UnitsAdmin />,
           },
           {
             path: ROUTES.GUEST_TYPES,
