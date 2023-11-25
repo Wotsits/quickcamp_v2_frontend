@@ -58,6 +58,7 @@ export const API_ENDPOINTS = {
   LEAD_GUESTS: "lead-guests/",
   UNITS: "units/",
   UNIT_TYPES: "unit-types/",
+  SITES: "sites/",
 };
 
 export const SUPPORTED_ICONS = {
