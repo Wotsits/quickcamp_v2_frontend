@@ -63,7 +63,7 @@ const BookingCalendar = () => {
     data: unitTypesData,
     error: unitTypesError,
   } = useQuery<UnitType[], Error>(["UnitTypes", selectedSite!.id], () =>
-    getUnitTypes({ token: user.token, siteId: selectedSite!.id })
+    getUnitTypes({ token: user.token, siteId: selectedSite!.id, includeUnits: true})
   );
 
   // -------------

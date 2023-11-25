@@ -35,6 +35,7 @@ export type Role = {
 export type UnitType = {
     id: number,
     name: string,
+    description: string,
     siteId: number,
     units?: Unit[]
     extraTypes?: ExtraType[]
