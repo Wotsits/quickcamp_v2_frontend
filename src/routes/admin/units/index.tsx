@@ -42,7 +42,7 @@ const UnitsAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
-    ["UnitTypes"],
+    ["UnitTypes", {includeSite: true, includeUnits: true}],
     () =>
       getUnitTypes({
         token: user.token,
@@ -124,7 +124,7 @@ const UnitsAdmin = () => {
   // RENDER
   // -------------
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !data) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;
 
   return (

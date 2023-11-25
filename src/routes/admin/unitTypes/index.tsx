@@ -39,7 +39,7 @@ const UnitTypesAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
-    ["UnitTypes"],
+    ["UnitTypes", {includeSite: false, includeUnits: false}],
     () =>
       getUnitTypes({
         token: user.token,
