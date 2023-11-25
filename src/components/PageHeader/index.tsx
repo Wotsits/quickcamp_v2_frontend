@@ -12,7 +12,7 @@ const PageHeader = ({ title, subTitle, children }: PageHeaderProps) => {
   return (
     <div id="page-header" className="page-header">
       <div className="page-header-right">
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {title}
         </Typography>
         {subTitle && (
