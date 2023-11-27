@@ -31,8 +31,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SummaryBlock from "../../../components/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHeader from "../../../components/PageHeader";
-import { LineChart } from "@mui/x-charts";
-import { PRIMARYCOLOR } from "../../../settings";
+import ArrivalsGraph from "../../../components/ArrivalsGraph";
 
 const summaryBlockSettings = {
   background:
@@ -105,46 +104,6 @@ const Arrivals = () => {
       siteId: selectedSite!.id,
     })
   );
-
-  // -------------
-  // HELPERS
-  // -------------
-
-  function generateArrivalGraph() {
-    if (!arrivalsData) return null;
-    // the points on the X axis.
-    const xAxis = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', "20:00", "21:00", "22:00", "23:00", "00:00", "01:00", "02:00"];
-    // the points on the Y axis all set to zero.
-    const yAxis = xAxis.map((xAxis) => 0);
-    // iterate through the arrivals and add to the yAxis array.
-    arrivalsData.forEach(arrival => {
-      const { vehicles } = arrival
-      if (!vehicles) return;
-      vehicles.forEach(vehicle => {
-        const { expectedArrival } = vehicle;
-        if (!expectedArrival) return;
-        const indexOfTime = xAxis.findIndex((time) => time === expectedArrival);
-        if (indexOfTime === -1) return;
-        yAxis[indexOfTime] += 1;
-      })
-    })
-    // return the chart.
-    return (
-      <LineChart
-        xAxis={[{ scaleType: "band", data: [...xAxis] }]}
-        yAxis={[{ min: 0, max: Math.max(...yAxis) || 1, tickMinStep: 1 }]}
-        series={[
-          {
-            data: yAxis,
-            area: true,
-          },
-        ]}
-        width={500}
-        height={300}
-        colors={[PRIMARYCOLOR]}
-      />
-    );
-  }
 
   // -------------
   // RENDER
@@ -222,20 +181,9 @@ const Arrivals = () => {
                 {...summaryBlockSettings}
               />
             </div>
-            <div id="arrival-progress">
-              <div
-                style={{
-                  width: "100%",
-                  height: "300px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: "1px solid black",
-                  borderRadius: "10px",
-                }}
-              >
-                {generateArrivalGraph()}
-              </div>
+            <div id="arrival-progress" style={{width: "100%", display: "flex", justifyContent: "center"}}>
+
+                <ArrivalsGraph arrivalsData={arrivalsData}/>
             </div>
           </AccordionDetails>
         </Accordion>
