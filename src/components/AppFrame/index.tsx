@@ -49,8 +49,7 @@ const AppFrame = () => {
           </Box>
         </div>
       </div>
-      <div id="app-body">
-        <div id="lh-menu">
+        <div id="app-lh-menu">
           <NavMenu
             primaryNavOptions={primaryNavOptions}
             secondaryNavOptions={secondaryNavOptions}
@@ -61,7 +60,6 @@ const AppFrame = () => {
         >
           <Outlet />
         </main>
-      </div>
     </div>
   );
 };
