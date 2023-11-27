@@ -32,6 +32,7 @@ import SummaryBlock from "../../../components/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHeader from "../../../components/PageHeader";
 import { LineChart } from "@mui/x-charts";
+import { PRIMARYCOLOR } from "../../../settings";
 
 const summaryBlockSettings = {
   background:
@@ -131,6 +132,7 @@ const Arrivals = () => {
     return (
       <LineChart
         xAxis={[{ scaleType: "band", data: [...xAxis] }]}
+        yAxis={[{ min: 0, max: Math.max(...yAxis) || 1, tickMinStep: 1 }]}
         series={[
           {
             data: yAxis,
@@ -139,6 +141,7 @@ const Arrivals = () => {
         ]}
         width={500}
         height={300}
+        colors={[PRIMARYCOLOR]}
       />
     );
   }
