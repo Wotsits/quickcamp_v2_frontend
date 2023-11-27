@@ -14,7 +14,7 @@ const ProtectedRouteWrapper = ({children}: ProtectedRouteWrapperProps) => {
         return <Navigate to={ROUTES.LOGIN} replace={true} />
     }
 
-    return <div>{children}</div>
+    return <div id="protected-route-wrapper">{children}</div>
 }
 
 export default ProtectedRouteWrapper;

@@ -34,21 +34,7 @@ const QCToolbar = ({ handleDrawerOpen, user, open, selectedSite, setSelectedSite
             {APPLICATIONNAME}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: "flex" }}>
-            <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <SearchField callback={(a) => console.log(a)} trigger="ENTER" />
-            </Box>
-            <Avatar
-              sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white" }}
-            >
-              {user && getInitials(user.name)}
-            </Avatar>
-            <SiteSelector
-              selectedSite={selectedSite}
-              setSelectedSite={setSelectedSite}
-              sites={user?.sites || []}
-            />
-          </Box>
+          
         </Toolbar>
     )
 }

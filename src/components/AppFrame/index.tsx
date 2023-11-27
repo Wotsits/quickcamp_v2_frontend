@@ -1,22 +1,17 @@
 import React, { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Avatar } from "@mui/material";
-import { APPLICATIONNAME, PRIMARYCOLOR, SECONDARYCOLOR } from "../../settings";
 import AuthContext from "../../contexts/authContext";
-import SearchField from "../SearchField";
-import SiteSelector from "../SiteSelector";
-import { getInitials } from "../../utils/helpers";
-import NavDrawer from "./NavDrawer";
 import { primaryNavOptions, secondaryNavOptions } from "./navSettings";
-import AppBar from "./AppBar";
-import QCToolbar from "./QCToolbar";
+
+import "./style.css";
+import { Avatar, Box, Typography } from "@mui/material";
+import SearchField from "../SearchField";
+import { getInitials } from "../../utils/helpers";
+import { SECONDARYCOLOR } from "../../settings";
+import SiteSelector from "../SiteSelector";
+import NavMenu from "./NavMenu";
 
 const AppFrame = () => {
   // -----------
@@ -25,60 +20,49 @@ const AppFrame = () => {
 
   const theme = useTheme();
   const { user, selectedSite, setSelectedSite } = useContext(AuthContext);
-  const [open, setOpen] = useState(false);
 
   // -----------
   // HANDLERS
   // -----------
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
-    <Box sx={{ display: "flex", background: "#eef0f2" }}>
-      <AppBar
-        position="fixed"
-        open={open}
-        style={{
-          background: `linear-gradient(to right, ${PRIMARYCOLOR}, ${SECONDARYCOLOR})`,
-        }}
-      >
-        <QCToolbar
-          handleDrawerOpen={handleDrawerOpen}
-          user={user}
-          open={open}
-          selectedSite={selectedSite}
-          setSelectedSite={setSelectedSite}
-        />
-      </AppBar>
-      <NavDrawer
-        open={open}
-        handleDrawerClose={handleDrawerClose}
-        theme={theme}
-        primaryNavOptions={primaryNavOptions}
-        secondaryNavOptions={secondaryNavOptions}
-      />
-      <Box
-        component="main"
-        id="main-content-container"
-        sx={{
-          display: "flex",
-          flexGrow: 1,
-          p: 3,
-          pt: 10,
-          height: "100vh",
-          overflow: "hidden",
-          boxSizing: "border-box",
-        }}
-      >
-        <Outlet />
-      </Box>
-    </Box>
+    <div id="app-frame" >
+      <div id="app-top-bar" >
+        <div id="app-top-bar-left">
+          <Typography variant="h5" component="h1">QuickCamp</Typography>
+        </div>
+        <div id="app-top-bar-right">
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <SearchField callback={(a) => console.log(a)} trigger="ENTER" />
+            </Box>
+            <Avatar
+              sx={{ ml: 2, bgcolor: SECONDARYCOLOR, border: "1px solid white" }}
+            >
+              {user && getInitials(user.name)}
+            </Avatar>
+            <SiteSelector
+              selectedSite={selectedSite}
+              setSelectedSite={setSelectedSite}
+              sites={user?.sites || []}
+            />
+          </Box>
+        </div>
+      </div>
+      <div id="app-body">
+        <div id="lh-menu">
+          <NavMenu
+            primaryNavOptions={primaryNavOptions}
+            secondaryNavOptions={secondaryNavOptions}
+          />
+        </div>
+        <main
+          id="main-content-container"
+        >
+          <Outlet />
+        </main>
+      </div>
+    </div>
   );
 };
 

@@ -122,7 +122,7 @@ const BookingCalendar = () => {
     : [];
 
   return (
-    <div id="booking-calendar" className="route-container">
+    <div id="booking-calendar" className="full-width">
       <PageHeader title="Booking Calendar" />
       <Box
         id="booking-calendar-datepicker"

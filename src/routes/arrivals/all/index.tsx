@@ -56,7 +56,7 @@ const countTotalToday = (
       arrivalDate.getMonth() === today.getMonth() &&
       arrivalDate.getFullYear() === today.getFullYear()
     );
-  })
+  });
 
   if (status === "CHECKED-IN") {
     return arrivingToday.filter((item) => item.checkedIn).length;
@@ -64,8 +64,7 @@ const countTotalToday = (
   if (status === "DUE") {
     return arrivingToday.length;
   }
-}
-
+};
 
 const Arrivals = () => {
   // -------------
@@ -110,31 +109,33 @@ const Arrivals = () => {
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
 
   return (
-    <div id="arrivals">
+    <div id="arrivals" className="full-width">
       <PageHeader title="Arrivals" />
 
-      <div id="arrivals-datepicker" className="arrivals-datepicker">
-        <DatePicker
-          onChange={(value: Date | null) =>
-            setDate(setDateToMidday(value as Date))
-          }
-          value={date}
-          label={"Arrival Date"}
-        />
-        <div>
-          <Button variant="contained" onClick={() => setDate(today1200())}>
-            Today
-          </Button>
-          <IconButton
-            onClick={() => setDate(new Date(date!.getTime() - 86400000))}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => setDate(new Date(date!.getTime() + 86400000))}
-          >
-            <ChevronRightIcon />
-          </IconButton>
+      <div className="container-white-bg-rounded-full-width">
+        <div id="arrivals-datepicker">
+          <DatePicker
+            onChange={(value: Date | null) =>
+              setDate(setDateToMidday(value as Date))
+            }
+            value={date}
+            label={"Arrival Date"}
+          />
+          <div>
+            <Button variant="contained" onClick={() => setDate(today1200())}>
+              Today
+            </Button>
+            <IconButton
+              onClick={() => setDate(new Date(date!.getTime() - 86400000))}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => setDate(new Date(date!.getTime() + 86400000))}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+          </div>
         </div>
       </div>
 
@@ -242,16 +243,34 @@ const Arrivals = () => {
                           {arrival.leadGuest.lastName}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.guests, "CHECKED-IN", date as Date)}/
+                          {countTotalToday(
+                            arrival.guests,
+                            "CHECKED-IN",
+                            date as Date
+                          )}
+                          /
                           {countTotalToday(arrival.guests, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.pets, "CHECKED-IN", date as Date)}/
-                          {countTotalToday(arrival.pets, "DUE", date as Date)}
+                          {countTotalToday(
+                            arrival.pets,
+                            "CHECKED-IN",
+                            date as Date
+                          )}
+                          /{countTotalToday(arrival.pets, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(arrival.vehicles, "CHECKED-IN", date as Date)}/
-                          {countTotalToday(arrival.vehicles, "DUE", date as Date)}
+                          {countTotalToday(
+                            arrival.vehicles,
+                            "CHECKED-IN",
+                            date as Date
+                          )}
+                          /
+                          {countTotalToday(
+                            arrival.vehicles,
+                            "DUE",
+                            date as Date
+                          )}
                         </TableCell>
                         <TableCell align="right">
                           <Button

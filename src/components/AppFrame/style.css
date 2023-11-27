@@ -1,0 +1,39 @@
+#app-frame {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#app-frame #app-top-bar {
+    width: 100%;
+    height: 4rem;
+    padding: 1rem;
+    background: rgb(0,4,40);
+    background: linear-gradient(90deg, rgba(0,4,40,1) 35%, rgba(0,78,146,1) 100%);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#app-frame #app-top-bar #app-title {
+    margin: 0;
+}
+
+
+#app-frame #app-body {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#app-frame #main-content-container {
+    padding: 1rem;
+    padding-top: 5rem;
+    flex: 1;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box,
+}
