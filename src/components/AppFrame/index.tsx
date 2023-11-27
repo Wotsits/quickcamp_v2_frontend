@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 
 import AuthContext from "../../contexts/authContext";
 import { primaryNavOptions, secondaryNavOptions } from "./navSettings";
@@ -18,12 +17,7 @@ const AppFrame = () => {
   // STATE
   // -----------
 
-  const theme = useTheme();
   const { user, selectedSite, setSelectedSite } = useContext(AuthContext);
-
-  // -----------
-  // HANDLERS
-  // -----------
 
   return (
     <div id="app-frame" >
