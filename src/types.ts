@@ -135,6 +135,8 @@ export type BookingVehicle = {
     start: Date,
     end: Date,
     checkedIn: Date | null,
+    checkedOut: Date | null,
+    expectedArrival: string,
 }
 
 export type BookingPet = {
