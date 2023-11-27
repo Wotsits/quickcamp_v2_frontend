@@ -22,6 +22,7 @@ import UnitsAdmin from "./routes/admin/units";
 import GuestTypesAdmin from "./routes/admin/guestTypes";
 import EquipmentTypesAdmin from "./routes/admin/equipmentTypes";
 import ExtraTypesAdmin from "./routes/admin/extraTypes";
+import UsersAdmin from "./routes/admin/users";
 
 export const router = createBrowserRouter([
   {
@@ -104,7 +105,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.USERS,
-            element: <div>Users Admin</div>,
+            element: <UsersAdmin />,
           },
           {
             path: ROUTES.MENU,
