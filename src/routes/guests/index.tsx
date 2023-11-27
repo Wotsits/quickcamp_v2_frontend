@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { LeadGuest } from "../../types";
 import { getLeadGuests } from "../../services/queries/getGuests";
 import DataTable from "../../components/DataTable";
-import { Typography } from "@mui/material";
+import { Paper, TableContainer, Typography } from "@mui/material";
 import AuthContext from "../../contexts/authContext";
 
 const columnSpec = [
@@ -35,11 +35,13 @@ const Guests = () => {
   }
 
   return (
-    <div id="guests">
-      <Typography sx={{mb:3}} variant="h5" gutterBottom>
+    <div id="guests" className="full-width">
+      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
         Guests
       </Typography>
-      <DataTable rows={data!} columns={columnSpec} />
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+        <DataTable rows={data!} columns={columnSpec} />
+      </TableContainer>
     </div>
   );
 };

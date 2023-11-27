@@ -17,10 +17,8 @@ import {
   FormControl,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getUsers } from "../../../services/queries/getUsers";
-import { equipmentIcon } from "../../../settings";
 
 const UsersAdmin = () => {
   // -------------
@@ -105,13 +103,19 @@ const UsersAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="users-admin">
+    <div id="users-admin" className="full-width">
+
+      {/* PAGE HEADER */}
+
       <PageHeader title="Users">
         <IconButton onClick={() => console.log("Add User")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <div className="full-width-container">
+
+      {/* FILTERS */}
+
+      <div className="container-white-bg-rounded-full-width">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Role</InputLabel>
           <Select
@@ -132,7 +136,7 @@ const UsersAdmin = () => {
         </FormControl>
       </div>
 
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

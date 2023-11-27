@@ -17,7 +17,6 @@ import {
   FormControl,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { equipmentIcon } from "../../../settings";
 import { getExtraTypes } from "../../../services/queries/getExtraTypes";
@@ -170,14 +169,20 @@ const ExtraTypesAdmin = () => {
     );
 
   return (
-    <div id="extra-types-admin">
+    <div id="extra-types-admin" className="full-width">
+
+      {/* PAGE HEADER */}
+
       <PageHeader title="Extra Types">
         <IconButton onClick={() => console.log("Add Unit Type")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <div className="full-width-container">
-        <div id="extra-types-admin-filter-container">
+
+      {/* FILTERS */}
+
+      <div id="extra-types-filters" className="container-white-bg-rounded-full-width">
+        <div className="container-flex-row-space-between-center-full-width">
           <FormControl fullWidth>
             <InputLabel id="site-select">Filter by Site</InputLabel>
             <Select
@@ -213,7 +218,7 @@ const ExtraTypesAdmin = () => {
         </div>
       </div>
 
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

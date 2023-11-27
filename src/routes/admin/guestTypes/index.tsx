@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { GuestType, Site, UnitType } from "../../../types";
+import { GuestType, Site } from "../../../types";
 import {
   TableContainer,
   Paper,
@@ -17,7 +17,6 @@ import {
   FormControl,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
 import { occupantTypeIconMap } from "../../../settings";
@@ -100,13 +99,19 @@ const GuestTypesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="guest-types-admin">
+    <div id="guest-types-admin" className="full-width">
+
+      {/* PAGE HEADER */}
+
       <PageHeader title="Guest Types">
         <IconButton onClick={() => console.log("Add Guest Type")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <div className="full-width-container">
+
+      {/* FILTERS */}
+
+      <div id="guest-type-filters" className="container-white-bg-rounded-full-width">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -124,7 +129,9 @@ const GuestTypesAdmin = () => {
         </FormControl>
       </div>
 
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      {/* TABLE */}
+
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

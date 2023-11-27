@@ -10,7 +10,7 @@ const Admin = () => {
     <div id="admin">
       <PageHeader title="Admin" />
       <div className="admin-content-container">
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.SITES} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES + ROUTES.ALL} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Sites
           </Typography>
@@ -18,7 +18,7 @@ const Admin = () => {
             Add, remove, and edit sites.
           </Typography>
         </Link>
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.UNIT_TYPES} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.UNIT_TYPES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Unit Types
           </Typography>
@@ -26,7 +26,7 @@ const Admin = () => {
             Add, remove, and edit Unit Types.
           </Typography>
         </Link>
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.UNITS} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.UNITS} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Units
           </Typography>
@@ -34,7 +34,7 @@ const Admin = () => {
             Add, remove, and edit Units.
           </Typography>
         </Link>
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.GUEST_TYPES} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.GUEST_TYPES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Guest Types
           </Typography>
@@ -42,7 +42,7 @@ const Admin = () => {
             Add, remove, and edit Guest Types.
           </Typography>
         </Link>
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.EQUIPMENT_TYPES} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.EQUIPMENT_TYPES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Equipment Types
           </Typography>
@@ -50,7 +50,7 @@ const Admin = () => {
             Add, remove, and edit Equipment Types.
           </Typography>
         </Link>
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.EXTRA_TYPES} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.EXTRA_TYPES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Extra Types
           </Typography>
@@ -60,7 +60,7 @@ const Admin = () => {
         </Link>
       </div>
       <div className="admin-content-container">
-        <Link to={"/" + ROUTES.ADMIN + ROUTES.USERS} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.USERS} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Users
           </Typography>

@@ -17,7 +17,6 @@ import {
   FormControl,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getUnitTypes } from "../../../services/queries/getUnitTypes";
 
@@ -89,13 +88,19 @@ const UnitTypesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="unit-types-admin">
+    <div id="unit-types-admin" className="full-width">
+
+      {/* PAGE HEADER */}
+
       <PageHeader title="UnitTypes">
         <IconButton onClick={() => console.log("Add Unit Type")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <div className="full-width-container">
+      
+      {/* FILTERS */}
+
+      <div className="container-white-bg-rounded-full-width">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -113,7 +118,9 @@ const UnitTypesAdmin = () => {
         </FormControl>
       </div>
 
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      {/* TABLE */}
+
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

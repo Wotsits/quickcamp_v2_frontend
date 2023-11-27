@@ -23,6 +23,7 @@ import GuestTypesAdmin from "./routes/admin/guestTypes";
 import EquipmentTypesAdmin from "./routes/admin/equipmentTypes";
 import ExtraTypesAdmin from "./routes/admin/extraTypes";
 import UsersAdmin from "./routes/admin/users";
+import SiteForm from "./routes/admin/sites/new";
 
 export const router = createBrowserRouter([
   {
@@ -81,7 +82,16 @@ export const router = createBrowserRouter([
         children: [
           {
             path: ROUTES.SITES,
-            element: <SitesAdmin />,
+            children: [
+              {
+                path: ROUTES.NEW,
+                element: <SiteForm />,
+              },
+              {
+                path: ROUTES.ALL,
+                element: <SitesAdmin />,
+              }
+            ]
           },
           {
             path: ROUTES.UNIT_TYPES,

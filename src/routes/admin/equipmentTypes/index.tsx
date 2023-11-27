@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { EquipmentType, Site, UnitType } from "../../../types";
+import { EquipmentType, Site } from "../../../types";
 import {
   TableContainer,
   Paper,
@@ -17,7 +17,6 @@ import {
   FormControl,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getEquipmentTypes } from "../../../services/queries/getEquipmentTypes";
 import { equipmentIcon } from "../../../settings";
@@ -100,13 +99,19 @@ const EquipmentTypesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="equipment-types-admin">
+    <div id="equipment-types-admin" className="full-width">
+      
+      {/* PAGE HEADER */}
+
       <PageHeader title="Equipment Types">
         <IconButton onClick={() => console.log("Add Equipment Type")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <div className="full-width-container">
+
+      {/* FILTERS */}
+
+      <div id="equipment-types-filters" className="container-white-bg-rounded-full-width">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -124,7 +129,9 @@ const EquipmentTypesAdmin = () => {
         </FormControl>
       </div>
 
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      {/* TABLE */}
+
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

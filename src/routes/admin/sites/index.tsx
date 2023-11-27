@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { Booking, Site } from "../../../types";
+import { Site } from "../../../types";
 import { getSites } from "../../../services/queries/getSites";
 import {
   TableContainer,
@@ -14,8 +14,9 @@ import {
   IconButton,
 } from "@mui/material";
 import PageHeader from "../../../components/PageHeader";
-import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { ROUTES } from '../../../settings';
+import { useNavigate } from "react-router-dom";
 
 const SitesAdmin = () => {
   // -------------
@@ -23,6 +24,12 @@ const SitesAdmin = () => {
   // -------------
 
   const { user, selectedSite } = useContext(AuthContext);
+
+  // -------------
+  // HOOKS
+  // -------------
+
+  const navigate = useNavigate();
 
   // -------------
   // QUERIES
@@ -44,13 +51,19 @@ const SitesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="sites-admin">
+    <div id="sites-admin" className="full-width">
+
+      {/* PAGE HEADER */}
+
       <PageHeader title="Sites">
-        <IconButton onClick={() => console.log("Add Site")} size="large">
+        <IconButton onClick={() => navigate(ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES + ROUTES.NEW)} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <TableContainer component={Paper} sx={{ width: "100%" }}>
+      
+      {/* TABLE */}
+
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>
