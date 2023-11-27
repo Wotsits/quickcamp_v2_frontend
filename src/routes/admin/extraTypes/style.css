@@ -1,0 +1,10 @@
+#extra-types-admin {
+    width: 100%;
+}
+#extra-types-admin #extra-types-admin-filter-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}

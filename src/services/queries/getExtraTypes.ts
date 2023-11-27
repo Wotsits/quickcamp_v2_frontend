@@ -2,22 +2,28 @@ import axios from "axios";
 import { APIURL, API_ENDPOINTS } from "../../settings";
 import { ExtraType } from "../../types";
 
-type GetExtraTypesBySiteIdArgs = {
+type GetExtraTypesArgs = {
   /** mandatory, token */
   token: string;
-  /** mandatory, siteId */
-  siteId: number;
+  /** optional, siteId */
+  siteId?: number;
+  /** optional, includeUnitTypes */
+  includeUnitTypes?: boolean;
+  /** optional, includeSite */
+  includeSite?: boolean;
 };
 
-export const getExtraTypesBySiteId = async ({
+export const getExtraTypes = async ({
   token,
   siteId,
-}: GetExtraTypesBySiteIdArgs) => {
+  includeUnitTypes = false,
+  includeSite = false,
+}: GetExtraTypesArgs) => {
   const response = await axios.get<ExtraType[]>(
     APIURL + API_ENDPOINTS.EXTRA_TYPES,
     {
       headers: { Authorization: "Bearer " + token },
-      params: { siteId },
+      params: { siteId, includeUnitTypes, includeSite },
     }
   );
   return response.data;

@@ -21,6 +21,7 @@ import UnitTypesAdmin from "./routes/admin/unitTypes";
 import UnitsAdmin from "./routes/admin/units";
 import GuestTypesAdmin from "./routes/admin/guestTypes";
 import EquipmentTypesAdmin from "./routes/admin/equipmentTypes";
+import ExtraTypesAdmin from "./routes/admin/extraTypes";
 
 export const router = createBrowserRouter([
   {
@@ -99,7 +100,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.EXTRA_TYPES,
-            element: <div>Extra Types Admin</div>,
+            element: <ExtraTypesAdmin />,
           },
           {
             path: ROUTES.USERS,

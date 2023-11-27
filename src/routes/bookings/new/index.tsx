@@ -23,7 +23,7 @@ import {
   LeadGuest,
   Unit,
 } from "../../../types";
-import { getExtraTypesBySiteId } from "../../../services/queries/getExtraTypes";
+import { getExtraTypes } from "../../../services/queries/getExtraTypes";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useWindowDimensions from "../../../hooks/useWindowDimension";
 import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
@@ -170,7 +170,7 @@ const NewBooking = () => {
     data: extraTypesData,
     error: extraTypesError,
   } = useQuery<ExtraType[], Error>(["extraTypes", selectedSite?.id], () =>
-    getExtraTypesBySiteId({ token: user.token, siteId: selectedSite!.id })
+    getExtraTypes({ token: user.token, siteId: selectedSite!.id })
   );
 
   // -------------

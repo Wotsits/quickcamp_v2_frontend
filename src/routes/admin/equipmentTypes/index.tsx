@@ -68,10 +68,10 @@ const EquipmentTypesAdmin = () => {
           const {id, name, description, icon: iconName} = equipmentType
           const icon = equipmentIcon[iconName]
           return (
-            <TableRow key={equipmentType.id}>
-              <TableCell>{equipmentType.id}</TableCell>
-              <TableCell>{equipmentType.name}</TableCell>
-              <TableCell>{equipmentType.description}</TableCell>
+            <TableRow key={id}>
+              <TableCell>{id}</TableCell>
+              <TableCell>{name}</TableCell>
+              <TableCell>{description}</TableCell>
               <TableCell>{icon !== undefined ? icon({className: "equipment-type-icon"}): null}</TableCell>
             </TableRow>
           );

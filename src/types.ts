@@ -89,7 +89,7 @@ export type ExtraType = {
     name: string,
     description: string,
     icon: string,
-    unityTypeId: number,
+    unitTypeId: number,
     unitTypes?: UnitType[],
 }
 
