@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { GuestType, Site, UnitType } from "../../../types";
+import { EquipmentType, Site, UnitType } from "../../../types";
 import {
   TableContainer,
   Paper,
@@ -19,10 +19,10 @@ import {
 import PageHeader from "../../../components/PageHeader";
 import "./style.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { getGuestTypes } from "../../../services/queries/getGuestTypes";
-import { occupantTypeIconMap } from "../../../settings";
+import { getEquipmentTypes } from "../../../services/queries/getEquipmentTypes";
+import { equipmentIcon } from "../../../settings";
 
-const GuestTypesAdmin = () => {
+const EquipmentTypesAdmin = () => {
   // -------------
   // CONTEXT
   // -------------
@@ -39,10 +39,10 @@ const GuestTypesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<GuestType[], Error>(
-    ["GuestTypes", {siteId: undefined}],
+  const { isLoading, isError, data, error } = useQuery<EquipmentType[], Error>(
+    ["EquipmentTypes", {siteId: undefined}],
     () =>
-      getGuestTypes({
+      getEquipmentTypes({
         token: user.token,
       })
   );
@@ -51,41 +51,41 @@ const GuestTypesAdmin = () => {
   // HELPERS
   // -------------
 
-  function renderGuestTypesToTable() {
+  function renderEquipmentTypesToTable() {
     if (data) {
       if (selectedSite !== -1) {
-        const guestTypesForSite = data.filter(
-          (guestType: GuestType) => guestType.siteId === selectedSite
+        const equipmentTypesForSite = data.filter(
+          (equipmentType: EquipmentType) => equipmentType.siteId === selectedSite
         );
-        if (guestTypesForSite.length === 0) {
+        if (equipmentTypesForSite.length === 0) {
           return (
             <TableRow>
-              <TableCell>No Guest Types for this site</TableCell>
+              <TableCell>No Equipment Types for this site</TableCell>
             </TableRow>
           );
         }
-        return guestTypesForSite.map((guestType: GuestType) => {
-          const {id, name, description, icon: iconName} = guestType
-          const icon = occupantTypeIconMap[iconName]
+        return equipmentTypesForSite.map((equipmentType: EquipmentType) => {
+          const {id, name, description, icon: iconName} = equipmentType
+          const icon = equipmentIcon[iconName]
           return (
-            <TableRow key={guestType.id}>
-              <TableCell>{guestType.id}</TableCell>
-              <TableCell>{guestType.name}</TableCell>
-              <TableCell>{guestType.description}</TableCell>
-              <TableCell>{icon !== undefined ? icon({className: "occupant-type-icon"}): null}</TableCell>
+            <TableRow key={equipmentType.id}>
+              <TableCell>{equipmentType.id}</TableCell>
+              <TableCell>{equipmentType.name}</TableCell>
+              <TableCell>{equipmentType.description}</TableCell>
+              <TableCell>{icon !== undefined ? icon({className: "equipment-type-icon"}): null}</TableCell>
             </TableRow>
           );
         });
       }
-      return data.map((guestType: GuestType) => {
-        const {id, name, description, icon: iconName} = guestType
-        const icon = occupantTypeIconMap[iconName]
+      return data.map((equipmentType: EquipmentType) => {
+        const {id, name, description, icon: iconName} = equipmentType
+        const icon = equipmentIcon[iconName]
         return (
           <TableRow key={id}>
             <TableCell>{id}</TableCell>
             <TableCell>{name}</TableCell>
             <TableCell>{description}</TableCell>
-            <TableCell>{icon !== undefined ? icon({className: "occupant-type-icon"}) : null}</TableCell>
+            <TableCell>{icon !== undefined ? icon({className: "equipment-type-icon"}) : null}</TableCell>
           </TableRow>
         )
       });
@@ -100,9 +100,9 @@ const GuestTypesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="guest-types-admin">
-      <PageHeader title="Guest Types">
-        <IconButton onClick={() => console.log("Add Guest Type")} size="large">
+    <div id="equipment-types-admin">
+      <PageHeader title="Equipment Types">
+        <IconButton onClick={() => console.log("Add Equipment Type")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
@@ -132,11 +132,11 @@ const GuestTypesAdmin = () => {
             <TableCell>Description</TableCell>
             <TableCell>Icon</TableCell>
           </TableHead>
-          <TableBody>{renderGuestTypesToTable()}</TableBody>
+          <TableBody>{renderEquipmentTypesToTable()}</TableBody>
         </Table>
       </TableContainer>
     </div>
   );
 };
 
-export default GuestTypesAdmin;
+export default EquipmentTypesAdmin;
