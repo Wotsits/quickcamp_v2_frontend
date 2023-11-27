@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ResourceCalendar from "../../../components/ResourceCalendar";
-import { Alert, Box, Typography } from "@mui/material";
+import { Alert, Box, IconButton, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import ColumnWidthControls from "../../../components/ResourceCalendar/ColumnWidthControls";
 import "../../style.css";
@@ -18,6 +18,7 @@ import { getUnitTypes } from "../../../services/queries/getUnitTypes";
 import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 // -------------
 // MAIN
@@ -64,7 +65,11 @@ const BookingCalendar = () => {
     data: unitTypesData,
     error: unitTypesError,
   } = useQuery<UnitType[], Error>(["UnitTypes", selectedSite!.id], () =>
-    getUnitTypes({ token: user.token, siteId: selectedSite!.id, includeUnits: true})
+    getUnitTypes({
+      token: user.token,
+      siteId: selectedSite!.id,
+      includeUnits: true,
+    })
   );
 
   // -------------
@@ -123,7 +128,13 @@ const BookingCalendar = () => {
 
   return (
     <div id="booking-calendar" className="full-width">
-      <PageHeader title="Booking Calendar" />
+      
+      <PageHeader title="Booking Calendar">
+        <IconButton onClick={() => console.log("Add Booking")} size="large">
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+      </PageHeader>
+
       <Box
         id="booking-calendar-datepicker"
         className="booking-calendar-datepicker"

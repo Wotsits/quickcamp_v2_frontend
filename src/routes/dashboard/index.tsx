@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import PageHeader from "../../components/PageHeader";
 import { useQuery } from "react-query";
@@ -6,17 +6,25 @@ import { Booking } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/ArrivalsGraph";
-import './style.css'
+import "./style.css";
+import { ROUTES } from "../../settings";
+import { useNavigate } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const now = new Date();
 
 const Dashboard = () => {
-
   // -------------
   // CONTEXTS
   // -------------
 
-  const {user, selectedSite} = useContext(AuthContext)
+  const { user, selectedSite } = useContext(AuthContext);
+
+  // -------------
+  // HOOKS
+  // -------------
+
+  const navigate = useNavigate();
 
   // -------------
   // QUERIES
@@ -40,12 +48,19 @@ const Dashboard = () => {
   // -------------
 
   if (arrivalsAreLoading) return <div>Loading...</div>;
-  
+
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
-  
+
   return (
     <div id="dashboard">
-      <PageHeader title="Dashboard" />
+      <PageHeader title="Dashboard">
+        <IconButton
+          onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+          size="large"
+        >
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+      </PageHeader>
       <div id="dashboard-top-section" className="section">
         <Typography variant="h6">Arrivals Forecast</Typography>
         <ArrivalsGraph arrivalsData={arrivalsData} padding={0} />

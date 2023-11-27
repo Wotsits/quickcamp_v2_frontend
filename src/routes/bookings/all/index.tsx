@@ -3,13 +3,13 @@ import { useQuery } from "react-query";
 import { getBookings } from "../../../services/queries/getBookings";
 import DataTable from "../../../components/DataTable";
 import { Booking } from "../../../types";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../settings";
 import "./style.css";
 import PageHeader from "../../../components/PageHeader";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -61,15 +61,14 @@ const Bookings = () => {
 
   return (
     <div id="bookings">
-      <div id="bookings-header">
-        <PageHeader title="Bookings">
-          <IconButton
-            onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
-          >
-            <AddCircleIcon />
-          </IconButton>
-        </PageHeader>
-      </div>
+      <PageHeader title="Bookings">
+        <IconButton
+          onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+          size="large"
+        >
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+      </PageHeader>
 
       <div id="bookings-table-container">
         <DataTable rows={data!} columns={columnSpec} />

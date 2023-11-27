@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import { LeadGuest } from "../../types";
 import { getLeadGuests } from "../../services/queries/getGuests";
 import DataTable from "../../components/DataTable";
-import { Paper, TableContainer, Typography } from "@mui/material";
+import { IconButton, Paper, TableContainer, Typography } from "@mui/material";
 import AuthContext from "../../contexts/authContext";
+import PageHeader from "../../components/PageHeader";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const columnSpec = [
   { field: "id", headerName: "ID", width: 70 },
@@ -36,9 +38,14 @@ const Guests = () => {
 
   return (
     <div id="guests" className="full-width">
-      <Typography sx={{ mb: 3 }} variant="h5" gutterBottom>
-        Guests
-      </Typography>
+      <PageHeader title="Guests">
+      <IconButton
+          onClick={() => console.log("Add guest")}
+          size="large"
+        >
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+      </PageHeader>
       <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
         <DataTable rows={data!} columns={columnSpec} />
       </TableContainer>

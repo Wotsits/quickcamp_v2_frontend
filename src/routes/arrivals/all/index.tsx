@@ -32,6 +32,8 @@ import SummaryBlock from "../../../components/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHeader from "../../../components/PageHeader";
 import ArrivalsGraph from "../../../components/ArrivalsGraph";
+import { ROUTES } from "../../../settings";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const summaryBlockSettings = {
   background:
@@ -115,7 +117,15 @@ const Arrivals = () => {
 
   return (
     <div id="arrivals" className="full-width">
-      <PageHeader title="Arrivals" />
+      
+      <PageHeader title="Arrivals">
+        <IconButton
+          onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+          size="large"
+        >
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+      </PageHeader>
 
       <div className="container-white-bg-rounded-full-width">
         <div id="arrivals-datepicker">
@@ -181,9 +191,15 @@ const Arrivals = () => {
                 {...summaryBlockSettings}
               />
             </div>
-            <div id="arrival-progress" style={{width: "100%", display: "flex", justifyContent: "center"}}>
-
-                <ArrivalsGraph arrivalsData={arrivalsData}/>
+            <div
+              id="arrival-progress"
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <ArrivalsGraph arrivalsData={arrivalsData} />
             </div>
           </AccordionDetails>
         </Accordion>
