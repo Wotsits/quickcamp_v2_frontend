@@ -150,13 +150,13 @@ export function checkoutAll(
   });
   petStateCpy.forEach((pet) => {
     if (pet.checkedIn) {
-      pet.checkedIn = !reverse ? now : null;
+      pet.checkedOut = !reverse ? now : null;
       toUpdateOnServer.push({ id: pet.id, type: "PET" });
     }
   });
   vehicleStateCpy.forEach((vehicle) => {
     if (vehicle.checkedIn) {
-      vehicle.checkedIn = !reverse ? now : null;
+      vehicle.checkedOut = !reverse ? now : null;
       toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
     }
   });
