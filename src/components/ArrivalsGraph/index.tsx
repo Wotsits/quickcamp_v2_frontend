@@ -3,9 +3,15 @@ import { PRIMARYCOLOR } from "../../settings";
 import { LineChart } from "@mui/x-charts";
 import { Booking } from "../../types";
 
-type ArrivalsDataProps = {
+type ArrivalsGraphProps = {
+  /** array of bookings */
   arrivalsData?: Booking[];
+  /** optional, padding in px.  If not defined, the chart will have no padding */
   padding?: number;
+  /** optional, height in px.  If not defined, the chart will take up the height of the parent */
+  height?: number;
+  /** optional, width in px.  If not defined, the chart will take up the width of the parent */
+  width?: number;
 };
 
 const xAxis = [
@@ -30,7 +36,7 @@ const xAxis = [
   "02:00",
 ];
 
-const ArrivalsGraph = ({ arrivalsData, padding }: ArrivalsDataProps) => {
+const ArrivalsGraph = ({ arrivalsData, padding, height, width }: ArrivalsGraphProps) => {
   if (!arrivalsData) return null;
 
   // the points on the Y axis all set to zero.
@@ -62,8 +68,8 @@ const ArrivalsGraph = ({ arrivalsData, padding }: ArrivalsDataProps) => {
           area: true,
         },
       ]}
-      width={500}
-      height={300}
+      height={height}
+      width={width}
       colors={[PRIMARYCOLOR]}
       sx={{ padding }}
     />

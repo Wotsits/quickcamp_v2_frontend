@@ -136,7 +136,7 @@ const Dashboard = () => {
         className="container-white-bg-rounded-full-width"
       >
         <Typography variant="h6">Arrival Forecast</Typography>
-        <ArrivalsGraph arrivalsData={arrivalsData!} />
+        <ArrivalsGraph arrivalsData={arrivalsData!} width={900} height={300} />
       </div>
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>

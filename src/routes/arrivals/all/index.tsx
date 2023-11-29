@@ -199,7 +199,7 @@ const Arrivals = () => {
                 justifyContent: "center",
               }}
             >
-              <ArrivalsGraph arrivalsData={arrivalsData} />
+              <ArrivalsGraph arrivalsData={arrivalsData} height={300} width={500}/>
             </div>
           </AccordionDetails>
         </Accordion>
