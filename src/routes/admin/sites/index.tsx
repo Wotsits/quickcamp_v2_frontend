@@ -66,8 +66,10 @@ const SitesAdmin = () => {
       <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Site Name</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Site Name</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {data?.map((site) => (

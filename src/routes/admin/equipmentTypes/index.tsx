@@ -39,7 +39,7 @@ const EquipmentTypesAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<EquipmentType[], Error>(
-    ["EquipmentTypes", {siteId: undefined}],
+    ["EquipmentTypes", { siteId: undefined }],
     () =>
       getEquipmentTypes({
         token: user.token,
@@ -54,7 +54,8 @@ const EquipmentTypesAdmin = () => {
     if (data) {
       if (selectedSite !== -1) {
         const equipmentTypesForSite = data.filter(
-          (equipmentType: EquipmentType) => equipmentType.siteId === selectedSite
+          (equipmentType: EquipmentType) =>
+            equipmentType.siteId === selectedSite
         );
         if (equipmentTypesForSite.length === 0) {
           return (
@@ -64,29 +65,37 @@ const EquipmentTypesAdmin = () => {
           );
         }
         return equipmentTypesForSite.map((equipmentType: EquipmentType) => {
-          const {id, name, description, icon: iconName} = equipmentType
-          const icon = equipmentIcon[iconName]
+          const { id, name, description, icon: iconName } = equipmentType;
+          const icon = equipmentIcon[iconName];
           return (
             <TableRow key={id}>
               <TableCell>{id}</TableCell>
               <TableCell>{name}</TableCell>
               <TableCell>{description}</TableCell>
-              <TableCell>{icon !== undefined ? icon({className: "equipment-type-icon"}): null}</TableCell>
+              <TableCell>
+                {icon !== undefined
+                  ? icon({ className: "equipment-type-icon" })
+                  : null}
+              </TableCell>
             </TableRow>
           );
         });
       }
       return data.map((equipmentType: EquipmentType) => {
-        const {id, name, description, icon: iconName} = equipmentType
-        const icon = equipmentIcon[iconName]
+        const { id, name, description, icon: iconName } = equipmentType;
+        const icon = equipmentIcon[iconName];
         return (
           <TableRow key={id}>
             <TableCell>{id}</TableCell>
             <TableCell>{name}</TableCell>
             <TableCell>{description}</TableCell>
-            <TableCell>{icon !== undefined ? icon({className: "equipment-type-icon"}) : null}</TableCell>
+            <TableCell>
+              {icon !== undefined
+                ? icon({ className: "equipment-type-icon" })
+                : null}
+            </TableCell>
           </TableRow>
-        )
+        );
       });
     }
   }
@@ -100,18 +109,23 @@ const EquipmentTypesAdmin = () => {
 
   return (
     <div id="equipment-types-admin" className="full-width">
-      
       {/* PAGE HEADER */}
 
       <PageHeader title="Equipment Types">
-        <IconButton onClick={() => console.log("Add Equipment Type")} size="large">
+        <IconButton
+          onClick={() => console.log("Add Equipment Type")}
+          size="large"
+        >
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
 
       {/* FILTERS */}
 
-      <div id="equipment-types-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
+      <div
+        id="equipment-types-filters"
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -123,7 +137,9 @@ const EquipmentTypesAdmin = () => {
           >
             <MenuItem value={-1}>All Sites</MenuItem>
             {user.sites.map((site: Site) => (
-              <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+              <MenuItem key={site.id} value={site.id}>
+                {site.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -131,13 +147,18 @@ const EquipmentTypesAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer
+        component={Paper}
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Icon</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Icon</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderEquipmentTypesToTable()}</TableBody>
         </Table>

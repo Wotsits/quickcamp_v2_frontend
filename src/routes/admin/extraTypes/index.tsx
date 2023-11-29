@@ -34,9 +34,7 @@ const ExtraTypesAdmin = () => {
   // -------------
 
   const [selectedSite, setSelectedSite] = React.useState<number>(-1);
-  const [selectedUnitType, setSelectedUnitType] = React.useState<number>(
-    -1
-  );
+  const [selectedUnitType, setSelectedUnitType] = React.useState<number>(-1);
 
   // -------------
   // QUERIES
@@ -114,12 +112,10 @@ const ExtraTypesAdmin = () => {
     let filteredData = [...dataExtraTypes];
 
     if (selectedSite !== -1) {
-      filteredData = filteredData.filter(
-        (extraType: ExtraType) => {
-          const sampleUnitType = extraType.unitTypes![0]
-          return sampleUnitType.siteId === selectedSite
-        }
-      );
+      filteredData = filteredData.filter((extraType: ExtraType) => {
+        const sampleUnitType = extraType.unitTypes![0];
+        return sampleUnitType.siteId === selectedSite;
+      });
     }
 
     if (selectedUnitType !== -1) {
@@ -170,7 +166,6 @@ const ExtraTypesAdmin = () => {
 
   return (
     <div id="extra-types-admin" className="full-width">
-
       {/* PAGE HEADER */}
 
       <PageHeader title="Extra Types">
@@ -181,7 +176,10 @@ const ExtraTypesAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="extra-types-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
+      <div
+        id="extra-types-filters"
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <div className="container-flex-row-space-between-center-full-width">
           <FormControl fullWidth>
             <InputLabel id="site-select">Filter by Site</InputLabel>
@@ -194,7 +192,9 @@ const ExtraTypesAdmin = () => {
             >
               <MenuItem value={-1}>All Sites</MenuItem>
               {user.sites.map((site: Site) => (
-                <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+                <MenuItem key={site.id} value={site.id}>
+                  {site.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -205,26 +205,31 @@ const ExtraTypesAdmin = () => {
               id="unit-type-select"
               value={selectedUnitType}
               label="Unit Type Filter"
-              onChange={(e) =>
-                setSelectedUnitType(e.target.value as number)
-              }
+              onChange={(e) => setSelectedUnitType(e.target.value as number)}
             >
               <MenuItem value={-1}>All Unit Types</MenuItem>
               {dataUnitTypes!.map((unitType: UnitType) => (
-                <MenuItem key={unitType.id} value={unitType.id}>{unitType.name}</MenuItem>
+                <MenuItem key={unitType.id} value={unitType.id}>
+                  {unitType.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
         </div>
       </div>
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer
+        component={Paper}
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Icon</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Icon</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderExtraTypesToTable()}</TableBody>
         </Table>

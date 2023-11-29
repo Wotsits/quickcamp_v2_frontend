@@ -38,7 +38,7 @@ const UnitTypesAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
-    ["UnitTypes", {includeSite: false, includeUnits: false}],
+    ["UnitTypes", { includeSite: false, includeUnits: false }],
     () =>
       getUnitTypes({
         token: user.token,
@@ -89,7 +89,6 @@ const UnitTypesAdmin = () => {
 
   return (
     <div id="unit-types-admin" className="full-width">
-
       {/* PAGE HEADER */}
 
       <PageHeader title="UnitTypes">
@@ -97,7 +96,7 @@ const UnitTypesAdmin = () => {
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      
+
       {/* FILTERS */}
 
       <div className="container-white-bg-rounded-full-width margin-bottom-1">
@@ -112,7 +111,9 @@ const UnitTypesAdmin = () => {
           >
             <MenuItem value={-1}>All Sites</MenuItem>
             {user.sites.map((site: Site) => (
-              <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+              <MenuItem key={site.id} value={site.id}>
+                {site.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -120,12 +121,17 @@ const UnitTypesAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer
+        component={Paper}
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderUnitTypesToTable()}</TableBody>
         </Table>

@@ -41,7 +41,7 @@ const UnitsAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
-    ["UnitTypes", {includeSite: true, includeUnits: true}],
+    ["UnitTypes", { includeSite: true, includeUnits: true }],
     () =>
       getUnitTypes({
         token: user.token,
@@ -100,7 +100,13 @@ const UnitsAdmin = () => {
     }
 
     if (filteredData.length === 0) {
-      return <TableRow><TableCell colSpan={100}>No units found matching applied filters.</TableCell></TableRow>;
+      return (
+        <TableRow>
+          <TableCell colSpan={100}>
+            No units found matching applied filters.
+          </TableCell>
+        </TableRow>
+      );
     }
 
     return filteredData.map((unitType: UnitType) => {
@@ -128,7 +134,6 @@ const UnitsAdmin = () => {
 
   return (
     <div id="units-admin" className="full-width">
-
       {/* PAGE HEADER */}
 
       <PageHeader title="Units">
@@ -139,7 +144,10 @@ const UnitsAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="unit-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
+      <div
+        id="unit-filters"
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <div className="container-flex-row-space-between-center-full-width">
           <FormControl fullWidth>
             <InputLabel id="site-select">Filter by Site</InputLabel>
@@ -152,7 +160,9 @@ const UnitsAdmin = () => {
             >
               <MenuItem value={-1}>All Sites</MenuItem>
               {user.sites.map((site: Site) => (
-                <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+                <MenuItem key={site.id} value={site.id}>
+                  {site.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -169,7 +179,9 @@ const UnitsAdmin = () => {
             >
               <MenuItem value={-1}>All Unit Types</MenuItem>
               {data!.map((unitType: UnitType) => (
-                <MenuItem key={unitType.id} value={unitType.id}>{unitType.name}</MenuItem>
+                <MenuItem key={unitType.id} value={unitType.id}>
+                  {unitType.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -178,11 +190,16 @@ const UnitsAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer
+        component={Paper}
+        className="container-white-bg-rounded-full-width"
+      >
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderUnitsToTable()}</TableBody>
         </Table>

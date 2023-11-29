@@ -139,11 +139,13 @@ const UsersAdmin = () => {
       <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Username</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Roles</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Username</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Roles</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderUsersToTable()}</TableBody>
         </Table>

@@ -39,7 +39,7 @@ const GuestTypesAdmin = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<GuestType[], Error>(
-    ["GuestTypes", {siteId: undefined}],
+    ["GuestTypes", { siteId: undefined }],
     () =>
       getGuestTypes({
         token: user.token,
@@ -64,29 +64,37 @@ const GuestTypesAdmin = () => {
           );
         }
         return guestTypesForSite.map((guestType: GuestType) => {
-          const {id, name, description, icon: iconName} = guestType
-          const icon = occupantTypeIconMap[iconName]
+          const { id, name, description, icon: iconName } = guestType;
+          const icon = occupantTypeIconMap[iconName];
           return (
             <TableRow key={id}>
               <TableCell>{id}</TableCell>
               <TableCell>{name}</TableCell>
               <TableCell>{description}</TableCell>
-              <TableCell>{icon !== undefined ? icon({className: "occupant-type-icon"}): null}</TableCell>
+              <TableCell>
+                {icon !== undefined
+                  ? icon({ className: "occupant-type-icon" })
+                  : null}
+              </TableCell>
             </TableRow>
           );
         });
       }
       return data.map((guestType: GuestType) => {
-        const {id, name, description, icon: iconName} = guestType
-        const icon = occupantTypeIconMap[iconName]
+        const { id, name, description, icon: iconName } = guestType;
+        const icon = occupantTypeIconMap[iconName];
         return (
           <TableRow key={id}>
             <TableCell>{id}</TableCell>
             <TableCell>{name}</TableCell>
             <TableCell>{description}</TableCell>
-            <TableCell>{icon !== undefined ? icon({className: "occupant-type-icon"}) : null}</TableCell>
+            <TableCell>
+              {icon !== undefined
+                ? icon({ className: "occupant-type-icon" })
+                : null}
+            </TableCell>
           </TableRow>
-        )
+        );
       });
     }
   }
@@ -100,7 +108,6 @@ const GuestTypesAdmin = () => {
 
   return (
     <div id="guest-types-admin" className="full-width">
-
       {/* PAGE HEADER */}
 
       <PageHeader title="Guest Types">
@@ -111,7 +118,10 @@ const GuestTypesAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="guest-type-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
+      <div
+        id="guest-type-filters"
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -123,7 +133,9 @@ const GuestTypesAdmin = () => {
           >
             <MenuItem value={-1}>All Sites</MenuItem>
             {user.sites.map((site: Site) => (
-              <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+              <MenuItem key={site.id} value={site.id}>
+                {site.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -131,13 +143,18 @@ const GuestTypesAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer
+        component={Paper}
+        className="container-white-bg-rounded-full-width margin-bottom-1"
+      >
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Icon</TableCell>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Icon</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>{renderGuestTypesToTable()}</TableBody>
         </Table>
