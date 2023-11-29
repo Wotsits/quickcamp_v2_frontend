@@ -194,7 +194,7 @@ const ExtraTypesAdmin = () => {
             >
               <MenuItem value={-1}>All Sites</MenuItem>
               {user.sites.map((site: Site) => (
-                <MenuItem value={site.id}>{site.name}</MenuItem>
+                <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
               ))}
             </Select>
           </FormControl>

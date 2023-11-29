@@ -19,16 +19,15 @@ const ColumnWidthControls = ({
 }: ColumnWidthControlsComponentProps) => {
   return (
     <div id="column-width-controls" className="column-width-controls">
-      <IconButton>
+      <IconButton          
+        onClick={() => setColumnWidth(columnWidth + 10)}>
         <ZoomInIcon
-          onClick={() => setColumnWidth(columnWidth + 10)}
           fontSize="large"
           color="secondary"
         />
       </IconButton>
-      <IconButton disabled={columnWidth === minWidth}>
+      <IconButton onClick={() => setColumnWidth(columnWidth - 10)} disabled={columnWidth === minWidth}>
         <ZoomOutIcon
-          onClick={() => setColumnWidth(columnWidth - 10)}
           fontSize="large"
           color="secondary"
         />

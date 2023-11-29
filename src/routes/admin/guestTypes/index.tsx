@@ -67,10 +67,10 @@ const GuestTypesAdmin = () => {
           const {id, name, description, icon: iconName} = guestType
           const icon = occupantTypeIconMap[iconName]
           return (
-            <TableRow key={guestType.id}>
-              <TableCell>{guestType.id}</TableCell>
-              <TableCell>{guestType.name}</TableCell>
-              <TableCell>{guestType.description}</TableCell>
+            <TableRow key={id}>
+              <TableCell>{id}</TableCell>
+              <TableCell>{name}</TableCell>
+              <TableCell>{description}</TableCell>
               <TableCell>{icon !== undefined ? icon({className: "occupant-type-icon"}): null}</TableCell>
             </TableRow>
           );
@@ -123,7 +123,7 @@ const GuestTypesAdmin = () => {
           >
             <MenuItem value={-1}>All Sites</MenuItem>
             {user.sites.map((site: Site) => (
-              <MenuItem value={site.id}>{site.name}</MenuItem>
+              <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
             ))}
           </Select>
         </FormControl>

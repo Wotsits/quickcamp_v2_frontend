@@ -1,6 +1,5 @@
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import PageHeader from "../../components/PageHeader";
 import { useQuery } from "react-query";
 import { Booking } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
@@ -9,7 +8,6 @@ import ArrivalsGraph from "../../components/ArrivalsGraph";
 import "./style.css";
 import { PRIMARYCOLOR, ROUTES } from "../../settings";
 import { useNavigate } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SummaryBlock from "../../components/SummaryBlock";
 
 const now = new Date();
@@ -51,6 +49,8 @@ const Dashboard = () => {
   if (arrivalsAreLoading) return <div>Loading...</div>;
 
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
+
+  console.log(arrivalsData)
 
   return (
     <div id="dashboard">

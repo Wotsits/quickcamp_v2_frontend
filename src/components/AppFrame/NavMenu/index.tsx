@@ -30,9 +30,8 @@ const NavMenu = ({
     <div id="nav-menu">
       <List>
         {primaryNavOptions.map((option) => (
-          <Link style={linkStyle} to={option.path}>
+          <Link key={option.path} style={linkStyle} to={option.path}>
             <ListItem
-              key={option.path}
               disablePadding
               sx={{ display: "block" }}
             >
@@ -59,9 +58,8 @@ const NavMenu = ({
       {secondaryNavOptions && (
         <List>
           {secondaryNavOptions.map((option) => (
-            <Link style={linkStyle} to={option.path}>
+            <Link key={option.path} style={linkStyle} to={option.path}>
               <ListItem
-                key={option.path}
                 disablePadding
                 sx={{ display: "block" }}
               >

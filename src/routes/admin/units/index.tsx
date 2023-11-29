@@ -152,7 +152,7 @@ const UnitsAdmin = () => {
             >
               <MenuItem value={-1}>All Sites</MenuItem>
               {user.sites.map((site: Site) => (
-                <MenuItem value={site.id}>{site.name}</MenuItem>
+                <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -169,7 +169,7 @@ const UnitsAdmin = () => {
             >
               <MenuItem value={-1}>All Unit Types</MenuItem>
               {data!.map((unitType: UnitType) => (
-                <MenuItem value={unitType.id}>{unitType.name}</MenuItem>
+                <MenuItem key={unitType.id} value={unitType.id}>{unitType.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
