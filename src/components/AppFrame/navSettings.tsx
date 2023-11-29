@@ -6,6 +6,7 @@ import ListIcon from "@mui/icons-material/List";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
+import FlightTakeOffIcon from "@mui/icons-material/FlightTakeOff";
 
 export const primaryNavOptions = [
     {
@@ -22,6 +23,11 @@ export const primaryNavOptions = [
       text: "Arrivals",
       path: ROUTES.ARRIVALS + ROUTES.ALL,
       icon: <FlightLandIcon />,
+    },
+    {
+      text: "Departures",
+      path: ROUTES.DEPARTURES + ROUTES.ALL,
+      icon: <FlightTakeOffIcon />,
     },
     {
       text: "Booking List",

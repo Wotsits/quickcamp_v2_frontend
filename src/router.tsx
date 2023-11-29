@@ -24,6 +24,8 @@ import EquipmentTypesAdmin from "./routes/admin/equipmentTypes";
 import ExtraTypesAdmin from "./routes/admin/extraTypes";
 import UsersAdmin from "./routes/admin/users";
 import SiteForm from "./routes/admin/sites/new";
+import Departures from "./routes/departures/all";
+import IndividualDeparture from "./routes/departures/[id]";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,19 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.ID,
             element: <IndividualArrival />,
+          }
+        ]
+      },
+      {
+        path: ROUTES.DEPARTURES,
+        children: [
+          {
+            path: ROUTES.ALL,
+            element: <Departures />,
+          },
+          {
+            path: ROUTES.ID,
+            element: <IndividualDeparture />,
           }
         ]
       },

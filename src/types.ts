@@ -125,6 +125,7 @@ export type BookingGuest = {
     start: Date,
     end: Date,
     checkedIn: Date | null,
+    checkedOut: Date | null,
 }
 
 export type BookingVehicle = {
@@ -147,6 +148,7 @@ export type BookingPet = {
     start: Date,
     end: Date,
     checkedIn: Date | null,
+    checkedOut: Date | null,
 }
 
 export type Payment = {

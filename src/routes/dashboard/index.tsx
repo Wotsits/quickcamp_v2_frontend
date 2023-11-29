@@ -10,8 +10,10 @@ import { PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../../settings";
 import { useNavigate } from "react-router-dom";
 import SummaryBlock from "../../components/SummaryBlock";
 import { today1200 } from "../../utils/dateTimeManipulation";
+import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate";
+import { isSameDate } from "../../utils/helpers";
 
-const now = today1200()
+const now = today1200();
 
 const Dashboard = () => {
   // -------------
@@ -43,34 +45,80 @@ const Dashboard = () => {
     })
   );
 
+  const {
+    isLoading: departuresAreLoading,
+    isError: departuresAreError,
+    data: departuresData,
+    error: departuresError,
+  } = useQuery<Booking[], Error>(["DeparturesByDate", now], () =>
+    getDeparturesByDate({
+      date: now,
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
+
+  // COUNT ON SITE QUERY
+
+  // TOTAL INCOME QUERY
+
+  // PENDING BOOKINGS QUERY
+
   // -------------
   // HELPERS
   // -------------
 
-  function generateArrivalsCompletePercentage() {
-    if (!arrivalsData || arrivalsData.length === 0) return "N/A";
-    let totalArrivals = 0;
-    let totalArrived = 0; 
-    arrivalsData.forEach((booking) => {
+  function generateCompletePercentage(action: "ARRIVALS" | "DEPARTURES") {
+    if (action === "ARRIVALS") {
+      if (!arrivalsData || arrivalsData.length === 0) return "N/A";
+    }
+    if (action === "DEPARTURES") {
+      if (!departuresData || departuresData.length === 0) return "N/A";
+    }
+
+    let totalExpected = 0;
+    let totalComplete = 0;
+
+    const arr = action === "ARRIVALS" ? arrivalsData! : departuresData!;
+    arr.forEach((booking) => {
       booking.guests!.forEach((guest) => {
-        totalArrivals++;
-        if (guest.checkedIn) totalArrived++;
+        const dateOfInterest = action === "ARRIVALS" ? guest.start : guest.end;
+        // if guest is arriving today (remember there may be guests in the array that are arriving on other days)
+        if (isSameDate(now, new Date(dateOfInterest))) {
+          totalExpected++;
+          if (action === "ARRIVALS") {
+            if (guest.checkedIn) totalComplete++;
+          }
+          if (action === "DEPARTURES") {
+            if (guest.checkedOut) totalComplete++;
+          }
+        }
       });
     });
-    return `${Math.floor((totalArrived / totalArrivals) * 100)}%`;
+
+    if (totalExpected === 0) return "N/A";
+    return `${Math.floor((totalComplete / totalExpected) * 100)}%`;
   }
 
   // -------------
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
+  if (arrivalsAreError || departuresAreError)
+    return (
+      <>
+        {arrivalsError && <div>{arrivalsError.message}</div>}
+        {departuresError && <div>{departuresError.message}</div>}
+      </>
+    );
+
+  console.log(departuresData);
 
   return (
     <div id="dashboard">
-      <div 
+      <div
         id="arrival-forecast"
         className="container-white-bg-rounded-full-width"
       >
@@ -80,35 +128,86 @@ const Dashboard = () => {
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
         <div id="quick-menu-buttons-container">
-          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)} >
+          <div
+            className="quick-menu-button"
+            onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+          >
             Make a New Booking
           </div>
-          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.GUESTS)}>
+          <div
+            className="quick-menu-button"
+            onClick={() => navigate("/" + ROUTES.GUESTS)}
+          >
             Perform End of Day Cashup
           </div>
-          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.GUESTS)}>
+          <div
+            className="quick-menu-button"
+            onClick={() => navigate("/" + ROUTES.GUESTS)}
+          >
             Checkout All Guests Due to Depart
           </div>
         </div>
-        
       </div>
       <div id="on-site-summary">
-        <SummaryBlock inverted label="on site" content="21" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock
+          inverted
+          label="on site"
+          content="-"
+          background={PRIMARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
       <div id="arrived-summary">
-        <SummaryBlock inverted label="arrived" content={`${generateArrivalsCompletePercentage()}`} background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock
+          inverted
+          label="arrived"
+          content={`${generateCompletePercentage("ARRIVALS")}`}
+          background={PRIMARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
       <div id="departed-summary">
-        <SummaryBlock inverted label="departed" content="100%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock
+          inverted
+          label="departed"
+          content={`${generateCompletePercentage("DEPARTURES")}`}
+          background={PRIMARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
       <div id="income-summary">
-        <SummaryBlock inverted label="total income today" content="£9,458" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock
+          inverted
+          label="total income today"
+          content="£-"
+          background={PRIMARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
-      <div id="daily-income-breakdown"className="container-white-bg-rounded-full-width">
+      <div
+        id="daily-income-breakdown"
+        className="container-white-bg-rounded-full-width"
+      >
         <Typography variant="h6">Daily Income Breakdown</Typography>
       </div>
       <div id="pending-bookings">
-        <SummaryBlock inverted label="pending bookings" content="21%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock
+          inverted
+          label="pending bookings"
+          content="-"
+          background={PRIMARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
     </div>
   );
