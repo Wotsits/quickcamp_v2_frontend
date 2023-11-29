@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
-import { Booking } from "../../types";
+import { Booking, BookingGuest } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/ArrivalsGraph";
@@ -9,8 +9,9 @@ import "./style.css";
 import { PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../../settings";
 import { useNavigate } from "react-router-dom";
 import SummaryBlock from "../../components/SummaryBlock";
+import { today1200 } from "../../utils/dateTimeManipulation";
 
-const now = new Date();
+const now = today1200()
 
 const Dashboard = () => {
   // -------------
@@ -43,14 +44,29 @@ const Dashboard = () => {
   );
 
   // -------------
+  // HELPERS
+  // -------------
+
+  function generateArrivalsCompletePercentage() {
+    if (!arrivalsData || arrivalsData.length === 0) return "N/A";
+    let totalArrivals = 0;
+    let totalArrived = 0; 
+    arrivalsData.forEach((booking) => {
+      booking.guests!.forEach((guest) => {
+        totalArrivals++;
+        if (guest.checkedIn) totalArrived++;
+      });
+    });
+    return `${Math.floor((totalArrived / totalArrivals) * 100)}%`;
+  }
+
+  // -------------
   // RENDER
   // -------------
 
   if (arrivalsAreLoading) return <div>Loading...</div>;
 
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
-
-  console.log(arrivalsData)
 
   return (
     <div id="dashboard">
@@ -80,7 +96,7 @@ const Dashboard = () => {
         <SummaryBlock inverted label="on site" content="21" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
       </div>
       <div id="arrived-summary">
-        <SummaryBlock inverted label="arrived" content="21%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+        <SummaryBlock inverted label="arrived" content={`${generateArrivalsCompletePercentage()}`} background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
       </div>
       <div id="departed-summary">
         <SummaryBlock inverted label="departed" content="100%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
