@@ -22,15 +22,13 @@
     flex-direction: column;
     gap: 20px;
     justify-content: flex-start;
-    align-items: flex-start;
 }
 
 #dashboard #quick-menu #quick-menu-buttons-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 5px;
-    width: 100%;
-    overflow-y: auto;
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%
 }
 
 #dashboard #quick-menu #quick-menu-buttons-container .quick-menu-button {
