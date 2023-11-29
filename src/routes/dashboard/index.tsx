@@ -6,7 +6,7 @@ import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/ArrivalsGraph";
 import "./style.css";
-import { PRIMARYCOLOR, ROUTES } from "../../settings";
+import { PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../../settings";
 import { useNavigate } from "react-router-dom";
 import SummaryBlock from "../../components/SummaryBlock";
 
@@ -63,12 +63,18 @@ const Dashboard = () => {
       </div>
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
-        <div>
-          <Button variant="contained" onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}>New Booking</Button>
+        <div id="quick-menu-buttons-container">
+          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)} >
+            Make a New Booking
+          </div>
+          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.GUESTS)}>
+            Perform End of Day Cashup
+          </div>
+          <div className="quick-menu-button" onClick={() => navigate("/" + ROUTES.GUESTS)}>
+            Checkout All Guests Due to Depart
+          </div>
         </div>
-        <div>
-          <Button variant="contained" onClick={() => navigate("/" + ROUTES.GUESTS)}>End of Day</Button>
-        </div>
+        
       </div>
       <div id="on-site-summary">
         <SummaryBlock inverted label="on site" content="21" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
