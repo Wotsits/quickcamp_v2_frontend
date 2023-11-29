@@ -100,7 +100,7 @@ const UnitTypesAdmin = () => {
       
       {/* FILTERS */}
 
-      <div className="container-white-bg-rounded-full-width">
+      <div className="container-white-bg-rounded-full-width margin-bottom-1">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -120,7 +120,7 @@ const UnitTypesAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

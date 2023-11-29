@@ -1,4 +1,4 @@
-import { IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import PageHeader from "../../components/PageHeader";
 import { useQuery } from "react-query";
@@ -7,9 +7,10 @@ import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/ArrivalsGraph";
 import "./style.css";
-import { ROUTES } from "../../settings";
+import { PRIMARYCOLOR, ROUTES } from "../../settings";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import SummaryBlock from "../../components/SummaryBlock";
 
 const now = new Date();
 
@@ -53,17 +54,39 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <PageHeader title="Dashboard">
-        <IconButton
-          onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
-          size="large"
-        >
-          <AddCircleOutlineIcon fontSize="large" />
-        </IconButton>
-      </PageHeader>
-      <div id="dashboard-top-section" className="section">
-        <Typography variant="h6">Arrivals Forecast</Typography>
-        <ArrivalsGraph arrivalsData={arrivalsData} padding={0} />
+      <div 
+        id="arrival-forecast"
+        className="container-white-bg-rounded-full-width"
+      >
+        <Typography variant="h6">Arrival Forecast</Typography>
+        <ArrivalsGraph arrivalsData={arrivalsData!} />
+      </div>
+      <div id="quick-menu" className="container-white-bg-rounded-full-width">
+        <Typography variant="h6">Quick Links</Typography>
+        <div>
+          <Button variant="contained" onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}>New Booking</Button>
+        </div>
+        <div>
+          <Button variant="contained" onClick={() => navigate("/" + ROUTES.GUESTS)}>End of Day</Button>
+        </div>
+      </div>
+      <div id="on-site-summary">
+        <SummaryBlock inverted label="on site" content="21" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+      </div>
+      <div id="arrived-summary">
+        <SummaryBlock inverted label="arrived" content="21%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+      </div>
+      <div id="departed-summary">
+        <SummaryBlock inverted label="departed" content="100%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+      </div>
+      <div id="income-summary">
+        <SummaryBlock inverted label="total income today" content="£9,458" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
+      </div>
+      <div id="daily-income-breakdown"className="container-white-bg-rounded-full-width">
+        <Typography variant="h6">Daily Income Breakdown</Typography>
+      </div>
+      <div id="pending-bookings">
+        <SummaryBlock inverted label="pending bookings" content="21%" background={PRIMARYCOLOR} foregroundColor="white" width="100%" height="100%" />
       </div>
     </div>
   );

@@ -181,7 +181,7 @@ const ExtraTypesAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="extra-types-filters" className="container-white-bg-rounded-full-width">
+      <div id="extra-types-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
         <div className="container-flex-row-space-between-center-full-width">
           <FormControl fullWidth>
             <InputLabel id="site-select">Filter by Site</InputLabel>
@@ -218,7 +218,7 @@ const ExtraTypesAdmin = () => {
         </div>
       </div>
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

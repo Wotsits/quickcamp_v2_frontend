@@ -111,7 +111,7 @@ const GuestTypesAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="guest-type-filters" className="container-white-bg-rounded-full-width">
+      <div id="guest-type-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Site</InputLabel>
           <Select
@@ -131,7 +131,7 @@ const GuestTypesAdmin = () => {
 
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

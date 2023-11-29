@@ -63,7 +63,7 @@ const SitesAdmin = () => {
       
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableCell>ID</TableCell>

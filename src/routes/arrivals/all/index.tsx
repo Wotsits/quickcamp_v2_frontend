@@ -127,7 +127,7 @@ const Arrivals = () => {
         </IconButton>
       </PageHeader>
 
-      <div className="container-white-bg-rounded-full-width">
+      <div className="container-white-bg-rounded-full-width margin-bottom-1">
         <div id="arrivals-datepicker">
           <DatePicker
             onChange={(value: Date | null) =>

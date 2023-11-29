@@ -46,7 +46,7 @@ const Guests = () => {
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
         <DataTable rows={data!} columns={columnSpec} />
       </TableContainer>
     </div>

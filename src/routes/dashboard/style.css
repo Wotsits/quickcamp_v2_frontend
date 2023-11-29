@@ -1,7 +1,50 @@
-#dashboard .section {
-    padding: 20px;
-    margin: 20px;
-    background : #fff;
-    border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+#dashboard {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    gap: 30px; 
+    padding: 10px;
+    grid-template-areas: 
+      "arrival-forecast arrival-forecast arrival-forecast quick-menu"
+      "arrival-forecast arrival-forecast arrival-forecast quick-menu"
+      "on-site-summary arrived-summary departed-summary quick-menu"
+      "income-summary daily-income-breakdown daily-income-breakdown daily-income-breakdown"
+      "pending-bookings daily-income-breakdown daily-income-breakdown daily-income-breakdown"; 
+}
+
+#dashboard #arrival-forecast { 
+    grid-area: arrival-forecast; 
+}
+
+#dashboard #quick-menu { 
+    grid-area: quick-menu; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#dashboard #on-site-summary { 
+    grid-area: on-site-summary; 
+}
+
+#dashboard #arrived-summary { 
+    grid-area: arrived-summary; 
+}
+
+#dashboard #departed-summary { 
+    grid-area: departed-summary; 
+}
+
+#dashboard #income-summary { 
+    grid-area: income-summary; 
+}
+
+#dashboard #daily-income-breakdown { 
+    grid-area: daily-income-breakdown; 
+}
+
+#dashboard #pending-bookings { 
+    grid-area: pending-bookings; 
 }

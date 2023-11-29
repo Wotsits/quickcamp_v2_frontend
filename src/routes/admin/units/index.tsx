@@ -139,7 +139,7 @@ const UnitsAdmin = () => {
 
       {/* FILTERS */}
 
-      <div id="unit-filters" className="container-white-bg-rounded-full-width">
+      <div id="unit-filters" className="container-white-bg-rounded-full-width margin-bottom-1">
         <div className="container-flex-row-space-between-center-full-width">
           <FormControl fullWidth>
             <InputLabel id="site-select">Filter by Site</InputLabel>
