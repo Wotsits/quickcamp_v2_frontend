@@ -12,6 +12,7 @@ import SummaryBlock from "../../components/SummaryBlock";
 import { today1200 } from "../../utils/dateTimeManipulation";
 import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate";
 import { isSameDate } from "../../utils/helpers";
+import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
 
 const now = today1200();
 
@@ -32,6 +33,7 @@ const Dashboard = () => {
   // QUERIES
   // -------------
 
+  // ARRIVALS QUERY
   const {
     isLoading: arrivalsAreLoading,
     isError: arrivalsAreError,
@@ -45,6 +47,7 @@ const Dashboard = () => {
     })
   );
 
+  // DEPARTURES QUERY
   const {
     isLoading: departuresAreLoading,
     isError: departuresAreError,
@@ -59,6 +62,17 @@ const Dashboard = () => {
   );
 
   // COUNT ON SITE QUERY
+  const {
+    isLoading: totalOnSiteIsLoading,
+    isError: totalOnSiteIsError,
+    data: totalOnSiteData,
+    error: totalOnSiteError,
+  } = useQuery<{totalOnSite: number}, Error>(["TotalOnSite"], () =>
+    getTotalOnSite({
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
 
   // TOTAL INCOME QUERY
 
@@ -104,17 +118,16 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
         {departuresError && <div>{departuresError.message}</div>}
+        {totalOnSiteError && <div>{totalOnSiteError.message}</div>}
       </>
     );
-
-  console.log(departuresData);
 
   return (
     <div id="dashboard">
@@ -152,7 +165,7 @@ const Dashboard = () => {
         <SummaryBlock
           inverted
           label="on site"
-          content="-"
+          content={`${totalOnSiteData!.totalOnSite}`}
           background={PRIMARYCOLOR}
           foregroundColor="white"
           width="100%"
