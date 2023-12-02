@@ -5,15 +5,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 .summary-block .summary-block-label {
-    font-size: 90%;
-    font-weight: 500;
+    font-size: 120%;
+    font-weight: 400;
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 .summary-block .summary-block-content {
-    font-size: 300%;
-    font-weight: 700;
+    font-size: 500%;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
 }

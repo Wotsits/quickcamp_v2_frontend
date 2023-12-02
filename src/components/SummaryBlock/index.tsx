@@ -32,8 +32,8 @@ const SummaryBlock = ({
       className="summary-block"
       style={{ background, color: foregroundColor, width, minWidth: width, height, minHeight: height }}
     >
-      {!inverted ? <div className="summary-block-label">{label}</div> : <div className="summary-block-content">{content}</div>}
-      {!inverted ? <div className="summary-block-content">{content}</div> : <div className="summary-block-label">{label}</div>}
+      {!inverted ? <p className="summary-block-label">{label}</p> : <p className="summary-block-content">{content}</p>}
+      {!inverted ? <p className="summary-block-content">{content}</p> : <p className="summary-block-label">{label}</p>}
     </div>
   );
 };

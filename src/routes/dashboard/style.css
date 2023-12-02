@@ -1,13 +1,13 @@
 #dashboard {
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 200px 200px 200px 200px 200px; 
     gap: 30px; 
     padding: 10px;
     grid-template-areas: 
       "arrival-forecast arrival-forecast arrival-forecast quick-menu"
       "arrival-forecast arrival-forecast arrival-forecast quick-menu"
-      "on-site-summary arrived-summary departed-summary quick-menu"
+      "on-site-now arrived-summary departed-summary on-site-tonight"
       "income-summary daily-income-breakdown daily-income-breakdown daily-income-breakdown"
       "pending-bookings daily-income-breakdown daily-income-breakdown daily-income-breakdown"; 
 }
@@ -39,7 +39,6 @@
     align-items: center;
     padding: 10px;
     border: lightgrey 1px solid;
-    background: #000428;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -47,11 +46,11 @@
 }
 
 #dashboard #quick-menu #quick-menu-buttons-container .quick-menu-button:hover {
-    background-color: #004E92 !important;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 #dashboard #on-site-summary { 
-    grid-area: on-site-summary; 
+    grid-area: on-site-now; 
 }
 
 #dashboard #arrived-summary { 
@@ -60,6 +59,10 @@
 
 #dashboard #departed-summary { 
     grid-area: departed-summary; 
+}
+
+#dashboard #on-site-tonight { 
+    grid-area: on-site-tonight; 
 }
 
 #dashboard #income-summary { 

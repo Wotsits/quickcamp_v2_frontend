@@ -6,7 +6,7 @@ import { Booking } from "../../../types";
 import { IconButton } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../settings";
+import { PRIMARYCOLOR, ROUTES } from "../../../settings";
 import "./style.css";
 import PageHeader from "../../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";

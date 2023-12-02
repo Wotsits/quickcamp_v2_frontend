@@ -13,6 +13,7 @@ import { today1200 } from "../../utils/dateTimeManipulation";
 import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate";
 import { isSameDate } from "../../utils/helpers";
 import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
+import { BarChart } from "@mui/x-charts";
 
 const now = today1200();
 
@@ -136,7 +137,7 @@ const Dashboard = () => {
         className="container-white-bg-rounded-full-width"
       >
         <Typography variant="h6">Arrival Forecast</Typography>
-        <ArrivalsGraph arrivalsData={arrivalsData!} width={900} height={300} />
+        <ArrivalsGraph arrivalsData={arrivalsData!} />
       </div>
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
@@ -144,18 +145,21 @@ const Dashboard = () => {
           <div
             className="quick-menu-button"
             onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
+            style={{ backgroundColor: PRIMARYCOLOR }}
           >
             Make a New Booking
           </div>
           <div
             className="quick-menu-button"
             onClick={() => navigate("/" + ROUTES.GUESTS)}
+            style={{ backgroundColor: SECONDARYCOLOR }}
           >
             Perform End of Day Cashup
           </div>
           <div
             className="quick-menu-button"
             onClick={() => navigate("/" + ROUTES.GUESTS)}
+            style={{ backgroundColor: "purple" }}
           >
             Checkout All Guests Due to Depart
           </div>
@@ -164,9 +168,9 @@ const Dashboard = () => {
       <div id="on-site-summary">
         <SummaryBlock
           inverted
-          label="on site"
+          label="on site now"
           content={`${totalOnSiteData!.totalOnSite}`}
-          background={PRIMARYCOLOR}
+          background={"purple"}
           foregroundColor="white"
           width="100%"
           height="100%"
@@ -177,7 +181,7 @@ const Dashboard = () => {
           inverted
           label="arrived"
           content={`${generateCompletePercentage("ARRIVALS")}`}
-          background={PRIMARYCOLOR}
+          background={SECONDARYCOLOR}
           foregroundColor="white"
           width="100%"
           height="100%"
@@ -194,22 +198,27 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
-      <div id="income-summary">
+      <div id="on-site-tonight">
         <SummaryBlock
           inverted
-          label="total income today"
-          content="£-"
-          background={PRIMARYCOLOR}
+          label="on site tonight"
+          content="-"
+          background={"purple"}
           foregroundColor="white"
           width="100%"
           height="100%"
         />
       </div>
-      <div
-        id="daily-income-breakdown"
-        className="container-white-bg-rounded-full-width"
-      >
-        <Typography variant="h6">Daily Income Breakdown</Typography>
+      <div id="income-summary">
+        <SummaryBlock
+          inverted
+          label="total income today"
+          content="£-"
+          background={SECONDARYCOLOR}
+          foregroundColor="white"
+          width="100%"
+          height="100%"
+        />
       </div>
       <div id="pending-bookings">
         <SummaryBlock
@@ -222,6 +231,19 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+      <div
+        id="daily-income-breakdown"
+        className="container-white-bg-rounded-full-width"
+      >
+        <Typography variant="h6">Daily Income Breakdown</Typography>
+        {/* TODO: add data to the chart */}
+        <BarChart
+          series={[{ data: [4300], label: "Online Payment"}, { data: [2523], label: "Cash Payment"}, { data: [1200], label: "Card Payment"}]}
+          xAxis={[{ scaleType: "band", data: ["Today"] }]}
+          colors={[PRIMARYCOLOR, SECONDARYCOLOR, "purple"]}
+        />
+      </div>
+      
     </div>
   );
 };
