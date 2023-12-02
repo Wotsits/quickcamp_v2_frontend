@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Icon, IconButton, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,8 @@ import "./style.css";
 import OccupantCard from "../../components/OccupantCard";
 import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES } from "../../settings";
 import PageHeader from "../../components/PageHeader";
+import EditIcon from "@mui/icons-material/Edit";
+import ContentBlock from "../../components/ContentBlock";
 
 const IndividualBooking = () => {
   const { user } = useContext(AuthContext);
@@ -39,16 +41,17 @@ const IndividualBooking = () => {
 
   return (
     <div id="booking">
-      <PageHeader
-        title="Booking"
-        subTitle={`Booking ID: ${data.id}`}
-      />
+      <PageHeader title="Booking" subTitle={`Booking ID: ${data.id}`} />
 
       <div id="booking-information-container">
-        <div className="booking-information-section">
-          <Typography variant="h5" component="h2" gutterBottom>
-            Lead Guest Details
-          </Typography>
+        <ContentBlock
+          title="Booking Details"
+          topRightComponent={
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          }
+        >
           <Typography variant="body1" gutterBottom>
             Lead Guest Name: {data.leadGuest.firstName}{" "}
             {data?.leadGuest.lastName}
@@ -56,11 +59,16 @@ const IndividualBooking = () => {
           <Typography variant="body1" gutterBottom>
             Lead Guest Email: {data.leadGuest.email}
           </Typography>
-        </div>
-        <div className="booking-information-section">
-          <Typography variant="h5" component="h2" gutterBottom>
-            Booking Details
-          </Typography>
+        </ContentBlock>
+
+        <ContentBlock
+          title="Booking Details"
+          topRightComponent={
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          }
+        >
           <Typography variant="body1" gutterBottom>
             Unit: {data.unit!.name}
           </Typography>
@@ -68,11 +76,16 @@ const IndividualBooking = () => {
             Dates: {new Date(data.start).toUTCString()} -{" "}
             {new Date(data.end).toUTCString()}
           </Typography>
-        </div>
-        <div className="booking-information-section">
-          <Typography variant="h5" component="h2" gutterBottom>
-            Occupant Details
-          </Typography>
+        </ContentBlock>
+
+        <ContentBlock
+          title="Occupant Details"
+          topRightComponent={
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          }
+        >
           <Box sx={{ mb: 3 }} justifyContent="space-between">
             <Typography variant="h6" component="h2" gutterBottom>
               Guests
@@ -145,12 +158,19 @@ const IndividualBooking = () => {
               })}
             </div>
           </Box>
-        </div>
-        <div className="booking-information-section">
-          <Typography variant="h5" component="h1" gutterBottom>
-            Finance Details
-          </Typography>
-        </div>
+        </ContentBlock>
+          
+        <ContentBlock
+          title="Finance Details"
+          topRightComponent={
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          }
+        >
+          {/* Finance details here */}
+        </ContentBlock>
+
       </div>
     </div>
   );

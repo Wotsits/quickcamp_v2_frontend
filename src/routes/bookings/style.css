@@ -9,21 +9,14 @@
   overflow-y: auto;
 }
 
-#booking .booking-information-section {
-  background: white;
-  margin-bottom: 20px;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-#booking .booking-information-section .occupant-cards {
+#booking .content-block .occupant-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 20px;
 }
 
-#booking .booking-information-section .occupant-cards .occupant-card-container {
+#booking .content-block .occupant-cards .occupant-card-container {
   width: 200px;
 }
 
