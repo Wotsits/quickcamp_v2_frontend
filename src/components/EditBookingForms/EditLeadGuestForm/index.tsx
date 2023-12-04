@@ -32,6 +32,27 @@ const EditLeadGuestForm = ({ currentLeadGuest }: EditLeadGuestFormProps) => {
   >(currentLeadGuest.id);
 
   // -------------
+  // QUERIES
+  // -------------
+
+  const {
+    isLoading: existingGuestSearchResultsAreLoading,
+    isError: existingGuestSearchResultsAreError,
+    data: existingGuestSearchResultsData,
+    error: existingGuestSearchResultsError,
+  } = useQuery<LeadGuest[], Error>(
+    ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldValue],
+    () =>
+      getGuestsByQueryString({
+        q: debouncedGuestSearchFieldValue,
+        token: user.token,
+      }),
+    {
+      enabled: debouncedGuestSearchFieldValue.length > 3,
+    }
+  );
+
+  // -------------
   // USEEFFECTS
   // -------------
 
@@ -52,27 +73,6 @@ const EditLeadGuestForm = ({ currentLeadGuest }: EditLeadGuestFormProps) => {
       clearTimeout(timeoutId);
     };
   }, [searchFieldValue]);
-
-  // -------------
-  // QUERIES
-  // -------------
-
-  const {
-    isLoading: existingGuestSearchResultsAreLoading,
-    isError: existingGuestSearchResultsAreError,
-    data: existingGuestSearchResultsData,
-    error: existingGuestSearchResultsError,
-  } = useQuery<LeadGuest[], Error>(
-    ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldValue],
-    () =>
-      getGuestsByQueryString({
-        q: debouncedGuestSearchFieldValue,
-        token: user.token,
-      }),
-    {
-      enabled: debouncedGuestSearchFieldValue.length > 3,
-    }
-  );
 
   // -------------
   // RENDER
