@@ -12,7 +12,7 @@ import PageHeader from "../../components/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentBlock from "../../components/ContentBlock";
 import Modal, { ModalHeader } from "../../components/Modal";
-import CloseIcon from '@mui/icons-material/Close';
+import EditLeadGuestForm from "../../components/EditBookingForms/EditLeadGuestForm";
 
 const IndividualBooking = () => {
   // -------------
@@ -82,9 +82,7 @@ const IndividualBooking = () => {
             title="Edit Lead Guest"
             onClose={() => setLeadGuestEditModalOpen(false)}
           />
-          <div className="edit-lead-guest-form">
-            Edit Lead Guest Form Here
-          </div>
+          <EditLeadGuestForm currentLeadGuest={data.leadGuest} />
         </Modal>
       )}
 

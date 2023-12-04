@@ -1,9 +1,6 @@
 import {
   Box,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -15,7 +12,6 @@ import SearchField from "../../SearchField";
 import "./style.css";
 import { LeadGuest } from "../../../types";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { set } from "date-fns";
 import SearchResultsItem from "../../SearchResultsItem";
 
 type LeadGuestDetailsProps = {
