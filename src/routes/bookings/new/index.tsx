@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./style.css";
 import LeadGuestDetails from "../../../components/NewBookingForm/LeadGuestDetails";
 import EquipmentDetails from "../../../components/NewBookingForm/EquipmentDetails";

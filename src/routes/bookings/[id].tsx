@@ -51,7 +51,7 @@ const IndividualBooking = () => {
   // -------------
 
   const { isLoading, isError, data, error } = useQuery<Booking, Error>(
-    ["booking", params.id],
+    ["booking", id],
     () => getBookingById({ token: user.token, id: id })
   );
 
@@ -82,7 +82,7 @@ const IndividualBooking = () => {
             title="Edit Lead Guest"
             onClose={() => setLeadGuestEditModalOpen(false)}
           />
-          <EditLeadGuestForm currentLeadGuest={data.leadGuest} />
+          <EditLeadGuestForm currentLeadGuest={data.leadGuest} bookingId={data.id} />
         </Modal>
       )}
 
