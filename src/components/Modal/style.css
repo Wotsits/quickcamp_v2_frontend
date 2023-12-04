@@ -1,0 +1,30 @@
+.modal .modal-content-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 24;
+  padding: 1rem;
+  max-height: 80vh;
+  max-width: 80vw;
+  overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-header .modal-header-title {
+    margin: 0;
+    margin-right: 1rem;
+}
+
+.modal-header .modal-header-close-button {
+    cursor: pointer;
+}

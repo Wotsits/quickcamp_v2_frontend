@@ -1,5 +1,5 @@
 import { Box, Icon, IconButton, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
@@ -11,9 +11,20 @@ import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES } from "../../settings";
 import PageHeader from "../../components/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentBlock from "../../components/ContentBlock";
+import Modal, { ModalHeader } from "../../components/Modal";
+import CloseIcon from '@mui/icons-material/Close';
 
 const IndividualBooking = () => {
+  // -------------
+  // CONTEXT
+  // -------------
+
   const { user } = useContext(AuthContext);
+
+  // -------------
+  // HOOKS
+  // -------------
+
   const params = useParams();
 
   if (!params || !params.id) {
@@ -22,10 +33,31 @@ const IndividualBooking = () => {
 
   const id = parseInt(params.id);
 
+  // -------------
+  // STATE
+  // -------------
+
+  const [leadGuestEditModalOpen, setLeadGuestEditModalOpen] =
+    useState<boolean>(false);
+  const [bookingDetailsEditModalOpen, setBookingDetailsEditModalOpen] =
+    useState<boolean>(false);
+  const [occupantDetailsEditModalOpen, setOccupantDetailsEditModalOpen] =
+    useState<boolean>(false);
+  const [financeDetailsEditModalOpen, setFinanceDetailsEditModalOpen] =
+    useState<boolean>(false);
+
+  // -------------
+  // QUERIES
+  // -------------
+
   const { isLoading, isError, data, error } = useQuery<Booking, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id })
   );
+
+  // -------------
+  // RENDER
+  // -------------
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -41,14 +73,61 @@ const IndividualBooking = () => {
 
   return (
     <div id="booking">
+
+      {/* Lead Guest Edit Modal */}
+
+      {leadGuestEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Lead Guest"
+            onClose={() => setLeadGuestEditModalOpen(false)}
+          />
+        </Modal>
+      )}
+
+      {/* Booking Details Edit Modal */}
+
+      {bookingDetailsEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Booking Details"
+            onClose={() => setBookingDetailsEditModalOpen(false)}
+          />
+        </Modal>
+      )}
+
+      {/* Occupant Details Edit Modal */}
+
+      {occupantDetailsEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Occupant Details"
+            onClose={() => setOccupantDetailsEditModalOpen(false)}
+          />
+        </Modal>
+      )}
+
+      {/* Finance Details Edit Modal */}
+
+      {financeDetailsEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Finance Details"
+            onClose={() => setFinanceDetailsEditModalOpen(false)}
+          />
+        </Modal>
+      )}
+
       <PageHeader title="Booking" subTitle={`Booking ID: ${data.id}`} />
 
       <div id="booking-information-container">
+        {/* Lead Guest Details */}
+
         <ContentBlock
           title="Booking Details"
           topRightComponent={
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={() => setLeadGuestEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -61,11 +140,13 @@ const IndividualBooking = () => {
           </Typography>
         </ContentBlock>
 
+        {/* Booking Details */}
+
         <ContentBlock
           title="Booking Details"
           topRightComponent={
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={() => setBookingDetailsEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -78,11 +159,13 @@ const IndividualBooking = () => {
           </Typography>
         </ContentBlock>
 
+        {/* Occupant Details */}
+
         <ContentBlock
           title="Occupant Details"
           topRightComponent={
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={() => setOccupantDetailsEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -159,20 +242,23 @@ const IndividualBooking = () => {
             </div>
           </Box>
         </ContentBlock>
-          
+
+        {/* Finance Details */}
+
         <ContentBlock
           title="Finance Details"
           topRightComponent={
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={() => setFinanceDetailsEditModalOpen(true)} />
             </IconButton>
           }
         >
           {/* Finance details here */}
         </ContentBlock>
-
       </div>
+
     </div>
+
   );
 };
 
