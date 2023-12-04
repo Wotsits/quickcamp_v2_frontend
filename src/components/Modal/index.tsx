@@ -5,7 +5,7 @@ import "./style.css";
 
 type ModalProps = {
   /** mandatory, children */
-  children: ReactElement<any, string | JSXElementConstructor<any>>;
+  children: ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[];
   /** mandatory, boolean dictating whether the modal is open or not */
   open: boolean;
   /** optional, boolean dictating whether the modal should hide backdrop */

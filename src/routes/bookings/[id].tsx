@@ -82,6 +82,9 @@ const IndividualBooking = () => {
             title="Edit Lead Guest"
             onClose={() => setLeadGuestEditModalOpen(false)}
           />
+          <div className="edit-lead-guest-form">
+            Edit Lead Guest Form Here
+          </div>
         </Modal>
       )}
 
@@ -93,6 +96,9 @@ const IndividualBooking = () => {
             title="Edit Booking Details"
             onClose={() => setBookingDetailsEditModalOpen(false)}
           />
+          <div className="edit-booking-details-form">
+            Edit Booking Details Form Here
+          </div>
         </Modal>
       )}
 
@@ -104,6 +110,9 @@ const IndividualBooking = () => {
             title="Edit Occupant Details"
             onClose={() => setOccupantDetailsEditModalOpen(false)}
           />
+          <div className="edit-occupant-details-form">
+            Edit Occupant Details Form Here
+          </div>
         </Modal>
       )}
 
@@ -115,6 +124,9 @@ const IndividualBooking = () => {
             title="Edit Finance Details"
             onClose={() => setFinanceDetailsEditModalOpen(false)}
           />
+          <div className="edit-finance-details-form">
+            Edit Finance Details Form Here
+          </div>
         </Modal>
       )}
 
