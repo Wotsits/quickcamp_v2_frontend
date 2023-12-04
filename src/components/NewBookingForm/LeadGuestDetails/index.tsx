@@ -14,8 +14,9 @@ import { NEW_OR_EXISTING } from "../../../settings";
 import SearchField from "../../SearchField";
 import "./style.css";
 import { LeadGuest } from "../../../types";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';  
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { set } from "date-fns";
+import SearchResultsItem from "../../SearchResultsItem";
 
 type LeadGuestDetailsProps = {
   formGuestType: string;
@@ -74,7 +75,6 @@ const LeadGuestDetails = ({
   callbackFromSearchField,
   searchFieldResults,
 }: LeadGuestDetailsProps) => {
-
   function handleFormGuestTypeChange(value: "new" | "existing") {
     if (value === "new") {
       setFormGuestType("new");
@@ -197,37 +197,31 @@ const LeadGuestDetails = ({
             )}
             {searchFieldResults &&
               searchFieldResults.map((guest: LeadGuest) => (
-                <ListItem
-                  alignItems="flex-start"
-                  key={guest.id}
+                <SearchResultsItem
                   secondaryAction={
-                    formGuestId === guest.id && <CheckCircleIcon color={'success'} />
+                    formGuestId === guest.id && (
+                      <CheckCircleIcon color={"success"} />
+                    )
                   }
-                >
-                  <ListItemButton
-                    selected={formGuestId === guest.id}
-                    onClick={() => setFormGuestId(guest.id)}
-                  >
-                    <ListItemText
-                      primary={guest.firstName + " " + guest.lastName}
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            {guest.address1 + ", "}
-                            {guest.address2 ? guest.address2 + ", " : ""}
-                            {guest.townCity + ", "}
-                            {guest.postcode} — {guest.email}
-                          </Typography>
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItemButton>
-                </ListItem>
+                  selected={formGuestId === guest.id}
+                  onClick={() => setFormGuestId(guest.id)}
+                  listItemTextPrimary={guest.firstName + " " + guest.lastName}
+                  listItemTextSecondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {guest.address1 + ", "}
+                        {guest.address2 ? guest.address2 + ", " : ""}
+                        {guest.townCity + ", "}
+                        {guest.postcode} — {guest.email}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
               ))}
           </List>
         </Box>
