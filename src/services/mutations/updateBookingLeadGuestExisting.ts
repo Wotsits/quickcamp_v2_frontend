@@ -1,15 +1,15 @@
 import axios from "axios";
 import { APIURL } from "../../settings";
 
-type UpdateBookingLeadGuestArgs = {
+type UpdateBookingLeadGuestExistingArgs = {
     token: string;
     bookingId: number;
     leadGuestId: number;
 };
 
-export const updateBookingLeadGuest = ({token, bookingId, leadGuestId}: UpdateBookingLeadGuestArgs) => {
+export const updateBookingLeadGuestExisting = ({token, bookingId, leadGuestId}: UpdateBookingLeadGuestExistingArgs) => {
   return axios.post(
-    APIURL + "update-booking-lead-guest",
+    APIURL + "update-booking-lead-guest-existing",
     {
       token,
       bookingId,

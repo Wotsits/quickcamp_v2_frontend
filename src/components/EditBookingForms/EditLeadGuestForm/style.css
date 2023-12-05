@@ -1,0 +1,50 @@
+#edit-lead-guest-form #edit-lead-guest-form-new-guest-option {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+#edit-lead-guest-form #edit-lead-guest-form-new-guest-option #new-guest-form {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#edit-lead-guest-form
+  #edit-lead-guest-form-new-guest-option
+  #new-guest-form
+  #name-section,
+#edit-lead-guest-form
+  #edit-lead-guest-form-new-guest-option
+  #new-guest-form
+  #comm-section,
+#edit-lead-guest-form
+  #edit-lead-guest-form-new-guest-option
+  #new-guest-form
+  #address-section {
+  display: flex;
+  gap: 1rem;
+}
+
+#edit-lead-guest-form
+  #edit-lead-guest-form-new-guest-option
+  #new-guest-form
+  #address-section {
+  flex-direction: column;
+}
+
+#edit-lead-guest-form
+  #edit-lead-guest-form-new-guest-option
+  #new-guest-form
+  #save-button-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#edit-lead-guest-form #edit-lead-guest-form-search-results {
+    max-height: 50vh;
+    overflow-y: auto;
+}

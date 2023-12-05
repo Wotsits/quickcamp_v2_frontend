@@ -82,7 +82,7 @@ const IndividualBooking = () => {
             title="Edit Lead Guest"
             onClose={() => setLeadGuestEditModalOpen(false)}
           />
-          <EditLeadGuestForm currentLeadGuest={data.leadGuest} bookingId={data.id} />
+          <EditLeadGuestForm currentLeadGuestIn={data.leadGuest} bookingId={data.id} />
         </Modal>
       )}
 
