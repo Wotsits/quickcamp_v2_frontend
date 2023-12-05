@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, Typography } from "@mui/material";
+import { Box, Icon, IconButton, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -54,6 +54,22 @@ const IndividualBooking = () => {
     ["booking", id],
     () => getBookingById({ token: user.token, id: id })
   );
+
+  // -------------
+  // HELPERS
+  // -------------
+
+  function calculateTotalPaid(booking: Booking) {
+    let totalPaid = 0;
+    booking.payments?.forEach((payment) => {
+      totalPaid += payment.paymentAmount;
+    });
+    return totalPaid;
+  }
+
+  function calculateBalance(booking: Booking) {
+    return booking.totalFee - calculateTotalPaid(booking);
+  }
 
   // -------------
   // RENDER
@@ -263,7 +279,62 @@ const IndividualBooking = () => {
             </IconButton>
           }
         >
-          {/* Finance details here */}
+          <div>
+          <Typography variant="subtitle1" component="span" gutterBottom>
+            Total Fee: 
+          </Typography>
+          <Typography variant="body1" component="span" gutterBottom>
+            £{data.totalFee}
+          </Typography>
+          </div>
+
+          <div>
+          <Typography variant="subtitle1" component="span" gutterBottom>
+            Total Paid: 
+          </Typography>
+          <Typography variant="body1" component="span" gutterBottom>
+            £{calculateTotalPaid(data)}
+          </Typography>
+          </div>
+
+          <div>
+          <Typography variant="subtitle1" component="span" gutterBottom>
+            Balance: 
+          </Typography>
+          <Typography variant="body1" component="span" gutterBottom>
+            £{calculateBalance(data)}
+          </Typography>
+          </div>
+
+          {/* Payments */}
+
+          <TableContainer>
+            <Table sx={{ minWidth: 650 }} aria-label="payment table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Method</TableCell>
+                  <TableCell>Notes</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.payments?.map((payment) => (
+                  <TableRow
+                    key={payment.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {new Date(payment.paymentDate).toUTCString()}
+                    </TableCell>
+                    <TableCell>{payment.paymentAmount}</TableCell>
+                    <TableCell>{payment.paymentMethod}</TableCell>
+                    <TableCell>{payment.paymentNotes || ""}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </ContentBlock>
       </div>
 

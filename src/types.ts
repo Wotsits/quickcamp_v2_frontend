@@ -153,10 +153,12 @@ export type BookingPet = {
 
 export type Payment = {
     id: number,
-    createdAt: Date,
+    paymentDate: Date,
+    paymentAmount: number
+    paymentMethod: string,
+    paymentNotes: string,
     bookingId: number,
     booking?: Booking,
-    amount: number
 }
 
 // ----------------- API RESPONSES -----------------
