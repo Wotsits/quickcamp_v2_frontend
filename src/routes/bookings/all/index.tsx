@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getBookings } from "../../../services/queries/getBookings";
 import { Booking, GuestType } from "../../../types";
@@ -8,7 +8,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TableRow,
 } from "@mui/material";
@@ -49,7 +48,7 @@ const Bookings = () => {
     isError: bookingsAreError,
     data: bookingsData,
     error: bookingsError,
-  } = useQuery<{data: Booking[]}, Error>(["bookings"], () =>
+  } = useQuery<{data: Booking[], count: number}, Error>(["bookings", selectedSite!.id, page * pageSize - pageSize, pageSize], () =>
     getBookings({
       token: user.token,
       siteId: selectedSite!.id,
@@ -66,6 +65,13 @@ const Bookings = () => {
   } = useQuery<{data: GuestType[]}, Error>(["guestTypes"], () =>
     getGuestTypes({ token: user.token, siteId: selectedSite!.id })
   );
+
+  // -------------
+  // DEBUG
+
+  useEffect(() => {
+    console.log(page)
+  }, [page])
 
   // -----------
   // RENDER
@@ -158,10 +164,10 @@ const Bookings = () => {
           </Table>
         </TableContainer>
         <TablePaginationControls
-          count={bookingsData?.data.length || 0} 
+          count={bookingsData?.count || 0} 
           page={page} 
           rowsPerPage={pageSize} 
-          onPageChange={() => {}}
+          onPageChange={(_, page) => setPage(page)}
         /> 
       </div>
     </div>
