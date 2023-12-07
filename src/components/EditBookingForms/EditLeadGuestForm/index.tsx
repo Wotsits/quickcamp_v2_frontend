@@ -77,7 +77,7 @@ const EditLeadGuestForm = ({
     isError: existingGuestSearchResultsAreError,
     data: existingGuestSearchResultsData,
     error: existingGuestSearchResultsError,
-  } = useQuery<LeadGuest[], Error>(
+  } = useQuery<{ data: LeadGuest[] }, Error>(
     ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldValue],
     () =>
       getGuestsByQueryString({
@@ -372,7 +372,7 @@ const EditLeadGuestForm = ({
             )}
 
             {existingGuestSearchResultsData &&
-              existingGuestSearchResultsData.length === 0 && (
+              existingGuestSearchResultsData.data.length === 0 && (
                 <div>No existing guests found.</div>
               )}
 
@@ -380,8 +380,8 @@ const EditLeadGuestForm = ({
             {successMessage && <Alert severity="success">{successMessage}</Alert>}
 
             {existingGuestSearchResultsData &&
-              existingGuestSearchResultsData.length > 0 &&
-              existingGuestSearchResultsData.map((guest: LeadGuest) => (
+              existingGuestSearchResultsData.data.length > 0 &&
+              existingGuestSearchResultsData.data.map((guest: LeadGuest) => (
                 <>
                   {guest.id !== currentLeadGuest.id && (
                     <SearchResultsItem

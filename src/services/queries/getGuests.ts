@@ -8,7 +8,7 @@ type GetLeadGuestsArgs = {
 };
 
 export const getLeadGuests = async ({ token }: GetLeadGuestsArgs) => {
-  const response = await axios.get<LeadGuest[]>(
+  const response = await axios.get<{ data: LeadGuest[] }>(
     APIURL + API_ENDPOINTS.LEAD_GUESTS,
     {
       headers: { Authorization: "Bearer " + token },

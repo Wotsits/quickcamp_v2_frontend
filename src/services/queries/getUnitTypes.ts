@@ -13,8 +13,13 @@ type GetUnitTypesArgs = {
   includeSite?: boolean;
 };
 
-export const getUnitTypes = async ({ token, siteId, includeUnits = false, includeSite = false }: GetUnitTypesArgs) => {
-  const response = await axios.get<UnitType[]>(
+export const getUnitTypes = async ({
+  token,
+  siteId,
+  includeUnits = false,
+  includeSite = false,
+}: GetUnitTypesArgs) => {
+  const response = await axios.get<{ data: UnitType[] }>(
     APIURL + API_ENDPOINTS.UNIT_TYPES,
     {
       headers: { Authorization: "Bearer " + token },

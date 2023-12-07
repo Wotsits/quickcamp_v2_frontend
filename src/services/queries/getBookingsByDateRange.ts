@@ -19,7 +19,7 @@ export const getBookingsByDateRange = async ({
   siteId,
   token,
 }: GetBookingSummaries) => {
-  const response = await axios.get<BookingSumm[]>(
+  const response = await axios.get<{ data: BookingSumm[] }>(
     APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE_AND_DATE_RANGE,
     {
       headers: { Authorization: "Bearer " + token },

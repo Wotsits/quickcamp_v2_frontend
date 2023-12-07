@@ -35,7 +35,7 @@ const SitesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<Site[], Error>(
+  const { isLoading, isError, data: sitesData, error } = useQuery<{data: Site[]}, Error>(
     ["Sites"],
     () =>
       getSites({
@@ -72,7 +72,7 @@ const SitesAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((site) => (
+            {sitesData?.data.map((site) => (
               <TableRow key={site.id}>
                 <TableCell>{site.id}</TableCell>
                 <TableCell>{site.name}</TableCell>

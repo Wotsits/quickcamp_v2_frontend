@@ -40,7 +40,7 @@ const Dashboard = () => {
     isError: arrivalsAreError,
     data: arrivalsData,
     error: arrivalsError,
-  } = useQuery<Booking[], Error>(["ArrivalsByDate", now], () =>
+  } = useQuery<{data: Booking[]}, Error>(["ArrivalsByDate", now], () =>
     getArrivalsByDate({
       date: now,
       token: user.token,
@@ -54,7 +54,7 @@ const Dashboard = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<Booking[], Error>(["DeparturesByDate", now], () =>
+  } = useQuery<{data: Booking[]}, Error>(["DeparturesByDate", now], () =>
     getDeparturesByDate({
       date: now,
       token: user.token,
@@ -68,7 +68,7 @@ const Dashboard = () => {
     isError: totalOnSiteIsError,
     data: totalOnSiteData,
     error: totalOnSiteError,
-  } = useQuery<{totalOnSite: number}, Error>(["TotalOnSite"], () =>
+  } = useQuery<{data: {totalOnSite: number}}, Error>(["TotalOnSite"], () =>
     getTotalOnSite({
       token: user.token,
       siteId: selectedSite!.id,
@@ -85,16 +85,16 @@ const Dashboard = () => {
 
   function generateCompletePercentage(action: "ARRIVALS" | "DEPARTURES") {
     if (action === "ARRIVALS") {
-      if (!arrivalsData || arrivalsData.length === 0) return "N/A";
+      if (!arrivalsData || arrivalsData.data.length === 0) return "N/A";
     }
     if (action === "DEPARTURES") {
-      if (!departuresData || departuresData.length === 0) return "N/A";
+      if (!departuresData || departuresData.data.length === 0) return "N/A";
     }
 
     let totalExpected = 0;
     let totalComplete = 0;
 
-    const arr = action === "ARRIVALS" ? arrivalsData! : departuresData!;
+    const arr = action === "ARRIVALS" ? arrivalsData!.data : departuresData!.data;
     arr.forEach((booking) => {
       booking.guests!.forEach((guest) => {
         const dateOfInterest = action === "ARRIVALS" ? guest.start : guest.end;
@@ -137,7 +137,7 @@ const Dashboard = () => {
         className="container-white-bg-rounded-full-width"
       >
         <Typography variant="h6">Arrival Forecast</Typography>
-        <ArrivalsGraph arrivalsData={arrivalsData!} />
+        <ArrivalsGraph arrivalsData={arrivalsData!.data} />
       </div>
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
@@ -169,7 +169,7 @@ const Dashboard = () => {
         <SummaryBlock
           inverted
           label="on site now"
-          content={`${totalOnSiteData!.totalOnSite}`}
+          content={`${totalOnSiteData!.data.totalOnSite}`}
           background={"purple"}
           foregroundColor="white"
           width="100%"

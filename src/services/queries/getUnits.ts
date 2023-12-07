@@ -8,8 +8,11 @@ type GetUnitsArgs = {
 };
 
 export const getUnits = async ({ token }: GetUnitsArgs) => {
-  const response = await axios.get<Unit[]>(APIURL + API_ENDPOINTS.UNITS, {
-    headers: { Authorization: "Bearer " + token },
-  });
+  const response = await axios.get<{ data: Unit[] }>(
+    APIURL + API_ENDPOINTS.UNITS,
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
   return response.data;
 };

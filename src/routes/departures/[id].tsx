@@ -70,14 +70,14 @@ const IndividualDeparture = () => {
     isError: isDepartureError,
     data: departureData,
     error: departureError,
-  } = useQuery<Booking, Error>(
+  } = useQuery<{data: Booking}, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id }),
     {
-      onSuccess(data) {
-        setGuests(data.guests);
-        setPets(data.pets);
-        setVehicles(data.vehicles);
+      onSuccess(res) {
+        setGuests(res.data.guests);
+        setPets(res.data.pets);
+        setVehicles(res.data.vehicles);
       },
     }
   );

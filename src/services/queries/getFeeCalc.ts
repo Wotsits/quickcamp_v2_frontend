@@ -36,7 +36,7 @@ export const getFeeCalc = async ({
   bookingPets,
   bookingVehicles,
 }: GetFeeCalc) => {
-  const response = await axios.get<FeeCalcResponse>(
+  const response = await axios.get<{ data: FeeCalcResponse }>(
     APIURL + API_ENDPOINTS.GET_FEE_CALC,
     {
       params: {

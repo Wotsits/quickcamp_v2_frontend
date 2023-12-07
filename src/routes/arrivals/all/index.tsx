@@ -99,7 +99,7 @@ const Arrivals = () => {
     isError: arrivalsAreError,
     data: arrivalsData,
     error: arrivalsError,
-  } = useQuery<Booking[], Error>(["ArrivalsByDate", date], () =>
+  } = useQuery<{data: Booking[]}, Error>(["ArrivalsByDate", date], () =>
     getArrivalsByDate({
       date: date as Date,
       token: user.token,
@@ -172,22 +172,22 @@ const Arrivals = () => {
             <div id="summary-blocks">
               <SummaryBlock
                 label="Bookings Arriving Today"
-                content={arrivalsData!.length}
+                content={arrivalsData!.data.length} // TODO correct this!
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="People Arriving Today"
-                content={arrivalsData!.length}
+                content={arrivalsData!.data.length} // TODO correct this!
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Cars Arriving Today"
-                content={arrivalsData!.length}
+                content={arrivalsData!.data.length} // TODO correct this!
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Pets Arriving Today"
-                content={arrivalsData!.length}
+                content={arrivalsData!.data.length} // TODO correct this!
                 {...summaryBlockSettings}
               />
             </div>
@@ -199,7 +199,7 @@ const Arrivals = () => {
                 justifyContent: "center",
               }}
             >
-              <ArrivalsGraph arrivalsData={arrivalsData} height={300} width={500}/>
+              <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300} width={500}/>
             </div>
           </AccordionDetails>
         </Accordion>
@@ -230,7 +230,7 @@ const Arrivals = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {arrivalsData && arrivalsData.length === 0 && (
+                  {arrivalsData && arrivalsData.data.length === 0 && (
                     <TableRow
                       key="no-arrivals"
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -241,7 +241,7 @@ const Arrivals = () => {
                     </TableRow>
                   )}
                   {arrivalsData &&
-                    arrivalsData.map((arrival) => (
+                    arrivalsData.data.map((arrival) => (
                       <TableRow
                         key={arrival.id}
                         sx={{

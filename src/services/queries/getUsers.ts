@@ -8,8 +8,11 @@ type GetUsersArgs = {
 };
 
 export const getUsers = async ({ token }: GetUsersArgs) => {
-  const response = await axios.get<User[]>(APIURL + API_ENDPOINTS.USERS, {
-    headers: { Authorization: "Bearer " + token },
-  });
+  const response = await axios.get<{ data: User[] }>(
+    APIURL + API_ENDPOINTS.USERS,
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
   return response.data;
 };

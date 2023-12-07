@@ -22,7 +22,7 @@ export const getAvailableUnits = async ({
   siteId,
   equipmentTypeId,
 }: GetAvailableUnits) => {
-  const response = await axios.get<Unit[]>(
+  const response = await axios.get<{ data: Unit[] }>(
     APIURL + API_ENDPOINTS.AVAILABLE_UNITS,
     {
       headers: { Authorization: "Bearer " + token },

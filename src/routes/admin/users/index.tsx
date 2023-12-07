@@ -37,7 +37,7 @@ const UsersAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<User[], Error>(
+  const { isLoading, isError, data: userData, error } = useQuery<{data: User[]}, Error>(
     ["Users"],
     () =>
       getUsers({
@@ -50,10 +50,10 @@ const UsersAdmin = () => {
   // -------------
 
   function renderUsersToTable() {
-    if (data) {
+    if (userData) {
       // no filter
       if (selectedRole === "") {
-        return data.map((user: User) => {
+        return userData.data.map((user: User) => {
           const {id, username, name, email, roles} = user
           return (
             <TableRow key={id}>
@@ -68,7 +68,7 @@ const UsersAdmin = () => {
       }
       else {
         // filter by role
-        const filteredUsers = data.filter((user: User) => {
+        const filteredUsers = userData.data.filter((user: User) => {
           const roles = user.roles!.map(role => role.role)
           return roles.includes(selectedRole)
         })

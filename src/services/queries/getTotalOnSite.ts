@@ -6,18 +6,14 @@ type GetTotalOnSite = {
   token: string;
   /** mandatory, siteId */
   siteId: number;
-  
 };
 
-export const getTotalOnSite = async ({
-  token,
-  siteId
-}: GetTotalOnSite) => {
-  const response = await axios.get<{totalOnSite: number}>(
+export const getTotalOnSite = async ({ token, siteId }: GetTotalOnSite) => {
+  const response = await axios.get<{ data: { totalOnSite: number } }>(
     APIURL + API_ENDPOINTS.STATS + API_ENDPOINTS.TOTAL_ON_SITE,
     {
       params: {
-        siteId
+        siteId,
       },
       headers: { Authorization: "Bearer " + token },
     }

@@ -45,7 +45,7 @@ const ExtraTypesAdmin = () => {
     isError: isErrorExtraTypes,
     data: dataExtraTypes,
     error: errorExtraTypes,
-  } = useQuery<ExtraType[], Error>(
+  } = useQuery<{data: ExtraType[]}, Error>(
     [
       "ExtraTypes",
       { siteId: undefined, includeUnitTypes: true, includeSite: false },
@@ -63,7 +63,7 @@ const ExtraTypesAdmin = () => {
     isError: isErrorUnitTypes,
     data: dataUnitTypes,
     error: errorUnitTypes,
-  } = useQuery<UnitType[], Error>(
+  } = useQuery<{data: UnitType[]}, Error>(
     ["UnitTypes", { includeSite: false, includeUnits: false }],
     () =>
       getUnitTypes({
@@ -82,14 +82,14 @@ const ExtraTypesAdmin = () => {
 
     // no filters applied, render all
     if (selectedSite === -1 && selectedUnitType === -1) {
-      if (dataExtraTypes.length === 0) {
+      if (dataExtraTypes.data.length === 0) {
         return (
           <TableRow>
             <TableCell colSpan={100}>No Extra Types</TableCell>
           </TableRow>
         );
       }
-      return dataExtraTypes.map((extraType: ExtraType) => {
+      return dataExtraTypes.data.map((extraType: ExtraType) => {
         const { id, name, description, icon: iconName } = extraType;
         const icon = equipmentIcon[iconName];
         return (
@@ -109,7 +109,7 @@ const ExtraTypesAdmin = () => {
 
     // filters applied, render filtered
 
-    let filteredData = [...dataExtraTypes];
+    let filteredData = [...dataExtraTypes.data];
 
     if (selectedSite !== -1) {
       filteredData = filteredData.filter((extraType: ExtraType) => {
@@ -208,7 +208,7 @@ const ExtraTypesAdmin = () => {
               onChange={(e) => setSelectedUnitType(e.target.value as number)}
             >
               <MenuItem value={-1}>All Unit Types</MenuItem>
-              {dataUnitTypes!.map((unitType: UnitType) => (
+              {dataUnitTypes!.data.map((unitType: UnitType) => (
                 <MenuItem key={unitType.id} value={unitType.id}>
                   {unitType.name}
                 </MenuItem>

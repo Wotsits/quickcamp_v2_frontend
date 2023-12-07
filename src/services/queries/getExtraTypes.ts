@@ -19,7 +19,7 @@ export const getExtraTypes = async ({
   includeUnitTypes = false,
   includeSite = false,
 }: GetExtraTypesArgs) => {
-  const response = await axios.get<ExtraType[]>(
+  const response = await axios.get<{ data: ExtraType[] }>(
     APIURL + API_ENDPOINTS.EXTRA_TYPES,
     {
       headers: { Authorization: "Bearer " + token },

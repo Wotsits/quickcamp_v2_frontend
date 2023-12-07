@@ -17,7 +17,7 @@ export default function DataTable({ rows, columns }: DataTableComponentProps) {
           autoHeight
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 30 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
           pageSizeOptions={[5, 10, 20, 30, 50, 100]}

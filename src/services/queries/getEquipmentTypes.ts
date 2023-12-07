@@ -9,8 +9,11 @@ type GetEquipmentTypesArgs = {
   siteId?: number;
 };
 
-export const getEquipmentTypes = async ({ token, siteId }: GetEquipmentTypesArgs) => {
-  const response = await axios.get<EquipmentType[]>(
+export const getEquipmentTypes = async ({
+  token,
+  siteId,
+}: GetEquipmentTypesArgs) => {
+  const response = await axios.get<{ data: EquipmentType[] }>(
     APIURL + API_ENDPOINTS.EQUIPMENT_TYPES,
     {
       headers: { Authorization: "Bearer " + token },

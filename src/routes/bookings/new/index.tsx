@@ -169,7 +169,7 @@ const NewBooking = () => {
     isError: extraTypesAreError,
     data: extraTypesData,
     error: extraTypesError,
-  } = useQuery<ExtraType[], Error>(["extraTypes", selectedSite?.id], () =>
+  } = useQuery<{data: ExtraType[]}, Error>(["extraTypes", selectedSite?.id], () =>
     getExtraTypes({ token: user.token, siteId: selectedSite!.id })
   );
 
@@ -180,7 +180,7 @@ const NewBooking = () => {
     isError: existingGuestSearchResultsAreError,
     data: existingGuestSearchResultsData,
     error: existingGuestSearchResultsError,
-  } = useQuery<LeadGuest[], Error>(
+  } = useQuery<{data: LeadGuest[]}, Error>(
     ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldContent],
     () =>
       getGuestsByQueryString({
@@ -199,7 +199,7 @@ const NewBooking = () => {
     isError: availableUnitsAreError,
     data: availableUnitsData,
     error: availableUnitsError,
-  } = useQuery<Unit[], Error>(
+  } = useQuery<{data: Unit[]}, Error>(
     ["getAvailableUnits", user.tenantId, formStartDate, formEndDate],
     () =>
       getAvailableUnits({
@@ -214,9 +214,9 @@ const NewBooking = () => {
         formStartDate !== null &&
         formEndDate !== null &&
         formEquipmentType !== -1,
-      onSuccess: (data) => {
+      onSuccess: (availableUnitsData) => {
         // if there are no available pitches, set the form unit id to null and return
-        if (data.length === 0 || data === null) {
+        if (availableUnitsData.data.length === 0 || availableUnitsData.data === null) {
           setFormUnitId(null);
           setFormUnitTypeId(null);
           return;
@@ -227,7 +227,7 @@ const NewBooking = () => {
           // if there's a requestedUnitId in the url, select it if it's in the list of available units and return.
           if (requestedUnitId) {
             // check if the requested unit is in the returned data
-            const unit = data.find(
+            const unit = availableUnitsData.data.find(
               (unit) => unit.id === parseInt(requestedUnitId)
             );
             // if it is, set the form unit id to the requested unit id
@@ -238,19 +238,19 @@ const NewBooking = () => {
               return;
             }
           } else {
-            const firstUnit = data[0];
+            const firstUnit = availableUnitsData.data[0];
             setFormUnitId(firstUnit.id);
             setFormUnitTypeId(firstUnit.unitTypeId);
           }
         }
         // otherwise, if a unit has already been selected...
         else {
-          const unit = data.find((unit) => unit.id === formUnitId);
+          const unit = availableUnitsData.data.find((unit) => unit.id === formUnitId);
           // if the already selected unit is in the new list of available units, do nothing.
           if (unit) return;
           // If it's not in the list of available units, select the first unit in the returned data
           else {
-            const firstUnit = data[0];
+            const firstUnit = availableUnitsData.data[0];
             setFormUnitId(firstUnit.id);
             setFormUnitTypeId(firstUnit.unitTypeId);
           }
@@ -261,7 +261,7 @@ const NewBooking = () => {
 
   // -------------
 
-  const feeCalcReturn = useQuery<FeeCalcResponse, Error>(
+  const feeCalcReturn = useQuery<{data: FeeCalcResponse}, Error>(
     ["feeCalc", selectedSite?.id],
     () =>
       getFeeCalc({
@@ -650,7 +650,7 @@ const NewBooking = () => {
               equipmentTypes={selectedSite?.equipmentTypes as EquipmentType[]}
               formEquipmentType={formEquipmentType}
               setFormEquipmentType={setFormEquipmentType}
-              extraTypes={extraTypesData!}
+              extraTypes={extraTypesData!.data}
               formExtras={formExtras}
               setFormExtras={setFormExtras}
             />
@@ -667,7 +667,7 @@ const NewBooking = () => {
               formEndDate={formEndDate}
               setFormEndDate={setFormEndDate}
               availableUnitsAreLoading={availableUnitsAreLoading}
-              availableUnits={availableUnitsData!}
+              availableUnits={availableUnitsData!.data}
               dateError={dateError}
               guestTypes={selectedSite?.guestTypes as GuestType[]}
               guests={formBookingGuests}

@@ -68,14 +68,14 @@ const IndividualArrival = () => {
     isError: isArrivalError,
     data: arrivalData,
     error: arrivalError,
-  } = useQuery<Booking, Error>(
+  } = useQuery<{data: Booking}, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id }),
     {
-      onSuccess(data) {
-        setGuests(data.guests);
-        setPets(data.pets);
-        setVehicles(data.vehicles);
+      onSuccess(arrivalsData) {
+        setGuests(arrivalsData.data.guests);
+        setPets(arrivalsData.data.pets);
+        setVehicles(arrivalsData.data.vehicles);
       },
     }
   );

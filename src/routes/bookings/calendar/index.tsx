@@ -3,7 +3,6 @@ import ResourceCalendar from "../../../components/ResourceCalendar";
 import { Alert, Box, IconButton, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import ColumnWidthControls from "../../../components/ResourceCalendar/ColumnWidthControls";
-import "../../style.css";
 import { useQuery } from "react-query";
 import { BookingSumm, Unit, UnitType } from "../../../types";
 import { getBookingsByDateRange } from "../../../services/queries/getBookingsByDateRange";
@@ -48,7 +47,7 @@ const BookingCalendar = () => {
     isError: bookingsAreError,
     data: bookingsData,
     error: bookingsError,
-  } = useQuery<BookingSumm[], Error>(
+  } = useQuery<{data: BookingSumm[]}, Error>(
     ["BookingsByDateRange", startDate, addOneMonth(startDate as Date)],
     () =>
       getBookingsByDateRange({
@@ -64,7 +63,7 @@ const BookingCalendar = () => {
     isError: unitTypesAreError,
     data: unitTypesData,
     error: unitTypesError,
-  } = useQuery<UnitType[], Error>(["UnitTypes", selectedSite!.id], () =>
+  } = useQuery<{data: UnitType[]}, Error>(["UnitTypes", selectedSite!.id], () =>
     getUnitTypes({
       token: user.token,
       siteId: selectedSite!.id,
@@ -111,7 +110,7 @@ const BookingCalendar = () => {
   }
 
   const resources: ResourceGroup[] = unitTypesData
-    ? unitTypesData.map((unitType) => {
+    ? unitTypesData.data.map((unitType) => {
         const units = unitType.units!.map((unit: Unit) => ({
           id: unit.id,
           name: unit.name,
@@ -154,7 +153,7 @@ const BookingCalendar = () => {
       <div id="booking-calendar-container">
         <ResourceCalendar
           resources={resources}
-          bookings={bookingsData}
+          bookings={bookingsData.data}
           startDate={startDate as Date}
           columnWidth={columnWidth}
           onCellClick={handleCallbackOnCellClick}

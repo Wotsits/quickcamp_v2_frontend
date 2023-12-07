@@ -13,7 +13,7 @@ export const getGuestsByQueryString = async ({
   q,
   token,
 }: GetGuestsByQueryString) => {
-  const response = await axios.get<LeadGuest[]>(
+  const response = await axios.get<{ data: LeadGuest[] }>(
     APIURL + API_ENDPOINTS.LEAD_GUESTS,
     {
       params: {

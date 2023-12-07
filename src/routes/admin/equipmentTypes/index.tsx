@@ -38,7 +38,7 @@ const EquipmentTypesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<EquipmentType[], Error>(
+  const { isLoading, isError, data: equipmentTypeData, error } = useQuery<{ data: EquipmentType[]}, Error>(
     ["EquipmentTypes", { siteId: undefined }],
     () =>
       getEquipmentTypes({
@@ -51,9 +51,9 @@ const EquipmentTypesAdmin = () => {
   // -------------
 
   function renderEquipmentTypesToTable() {
-    if (data) {
+    if (equipmentTypeData) {
       if (selectedSite !== -1) {
-        const equipmentTypesForSite = data.filter(
+        const equipmentTypesForSite = equipmentTypeData.data.filter(
           (equipmentType: EquipmentType) =>
             equipmentType.siteId === selectedSite
         );
@@ -81,7 +81,7 @@ const EquipmentTypesAdmin = () => {
           );
         });
       }
-      return data.map((equipmentType: EquipmentType) => {
+      return equipmentTypeData.data.map((equipmentType: EquipmentType) => {
         const { id, name, description, icon: iconName } = equipmentType;
         const icon = equipmentIcon[iconName];
         return (

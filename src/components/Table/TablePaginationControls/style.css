@@ -1,0 +1,8 @@
+.table-pagination-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
+    width: 100%;
+}

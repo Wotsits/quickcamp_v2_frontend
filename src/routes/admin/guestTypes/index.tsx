@@ -38,7 +38,7 @@ const GuestTypesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<GuestType[], Error>(
+  const { isLoading, isError, data: guestTypesData, error } = useQuery<{data: GuestType[]}, Error>(
     ["GuestTypes", { siteId: undefined }],
     () =>
       getGuestTypes({
@@ -51,9 +51,9 @@ const GuestTypesAdmin = () => {
   // -------------
 
   function renderGuestTypesToTable() {
-    if (data) {
+    if (guestTypesData) {
       if (selectedSite !== -1) {
-        const guestTypesForSite = data.filter(
+        const guestTypesForSite = guestTypesData.data.filter(
           (guestType: GuestType) => guestType.siteId === selectedSite
         );
         if (guestTypesForSite.length === 0) {
@@ -80,7 +80,7 @@ const GuestTypesAdmin = () => {
           );
         });
       }
-      return data.map((guestType: GuestType) => {
+      return guestTypesData.data.map((guestType: GuestType) => {
         const { id, name, description, icon: iconName } = guestType;
         const icon = occupantTypeIconMap[iconName];
         return (

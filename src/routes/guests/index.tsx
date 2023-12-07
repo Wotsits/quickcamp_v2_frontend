@@ -23,7 +23,7 @@ const columnSpec = [
 const Guests = () => {
   const { user } = useContext(AuthContext);
 
-  const { isLoading, isError, data, error } = useQuery<LeadGuest[], Error>(
+  const { isLoading, isError, data: LeadGuestData, error } = useQuery<{data: LeadGuest[]}, Error>(
     ["guests", user.tenantId],
     () => getLeadGuests({ token: user.token })
   );
@@ -47,7 +47,7 @@ const Guests = () => {
         </IconButton>
       </PageHeader>
       <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
-        <DataTable rows={data!} columns={columnSpec} />
+        <DataTable rows={LeadGuestData!.data} columns={columnSpec} />
       </TableContainer>
     </div>
   );

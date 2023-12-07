@@ -50,7 +50,7 @@ const IndividualBooking = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<Booking, Error>(
+  const { isLoading, isError, data: bookingData, error } = useQuery<{data: Booking}, Error>(
     ["booking", id],
     () => getBookingById({ token: user.token, id: id })
   );
@@ -83,7 +83,7 @@ const IndividualBooking = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  if (!data) {
+  if (!bookingData) {
     return <div>Booking not found</div>;
   }
 
@@ -98,7 +98,7 @@ const IndividualBooking = () => {
             title="Edit Lead Guest"
             onClose={() => setLeadGuestEditModalOpen(false)}
           />
-          <EditLeadGuestForm currentLeadGuestIn={data.leadGuest} bookingId={data.id} />
+          <EditLeadGuestForm currentLeadGuestIn={bookingData.data.leadGuest} bookingId={bookingData.data.id} />
         </Modal>
       )}
 
@@ -144,7 +144,7 @@ const IndividualBooking = () => {
         </Modal>
       )}
 
-      <PageHeader title="Booking" subTitle={`Booking ID: ${data.id}`} />
+      <PageHeader title="Booking" subTitle={`Booking ID: ${bookingData.data.id}`} />
 
       <div id="booking-information-container">
         {/* Lead Guest Details */}
@@ -158,11 +158,11 @@ const IndividualBooking = () => {
           }
         >
           <Typography variant="body1" gutterBottom>
-            Lead Guest Name: {data.leadGuest.firstName}{" "}
-            {data?.leadGuest.lastName}
+            Lead Guest Name: {bookingData.data.leadGuest.firstName}{" "}
+            {bookingData?.data.leadGuest.lastName}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Lead Guest Email: {data.leadGuest.email}
+            Lead Guest Email: {bookingData.data.leadGuest.email}
           </Typography>
         </ContentBlock>
 
@@ -177,11 +177,11 @@ const IndividualBooking = () => {
           }
         >
           <Typography variant="body1" gutterBottom>
-            Unit: {data.unit!.name}
+            Unit: {bookingData.data.unit!.name}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Dates: {new Date(data.start).toUTCString()} -{" "}
-            {new Date(data.end).toUTCString()}
+            Dates: {new Date(bookingData.data.start).toUTCString()} -{" "}
+            {new Date(bookingData.data.end).toUTCString()}
           </Typography>
         </ContentBlock>
 
@@ -200,7 +200,7 @@ const IndividualBooking = () => {
               Guests
             </Typography>
             <div className="occupant-cards">
-              {data.guests?.map((guest) => {
+              {bookingData.data.guests?.map((guest) => {
                 const name = guest.name;
                 const type = guest.guestType!.name;
                 const start = new Date(guest.start);
@@ -225,7 +225,7 @@ const IndividualBooking = () => {
               Pets
             </Typography>
             <div className="occupant-cards">
-              {data.pets?.map((pet) => {
+              {bookingData.data.pets?.map((pet) => {
                 const name = pet.name;
                 const start = new Date(pet.start).toUTCString();
                 const end = new Date(pet.end).toUTCString();
@@ -250,7 +250,7 @@ const IndividualBooking = () => {
               Vehicles
             </Typography>
             <div className="occupant-cards">
-              {data.vehicles?.map((vehicle) => {
+              {bookingData.data.vehicles?.map((vehicle) => {
                 const reg = vehicle.vehicleReg;
                 const start = new Date(vehicle.start).toUTCString();
                 const end = new Date(vehicle.end).toUTCString();
@@ -284,7 +284,7 @@ const IndividualBooking = () => {
             Total Fee: 
           </Typography>
           <Typography variant="body1" component="span" gutterBottom>
-            £{data.totalFee}
+            £{bookingData.data.totalFee}
           </Typography>
           </div>
 
@@ -293,7 +293,7 @@ const IndividualBooking = () => {
             Total Paid: 
           </Typography>
           <Typography variant="body1" component="span" gutterBottom>
-            £{calculateTotalPaid(data)}
+            £{calculateTotalPaid(bookingData.data)}
           </Typography>
           </div>
 
@@ -302,7 +302,7 @@ const IndividualBooking = () => {
             Balance: 
           </Typography>
           <Typography variant="body1" component="span" gutterBottom>
-            £{calculateBalance(data)}
+            £{calculateBalance(bookingData.data)}
           </Typography>
           </div>
 
@@ -319,7 +319,7 @@ const IndividualBooking = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.payments?.map((payment) => (
+                {bookingData.data.payments?.map((payment) => (
                   <TableRow
                     key={payment.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

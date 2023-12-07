@@ -10,7 +10,7 @@ type GetGuestTypesArgs = {
 };
 
 export const getGuestTypes = async ({ token, siteId }: GetGuestTypesArgs) => {
-  const response = await axios.get<GuestType[]>(
+  const response = await axios.get<{ data: GuestType[] }>(
     APIURL + API_ENDPOINTS.GUEST_TYPES,
     {
       headers: { Authorization: "Bearer " + token },

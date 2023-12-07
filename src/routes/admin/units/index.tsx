@@ -40,7 +40,7 @@ const UnitsAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
+  const { isLoading, isError, data: unitTypesData, error } = useQuery<{ data: UnitType[]}, Error>(
     ["UnitTypes", { includeSite: true, includeUnits: true }],
     () =>
       getUnitTypes({
@@ -55,9 +55,9 @@ const UnitsAdmin = () => {
   // -------------
 
   function renderUnitsToTable() {
-    if (!data) return null;
+    if (!unitTypesData) return null;
 
-    if (data.length === 0) {
+    if (unitTypesData.data.length === 0) {
       return (
         <TableRow>
           <TableCell colSpan={100}>No units found.</TableCell>
@@ -68,7 +68,7 @@ const UnitsAdmin = () => {
     // if no filters applied
 
     if (selectedSite === -1 && selectedUnitType === -1) {
-      return data.map((unitType: UnitType) => {
+      return unitTypesData.data.map((unitType: UnitType) => {
         return unitType.units!.map((unit) => {
           return (
             <TableRow
@@ -86,7 +86,7 @@ const UnitsAdmin = () => {
 
     // else, apply filters
 
-    let filteredData = data;
+    let filteredData = unitTypesData.data;
 
     if (selectedUnitType !== -1) {
       filteredData = filteredData.filter(
@@ -129,7 +129,7 @@ const UnitsAdmin = () => {
   // RENDER
   // -------------
 
-  if (isLoading || !data) return <div>Loading...</div>;
+  if (isLoading || !unitTypesData) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;
 
   return (
@@ -178,7 +178,7 @@ const UnitsAdmin = () => {
               }
             >
               <MenuItem value={-1}>All Unit Types</MenuItem>
-              {data!.map((unitType: UnitType) => (
+              {unitTypesData!.data.map((unitType: UnitType) => (
                 <MenuItem key={unitType.id} value={unitType.id}>
                   {unitType.name}
                 </MenuItem>

@@ -37,7 +37,7 @@ const UnitTypesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data, error } = useQuery<UnitType[], Error>(
+  const { isLoading, isError, data: unitTypesData, error } = useQuery<{data: UnitType[]}, Error>(
     ["UnitTypes", { includeSite: false, includeUnits: false }],
     () =>
       getUnitTypes({
@@ -50,9 +50,9 @@ const UnitTypesAdmin = () => {
   // -------------
 
   function renderUnitTypesToTable() {
-    if (data) {
+    if (unitTypesData) {
       if (selectedSite !== -1) {
-        const unitTypesForSite = data.filter(
+        const unitTypesForSite = unitTypesData.data.filter(
           (unitType: UnitType) => unitType.siteId === selectedSite
         );
         if (unitTypesForSite.length === 0) {
@@ -70,7 +70,7 @@ const UnitTypesAdmin = () => {
           </TableRow>
         ));
       }
-      return data.map((unitType: UnitType) => (
+      return unitTypesData.data.map((unitType: UnitType) => (
         <TableRow key={unitType.id}>
           <TableCell>{unitType.id}</TableCell>
           <TableCell>{unitType.name}</TableCell>

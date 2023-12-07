@@ -96,7 +96,7 @@ const Departures = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<Booking[], Error>(["DeparturesByDate", date], () =>
+  } = useQuery<{data: Booking[]}, Error>(["DeparturesByDate", date], () =>
     getDeparturesByDate({
       date: date as Date,
       token: user.token,
@@ -169,22 +169,22 @@ const Departures = () => {
             <div id="summary-blocks">
               <SummaryBlock
                 label="Bookings Departing Today"
-                content={departuresData!.length}
+                content={departuresData!.data.length} // TODO correct this
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="People Departing Today"
-                content={departuresData!.length}
+                content={departuresData!.data.length} // TODO correct this
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Cars Departing Today"
-                content={departuresData!.length}
+                content={departuresData!.data.length} // TODO correct this
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Pets Departing Today"
-                content={departuresData!.length}
+                content={departuresData!.data.length} // TODO correct this
                 {...summaryBlockSettings}
               />
             </div>
@@ -217,7 +217,7 @@ const Departures = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {departuresData && departuresData.length === 0 && (
+                  {departuresData && departuresData.data.length === 0 && (
                     <TableRow
                       key="no-departures"
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -228,7 +228,7 @@ const Departures = () => {
                     </TableRow>
                   )}
                   {departuresData &&
-                    departuresData.map((departure) => (
+                    departuresData.data.map((departure) => (
                       <TableRow
                         key={departure.id}
                         sx={{
