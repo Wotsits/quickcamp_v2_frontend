@@ -20,6 +20,7 @@ import { ROUTES } from "../../settings";
 import { checkoutAll, checkoutOne } from "./helpers";
 import { checkOutManyGuests } from "../../services/mutations/checkOutManyGuests";
 import { checkOutOneGuest } from "../../services/mutations/checkOutOneGuest";
+import PageHeader from "../../components/PageHeader";
 
 const IndividualDeparture = () => {
   // -------------
@@ -150,11 +151,10 @@ const IndividualDeparture = () => {
 
   return (
     <div id="individual-departure">
-      <div id="individual-departure-header">
-        <div id="individual-departure-header-left">
-          <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
-            Departure {id}
-            <IconButton
+
+      <PageHeader title={`Departure ${id}`}>
+        <div id="individual-departure-header-right">
+        <IconButton
               size="small"
               onClick={() => {
                 navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
@@ -162,9 +162,6 @@ const IndividualDeparture = () => {
             >
               <EditIcon />
             </IconButton>
-          </Typography>
-        </div>
-        <div id="individual-departure-header-right">
           <Button
             variant="contained"
             onClick={() =>
@@ -185,7 +182,6 @@ const IndividualDeparture = () => {
               pets.every((pet) => pet.checkedOut !== null) &&
               vehicles.every((vehicle) => vehicle.checkedOut !== null)
             }
-            sx={{ mb: 3 }}
           >
             Check Out All
           </Button>
@@ -204,7 +200,6 @@ const IndividualDeparture = () => {
                 true
               )
             }
-            sx={{ mb: 3, ml: 1 }}
             disabled={
               guests.every((guest) => guest.checkedOut === null) &&
               pets.every((pet) => pet.checkedOut === null) &&
@@ -214,7 +209,7 @@ const IndividualDeparture = () => {
             Un-Check Out All
           </Button>
         </div>
-      </div>
+      </PageHeader>
 
       {error && (
         <div id="individual-departure-error">

@@ -30,10 +30,12 @@
     flex-direction: column;
 }
 
-#individual-departure #individual-departure-header {
+#individual-departure #individual-departure-header-right {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
 }
 
 
