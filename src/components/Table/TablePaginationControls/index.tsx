@@ -30,7 +30,7 @@ const TablePaginationControls = ({
   const handleFirstPageButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    onPageChange(event, 0);
+    onPageChange(event, 1);
   };
 
   const handleBackButtonClick = (
@@ -48,7 +48,7 @@ const TablePaginationControls = ({
   const handleLastPageButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(event, Math.max(1, Math.ceil(count / rowsPerPage)));
   };
 
   // ----------------
@@ -59,28 +59,28 @@ const TablePaginationControls = ({
     <div className="table-pagination-controls">
       <IconButton
         onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
+        disabled={page === 1}
         aria-label="first page"
       >
         <FirstPageIcon />
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
-        disabled={page === 0}
+        disabled={page === 1}
         aria-label="previous page"
       >
         <KeyboardArrowLeft />
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(count / rowsPerPage)}
         aria-label="next page"
       >
         <KeyboardArrowRight />
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(count / rowsPerPage)}
         aria-label="last page"
       >
         <LastPageIcon />

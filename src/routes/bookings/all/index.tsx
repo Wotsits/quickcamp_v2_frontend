@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../settings";
+import { DEFAULT_PAGE_SIZE, ROUTES } from "../../../settings";
 import PageHeader from "../../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
@@ -36,7 +36,7 @@ const Bookings = () => {
   // STATE
   // -------------
 
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [page, setPage] = useState(1);
 
   // -----------

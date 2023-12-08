@@ -1,12 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { LeadGuest } from "../../types";
 import { getLeadGuests } from "../../services/queries/getGuests";
-import DataTable from "../../components/DataTable";
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import AuthContext from "../../contexts/authContext";
 import PageHeader from "../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { DEFAULT_PAGE_SIZE } from "../../settings";
+import TablePaginationControls from "../../components/Table/TablePaginationControls";
 
 const columns: {
   headerText: string;
@@ -62,12 +73,29 @@ const Guests = () => {
   const { user } = useContext(AuthContext);
 
   // -------------
+  // STATE
+  // -------------
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+
+  // -------------
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data: leadGuestData, error } = useQuery<{data: LeadGuest[]}, Error>(
-    ["guests", user.tenantId],
-    () => getLeadGuests({ token: user.token })
+  const {
+    isLoading,
+    isError,
+    data: leadGuestData,
+    error,
+  } = useQuery<{ data: LeadGuest[]; count: number }, Error>(
+    ["guests", page * pageSize - pageSize, pageSize],
+    () =>
+      getLeadGuests({
+        token: user.token,
+        skip: page * pageSize - pageSize,
+        take: pageSize,
+      })
   );
 
   // -------------
@@ -84,16 +112,19 @@ const Guests = () => {
 
   return (
     <div id="guests" className="full-width">
+
+      { /* PAGE HEADER */ }
+      
       <PageHeader title="Guests">
-      <IconButton
-          onClick={() => console.log("Add guest")}
-          size="large"
-        >
+        <IconButton onClick={() => console.log("Add guest")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
-        <Table>
+      
+      { /* TABLE */}
+      <div className="container-white-bg-rounded-full-width">
+      <TableContainer>
+        <Table size="small">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -107,23 +138,31 @@ const Guests = () => {
             {leadGuestData.data.length === 0 && (
               <TableRow>
                 <TableCell colSpan={columns.length}>
-                    No guests to show
+                  No guests to show
                 </TableCell>
               </TableRow>
             )}
             {leadGuestData.data.length > 0 &&
-                leadGuestData.data.map((leadGuest) => (
-                  <TableRow key={leadGuest.id}>
-                    {columns.map((column) => (
-                      <TableCell key={column.headerText}>
-                        {leadGuest[column.dataField] as string}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+              leadGuestData.data.map((leadGuest) => (
+                <TableRow key={leadGuest.id}>
+                  {columns.map((column) => (
+                    <TableCell key={column.headerText}>
+                      {leadGuest[column.dataField] as string}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
-        </Table>  
+        </Table>
       </TableContainer>
+      <TablePaginationControls
+        count={leadGuestData.count}
+        page={page}
+        rowsPerPage={pageSize}
+        onPageChange={(_, newPage) => setPage(newPage)}
+      />
+      </div>
+      
     </div>
   );
 };

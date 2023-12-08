@@ -22,6 +22,8 @@ export const INFOWEBSITEADDRESS = "https://www.quickcamp.co.uk";
 
 export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
 
+export const DEFAULT_PAGE_SIZE = 5;
+
 export const ROUTES = {
   ROOT: "/",
   DASHBOARD: "dashboard/",
