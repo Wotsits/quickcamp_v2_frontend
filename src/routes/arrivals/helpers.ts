@@ -44,6 +44,7 @@ export function checkinAll(
   token: string,
   reverse: boolean
 ) {
+
   const now = new Date();
 
   const guestStateCpy = [...guestState];
@@ -55,25 +56,49 @@ export function checkinAll(
 
   guestStateCpy.forEach((guest) => {
     if (isGuestDue(guest)) {
-      if (!guest.checkedIn) {
-        guest.checkedIn = !reverse ? now : null;
-        toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
+      if (!reverse) {
+        if (!guest.checkedIn) {
+          guest.checkedIn = now;
+          toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
+        }
+      }
+      else {
+        if (guest.checkedIn) {
+          guest.checkedIn = null;
+          toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
+        }
       }
     }
   });
   petStateCpy.forEach((pet) => {
     if (isGuestDue(pet)) {
-      if (!pet.checkedIn) {
-        pet.checkedIn = !reverse ? now : null;
-        toUpdateOnServer.push({ id: pet.id, type: "PET" });
+      if (!reverse) {
+        if (!pet.checkedIn) {
+          pet.checkedIn = now;
+          toUpdateOnServer.push({ id: pet.id, type: "PET" });
+        }
+      }
+      else {
+        if (pet.checkedIn) {
+          pet.checkedIn = null;
+          toUpdateOnServer.push({ id: pet.id, type: "PET" });
+        }
       }
     }
   });
   vehicleStateCpy.forEach((vehicle) => {
     if (isGuestDue(vehicle)) {
-      if (!vehicle.checkedIn) {
-        vehicle.checkedIn = !reverse ? now : null;
-        toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
+      if (!reverse) {
+        if (!vehicle.checkedIn) {
+          vehicle.checkedIn = now;
+          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
+        }
+      }
+      else {
+        if (vehicle.checkedIn) {
+          vehicle.checkedIn = null;
+          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
+        }
       }
     }
   });
