@@ -9,11 +9,9 @@ type GetLeadGuestsArgs = {
   skip: number;
   /** mandatory, take */
   take: number;
-
 };
 
 export const getLeadGuests = async ({ token, skip, take }: GetLeadGuestsArgs) => {
-  console.log("skip: ", skip)
   const response = await axios.get<{ data: LeadGuest[], count: number }>(
     APIURL + API_ENDPOINTS.LEAD_GUESTS,
     {
