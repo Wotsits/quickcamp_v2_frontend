@@ -3,37 +3,83 @@ import { useQuery } from "react-query";
 import { LeadGuest } from "../../types";
 import { getLeadGuests } from "../../services/queries/getGuests";
 import DataTable from "../../components/DataTable";
-import { IconButton, Paper, TableContainer, Typography } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import AuthContext from "../../contexts/authContext";
 import PageHeader from "../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const columnSpec = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First Name", width: 130 },
-  { field: "lastName", headerName: "Surname", width: 130 },
-  { field: "address1", headerName: "Address Line 1", width: 90 },
-  { field: "address2", headerName: "Address Line 2", width: 160 },
-  { field: "townCity", headerName: "Town/City", width: 160 },
-  { field: "postcode", headerName: "Postcode", width: 90 },
-  { field: "tel", headerName: "Tel", width: 90 },
-  { field: "email", headerName: "Email", width: 90 },
+const columns: {
+  headerText: string;
+  dataField: keyof LeadGuest;
+}[] = [
+  {
+    headerText: "ID",
+    dataField: "id",
+  },
+  {
+    headerText: "First Name",
+    dataField: "firstName",
+  },
+  {
+    headerText: "Last Name",
+    dataField: "lastName",
+  },
+  {
+    headerText: "Email",
+    dataField: "email",
+  },
+  {
+    headerText: "Tel",
+    dataField: "tel",
+  },
+  {
+    headerText: "Address Line 1",
+    dataField: "address1",
+  },
+  {
+    headerText: "Address Line 2",
+    dataField: "address2",
+  },
+  {
+    headerText: "Town/City",
+    dataField: "townCity",
+  },
+  {
+    headerText: "County",
+    dataField: "county",
+  },
+  {
+    headerText: "Postcode",
+    dataField: "postcode",
+  },
 ];
 
 const Guests = () => {
+  // -------------
+  // CONTEXTS
+  // -------------
+
   const { user } = useContext(AuthContext);
 
-  const { isLoading, isError, data: LeadGuestData, error } = useQuery<{data: LeadGuest[]}, Error>(
+  // -------------
+  // QUERIES
+  // -------------
+
+  const { isLoading, isError, data: leadGuestData, error } = useQuery<{data: LeadGuest[]}, Error>(
     ["guests", user.tenantId],
     () => getLeadGuests({ token: user.token })
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // -------------
+  // RENDER
+  // -------------
 
   if (isError) {
     return <div>Error: {error.message}</div>;
+  }
+
+  if (isLoading || !leadGuestData) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -47,7 +93,36 @@ const Guests = () => {
         </IconButton>
       </PageHeader>
       <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
-        <DataTable rows={LeadGuestData!.data} columns={columnSpec} />
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell key={column.headerText}>
+                  {column.headerText}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {leadGuestData.data.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                    No guests to show
+                </TableCell>
+              </TableRow>
+            )}
+            {leadGuestData.data.length > 0 &&
+                leadGuestData.data.map((leadGuest) => (
+                  <TableRow key={leadGuest.id}>
+                    {columns.map((column) => (
+                      <TableCell key={column.headerText}>
+                        {leadGuest[column.dataField] as string}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>  
       </TableContainer>
     </div>
   );
