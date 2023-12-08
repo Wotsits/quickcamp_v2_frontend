@@ -55,7 +55,7 @@ export function checkinAll(
     [];
 
   guestStateCpy.forEach((guest) => {
-    if (isGuestDue(guest)) {
+    if (isGuestDue(guest) && !guest.checkedOut) {
       if (!reverse) {
         if (!guest.checkedIn) {
           guest.checkedIn = now;
@@ -63,7 +63,7 @@ export function checkinAll(
         }
       }
       else {
-        if (guest.checkedIn) {
+        if (guest.checkedIn && !guest.checkedOut) {
           guest.checkedIn = null;
           toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
         }
@@ -73,13 +73,13 @@ export function checkinAll(
   petStateCpy.forEach((pet) => {
     if (isGuestDue(pet)) {
       if (!reverse) {
-        if (!pet.checkedIn) {
+        if (!pet.checkedIn && !pet.checkedOut) {
           pet.checkedIn = now;
           toUpdateOnServer.push({ id: pet.id, type: "PET" });
         }
       }
       else {
-        if (pet.checkedIn) {
+        if (pet.checkedIn && !pet.checkedOut) {
           pet.checkedIn = null;
           toUpdateOnServer.push({ id: pet.id, type: "PET" });
         }
@@ -89,13 +89,13 @@ export function checkinAll(
   vehicleStateCpy.forEach((vehicle) => {
     if (isGuestDue(vehicle)) {
       if (!reverse) {
-        if (!vehicle.checkedIn) {
+        if (!vehicle.checkedIn && !vehicle.checkedOut) {
           vehicle.checkedIn = now;
           toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
         }
       }
       else {
-        if (vehicle.checkedIn) {
+        if (vehicle.checkedIn && !vehicle.checkedOut) {
           vehicle.checkedIn = null;
           toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
         }

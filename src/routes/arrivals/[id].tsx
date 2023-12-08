@@ -4,13 +4,7 @@ import AuthContext from "../../contexts/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
-import {
-  Alert,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import { Alert, Box, Button, Divider, IconButton } from "@mui/material";
 import LargeButton from "../../components/LargeButton";
 import "./style.css";
 import { isGuestDue } from "../../utils/helpers";
@@ -97,9 +91,9 @@ const IndividualArrival = () => {
         queryKey: ["arrivalsByDate"],
       });
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       setError(
-        "There has been an error checking in the party member.  Please reload the application and try again."
+        err.message || "There has been an error checking in the party member."
       );
     },
   });
@@ -118,9 +112,9 @@ const IndividualArrival = () => {
         queryKey: ["arrivalsByDate"],
       });
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       setError(
-        "There has been an error checking in the party member.  Please reload the application and try again."
+        err.message || "There has been an error checking in the party member."
       );
     },
   });
@@ -173,6 +167,11 @@ const IndividualArrival = () => {
                 false
               )
             }
+            disabled={
+              guests.every((guest) => guest.checkedIn !== null) &&
+              pets.every((pet) => pet.checkedIn !== null) &&
+              vehicles.every((vehicle) => vehicle.checkedIn !== null)
+            }
           >
             CheckIn All
           </Button>
@@ -190,6 +189,14 @@ const IndividualArrival = () => {
                 user.token,
                 true
               )
+            }
+            disabled={
+              (guests.every((guest) => guest.checkedIn === null) &&
+                pets.every((pet) => pet.checkedIn === null) &&
+                vehicles.every((vehicle) => vehicle.checkedIn === null)) ||
+              (guests.every((guest) => guest.checkedOut !== null) &&
+                pets.every((pet) => pet.checkedOut !== null) &&
+                vehicles.every((vehicle) => vehicle.checkedOut !== null))
             }
           >
             Un-CheckIn All
@@ -242,7 +249,7 @@ const IndividualArrival = () => {
                       )
               }
               highlighted={guest.checkedIn !== null}
-              disabled={!isGuestDue(guest)}
+              disabled={!isGuestDue(guest) || guest.checkedOut !== null}
             >
               <div>
                 {guest.name}
@@ -290,7 +297,7 @@ const IndividualArrival = () => {
                       )
               }
               highlighted={pet.checkedIn !== null}
-              disabled={!isGuestDue(pet)}
+              disabled={!isGuestDue(pet) || pet.checkedOut !== null}
             >
               <div>
                 {pet.name}
@@ -338,7 +345,7 @@ const IndividualArrival = () => {
                       )
               }
               highlighted={vehicle.checkedIn !== null}
-              disabled={!isGuestDue(vehicle)}
+              disabled={!isGuestDue(vehicle) || vehicle.checkedOut !== null}
             >
               <div>
                 {vehicle.vehicleReg}

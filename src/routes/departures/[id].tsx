@@ -67,7 +67,7 @@ const IndividualDeparture = () => {
     isError: isDepartureError,
     data: departureData,
     error: departureError,
-  } = useQuery<{data: Booking}, Error>(
+  } = useQuery<{ data: Booking }, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id }),
     {
@@ -97,9 +97,10 @@ const IndividualDeparture = () => {
         queryKey: ["depaturesByDate"],
       });
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       setError(
-        "There has been an error checking out the party member.  Please reload the application and try again."
+        err.message ||
+          "There has been an error checking out the party member.  Please reload the application and try again."
       );
     },
   });
@@ -118,9 +119,10 @@ const IndividualDeparture = () => {
         queryKey: ["departuresByDate"],
       });
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       setError(
-        "There has been an error checking out the party member.  Please reload the application and try again."
+        err.message ||
+          "There has been an error checking out the party member.  Please reload the application and try again."
       );
     },
   });
@@ -178,6 +180,11 @@ const IndividualDeparture = () => {
                 false
               )
             }
+            disabled={
+              guests.every((guest) => guest.checkedOut !== null) &&
+              pets.every((pet) => pet.checkedOut !== null) &&
+              vehicles.every((vehicle) => vehicle.checkedOut !== null)
+            }
             sx={{ mb: 3 }}
           >
             Check Out All
@@ -198,6 +205,11 @@ const IndividualDeparture = () => {
               )
             }
             sx={{ mb: 3, ml: 1 }}
+            disabled={
+              guests.every((guest) => guest.checkedOut === null) &&
+              pets.every((pet) => pet.checkedOut === null) &&
+              vehicles.every((vehicle) => vehicle.checkedOut === null)
+            }
           >
             Un-Check Out All
           </Button>
@@ -253,7 +265,7 @@ const IndividualDeparture = () => {
             >
               <div>
                 {guest.name}
-                {!(guest.checkedIn) && <div>Not yet checked in</div>}
+                {!guest.checkedIn && <div>Not yet checked in</div>}
               </div>
             </LargeButton>
           ))}
