@@ -639,7 +639,7 @@ const NewBooking = () => {
               formGuestCountry={formGuestCountry}
               setFormGuestCountry={setFormGuestCountry}
               callbackFromSearchField={setFormGuestSearchFieldContent}
-              searchFieldResults={existingGuestSearchResultsData}
+              searchFieldResults={existingGuestSearchResultsData && existingGuestSearchResultsData.data}
             />
           )}
 
@@ -667,7 +667,7 @@ const NewBooking = () => {
               formEndDate={formEndDate}
               setFormEndDate={setFormEndDate}
               availableUnitsAreLoading={availableUnitsAreLoading}
-              availableUnits={availableUnitsData!.data}
+              availableUnits={availableUnitsData && availableUnitsData.data}
               dateError={dateError}
               guestTypes={selectedSite?.guestTypes as GuestType[]}
               guests={formBookingGuests}

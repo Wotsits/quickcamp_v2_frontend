@@ -14,7 +14,7 @@ type PaymentDetailsProps = {
   setFormPaymentDate: React.Dispatch<React.SetStateAction<Date | null>>;
 };
 
-const paymentMethods = ["cash", "card", "bank transfer"];
+const paymentMethods = ["CASH", "CARD", "BANK TRANSFER"];
 
 const PaymentDetails = ({
   bookingFee,

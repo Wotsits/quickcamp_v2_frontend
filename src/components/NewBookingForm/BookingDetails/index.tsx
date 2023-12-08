@@ -2,10 +2,7 @@ import {
   Alert,
   Box,
   Divider,
-  InputLabel,
-  Menu,
   MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -32,7 +29,7 @@ type BookingDetailsProps = {
   formEndDate: Date | null;
   setFormEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
   availableUnitsAreLoading: boolean;
-  availableUnits: Unit[];
+  availableUnits: Unit[] | undefined;
   dateError: string | null;
   guestTypes: GuestType[];
   guests: BookingProcessGuest[];
@@ -220,10 +217,10 @@ const BookingDetails = ({
         {availableUnitsAreLoading && <TextField required disabled fullWidth label="Pitch" value="Loading..." />}
         {!availableUnitsAreLoading && (
           <>
-            {availableUnits.length === 0 && (
+            {availableUnits && availableUnits.length === 0 && (
               <TextField required disabled fullWidth label="Pitch" value="No units available" />
             )}
-            {availableUnits.length > 0 && (
+            {availableUnits && availableUnits.length > 0 && (
               <TextField
                 required
                 fullWidth

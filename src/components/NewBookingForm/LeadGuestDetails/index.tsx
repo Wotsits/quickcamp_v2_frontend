@@ -40,7 +40,7 @@ type LeadGuestDetailsProps = {
   formGuestCountry: string;
   setFormGuestCountry: Dispatch<SetStateAction<string>>;
   callbackFromSearchField: (data: any) => void;
-  searchFieldResults: any;
+  searchFieldResults: LeadGuest[] | undefined;
 };
 
 const LeadGuestDetails = ({
