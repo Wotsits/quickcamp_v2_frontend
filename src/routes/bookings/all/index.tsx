@@ -133,6 +133,7 @@ const Bookings = () => {
                 return (
                   <TableRow
                     key={booking.id}
+                    className="clickable"
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     onClick={() =>
                       navigate(

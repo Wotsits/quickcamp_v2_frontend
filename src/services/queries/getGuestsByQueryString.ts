@@ -18,6 +18,8 @@ export const getGuestsByQueryString = async ({
     {
       params: {
         q,
+        // TODO add pagination to this as it is currently 
+        // restricted by the backend to 10.
       },
       headers: { Authorization: "Bearer " + token },
     }
