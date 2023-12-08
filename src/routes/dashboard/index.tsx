@@ -257,7 +257,7 @@ const Dashboard = () => {
       </div>
 
       { /* DAILY INCOME BREAKDOWN CHART */}
-      
+
       <div
         id="daily-income-breakdown"
         className="container-white-bg-rounded-full-width"

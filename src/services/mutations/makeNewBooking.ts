@@ -10,16 +10,16 @@ type MakeNewBookingArgs = {
   token: string;
   siteId: number;
   leadGuestId: number;
-  leadGuestFirstName: string;
-  leadGuestLastName: string;
-  leadGuestEmail: string;
-  leadGuestTel: string;
-  leadGuestAddress1: string;
-  leadGuestAddress2: string;
-  leadGuestCity: string;
-  leadGuestCounty: string;
-  leadGuestPostcode: string;
-  leadGuestCountry: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  tel: string;
+  address1: string;
+  address2: string;
+  townCity: string;
+  county: string;
+  postcode: string;
+  country: string;
   unitId: number;
   startDate: Date;
   endDate: Date;
@@ -37,16 +37,16 @@ export const makeNewBooking = async ({
   token,
   siteId,
   leadGuestId,
-  leadGuestFirstName,
-  leadGuestLastName,
-  leadGuestEmail,
-  leadGuestTel,
-  leadGuestAddress1,
-  leadGuestAddress2,
-  leadGuestCity,
-  leadGuestCounty,
-  leadGuestPostcode,
-  leadGuestCountry,
+  firstName,
+  lastName,
+  email,
+  tel,
+  address1,
+  address2,
+  townCity,
+  county,
+  postcode,
+  country,
   unitId,
   startDate,
   endDate,
@@ -64,16 +64,16 @@ export const makeNewBooking = async ({
     {
       siteId,
       leadGuestId,
-      leadGuestFirstName,
-      leadGuestLastName,
-      leadGuestEmail,
-      leadGuestTel,
-      leadGuestAddress1,
-      leadGuestAddress2,
-      leadGuestCity,
-      leadGuestCounty,
-      leadGuestPostcode,
-      leadGuestCountry,
+      firstName,
+      lastName,
+      email,
+      tel,
+      address1,
+      address2,
+      townCity,
+      county,
+      postcode,
+      country,
       equipmentTypeId,
       unitId,
       startDate,
