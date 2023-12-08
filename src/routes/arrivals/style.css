@@ -30,12 +30,12 @@
     flex-direction: column;
 }
 
-#individual-arrival #individual-arrival-header {
+#individual-arrival #individual-arrival-header-right {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 1rem;
 }
-
 
 #individual-arrival #arrival-button-container {
     flex-grow: 1;

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
+import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import {
   Alert,
@@ -10,7 +10,6 @@ import {
   Button,
   Divider,
   IconButton,
-  Typography,
 } from "@mui/material";
 import LargeButton from "../../components/LargeButton";
 import "./style.css";
@@ -20,7 +19,7 @@ import { ROUTES } from "../../settings";
 import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
 import { checkInManyGuests } from "../../services/mutations/checkInManyGuests";
 import { checkinAll, checkinOne } from "./helpers";
-import { set } from "date-fns";
+import PageHeader from "../../components/PageHeader";
 
 const IndividualArrival = () => {
   // -------------
@@ -68,7 +67,7 @@ const IndividualArrival = () => {
     isError: isArrivalError,
     data: arrivalData,
     error: arrivalError,
-  } = useQuery<{data: Booking}, Error>(
+  } = useQuery<{ data: Booking }, Error>(
     ["booking", params.id],
     () => getBookingById({ token: user.token, id: id }),
     {
@@ -149,21 +148,16 @@ const IndividualArrival = () => {
 
   return (
     <div id="individual-arrival">
-      <div id="individual-arrival-header">
-        <div id="individual-arrival-header-left">
-          <Typography sx={{ mb: 3 }} variant="h5" component="h1" gutterBottom>
-            Arrival {id}
-            <IconButton
-              size="small"
-              onClick={() => {
-                navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-          </Typography>
-        </div>
+      <PageHeader title={`Arrival ${id}`}>
         <div id="individual-arrival-header-right">
+          <IconButton
+            size="small"
+            onClick={() => {
+              navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
+            }}
+          >
+            <EditIcon />
+          </IconButton>
           <Button
             variant="contained"
             onClick={() =>
@@ -179,7 +173,6 @@ const IndividualArrival = () => {
                 false
               )
             }
-            sx={{ mb: 3 }}
           >
             CheckIn All
           </Button>
@@ -198,12 +191,11 @@ const IndividualArrival = () => {
                 true
               )
             }
-            sx={{ mb: 3, ml: 1 }}
           >
             Un-CheckIn All
           </Button>
         </div>
-      </div>
+      </PageHeader>
 
       {error && (
         <div id="individual-arrival-error">
