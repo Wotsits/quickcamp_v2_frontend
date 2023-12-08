@@ -132,6 +132,9 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
+
+      { /* ARRIVALS FORECAST CHART */ }
+
       <div
         id="arrival-forecast"
         className="container-white-bg-rounded-full-width"
@@ -139,6 +142,9 @@ const Dashboard = () => {
         <Typography variant="h6">Arrival Forecast</Typography>
         <ArrivalsGraph arrivalsData={arrivalsData!.data} />
       </div>
+
+      { /* QUICK MENU */ }
+
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
         <div id="quick-menu-buttons-container">
@@ -165,6 +171,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      { /* ONSITE SUMMARY BLOCK */}
+
       <div id="on-site-summary">
         <SummaryBlock
           inverted
@@ -176,6 +185,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* ARRIVED SUMMARY BLOCK */}
+
       <div id="arrived-summary">
         <SummaryBlock
           inverted
@@ -187,6 +199,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* DEPARTED SUMMARY BLOCK */}
+
       <div id="departed-summary">
         <SummaryBlock
           inverted
@@ -198,6 +213,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* ON SITE TONIGHT SUMMARY BLOCK */}
+
       <div id="on-site-tonight">
         <SummaryBlock
           inverted
@@ -209,6 +227,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* TOTAL INCOME SUMMARY BLOCK */}
+
       <div id="income-summary">
         <SummaryBlock
           inverted
@@ -220,6 +241,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* PENDING BOOKINGS SUMMARY BLOCK */}
+
       <div id="pending-bookings">
         <SummaryBlock
           inverted
@@ -231,6 +255,9 @@ const Dashboard = () => {
           height="100%"
         />
       </div>
+
+      { /* DAILY INCOME BREAKDOWN CHART */}
+      
       <div
         id="daily-income-breakdown"
         className="container-white-bg-rounded-full-width"
