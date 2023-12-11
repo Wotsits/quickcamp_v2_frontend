@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./routes";
 import ErrorPage from "./components/ErrorPage";
 import BookingCalendar from "./routes/bookings/calendar";
-import Guests from "./routes/guests";
+import Guests from "./routes/guests/all";
 import Bookings from "./routes/bookings/all";
 import Admin from "./routes/admin";
 import CentreFullPage from "./components/CentreFullPage";
@@ -26,6 +26,7 @@ import UsersAdmin from "./routes/admin/users";
 import SiteForm from "./routes/admin/sites/new";
 import Departures from "./routes/departures/all";
 import IndividualDeparture from "./routes/departures/[id]";
+import IndividualGuest from "./routes/guests/[id]";
 
 export const router = createBrowserRouter([
   {
@@ -51,8 +52,8 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.ID,
             element: <IndividualArrival />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: ROUTES.DEPARTURES,
@@ -64,12 +65,21 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.ID,
             element: <IndividualDeparture />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: ROUTES.GUESTS,
-        element: <Guests />,
+        children: [
+          {
+            path: ROUTES.ALL,
+            element: <Guests />,
+          },
+          {
+            path: ROUTES.ID,
+            element: <IndividualGuest />,
+          },
+        ],
       },
       {
         path: ROUTES.BOOKINGS,
@@ -89,8 +99,8 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.ID,
             element: <IndividualBooking />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: ROUTES.ADMIN,
@@ -105,8 +115,8 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ALL,
                 element: <SitesAdmin />,
-              }
-            ]
+              },
+            ],
           },
           {
             path: ROUTES.UNIT_TYPES,
@@ -152,5 +162,5 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.EXPERIMENTAL,
     element: <Experimental />,
-  }
+  },
 ]);

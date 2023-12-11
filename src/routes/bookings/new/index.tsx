@@ -26,7 +26,7 @@ import {
 import { getExtraTypes } from "../../../services/queries/getExtraTypes";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useWindowDimensions from "../../../hooks/useWindowDimension";
-import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
+import { getLeadGuestsByQueryString } from "../../../services/queries/getLeadGuestsByQueryString";
 import { NEW_OR_EXISTING } from "../../../settings";
 import { useLeadGuestDetailState } from "./hooks/useLeadGuestDetailState";
 import { useValidityState } from "./hooks/useValidityState";
@@ -183,7 +183,7 @@ const NewBooking = () => {
   } = useQuery<{data: LeadGuest[]}, Error>(
     ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldContent],
     () =>
-      getGuestsByQueryString({
+      getLeadGuestsByQueryString({
         q: debouncedGuestSearchFieldContent,
         token: user.token,
       }),

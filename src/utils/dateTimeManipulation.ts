@@ -46,3 +46,8 @@ export const addOneMonth = (date: Date) => {
     return new Date();
   }
 };
+
+export const generateStandardizedDateFormat = (date: Date | string) => {
+  const dateObj = new Date(date);
+  return `${dateObj.toDateString()} ${dateObj.toLocaleTimeString()}`
+}

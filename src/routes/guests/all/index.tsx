@@ -1,23 +1,22 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { LeadGuest } from "../../types";
-import { getLeadGuests } from "../../services/queries/getGuests";
+import { LeadGuest } from "../../../types";
+import { getLeadGuests } from "../../../services/queries/getLeadGuests";
 import {
   IconButton,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
-import AuthContext from "../../contexts/authContext";
-import PageHeader from "../../components/PageHeader";
+import AuthContext from "../../../contexts/authContext";
+import PageHeader from "../../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { DEFAULT_PAGE_SIZE } from "../../settings";
-import TablePaginationControls from "../../components/Table/TablePaginationControls";
+import { DEFAULT_PAGE_SIZE, ROUTES } from "../../../settings";
+import TablePaginationControls from "../../../components/Table/TablePaginationControls";
+import { useNavigate } from "react-router-dom";
 
 const columns: {
   headerText: string;
@@ -71,6 +70,12 @@ const Guests = () => {
   // -------------
 
   const { user } = useContext(AuthContext);
+
+  // -------------
+  // HOOKS
+  // -------------
+
+  const navigate = useNavigate();
 
   // -------------
   // STATE
@@ -144,7 +149,7 @@ const Guests = () => {
             )}
             {leadGuestData.data.length > 0 &&
               leadGuestData.data.map((leadGuest) => (
-                <TableRow key={leadGuest.id}>
+                <TableRow key={leadGuest.id} className="clickable" onClick={() => navigate(ROUTES.ROOT + ROUTES.GUESTS + leadGuest.id)}>
                   {columns.map((column) => (
                     <TableCell key={column.headerText}>
                       {leadGuest[column.dataField] as string}

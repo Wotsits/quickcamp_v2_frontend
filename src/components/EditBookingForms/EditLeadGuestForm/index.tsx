@@ -13,7 +13,7 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AuthContext from "../../../contexts/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getGuestsByQueryString } from "../../../services/queries/getGuestsByQueryString";
+import { getLeadGuestsByQueryString } from "../../../services/queries/getLeadGuestsByQueryString";
 import { updateBookingLeadGuestExisting } from "../../../services/mutations/updateBookingLeadGuestExisting";
 import { updateBookingLeadGuestNew } from "../../../services/mutations/updateBookingLeadGuestNew";
 import "./style.css";
@@ -80,7 +80,7 @@ const EditLeadGuestForm = ({
   } = useQuery<{ data: LeadGuest[] }, Error>(
     ["getGuestsByQueryString", user.tenantId, debouncedGuestSearchFieldValue],
     () =>
-      getGuestsByQueryString({
+      getLeadGuestsByQueryString({
         q: debouncedGuestSearchFieldValue,
         token: user.token,
       }),

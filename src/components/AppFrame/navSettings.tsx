@@ -36,7 +36,7 @@ export const primaryNavOptions = [
     },
     {
       text: "Guest List",
-      path: ROUTES.GUESTS,
+      path: ROUTES.GUESTS + ROUTES.ALL,
       icon: <PeopleIcon />,
     },
   ];

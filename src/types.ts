@@ -63,6 +63,7 @@ export type LeadGuest = {
   password: string;
   tenantId: number;
   tenant?: Tenant;
+  bookings?: Booking[];
 };
 
 export type GuestType = {
@@ -106,6 +107,7 @@ export type Booking = {
   vehicles?: BookingVehicle[];
   pets?: BookingPet[];
   payments?: Payment[];
+  status: string;
 };
 
 export type Calendar = {

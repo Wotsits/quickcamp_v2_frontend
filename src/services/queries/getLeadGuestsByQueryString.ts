@@ -2,17 +2,17 @@ import axios from "axios";
 import { APIURL, API_ENDPOINTS } from "../../settings";
 import { LeadGuest } from "../../types";
 
-type GetGuestsByQueryString = {
+type GetLeadGuestsByQueryString = {
   /** mandatory, token */
   token: string;
   /** mandatory, query string */
   q: string;
 };
 
-export const getGuestsByQueryString = async ({
+export const getLeadGuestsByQueryString = async ({
   q,
   token,
-}: GetGuestsByQueryString) => {
+}: GetLeadGuestsByQueryString) => {
   const response = await axios.get<{ data: LeadGuest[] }>(
     APIURL + API_ENDPOINTS.LEAD_GUESTS,
     {
