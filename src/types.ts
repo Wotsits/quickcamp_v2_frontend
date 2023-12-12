@@ -64,6 +64,7 @@ export type LeadGuest = {
   tenantId: number;
   tenant?: Tenant;
   bookings?: Booking[];
+  notes?: Note[];
 };
 
 export type GuestType = {
@@ -197,6 +198,27 @@ export type BookingSumm = {
   peopleCheckedIn: number;
   petsCheckedIn: number;
   vehiclesCheckedIn: number;
+};
+
+export type Note = {
+  id: number;
+  content: string;
+  leadGuestId?: number;
+  leadGuest?: LeadGuest;
+  bookingId?: number;
+  booking?: Booking;
+  paymentId?: number;
+  payment?: Payment;
+  bookingGuestId?: number;
+  bookingGuest?: BookingGuest;
+  bookingPetId?: number;
+  bookingPet?: BookingPet;
+  bookingVehicleId?: number;
+  bookingVehicle?: BookingVehicle;
+  createdOn: Date;
+  userId: number;
+  user: User;
+  noteType: "PUBLIC" | "PRIVATE";
 };
 
 // -----------------

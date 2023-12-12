@@ -23,6 +23,11 @@ import { generateStandardizedDateFormat } from "../../../utils/dateTimeManipulat
 import ArticleIcon from "@mui/icons-material/Article";
 import Modal from "../../../components/Modal";
 import { ModalHeader } from "../../../components/Modal";
+import NameEditForm from "../../../components/EditLeadGuestForms/NameEditForm";
+import ContactDetailsEditForm from "../../../components/EditLeadGuestForms/ContactDetailsEditForm";
+import AddressEditForm from "../../../components/EditLeadGuestForms/AddressEditForm";
+
+const notesTableColumnSpec = ["Content", "Actions"];
 
 const IndividualLeadGuest = () => {
   // -------------
@@ -69,6 +74,29 @@ const IndividualLeadGuest = () => {
   );
 
   // -------------
+  // HANDLERS
+  // -------------
+
+  function handleNameSave(firstName: string, lastName: string) {
+    console.log(firstName, lastName);
+  }
+
+  function handleContactDetailsSave(tel: string, email: string) {
+    console.log(tel, email);
+  }
+
+  function handleAddressDetailsSave(
+    address1: string,
+    address2: string,
+    townCity: string,
+    county: string,
+    postcode: string,
+    country: string
+  ) {
+    console.log(address1, address2, townCity, county, postcode, country);
+  }
+
+  // -------------
   // RENDER
   // -------------
 
@@ -86,7 +114,6 @@ const IndividualLeadGuest = () => {
 
   return (
     <div id="lead-guest">
-
       {/* Name Edit Modal */}
       {nameEditModalOpen && (
         <Modal open={true}>
@@ -94,7 +121,11 @@ const IndividualLeadGuest = () => {
             title="Edit Guest Name"
             onClose={() => setNameEditModalOpen(false)}
           />
-          <p>Name edit form here</p>
+          <NameEditForm
+            firstNameIn={leadGuestData.data.firstName}
+            lastNameIn={leadGuestData.data.lastName}
+            callbackOnSave={handleNameSave}
+          />
         </Modal>
       )}
 
@@ -105,7 +136,11 @@ const IndividualLeadGuest = () => {
             title="Edit Contact Details"
             onClose={() => setContactDetailsEditModalOpen(false)}
           />
-          <p>Contact details edit form here</p>
+          <ContactDetailsEditForm
+            telIn={leadGuestData.data.tel}
+            emailIn={leadGuestData.data.email}
+            callbackOnSave={handleContactDetailsSave}
+          />
         </Modal>
       )}
 
@@ -116,7 +151,15 @@ const IndividualLeadGuest = () => {
             title="Edit Address"
             onClose={() => setAddressEditModalOpen(false)}
           />
-          <p>Address edit form here</p>
+          <AddressEditForm
+            address1In={leadGuestData.data.address1}
+            address2In={leadGuestData.data.address2}
+            townCityIn={leadGuestData.data.townCity}
+            countyIn={leadGuestData.data.county}
+            postcodeIn={leadGuestData.data.postcode}
+            countryIn={leadGuestData.data.country}
+            callbackOnSave={handleAddressDetailsSave}
+          />
         </Modal>
       )}
 
@@ -131,8 +174,7 @@ const IndividualLeadGuest = () => {
         </Modal>
       )}
 
-      {/* Page Header */
-      }
+      {/* Page Header */}
       <PageHeader
         title="Lead Guest"
         subTitle={`Guest ID: ${leadGuestData.data.id}`}
@@ -225,6 +267,52 @@ const IndividualLeadGuest = () => {
           <Typography variant="subtitle1" gutterBottom>
             Not visible to guest
           </Typography>
+          <TableContainer sx={{ mb: 3 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {notesTableColumnSpec.map((column) => (
+                    <TableCell>{column}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {!leadGuestData.data.notes && (
+                  <TableRow>
+                    <TableCell colSpan={notesTableColumnSpec.length}>
+                      Error retrieving notes. Not available on object. Refer to
+                      technical support.
+                    </TableCell>
+                  </TableRow>
+                )}
+                {leadGuestData.data.notes &&
+                  !leadGuestData.data.notes.filter(
+                    (note) => note.noteType === "PRIVATE"
+                  ).length && (
+                    <TableRow>
+                      <TableCell colSpan={notesTableColumnSpec.length}>
+                        This guest has no private notes
+                      </TableCell>
+                    </TableRow>
+                  )}
+                {leadGuestData.data.notes &&
+                  leadGuestData.data.notes
+                    .filter((note) => note.noteType === "PRIVATE")
+                    .map((note) => {
+                      return (
+                        <TableRow>
+                          <TableCell>{note.content}</TableCell>
+                          <TableCell>
+                            <IconButton>
+                              <EditIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
           <Typography variant="h6" component="h2" gutterBottom>
             Public Notes
@@ -232,6 +320,52 @@ const IndividualLeadGuest = () => {
           <Typography variant="subtitle1" gutterBottom>
             Visible to guest
           </Typography>
+          <TableContainer sx={{ mb: 3 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {notesTableColumnSpec.map((column) => (
+                    <TableCell>{column}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {!leadGuestData.data.notes && (
+                  <TableRow>
+                    <TableCell colSpan={notesTableColumnSpec.length}>
+                      Error retrieving notes. Not available on object. Refer to
+                      technical support.
+                    </TableCell>
+                  </TableRow>
+                )}
+                {leadGuestData.data.notes &&
+                  !leadGuestData.data.notes.filter(
+                    (note) => note.noteType === "PUBLIC"
+                  ).length && (
+                    <TableRow>
+                      <TableCell colSpan={notesTableColumnSpec.length}>
+                        This guest has no public notes
+                      </TableCell>
+                    </TableRow>
+                  )}
+                {leadGuestData.data.notes &&
+                  leadGuestData.data.notes
+                    .filter((note) => note.noteType === "PUBLIC")
+                    .map((note) => {
+                      return (
+                        <TableRow>
+                          <TableCell>{note.content}</TableCell>
+                          <TableCell>
+                            <IconButton>
+                              <EditIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </ContentBlock>
 
         <ContentBlock title="Bookings">

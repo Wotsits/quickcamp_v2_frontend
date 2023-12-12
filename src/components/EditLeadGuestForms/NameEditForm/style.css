@@ -1,0 +1,13 @@
+.name-edit-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.name-edit-form form .name-edit-form-fields {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
