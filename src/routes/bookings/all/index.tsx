@@ -140,6 +140,7 @@ const Bookings = () => {
                         ROUTES.ROOT + ROUTES.BOOKINGS + booking.id
                       )
                     }
+                    hover
                   >
                     <TableCell>{booking.id}</TableCell>
                     <TableCell>{booking.leadGuest.firstName + " " + booking.leadGuest.lastName}</TableCell>

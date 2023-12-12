@@ -117,57 +117,62 @@ const Guests = () => {
 
   return (
     <div id="guests" className="full-width">
+      {/* PAGE HEADER */}
 
-      { /* PAGE HEADER */ }
-      
       <PageHeader title="Guests">
         <IconButton onClick={() => console.log("Add guest")} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      
-      { /* TABLE */}
+
+      {/* TABLE */}
       <div className="container-white-bg-rounded-full-width">
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.headerText}>
-                  {column.headerText}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leadGuestData.data.length === 0 && (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={columns.length}>
-                  No guests to show
-                </TableCell>
+                {columns.map((column) => (
+                  <TableCell key={column.headerText}>
+                    {column.headerText}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-            {leadGuestData.data.length > 0 &&
-              leadGuestData.data.map((leadGuest) => (
-                <TableRow key={leadGuest.id} className="clickable" onClick={() => navigate(ROUTES.ROOT + ROUTES.GUESTS + leadGuest.id)}>
-                  {columns.map((column) => (
-                    <TableCell key={column.headerText}>
-                      {leadGuest[column.dataField] as string}
-                    </TableCell>
-                  ))}
+            </TableHead>
+            <TableBody>
+              {leadGuestData.data.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={columns.length}>
+                    No guests to show
+                  </TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePaginationControls
-        count={leadGuestData.count}
-        page={page}
-        rowsPerPage={pageSize}
-        onPageChange={(_, newPage) => setPage(newPage)}
-      />
+              )}
+              {leadGuestData.data.length > 0 &&
+                leadGuestData.data.map((leadGuest) => (
+                  <TableRow
+                    key={leadGuest.id}
+                    className="clickable"
+                    onClick={() =>
+                      navigate(ROUTES.ROOT + ROUTES.GUESTS + leadGuest.id)
+                    }
+                    hover
+                  >
+                    {columns.map((column) => (
+                      <TableCell key={column.headerText}>
+                        {leadGuest[column.dataField] as string}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePaginationControls
+          count={leadGuestData.count}
+          page={page}
+          rowsPerPage={pageSize}
+          onPageChange={(_, newPage) => setPage(newPage)}
+        />
       </div>
-      
     </div>
   );
 };

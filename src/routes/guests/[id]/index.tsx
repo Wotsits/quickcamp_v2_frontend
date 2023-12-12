@@ -253,6 +253,68 @@ const IndividualLeadGuest = () => {
           </Typography>
         </ContentBlock>
 
+        <ContentBlock title="Bookings">
+          <Typography variant="body1" gutterBottom>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Booking ID</TableCell>
+                    <TableCell>Arrival Date</TableCell>
+                    <TableCell>Departure Date</TableCell>
+                    <TableCell>Unit</TableCell>
+                    <TableCell>Unit Type</TableCell>
+                    <TableCell>Total Fee</TableCell>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {!leadGuestData.data.bookings && (
+                    <TableRow>
+                      <TableCell colSpan={7}>
+                        Error retrieving bookings. Not available on object.
+                        Refer to technical support.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {leadGuestData.data.bookings &&
+                    leadGuestData.data.bookings.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={7}>
+                          This guest has no bookings
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  {leadGuestData.data.bookings &&
+                    leadGuestData.data.bookings.map((booking) => {
+                      return (
+                        <TableRow
+                          className="clickable"
+                          onClick={() =>
+                            navigate(ROUTES.ROOT + ROUTES.BOOKINGS + booking.id)
+                          }
+                          hover
+                        >
+                          <TableCell>{booking.id}</TableCell>
+                          <TableCell>
+                            {generateStandardizedDateFormat(booking.start)}
+                          </TableCell>
+                          <TableCell>
+                            {generateStandardizedDateFormat(booking.end)}
+                          </TableCell>
+                          <TableCell>{booking.unit.name}</TableCell>
+                          <TableCell>{booking.unit.unitType!.name}</TableCell>
+                          <TableCell>£{booking.totalFee}</TableCell>
+                          <TableCell>{booking.status}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Typography>
+        </ContentBlock>
+
         <ContentBlock
           title="Notes"
           topRightComponent={
@@ -366,67 +428,6 @@ const IndividualLeadGuest = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </ContentBlock>
-
-        <ContentBlock title="Bookings">
-          <Typography variant="body1" gutterBottom>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Booking ID</TableCell>
-                    <TableCell>Arrival Date</TableCell>
-                    <TableCell>Departure Date</TableCell>
-                    <TableCell>Unit</TableCell>
-                    <TableCell>Unit Type</TableCell>
-                    <TableCell>Total Fee</TableCell>
-                    <TableCell>Status</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {!leadGuestData.data.bookings && (
-                    <TableRow>
-                      <TableCell colSpan={7}>
-                        Error retrieving bookings. Not available on object.
-                        Refer to technical support.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {leadGuestData.data.bookings &&
-                    leadGuestData.data.bookings.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={7}>
-                          This guest has no bookings
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  {leadGuestData.data.bookings &&
-                    leadGuestData.data.bookings.map((booking) => {
-                      return (
-                        <TableRow
-                          className="clickable"
-                          onClick={() =>
-                            navigate(ROUTES.ROOT + ROUTES.BOOKINGS + booking.id)
-                          }
-                        >
-                          <TableCell>{booking.id}</TableCell>
-                          <TableCell>
-                            {generateStandardizedDateFormat(booking.start)}
-                          </TableCell>
-                          <TableCell>
-                            {generateStandardizedDateFormat(booking.end)}
-                          </TableCell>
-                          <TableCell>{booking.unit.name}</TableCell>
-                          <TableCell>{booking.unit.unitType!.name}</TableCell>
-                          <TableCell>£{booking.totalFee}</TableCell>
-                          <TableCell>{booking.status}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Typography>
         </ContentBlock>
       </div>
     </div>
