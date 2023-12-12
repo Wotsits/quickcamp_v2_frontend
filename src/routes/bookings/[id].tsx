@@ -7,12 +7,14 @@ import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
 import OccupantCard from "../../components/OccupantCard";
-import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES } from "../../settings";
+import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES, ROUTES } from "../../settings";
 import PageHeader from "../../components/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentBlock from "../../components/ContentBlock";
 import Modal, { ModalHeader } from "../../components/Modal";
 import EditLeadGuestForm from "../../components/EditBookingForms/EditLeadGuestForm";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router-dom";
 
 const IndividualBooking = () => {
   // -------------
@@ -24,6 +26,8 @@ const IndividualBooking = () => {
   // -------------
   // HOOKS
   // -------------
+
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -152,9 +156,21 @@ const IndividualBooking = () => {
         <ContentBlock
           title="Booking Details"
           topRightComponent={
-            <IconButton>
+            <div>
+              <IconButton>
+                <VisibilityIcon
+                  onClick={() => {
+                    navigate(
+                      ROUTES.ROOT + ROUTES.GUESTS + bookingData.data.leadGuest.id
+                    );
+                  }}
+                />
+              </IconButton>
+              <IconButton>
               <EditIcon onClick={() => setLeadGuestEditModalOpen(true)} />
             </IconButton>
+            </div>
+            
           }
         >
           <Typography variant="body1" gutterBottom>
