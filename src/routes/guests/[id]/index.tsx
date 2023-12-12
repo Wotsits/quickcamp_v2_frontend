@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import PageHeader from "../../../components/PageHeader";
 import ContentBlock from "../../../components/ContentBlock";
 import {
-  Icon,
+  Button,
   IconButton,
   Table,
   TableBody,
@@ -20,7 +20,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { getLeadGuestById } from "../../../services/queries/getLeadGuestById";
 import { ROUTES } from "../../../settings";
 import { generateStandardizedDateFormat } from "../../../utils/dateTimeManipulation";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import ArticleIcon from "@mui/icons-material/Article";
+import Modal from "../../../components/Modal";
+import { ModalHeader } from "../../../components/Modal";
 
 const IndividualLeadGuest = () => {
   // -------------
@@ -42,6 +44,16 @@ const IndividualLeadGuest = () => {
   }
 
   const id = parseInt(params.id);
+
+  // -------------
+  // STATE
+  // -------------
+
+  const [nameEditModalOpen, setNameEditModalOpen] = useState(false);
+  const [contactDetailsEditModalOpen, setContactDetailsEditModalOpen] =
+    useState(false);
+  const [addressEditModalOpen, setAddressEditModalOpen] = useState(false);
+  const [notesEditModalOpen, setNotesEditModalOpen] = useState(false);
 
   // -------------
   // QUERIES
@@ -74,10 +86,67 @@ const IndividualLeadGuest = () => {
 
   return (
     <div id="lead-guest">
+
+      {/* Name Edit Modal */}
+      {nameEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Guest Name"
+            onClose={() => setNameEditModalOpen(false)}
+          />
+          <p>Name edit form here</p>
+        </Modal>
+      )}
+
+      {/* Contact Details Edit Modal */}
+      {contactDetailsEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Contact Details"
+            onClose={() => setContactDetailsEditModalOpen(false)}
+          />
+          <p>Contact details edit form here</p>
+        </Modal>
+      )}
+
+      {/* Address Edit Modal */}
+      {addressEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Address"
+            onClose={() => setAddressEditModalOpen(false)}
+          />
+          <p>Address edit form here</p>
+        </Modal>
+      )}
+
+      {/* Notes Edit Modal */}
+      {notesEditModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Edit Notes"
+            onClose={() => setNotesEditModalOpen(false)}
+          />
+          <p>Notes edit form here</p>
+        </Modal>
+      )}
+
+      {/* Page Header */
+      }
       <PageHeader
         title="Lead Guest"
         subTitle={`Guest ID: ${leadGuestData.data.id}`}
-      />
+      >
+        <Button
+          variant="contained"
+          onClick={() => {}}
+          startIcon={<ArticleIcon />}
+        >
+          View Log
+        </Button>
+      </PageHeader>
+
+      {/* Lead Guest Information */}
 
       <div id="lead-guest-information-container">
         {/* Lead Guest Details */}
@@ -86,7 +155,7 @@ const IndividualLeadGuest = () => {
           title="Name Details"
           topRightComponent={
             <IconButton>
-              <EditIcon onClick={() => {}} />
+              <EditIcon onClick={() => setNameEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -102,7 +171,7 @@ const IndividualLeadGuest = () => {
           title="Contact Details"
           topRightComponent={
             <IconButton>
-              <EditIcon onClick={() => {}} />
+              <EditIcon onClick={() => setContactDetailsEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -118,7 +187,7 @@ const IndividualLeadGuest = () => {
           title="Address"
           topRightComponent={
             <IconButton>
-              <EditIcon onClick={() => {}} />
+              <EditIcon onClick={() => setAddressEditModalOpen(true)} />
             </IconButton>
           }
         >
@@ -146,12 +215,22 @@ const IndividualLeadGuest = () => {
           title="Notes"
           topRightComponent={
             <IconButton>
-              <EditIcon onClick={() => {}} />
+              <EditIcon onClick={() => setNotesEditModalOpen(true)} />
             </IconButton>
           }
         >
-          <Typography variant="body1" gutterBottom>
-            Guest Notes here
+          <Typography variant="h6" component="h2" gutterBottom>
+            Private Notes
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Not visible to guest
+          </Typography>
+
+          <Typography variant="h6" component="h2" gutterBottom>
+            Public Notes
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Visible to guest
           </Typography>
         </ContentBlock>
 
@@ -171,6 +250,22 @@ const IndividualLeadGuest = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {!leadGuestData.data.bookings && (
+                    <TableRow>
+                      <TableCell colSpan={7}>
+                        Error retrieving bookings. Not available on object.
+                        Refer to technical support.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {leadGuestData.data.bookings &&
+                    leadGuestData.data.bookings.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={7}>
+                          This guest has no bookings
+                        </TableCell>
+                      </TableRow>
+                    )}
                   {leadGuestData.data.bookings &&
                     leadGuestData.data.bookings.map((booking) => {
                       return (
