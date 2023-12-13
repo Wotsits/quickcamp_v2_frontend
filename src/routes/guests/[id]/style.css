@@ -1,0 +1,5 @@
+#lead-guest .lead-guest-section-subsection-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

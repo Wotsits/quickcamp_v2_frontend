@@ -26,8 +26,12 @@ import { ModalHeader } from "../../../components/Modal";
 import NameEditForm from "../../../components/EditLeadGuestForms/NameEditForm";
 import ContactDetailsEditForm from "../../../components/EditLeadGuestForms/ContactDetailsEditForm";
 import AddressEditForm from "../../../components/EditLeadGuestForms/AddressEditForm";
+import AddCircleIconOutline from "@mui/icons-material/AddCircleOutline";
+import NotesEditForm from "../../../components/EditLeadGuestForms/NotesEditForm";
 
-const notesTableColumnSpec = ["Content", "Actions"];
+import "./style.css";
+
+const notesTableColumnSpec = ["Content", "Date", "User"];
 
 const IndividualLeadGuest = () => {
   // -------------
@@ -58,7 +62,8 @@ const IndividualLeadGuest = () => {
   const [contactDetailsEditModalOpen, setContactDetailsEditModalOpen] =
     useState(false);
   const [addressEditModalOpen, setAddressEditModalOpen] = useState(false);
-  const [notesEditModalOpen, setNotesEditModalOpen] = useState(false);
+  const [privateNoteAddModalOpen, setPrivateNoteAddModalOpen] = useState(false);
+  const [publicNoteAddModalOpen, setPublicNoteAddModalOpen] = useState(false);
 
   // -------------
   // QUERIES
@@ -163,14 +168,25 @@ const IndividualLeadGuest = () => {
         </Modal>
       )}
 
-      {/* Notes Edit Modal */}
-      {notesEditModalOpen && (
+      {/* Private Notes Add Modal */}
+      {privateNoteAddModalOpen && (
         <Modal open={true}>
           <ModalHeader
-            title="Edit Notes"
-            onClose={() => setNotesEditModalOpen(false)}
+            title="Add Private Note"
+            onClose={() => setPrivateNoteAddModalOpen(false)}
           />
-          <p>Notes edit form here</p>
+          <NotesEditForm noteTypeIn="PRIVATE" callbackOnSave={() => {}} />
+        </Modal>
+      )}
+
+      {/* Public Notes Add Modal */}
+      {publicNoteAddModalOpen && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Add Public Note"
+            onClose={() => setPublicNoteAddModalOpen(false)}
+          />
+          <NotesEditForm noteTypeIn="PUBLIC" callbackOnSave={() => {}} />
         </Modal>
       )}
 
@@ -315,20 +331,22 @@ const IndividualLeadGuest = () => {
           </Typography>
         </ContentBlock>
 
-        <ContentBlock
-          title="Notes"
-          topRightComponent={
-            <IconButton>
-              <EditIcon onClick={() => setNotesEditModalOpen(true)} />
-            </IconButton>
-          }
-        >
-          <Typography variant="h6" component="h2" gutterBottom>
-            Private Notes
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Not visible to guest
-          </Typography>
+        <ContentBlock title="Notes">
+          <div className="lead-guest-section-subsection-title">
+            <div className="lead-guest-section-subsection-title-left">
+              <Typography variant="h6" component="h2" gutterBottom>
+                Public Notes
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                These notes are visible to guest.
+              </Typography>
+            </div>
+            <div className="lead-guest-section-subsection-title-right">
+              <IconButton onClick={() => setPublicNoteAddModalOpen(true)}>
+                <AddCircleIconOutline />
+              </IconButton>
+            </div>
+          </div>
           <TableContainer sx={{ mb: 3 }}>
             <Table>
               <TableHead>
@@ -365,6 +383,10 @@ const IndividualLeadGuest = () => {
                         <TableRow>
                           <TableCell>{note.content}</TableCell>
                           <TableCell>
+                            {generateStandardizedDateFormat(note.createdOn)}
+                          </TableCell>
+                          <TableCell>{note.user.username}</TableCell>
+                          <TableCell>
                             <IconButton>
                               <EditIcon />
                             </IconButton>
@@ -376,12 +398,21 @@ const IndividualLeadGuest = () => {
             </Table>
           </TableContainer>
 
-          <Typography variant="h6" component="h2" gutterBottom>
-            Public Notes
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Visible to guest
-          </Typography>
+          <div className="lead-guest-section-subsection-title">
+            <div className="lead-guest-section-subsection-title-left">
+              <Typography variant="h6" component="h2" gutterBottom>
+                Private Notes
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                These notes are not visible to guest.
+              </Typography>
+            </div>
+            <div className="lead-guest-section-subsection-title-right">
+              <IconButton onClick={() => setPrivateNoteAddModalOpen(true)}>
+                <AddCircleIconOutline />
+              </IconButton>
+            </div>
+          </div>
           <TableContainer sx={{ mb: 3 }}>
             <Table>
               <TableHead>
