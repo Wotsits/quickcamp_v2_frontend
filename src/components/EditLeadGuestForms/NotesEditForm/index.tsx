@@ -1,4 +1,4 @@
-import { Button, TextField, TextareaAutosize } from "@mui/material";
+import { Alert, Button, TextField, TextareaAutosize } from "@mui/material";
 import React from "react";
 
 import "./style.css";
@@ -16,6 +16,12 @@ type NoteEditFormProps = {
     noteType: "PUBLIC" | "PRIVATE",
     id: number | undefined
   ) => void;
+  /** mandatory, loading indicator */
+  loading: boolean;
+  /** mandatory, error message */
+  errorMessage: string | null;
+  /** mandatory, success message */
+  successMessage: string | null;
 };
 
 const NoteEditForm = ({
@@ -23,6 +29,9 @@ const NoteEditForm = ({
   noteContentIn,
   noteIdIn,
   callbackOnSave,
+  loading,
+  errorMessage,
+  successMessage,
 }: NoteEditFormProps) => {
   // ------------
   // STATE
@@ -49,6 +58,11 @@ const NoteEditForm = ({
 
   return (
     <div className="note-edit-form">
+      <div className="note-edit-form-message-container">
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {successMessage && <Alert severity="success">{successMessage}</Alert>}
+      </div>
+
       <form>
         <div className="note-edit-form-fields">
           <TextField
@@ -60,8 +74,8 @@ const NoteEditForm = ({
             onChange={handleNoteChange}
           />
         </div>
-        <Button variant="contained" onClick={handleSave}>
-          Save
+        <Button disabled={loading} variant="contained" onClick={handleSave}>
+          {loading ? "Saving..." : "Save"}
         </Button>
       </form>
     </div>

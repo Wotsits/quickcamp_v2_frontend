@@ -31,7 +31,7 @@ import NotesEditForm from "../../../components/EditLeadGuestForms/NotesEditForm"
 
 import "./style.css";
 import { updateLeadGuest } from "../../../services/mutations/updateLeadGuest";
-import { set } from "date-fns";
+import { createNote } from "../../../services/mutations/createNote";
 
 const notesTableColumnSpec = ["Content", "Date", "User"];
 
@@ -109,6 +109,29 @@ const IndividualLeadGuest = () => {
     }
   });
 
+  const {
+    mutate: createNoteMutate,
+    isLoading: createNoteIsLoading,
+  } = useMutation({
+    mutationFn: createNote,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["lead-guest", leadGuestData?.data.id]);
+      setUpdateSuccessMessage("Note created successfully");
+
+      setTimeout(() => {
+        setUpdateSuccessMessage(null);
+      }, 3000);
+
+    },
+    onError: (error: Error) => {
+      setErrorMessage(error.message);
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  });
+
   // -------------
   // HANDLERS
   // -------------
@@ -153,10 +176,15 @@ const IndividualLeadGuest = () => {
 
   function handleNoteCreation(
     content: string,
-    noteType: string,
+    noteType: "PUBLIC" | "PRIVATE",
     id: number | undefined
   ) {
-    console.log(content, noteType, id);
+    createNoteMutate({
+      token: user.token,
+      content: content,
+      noteType: noteType,
+      leadGuestId: leadGuestData?.data.id,
+    });
   }
 
   // -------------
@@ -224,7 +252,10 @@ const IndividualLeadGuest = () => {
         <Modal open={true}>
           <ModalHeader
             title="Edit Address"
-            onClose={() => setAddressEditModalOpen(false)}
+            onClose={() => {
+              setAddressEditModalOpen(false)
+              setUpdateSuccessMessage(null)
+            }}
           />
           <AddressEditForm
             address1In={leadGuestData.data.address1}
@@ -246,11 +277,17 @@ const IndividualLeadGuest = () => {
         <Modal open={true}>
           <ModalHeader
             title="Add Private Note"
-            onClose={() => setPrivateNoteAddModalOpen(false)}
+            onClose={() => {
+              setPrivateNoteAddModalOpen(false)
+              setUpdateSuccessMessage(null)
+            }}
           />
           <NotesEditForm
             noteTypeIn="PRIVATE"
             callbackOnSave={handleNoteCreation}
+            loading={createNoteIsLoading}
+            errorMessage={errorMessage}
+            successMessage={updateSuccessMessage}
           />
         </Modal>
       )}
@@ -265,6 +302,9 @@ const IndividualLeadGuest = () => {
           <NotesEditForm
             noteTypeIn="PUBLIC"
             callbackOnSave={handleNoteCreation}
+            loading={createNoteIsLoading}
+            errorMessage={errorMessage}
+            successMessage={updateSuccessMessage}
           />
         </Modal>
       )}
@@ -446,7 +486,7 @@ const IndividualLeadGuest = () => {
                 )}
                 {leadGuestData.data.notes &&
                   !leadGuestData.data.notes.filter(
-                    (note) => note.noteType === "PRIVATE"
+                    (note) => note.noteType === "PUBLIC"
                   ).length && (
                     <TableRow>
                       <TableCell colSpan={notesTableColumnSpec.length}>
@@ -456,20 +496,15 @@ const IndividualLeadGuest = () => {
                   )}
                 {leadGuestData.data.notes &&
                   leadGuestData.data.notes
-                    .filter((note) => note.noteType === "PRIVATE")
+                    .filter((note) => note.noteType === "PUBLIC")
                     .map((note) => {
                       return (
                         <TableRow>
-                          <TableCell>{note.content}</TableCell>
+                          <TableCell sx={{whiteSpace: "pre-line"}}>{note.content}</TableCell>
                           <TableCell>
                             {generateStandardizedDateFormat(note.createdOn)}
                           </TableCell>
                           <TableCell>{note.user.username}</TableCell>
-                          <TableCell>
-                            <IconButton>
-                              <EditIcon />
-                            </IconButton>
-                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -512,7 +547,7 @@ const IndividualLeadGuest = () => {
                 )}
                 {leadGuestData.data.notes &&
                   !leadGuestData.data.notes.filter(
-                    (note) => note.noteType === "PUBLIC"
+                    (note) => note.noteType === "PRIVATE"
                   ).length && (
                     <TableRow>
                       <TableCell colSpan={notesTableColumnSpec.length}>
@@ -522,16 +557,15 @@ const IndividualLeadGuest = () => {
                   )}
                 {leadGuestData.data.notes &&
                   leadGuestData.data.notes
-                    .filter((note) => note.noteType === "PUBLIC")
+                    .filter((note) => note.noteType === "PRIVATE")
                     .map((note) => {
                       return (
                         <TableRow>
-                          <TableCell>{note.content}</TableCell>
+                          <TableCell sx={{whiteSpace: "pre-line"}}>{note.content}</TableCell>
                           <TableCell>
-                            <IconButton>
-                              <EditIcon />
-                            </IconButton>
+                            {generateStandardizedDateFormat(note.createdOn)}
                           </TableCell>
+                          <TableCell>{note.user.username}</TableCell>
                         </TableRow>
                       );
                     })}
