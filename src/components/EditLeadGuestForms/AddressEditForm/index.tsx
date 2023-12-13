@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import React from "react";
 
 import "./style.css";
@@ -25,6 +25,12 @@ type AddressEditFormProps = {
     postcode: string,
     country: string
   ) => void;
+  /** mandatory, loading indicator */
+  loading: boolean;
+  /** mandatory, error message */
+  errorMessage: string | null;
+  /** mandatory, success message */
+  successMessage: string | null;
 };
 
 const AddressEditForm = ({
@@ -35,6 +41,9 @@ const AddressEditForm = ({
   postcodeIn,
   countryIn,
   callbackOnSave,
+  loading,
+  errorMessage,
+  successMessage,
 }: AddressEditFormProps) => {
   // ------------
   // STATE
@@ -85,6 +94,11 @@ const AddressEditForm = ({
 
   return (
     <div className="address-edit-form">
+      <div className="address-edit-form-message-container">
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {successMessage && <Alert severity="success">{successMessage}</Alert>}
+      </div>
+
       <form>
         <div className="address-edit-form-fields">
           <TextField
@@ -135,8 +149,8 @@ const AddressEditForm = ({
             fullWidth
           />
         </div>
-        <Button variant="contained" onClick={handleSave}>
-          Save
+        <Button disabled={loading} variant="contained" onClick={handleSave}>
+          {loading ? "Saving..." : "Save"}
         </Button>
       </form>
     </div>

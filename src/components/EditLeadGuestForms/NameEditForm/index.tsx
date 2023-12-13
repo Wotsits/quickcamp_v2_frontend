@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import React from "react";
 
 import "./style.css";
@@ -10,12 +10,21 @@ type NameEditFormProps = {
   lastNameIn: string;
   /** mandatory, callback function to be invoked when save button is clicked */
   callbackOnSave: (firstName: string, surname: string) => void;
+  /** mandatory, loading indicator */
+  loading: boolean;
+  /** mandatory, error message */
+  errorMessage: string | null;
+  /** mandatory, success message */
+  successMessage: string | null;
 };
 
 const NameEditForm = ({
   firstNameIn,
   lastNameIn,
   callbackOnSave,
+  loading,
+  errorMessage,
+  successMessage,
 }: NameEditFormProps) => {
   // ------------
   // STATE
@@ -48,6 +57,11 @@ const NameEditForm = ({
 
   return (
     <div className="name-edit-form">
+      <div className="name-edit-form-message-container">
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {successMessage && <Alert severity="success">{successMessage}</Alert>}
+      </div>
+      
       <form>
         <div className="name-edit-form-fields">
           <TextField
@@ -67,8 +81,8 @@ const NameEditForm = ({
             fullWidth
           />
         </div>
-        <Button variant="contained" onClick={handleSave}>
-          Save
+        <Button disabled={loading} variant="contained" onClick={handleSave}>
+          {!loading ? "Save" : "Saving..."}
         </Button>
       </form>
     </div>

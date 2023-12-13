@@ -14,3 +14,7 @@
     width: 70vw;
     max-width: 900px;
 }
+
+.name-edit-form .name-edit-form-message-container {
+    margin-bottom: 1rem;
+}

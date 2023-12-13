@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import React from "react";
 
 import "./style.css";
@@ -10,12 +10,21 @@ type ContactDetailsEditFormProps = {
   emailIn: string;
   /** mandatory, callback function to be invoked when save button is clicked */
   callbackOnSave: (tel: string, email: string) => void;
+  /** mandatory, loading indicator */
+  loading: boolean;
+  /** mandatory, error message */
+  errorMessage: string | null;
+  /** mandatory, success message */
+  successMessage: string | null;
 };
 
 const ContactDetailsEditForm = ({
   telIn,
   emailIn,
   callbackOnSave,
+  loading,
+  errorMessage,
+  successMessage,
 }: ContactDetailsEditFormProps) => {
   // ------------
   // STATE
@@ -28,9 +37,7 @@ const ContactDetailsEditForm = ({
   // HANDLERS
   // ------------
 
-  const handleTelChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleTelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTel(event.target.value);
   };
 
@@ -48,6 +55,10 @@ const ContactDetailsEditForm = ({
 
   return (
     <div className="contact-details-edit-form">
+      <div className="contact-details-edit-form-message-container">
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {successMessage && <Alert severity="success">{successMessage}</Alert>}
+      </div>
       <form>
         <div className="contact-details-edit-form-fields">
           <TextField
@@ -67,8 +78,8 @@ const ContactDetailsEditForm = ({
             fullWidth
           />
         </div>
-        <Button variant="contained" onClick={handleSave}>
-          Save
+        <Button disabled={loading} variant="contained" onClick={handleSave}>
+          {loading ? "Saving..." : "Save"}
         </Button>
       </form>
     </div>

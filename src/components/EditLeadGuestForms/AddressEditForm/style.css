@@ -15,3 +15,7 @@
     width: 70vw;
     max-width: 900px;
 }
+
+.address-edit-form .address-edit-form-message-container {
+    margin-bottom: 1rem;
+}

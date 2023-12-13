@@ -15,3 +15,7 @@
     width: 70vw;
     max-width: 900px;
 }
+
+.contact-details-edit-form .contact-details-edit-form-message-container {
+    margin-bottom: 1rem;
+}

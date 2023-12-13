@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import PageHeader from "../../../components/PageHeader";
 import ContentBlock from "../../../components/ContentBlock";
 import {
@@ -30,6 +30,8 @@ import AddCircleIconOutline from "@mui/icons-material/AddCircleOutline";
 import NotesEditForm from "../../../components/EditLeadGuestForms/NotesEditForm";
 
 import "./style.css";
+import { updateLeadGuest } from "../../../services/mutations/updateLeadGuest";
+import { set } from "date-fns";
 
 const notesTableColumnSpec = ["Content", "Date", "User"];
 
@@ -45,6 +47,8 @@ const IndividualLeadGuest = () => {
   // -------------
 
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
 
   const params = useParams();
 
@@ -65,6 +69,10 @@ const IndividualLeadGuest = () => {
   const [privateNoteAddModalOpen, setPrivateNoteAddModalOpen] = useState(false);
   const [publicNoteAddModalOpen, setPublicNoteAddModalOpen] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const [updateSuccessMessage, setUpdateSuccessMessage] = useState<string | null>(null);
+
   // -------------
   // QUERIES
   // -------------
@@ -78,16 +86,49 @@ const IndividualLeadGuest = () => {
     getLeadGuestById({ token: user.token, id: id })
   );
 
+  const {
+    mutate: updateLeadGuestMutate,
+    isLoading: updateLeadGuestIsLoading,
+  } = useMutation({
+    mutationFn: updateLeadGuest,
+    onSuccess: () => {
+      queryClient.invalidateQueries("lead-guest");
+      queryClient.invalidateQueries("booking");
+      setUpdateSuccessMessage("Lead Guest updated successfully");
+
+      setTimeout(() => {
+        setUpdateSuccessMessage(null);
+      }, 3000);
+    },
+    onError: (error: Error) => {
+      setErrorMessage(error.message);
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  });
+
   // -------------
   // HANDLERS
   // -------------
 
   function handleNameSave(firstName: string, lastName: string) {
-    console.log(firstName, lastName);
+    updateLeadGuestMutate({
+      token: user.token,
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+    });
   }
 
   function handleContactDetailsSave(tel: string, email: string) {
-    console.log(tel, email);
+    updateLeadGuestMutate({
+      token: user.token,
+      id: id,
+      tel: tel,
+      email: email,
+    });
   }
 
   function handleAddressDetailsSave(
@@ -98,7 +139,24 @@ const IndividualLeadGuest = () => {
     postcode: string,
     country: string
   ) {
-    console.log(address1, address2, townCity, county, postcode, country);
+    updateLeadGuestMutate({
+      token: user.token,
+      id: id,
+      address1: address1,
+      address2: address2,
+      townCity: townCity,
+      county: county,
+      postcode: postcode,
+      country: country,
+    });
+  }
+
+  function handleNoteCreation(
+    content: string,
+    noteType: string,
+    id: number | undefined
+  ) {
+    console.log(content, noteType, id);
   }
 
   // -------------
@@ -124,12 +182,18 @@ const IndividualLeadGuest = () => {
         <Modal open={true}>
           <ModalHeader
             title="Edit Guest Name"
-            onClose={() => setNameEditModalOpen(false)}
+            onClose={() => {
+              setNameEditModalOpen(false)
+              setUpdateSuccessMessage(null)
+            }}
           />
           <NameEditForm
             firstNameIn={leadGuestData.data.firstName}
             lastNameIn={leadGuestData.data.lastName}
             callbackOnSave={handleNameSave}
+            loading={updateLeadGuestIsLoading}
+            errorMessage={errorMessage}
+            successMessage={updateSuccessMessage}
           />
         </Modal>
       )}
@@ -139,12 +203,18 @@ const IndividualLeadGuest = () => {
         <Modal open={true}>
           <ModalHeader
             title="Edit Contact Details"
-            onClose={() => setContactDetailsEditModalOpen(false)}
+            onClose={() => {
+              setContactDetailsEditModalOpen(false)
+              setUpdateSuccessMessage(null)
+            }}
           />
           <ContactDetailsEditForm
             telIn={leadGuestData.data.tel}
             emailIn={leadGuestData.data.email}
             callbackOnSave={handleContactDetailsSave}
+            loading={updateLeadGuestIsLoading}
+            errorMessage={errorMessage}
+            successMessage={updateSuccessMessage}
           />
         </Modal>
       )}
@@ -164,6 +234,9 @@ const IndividualLeadGuest = () => {
             postcodeIn={leadGuestData.data.postcode}
             countryIn={leadGuestData.data.country}
             callbackOnSave={handleAddressDetailsSave}
+            loading={updateLeadGuestIsLoading}
+            errorMessage={errorMessage}
+            successMessage={updateSuccessMessage}
           />
         </Modal>
       )}
@@ -175,7 +248,10 @@ const IndividualLeadGuest = () => {
             title="Add Private Note"
             onClose={() => setPrivateNoteAddModalOpen(false)}
           />
-          <NotesEditForm noteTypeIn="PRIVATE" callbackOnSave={() => {}} />
+          <NotesEditForm
+            noteTypeIn="PRIVATE"
+            callbackOnSave={handleNoteCreation}
+          />
         </Modal>
       )}
 
@@ -186,7 +262,10 @@ const IndividualLeadGuest = () => {
             title="Add Public Note"
             onClose={() => setPublicNoteAddModalOpen(false)}
           />
-          <NotesEditForm noteTypeIn="PUBLIC" callbackOnSave={() => {}} />
+          <NotesEditForm
+            noteTypeIn="PUBLIC"
+            callbackOnSave={handleNoteCreation}
+          />
         </Modal>
       )}
 
