@@ -8,6 +8,18 @@ export type Tenant = {
 export type Site = {
   id: number;
   name: string;
+  description: string;
+  address1: string;
+  address2: string;
+  townCity: string;
+  county: string;
+  postcode: string;
+  country: string;
+  email: string;
+  tel: string;
+  website: string;
+  latitude: number;
+  longitude: number;
   tenantId: number;
   tenant?: Tenant;
   unitTypes?: UnitType[];

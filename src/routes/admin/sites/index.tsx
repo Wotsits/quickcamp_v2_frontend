@@ -69,6 +69,18 @@ const SitesAdmin = () => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Site Name</TableCell>
+              <TableCell sx={{minWidth: 600}}>Description</TableCell>
+              <TableCell>Address Line 1</TableCell>
+              <TableCell>Address Line 2</TableCell>
+              <TableCell>Town/City</TableCell>
+              <TableCell>County</TableCell>
+              <TableCell>Postcode</TableCell>
+              <TableCell>Country</TableCell>
+              <TableCell>Latitude</TableCell>
+              <TableCell>Longitude</TableCell>
+              <TableCell>Website</TableCell>
+              <TableCell>Tel</TableCell>
+              <TableCell>Email</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -76,6 +88,18 @@ const SitesAdmin = () => {
               <TableRow key={site.id}>
                 <TableCell>{site.id}</TableCell>
                 <TableCell>{site.name}</TableCell>
+                <TableCell>{site.description}</TableCell>
+                <TableCell>{site.address1}</TableCell>
+                <TableCell>{site.address2}</TableCell>
+                <TableCell>{site.townCity}</TableCell>
+                <TableCell>{site.county}</TableCell>
+                <TableCell>{site.postcode}</TableCell>
+                <TableCell>{site.country}</TableCell>
+                <TableCell>{site.latitude}</TableCell>
+                <TableCell>{site.longitude}</TableCell>
+                <TableCell>{site.website}</TableCell>
+                <TableCell>{site.tel}</TableCell>
+                <TableCell>{site.email}</TableCell>
               </TableRow>
             ))}
           </TableBody>
