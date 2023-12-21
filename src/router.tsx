@@ -28,6 +28,7 @@ import Departures from "./routes/departures/all";
 import IndividualDeparture from "./routes/departures/[id]";
 import IndividualGuest from "./routes/guests/[id]";
 import NewSiteForm from "./routes/admin/sites/new";
+import IndividualSite from "./routes/admin/sites/[id]";
 
 export const router = createBrowserRouter([
   {
@@ -119,7 +120,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.ID,
-                element: <div>Site Id Page</div>,
+                element: <IndividualSite />,
               }
             ],
           },
