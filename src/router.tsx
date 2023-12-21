@@ -27,6 +27,7 @@ import SiteForm from "./routes/admin/sites/new";
 import Departures from "./routes/departures/all";
 import IndividualDeparture from "./routes/departures/[id]";
 import IndividualGuest from "./routes/guests/[id]";
+import NewSiteForm from "./routes/admin/sites/new";
 
 export const router = createBrowserRouter([
   {
@@ -110,12 +111,16 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: ROUTES.NEW,
-                element: <SiteForm />,
+                element: <NewSiteForm />,
               },
               {
                 path: ROUTES.ALL,
                 element: <SitesAdmin />,
               },
+              {
+                path: ROUTES.ID,
+                element: <div>Site Id Page</div>,
+              }
             ],
           },
           {

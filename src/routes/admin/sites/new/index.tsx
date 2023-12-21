@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "react-query";
 import AuthContext from "../../../../contexts/authContext";
 import { createSite } from "../../../../services/mutations/createSite";
 
-const SiteForm = () => {
+const NewSiteForm = () => {
   // -------------
   // CONTEXTS
   // -------------
@@ -332,4 +332,4 @@ const SiteForm = () => {
   );
 };
 
-export default SiteForm;
+export default NewSiteForm;
