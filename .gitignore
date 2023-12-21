@@ -38,3 +38,4 @@ packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 
 .env
+src/Experimental.tsx
