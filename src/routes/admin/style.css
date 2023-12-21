@@ -12,6 +12,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
+  padding: 0.2rem;
 }
 
 #admin .admin-content-container .admin-content-item {
@@ -19,13 +20,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
+  flex-basis: 0;
+  flex: 1 1 0px;
   height: 200px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
   padding: 1rem;
+}
+
+#admin .admin-content-container .admin-content-item p {
+  text-align: center;
 }
 
 #admin .admin-content-container a {
