@@ -119,26 +119,6 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: ROUTES.UNIT_TYPES,
-            element: <UnitTypesAdmin />,
-          },
-          {
-            path: ROUTES.UNITS,
-            element: <UnitsAdmin />,
-          },
-          {
-            path: ROUTES.GUEST_TYPES,
-            element: <GuestTypesAdmin />,
-          },
-          {
-            path: ROUTES.EQUIPMENT_TYPES,
-            element: <EquipmentTypesAdmin />,
-          },
-          {
-            path: ROUTES.EXTRA_TYPES,
-            element: <ExtraTypesAdmin />,
-          },
-          {
             path: ROUTES.USERS,
             element: <UsersAdmin />,
           },

@@ -16,7 +16,7 @@ import {
 import PageHeader from "../../../components/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ROUTES } from '../../../settings';
-import { useNavigate } from "react-router-dom";
+import { Routes, useNavigate } from "react-router-dom";
 
 const SitesAdmin = () => {
   // -------------
@@ -85,7 +85,7 @@ const SitesAdmin = () => {
           </TableHead>
           <TableBody>
             {sitesData?.data.map((site) => (
-              <TableRow key={site.id}>
+              <TableRow key={site.id} className="clickable" hover onClick={() => navigate(ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES + site.id)}>
                 <TableCell>{site.id}</TableCell>
                 <TableCell>{site.name}</TableCell>
                 <TableCell>{site.description}</TableCell>
