@@ -17,6 +17,9 @@ import {
 import { ROUTES } from "../../../../settings";
 import ContentBlock from "../../../../components/ContentBlock";
 import LabelAndValuePair from "../../../../components/LabelAndValuePair";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+
+import "./style.css";
 
 const IndividualSite = () => {
   // -------------
@@ -81,14 +84,34 @@ const IndividualSite = () => {
       </ContentBlock>
 
       <ContentBlock title="Address">
-        <LabelAndValuePair label="Address Line 1" value={siteData!.data.address1} />
-        <LabelAndValuePair label="Address Line 2" value={siteData!.data.address2} />
+        <LabelAndValuePair
+          label="Address Line 1"
+          value={siteData!.data.address1}
+        />
+        <LabelAndValuePair
+          label="Address Line 2"
+          value={siteData!.data.address2}
+        />
         <LabelAndValuePair label="Town/City" value={siteData!.data.townCity} />
         <LabelAndValuePair label="County" value={siteData!.data.county} />
         <LabelAndValuePair label="Postcode" value={siteData!.data.postcode} />
         <LabelAndValuePair label="Country" value={siteData!.data.country} />
-        <LabelAndValuePair label="Latitude" value={siteData!.data.latitude} />
-        <LabelAndValuePair label="Longitude" value={siteData!.data.longitude} />
+        <div className="map-container">
+          <MapContainer
+            center={[siteData!.data.latitude, siteData!.data.longitude]}
+            zoom={13}
+            scrollWheelZoom={false}
+            style={{height: "100%", width: "100%"}}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker
+              position={[siteData!.data.latitude, siteData!.data.longitude]}
+            />
+          </MapContainer>
+        </div>
       </ContentBlock>
 
       <ContentBlock title="Contact Details">
@@ -108,6 +131,25 @@ const IndividualSite = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {!siteData?.data.unitTypes && (
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Typography variant="body1" gutterBottom>
+                      Error loading unit types for this site.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
+              {siteData?.data.unitTypes &&
+                siteData.data.unitTypes.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Typography variant="body1" gutterBottom>
+                        No unit types found for this site.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
               {siteData?.data.unitTypes &&
                 siteData.data.unitTypes.map((unitType) => (
                   <TableRow
@@ -146,6 +188,25 @@ const IndividualSite = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {!siteData?.data.guestTypes && (
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Typography variant="body1" gutterBottom>
+                      Error loading guest types for this site.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
+              {siteData?.data.guestTypes &&
+                siteData.data.guestTypes.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Typography variant="body1" gutterBottom>
+                        No guest types found for this site.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
               {siteData?.data.guestTypes &&
                 siteData.data.guestTypes.map((guestType) => (
                   <TableRow
@@ -184,7 +245,27 @@ const IndividualSite = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {!siteData?.data.equipmentTypes && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Typography variant="body1" gutterBottom>
+                      Error loading equipment types for this site.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
               {siteData?.data.equipmentTypes &&
+                siteData.data.equipmentTypes.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Typography variant="body1" gutterBottom>
+                        No equipment types found for this site.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+              {siteData?.data.equipmentTypes &&
+                siteData.data.equipmentTypes.length > 0 &&
                 siteData.data.equipmentTypes.map((equipmentType) => (
                   <TableRow
                     key={equipmentType.id}
