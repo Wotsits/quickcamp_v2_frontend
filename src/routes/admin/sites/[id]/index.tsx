@@ -130,6 +130,82 @@ const IndividualSite = () => {
           </Table>
         </TableContainer>
       </ContentBlock>
+
+      <ContentBlock title="Guest Types">
+        <TableContainer>
+          <Table sx={{ minWidth: 300, width: "100%" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Description</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {siteData?.data.guestTypes &&
+                siteData.data.guestTypes.map((guestType) => (
+                  <TableRow
+                    key={guestType.id}
+                    className="clickable"
+                    hover
+                    onClick={() =>
+                      navigate(
+                        ROUTES.ROOT +
+                          ROUTES.ADMIN +
+                          ROUTES.SITES +
+                          ROUTES.GUEST_TYPES +
+                          guestType.id
+                      )
+                    }
+                  >
+                    <TableCell>{guestType.id}</TableCell>
+                    <TableCell>{guestType.name}</TableCell>
+                    <TableCell>{guestType.description}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </ContentBlock>
+
+      <ContentBlock title="Equipment Types">
+        <TableContainer>
+          <Table sx={{ minWidth: 300, width: "100%" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Icon</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {siteData?.data.equipmentTypes &&
+                siteData.data.equipmentTypes.map((equipmentType) => (
+                  <TableRow
+                    key={equipmentType.id}
+                    className="clickable"
+                    hover
+                    onClick={() =>
+                      navigate(
+                        ROUTES.ROOT +
+                          ROUTES.ADMIN +
+                          ROUTES.SITES +
+                          ROUTES.EQUIPMENT_TYPES +
+                          equipmentType.id
+                      )
+                    }
+                  >
+                    <TableCell>{equipmentType.id}</TableCell>
+                    <TableCell>{equipmentType.name}</TableCell>
+                    <TableCell>{equipmentType.description}</TableCell>
+                    <TableCell>{equipmentType.icon}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </ContentBlock>
     </div>
   );
 };
