@@ -1,0 +1,21 @@
+.label-and-value-pair {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label-and-value-pair .label {
+    font-weight: bold;
+    width: 150px;
+}
+
+.label-and-value-pair .value {
+    flex-basis: 0;
+    flex: 1 1 0px;
+    text-align: left;
+}

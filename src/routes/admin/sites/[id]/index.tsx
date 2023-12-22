@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { ROUTES } from "../../../../settings";
 import ContentBlock from "../../../../components/ContentBlock";
+import LabelAndValuePair from "../../../../components/LabelAndValuePair";
 
 const IndividualSite = () => {
   // -------------
@@ -71,26 +72,29 @@ const IndividualSite = () => {
       <PageHeader title="Site" subTitle={siteData!.data.name} />
 
       <ContentBlock title="Site Details">
-        <p>ID: {siteData!.data.id}</p>
-        <p>Name: {siteData!.data.name}</p>
-        <p>Description: {siteData!.data.description}</p>
+        <LabelAndValuePair label="ID" value={siteData!.data.id} />
+        <LabelAndValuePair label="Name" value={siteData!.data.name} />
+        <LabelAndValuePair
+          label="Description"
+          value={siteData!.data.description}
+        />
       </ContentBlock>
 
       <ContentBlock title="Address">
-        <p>Address 1: {siteData!.data.address1}</p>
-        <p>Address 2: {siteData!.data.address2}</p>
-        <p>Town/City: {siteData!.data.townCity}</p>
-        <p>County: {siteData!.data.county}</p>
-        <p>Postcode: {siteData!.data.postcode}</p>
-        <p>Country: {siteData!.data.country}</p>
-        <p>Latitude: {siteData!.data.latitude}</p>
-        <p>Longitude: {siteData!.data.longitude}</p>
+        <LabelAndValuePair label="Address Line 1" value={siteData!.data.address1} />
+        <LabelAndValuePair label="Address Line 2" value={siteData!.data.address2} />
+        <LabelAndValuePair label="Town/City" value={siteData!.data.townCity} />
+        <LabelAndValuePair label="County" value={siteData!.data.county} />
+        <LabelAndValuePair label="Postcode" value={siteData!.data.postcode} />
+        <LabelAndValuePair label="Country" value={siteData!.data.country} />
+        <LabelAndValuePair label="Latitude" value={siteData!.data.latitude} />
+        <LabelAndValuePair label="Longitude" value={siteData!.data.longitude} />
       </ContentBlock>
 
       <ContentBlock title="Contact Details">
-        <p>Website: {siteData!.data.website}</p>
-        <p>Tel: {siteData!.data.tel}</p>
-        <p>Email: {siteData!.data.email}</p>
+        <LabelAndValuePair label="Website" value={siteData!.data.website} />
+        <LabelAndValuePair label="Tel" value={siteData!.data.tel} />
+        <LabelAndValuePair label="Email" value={siteData!.data.email} />
       </ContentBlock>
 
       <ContentBlock title="Unit Types">

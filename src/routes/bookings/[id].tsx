@@ -15,6 +15,8 @@ import Modal, { ModalHeader } from "../../components/Modal";
 import EditLeadGuestForm from "../../components/EditBookingForms/EditLeadGuestForm";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
+import LabelAndValuePair from "../../components/LabelAndValuePair";
+import { Label } from "@mui/icons-material";
 
 const IndividualBooking = () => {
   // -------------
@@ -173,13 +175,9 @@ const IndividualBooking = () => {
             
           }
         >
-          <Typography variant="body1" gutterBottom>
-            Lead Guest Name: {bookingData.data.leadGuest.firstName}{" "}
-            {bookingData?.data.leadGuest.lastName}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Lead Guest Email: {bookingData.data.leadGuest.email}
-          </Typography>
+          <LabelAndValuePair label="Name" value={bookingData.data.leadGuest.firstName + " " + bookingData.data.leadGuest.lastName} />
+          <LabelAndValuePair label="Email" value={bookingData.data.leadGuest.email} />
+          <LabelAndValuePair label="Tel" value={bookingData.data.leadGuest.tel} />
         </ContentBlock>
 
         {/* Booking Details */}
@@ -192,13 +190,9 @@ const IndividualBooking = () => {
             </IconButton>
           }
         >
-          <Typography variant="body1" gutterBottom>
-            Unit: {bookingData.data.unit!.name}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Dates: {new Date(bookingData.data.start).toUTCString()} -{" "}
-            {new Date(bookingData.data.end).toUTCString()}
-          </Typography>
+          <LabelAndValuePair label="Unit" value={bookingData.data.unit.name} />
+          <LabelAndValuePair label="Dates" value={new Date(bookingData.data.start).toUTCString() + " - " + 
+            new Date(bookingData.data.end).toUTCString()} />
         </ContentBlock>
 
         {/* Occupant Details */}
@@ -296,30 +290,15 @@ const IndividualBooking = () => {
           }
         >
           <div>
-          <Typography variant="subtitle1" component="span" gutterBottom>
-            Total Fee: 
-          </Typography>
-          <Typography variant="body1" component="span" gutterBottom>
-            £{bookingData.data.totalFee}
-          </Typography>
+          <LabelAndValuePair label="Total Fee" value={"£" + bookingData.data.totalFee} />
           </div>
 
           <div>
-          <Typography variant="subtitle1" component="span" gutterBottom>
-            Total Paid: 
-          </Typography>
-          <Typography variant="body1" component="span" gutterBottom>
-            £{calculateTotalPaid(bookingData.data)}
-          </Typography>
+            <LabelAndValuePair label="Total Paid" value={"£" + calculateTotalPaid(bookingData.data)} />
           </div>
 
           <div>
-          <Typography variant="subtitle1" component="span" gutterBottom>
-            Balance: 
-          </Typography>
-          <Typography variant="body1" component="span" gutterBottom>
-            £{calculateBalance(bookingData.data)}
-          </Typography>
+            <LabelAndValuePair label="Balance" value={"£" + calculateBalance(bookingData.data)} />
           </div>
 
           {/* Payments */}
