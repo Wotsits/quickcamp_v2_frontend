@@ -17,18 +17,13 @@ import NewBooking from "./routes/bookings/new";
 import IndividualArrival from "./routes/arrivals/[id]";
 import Experimental from "./Experimental";
 import SitesAdmin from "./routes/admin/sites";
-import UnitTypesAdmin from "./routes/admin/unitTypes";
-import UnitsAdmin from "./routes/admin/units";
-import GuestTypesAdmin from "./routes/admin/guestTypes";
-import EquipmentTypesAdmin from "./routes/admin/equipmentTypes";
-import ExtraTypesAdmin from "./routes/admin/extraTypes";
 import UsersAdmin from "./routes/admin/users";
-import SiteForm from "./routes/admin/sites/new";
 import Departures from "./routes/departures/all";
 import IndividualDeparture from "./routes/departures/[id]";
 import IndividualGuest from "./routes/guests/[id]";
 import NewSiteForm from "./routes/admin/sites/new";
 import IndividualSite from "./routes/admin/sites/[id]";
+import RatesEditor from "./routes/admin/sites/[id]/rates";
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +43,7 @@ export const router = createBrowserRouter([
         path: ROUTES.ARRIVALS,
         children: [
           {
-            path: ROUTES.ALL,
+            index: true,
             element: <Arrivals />,
           },
           {
@@ -61,7 +56,7 @@ export const router = createBrowserRouter([
         path: ROUTES.DEPARTURES,
         children: [
           {
-            path: ROUTES.ALL,
+            index: true,
             element: <Departures />,
           },
           {
@@ -74,7 +69,7 @@ export const router = createBrowserRouter([
         path: ROUTES.GUESTS,
         children: [
           {
-            path: ROUTES.ALL,
+            index: true,
             element: <Guests />,
           },
           {
@@ -87,16 +82,16 @@ export const router = createBrowserRouter([
         path: ROUTES.BOOKINGS,
         children: [
           {
+            index: true,
+            element: <Bookings />,
+          },
+          {
             path: ROUTES.CALENDAR,
             element: <BookingCalendar />,
           },
           {
             path: ROUTES.NEW,
             element: <NewBooking />,
-          },
-          {
-            path: ROUTES.ALL,
-            element: <Bookings />,
           },
           {
             path: ROUTES.ID,
@@ -107,30 +102,48 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.ADMIN,
         children: [
+          { 
+            index: true,
+            element: <Admin />,
+          },
           {
             path: ROUTES.SITES,
             children: [
+              {
+                index: true,
+                element: <SitesAdmin />,
+              },
               {
                 path: ROUTES.NEW,
                 element: <NewSiteForm />,
               },
               {
-                path: ROUTES.ALL,
-                element: <SitesAdmin />,
-              },
-              {
                 path: ROUTES.ID,
-                element: <IndividualSite />,
+                children: [
+                  { 
+                    index: true,
+                    element: <IndividualSite />
+                  },
+                  {
+                    path: ROUTES.RATES,
+                    element: <RatesEditor />
+                  }
+                ]
               }
             ],
           },
           {
             path: ROUTES.USERS,
-            element: <UsersAdmin />,
-          },
-          {
-            path: ROUTES.MENU,
-            element: <Admin />,
+            children: [
+              {
+                index: true,
+                element: <UsersAdmin />,
+              },
+              {
+                path: ROUTES.ID,
+                element: <div>User</div>
+              }
+            ]
           },
         ],
       },

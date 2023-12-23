@@ -21,22 +21,22 @@ export const primaryNavOptions = [
     },
     {
       text: "Arrivals",
-      path: ROUTES.ARRIVALS + ROUTES.ALL,
+      path: ROUTES.ARRIVALS,
       icon: <FlightLandIcon />,
     },
     {
       text: "Departures",
-      path: ROUTES.DEPARTURES + ROUTES.ALL,
+      path: ROUTES.DEPARTURES,
       icon: <FlightTakeOffIcon />,
     },
     {
       text: "Booking List",
-      path: ROUTES.BOOKINGS + ROUTES.ALL,
+      path: ROUTES.BOOKINGS,
       icon: <ListIcon />,
     },
     {
       text: "Guest List",
-      path: ROUTES.GUESTS + ROUTES.ALL,
+      path: ROUTES.GUESTS,
       icon: <PeopleIcon />,
     },
   ];
@@ -44,7 +44,7 @@ export const primaryNavOptions = [
   export const secondaryNavOptions = [
     {
       text: "Admin",
-      path: ROUTES.ADMIN + ROUTES.MENU,
+      path: ROUTES.ADMIN,
       icon: <SettingsIcon />,
     },
   ];

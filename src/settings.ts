@@ -47,6 +47,7 @@ export const ROUTES = {
   EQUIPMENT_TYPES: "equipment-types/",
   EXTRA_TYPES: "extra-types/",
   USERS: "users/",
+  RATES: "rates/",
 };
 
 export const API_ENDPOINTS = {

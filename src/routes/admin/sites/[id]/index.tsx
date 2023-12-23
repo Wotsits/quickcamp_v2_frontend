@@ -6,6 +6,8 @@ import { Site } from "../../../../types";
 import { getSite } from "../../../../services/queries/getSite";
 import AuthContext from "../../../../contexts/authContext";
 import {
+  Button,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +20,7 @@ import { ROUTES } from "../../../../settings";
 import ContentBlock from "../../../../components/ContentBlock";
 import LabelAndValuePair from "../../../../components/LabelAndValuePair";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import TollIcon from "@mui/icons-material/Toll";
 
 import "./style.css";
 
@@ -72,7 +75,11 @@ const IndividualSite = () => {
 
   return (
     <div id="site">
-      <PageHeader title="Site" subTitle={siteData!.data.name} />
+      <PageHeader title="Site" subTitle={siteData!.data.name}>
+        <Button variant="contained" onClick={() => navigate(ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES + siteData!.data.id + "/" + ROUTES.RATES)} startIcon={<TollIcon />}>
+          View Rates
+        </Button>
+      </PageHeader>
 
       <ContentBlock title="Site Details">
         <LabelAndValuePair label="ID" value={siteData!.data.id} />
@@ -101,7 +108,7 @@ const IndividualSite = () => {
             center={[siteData!.data.latitude, siteData!.data.longitude]}
             zoom={13}
             scrollWheelZoom={false}
-            style={{height: "100%", width: "100%"}}
+            style={{ height: "100%", width: "100%" }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

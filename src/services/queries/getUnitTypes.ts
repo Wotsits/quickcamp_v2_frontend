@@ -11,6 +11,12 @@ type GetUnitTypesArgs = {
   includeUnits?: boolean;
   /** optional, include Site */
   includeSite?: boolean;
+  /** optional, include Rates */
+  includeRates?: boolean;
+  /** optional, startDate, only used when includeRates is true */
+  startDate?: string;
+  /** optional, endDate, only used when includeRates is true */
+  endDate?: string;
 };
 
 export const getUnitTypes = async ({
@@ -18,12 +24,15 @@ export const getUnitTypes = async ({
   siteId,
   includeUnits = false,
   includeSite = false,
+  includeRates = false,
+  startDate,
+  endDate,
 }: GetUnitTypesArgs) => {
   const response = await axios.get<{ data: UnitType[] }>(
     APIURL + API_ENDPOINTS.UNIT_TYPES,
     {
       headers: { Authorization: "Bearer " + token },
-      params: { siteId, includeUnits, includeSite },
+      params: { siteId, includeUnits, includeSite, includeRates, startDate, endDate },
     }
   );
   return response.data;

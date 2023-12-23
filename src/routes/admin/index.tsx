@@ -10,7 +10,7 @@ const Admin = () => {
     <div id="admin">
       <PageHeader title="Admin" />
       <div className="admin-content-container">
-        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES + ROUTES.ALL} className="admin-content-item">
+        <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Sites
           </Typography>

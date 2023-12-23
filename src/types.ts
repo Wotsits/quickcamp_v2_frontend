@@ -51,6 +51,11 @@ export type UnitType = {
   siteId: number;
   units?: Unit[];
   extraTypes?: ExtraType[];
+  unitTypeFeesCalendarEntries?: UnitTypeFeesCalendar[];
+  guestFeesCalendarEntries?: GuestFeesCalendar[];
+  petFeesCalendarEntries?: PetFeesCalendar[];
+  vehicleFeesCalendarEntries?: VehicleFeesCalendar[];
+  extraFeesCalendarEntries?: ExtraFeesCalendar[];
 };
 
 export type Unit = {
@@ -174,6 +179,55 @@ export type Payment = {
   paymentNotes: string;
   bookingId: number;
   booking?: Booking;
+};
+
+export type UnitTypeFeesCalendar = {
+  id: number;
+  date: Date;
+  unitType: UnitType;
+  unitTypeId: number;
+  feePerNight: number;
+  feePerStay: number;
+};
+
+export type GuestFeesCalendar = {
+  id: number;
+  date: Date;
+  guestType: GuestType;
+  guestTypeId: number;
+  unitType: UnitType;
+  unitTypeId: number;
+  feePerNight: number;
+  feePerStay: number;
+};
+
+export type PetFeesCalendar = {
+  id: number;
+  date: Date;
+  unitType: UnitType;
+  unitTypeId: number;
+  feePerNight: number;
+  feePerStay: number;
+};
+
+export type VehicleFeesCalendar = {
+  id: number;
+  date: Date;
+  unitType: UnitType;
+  unitTypeId: number;
+  feePerNight: number;
+  feePerStay: number;
+};
+
+export type ExtraFeesCalendar = {
+  id: number;
+  date: Date;
+  extraType: ExtraType;
+  extraTypeId: number;
+  unitType: UnitType;
+  unitTypeId: number;
+  feePerNight: number;
+  feePerStay: number;
 };
 
 // ----------------- API RESPONSES -----------------
