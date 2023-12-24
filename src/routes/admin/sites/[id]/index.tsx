@@ -176,7 +176,6 @@ const IndividualSite = () => {
                     <TableCell>{unitType.id}</TableCell>
                     <TableCell>{unitType.name}</TableCell>
                     <TableCell>{unitType.description}</TableCell>
-                    <TableCell>{unitType.siteId}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -192,6 +191,7 @@ const IndividualSite = () => {
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
+                <TableCell>Icon</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -233,6 +233,7 @@ const IndividualSite = () => {
                     <TableCell>{guestType.id}</TableCell>
                     <TableCell>{guestType.name}</TableCell>
                     <TableCell>{guestType.description}</TableCell>
+                    <TableCell>{guestType.icon}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
