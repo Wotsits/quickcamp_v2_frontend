@@ -182,7 +182,6 @@ const RatesEditor = () => {
       </>
     );
 
-    console.log(ratesData)
   return (
     <div id="rates-editor">
       <PageHeader title="Rates Editor" />

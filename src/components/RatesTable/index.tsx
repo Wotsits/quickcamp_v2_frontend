@@ -32,25 +32,25 @@ const RatesTable = ({
             <TableBody>
                 <TableRow>
                     <TableCell>Base Rate</TableCell>
-                    <TableCell>{baseRate.perNight}</TableCell>
-                    <TableCell>{baseRate.perStay}</TableCell>
+                    <TableCell>£{baseRate.perNight.toFixed(2)}</TableCell>
+                    <TableCell>£{baseRate.perStay.toFixed(2)}</TableCell>
                 </TableRow>
                 {guestRates.map((guestRate: [string, {perNight: number, perStay: number}]) => (
                     <TableRow key={guestRate[0]}>
                         <TableCell>{guestRate[0]}</TableCell>
-                        <TableCell>{guestRate[1].perNight}</TableCell>
-                        <TableCell>{guestRate[1].perStay}</TableCell>
+                        <TableCell>£{guestRate[1].perNight.toFixed(2)}</TableCell>
+                        <TableCell>£{guestRate[1].perStay.toFixed(2)}</TableCell>
                     </TableRow>
                 ))}
                 <TableRow>
                     <TableCell>Pet</TableCell>
-                    <TableCell>{petRate.perNight}</TableCell>
-                    <TableCell>{petRate.perStay}</TableCell>
+                    <TableCell>£{petRate.perNight.toFixed(2)}</TableCell>
+                    <TableCell>£{petRate.perStay.toFixed(2)}</TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell>Vehicle</TableCell>
-                    <TableCell>{vehicleRate.perNight}</TableCell>
-                    <TableCell>{vehicleRate.perStay}</TableCell>
+                    <TableCell>£{vehicleRate.perNight.toFixed(2)}</TableCell>
+                    <TableCell>£{vehicleRate.perStay.toFixed(2)}</TableCell>
                 </TableRow>
             </TableBody>
         </Table>
