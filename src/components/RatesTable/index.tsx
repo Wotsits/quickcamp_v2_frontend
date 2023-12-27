@@ -12,12 +12,19 @@ import {
 import { ChangedItems } from "../../routes/admin/sites/[id]/ratesPage";
 
 type RatesTableProps = {
+  /** mandatory, baseRate to be displayed in the table */
   baseRate: { id: number; perNight: number; perStay: number } | null;
+  /** mandatory, guestRates to be displayed in the table */
   guestRates: any; // [guestTypeName, { id, perNight, perStay }]
+  /** mandatory, guestRates to be displayed in the table */
   petRate: { id: number; perNight: number; perStay: number } | null;
+  /** mandatory, guestRates to be displayed in the table */
   vehicleRate: { id: number; perNight: number; perStay: number } | null;
+  /** optional, boolean flag controlling whether the content of the table is editable */
   contentEditable?: boolean;
+  /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking cancel button */
   onCancel?: () => void;
+  /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking save button */
   onSave?: (changedItems: ChangedItems) => void;
 };
 
