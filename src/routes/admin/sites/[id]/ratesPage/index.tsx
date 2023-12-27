@@ -6,14 +6,7 @@ import ContentBlock from "../../../../../components/ContentBlock";
 import { useQuery } from "react-query";
 import { today1200 } from "../../../../../utils/dateTimeManipulation";
 import { getSite } from "../../../../../services/queries/getSite";
-import {
-  GuestFeesCalendar,
-  PetFeesCalendar,
-  Site,
-  UnitType,
-  UnitTypeFeesCalendar,
-  VehicleFeesCalendar,
-} from "../../../../../types";
+import { Site, UnitType } from "../../../../../types";
 import AuthContext from "../../../../../contexts/authContext";
 import { getUnitTypes } from "../../../../../services/queries/getUnitTypes";
 import {
@@ -25,16 +18,23 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { generateDateArray, isSameDate } from "../../../../../utils/helpers";
+import { generateDateArray } from "../../../../../utils/helpers";
 import RatesTable from "../../../../../components/RatesTable";
 
 import Modal, { ModalHeader } from "../../../../../components/Modal";
+
+import {
+  generateBaseRate,
+  generateGuestRates,
+  generatePetRate,
+  generateVehicleRate,
+} from "./helpers";
 
 export type ChangedItems = {
   id: number;
   newValuePerNight: number | null;
   newValuePerStay: number | null;
-}[]
+}[];
 
 const RatesPage = () => {
   // ----------
@@ -72,7 +72,7 @@ const RatesPage = () => {
 
   const [ratesEditorOpen, setRatesEditorOpen] = useState(false);
   const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<{
-    id: number
+    id: number;
     perNight: number;
     perStay: number;
   } | null>(null);
@@ -156,78 +156,6 @@ const RatesPage = () => {
   ]);
 
   // ----------
-  // HELPERS
-  // ----------
-
-  const generateBaseRate = (
-    date: Date,
-    unitTypeFeesCalendarEntries: UnitTypeFeesCalendar[]
-  ) => {
-    const unitRateDataForDate = unitTypeFeesCalendarEntries.find((entry) =>
-      isSameDate(new Date(entry.date), new Date(date))
-    );
-    if (!unitRateDataForDate) return null;
-    return {
-      id: unitRateDataForDate.id,
-      perNight: unitRateDataForDate.feePerNight,
-      perStay: unitRateDataForDate.feePerStay,
-    };
-  };
-
-  const generateGuestRates = (
-    date: Date,
-    guestFeesCalendarEntries: GuestFeesCalendar[]
-  ) => {
-    const guestRateDataForDate = guestFeesCalendarEntries?.filter((entry) =>
-      isSameDate(new Date(entry.date), date)
-    );
-    if (!guestRateDataForDate || guestRateDataForDate.length === 0) return null;
-    const dataForReturn = guestRateDataForDate.map((guestRate) => {
-      return [
-        guestRate.guestType.name,
-        {
-          id: guestRate.id,
-          perNight: guestRate.feePerNight,
-          perStay: guestRate.feePerStay,
-        },
-      ];
-    });
-    if (dataForReturn.length === 0) return null;
-    return dataForReturn;
-  };
-
-  const generatePetRate = (
-    date: Date,
-    petFeesCalendarEntries: PetFeesCalendar[]
-  ) => {
-    const petRateDataForDate = petFeesCalendarEntries?.find((entry) =>
-      isSameDate(new Date(entry.date), date)
-    );
-    if (!petRateDataForDate) return null;
-
-    return {
-      id: petRateDataForDate.id,
-      perNight: petRateDataForDate.feePerNight,
-      perStay: petRateDataForDate.feePerStay,
-    };
-  };
-
-  const generateVehicleRate = (
-    date: Date,
-    vehicleFeesCalendarEntries: VehicleFeesCalendar[]
-  ) => {
-    const vehicleRateDataForDate = vehicleFeesCalendarEntries?.find((entry) =>
-      isSameDate(new Date(entry.date), date)
-    );
-    if (!vehicleRateDataForDate) return null;
-    return {
-      id: vehicleRateDataForDate.id,
-      perNight: vehicleRateDataForDate.feePerNight,
-      perStay: vehicleRateDataForDate.feePerStay,
-    };
-  };
-
-  // ----------
   // EVENT HANDLERS
   // ----------
 
@@ -274,7 +202,9 @@ const RatesPage = () => {
             vehicleRate={vehicleRateBeingEdited}
             contentEditable
             onCancel={() => resetRatesBeingEdited()}
-            onSave={(changedItems: ChangedItems) => handleRatesEdit(changedItems)}
+            onSave={(changedItems: ChangedItems) =>
+              handleRatesEdit(changedItems)
+            }
           />
         </Modal>
       )}
@@ -290,7 +220,9 @@ const RatesPage = () => {
               <TableRow>
                 <TableCell sx={{ minWidth: "200px" }}>Unit Type</TableCell>
                 {dateArray.map((date) => (
-                  <TableCell key={date.toLocaleDateString()}>{date.toLocaleDateString()}</TableCell>
+                  <TableCell key={date.toLocaleDateString()}>
+                    {date.toLocaleDateString()}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
