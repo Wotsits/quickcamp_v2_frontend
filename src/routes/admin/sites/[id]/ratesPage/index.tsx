@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageHeader from "../../../../../components/PageHeader";
 import LabelAndValuePair from "../../../../../components/LabelAndValuePair";
@@ -28,7 +28,15 @@ import {
 import { generateDateArray, isSameDate } from "../../../../../utils/helpers";
 import RatesTable from "../../../../../components/RatesTable";
 
-const RatesEditor = () => {
+import Modal, { ModalHeader } from "../../../../../components/Modal";
+
+export type ChangedItems = {
+  id: number;
+  newValuePerNight: number | null;
+  newValuePerStay: number | null;
+}[]
+
+const RatesPage = () => {
   // ----------
   // CONTEXT
   // ----------
@@ -61,6 +69,34 @@ const RatesEditor = () => {
   const [dateArray, setDateArray] = useState(
     generateDateArray(startDate, numberOfNights)
   );
+
+  const [ratesEditorOpen, setRatesEditorOpen] = useState(false);
+  const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<{
+    id: number
+    perNight: number;
+    perStay: number;
+  } | null>(null);
+  const [guestRatesBeingEdited, setGuestRatesBeingEdited] = useState<
+    | (
+        | string
+        | {
+            id: number;
+            perNight: number;
+            perStay: number;
+          }
+      )[][]
+    | null
+  >(null);
+  const [petRateBeingEdited, setPetRateBeingEdited] = useState<{
+    id: number;
+    perNight: number;
+    perStay: number;
+  } | null>(null);
+  const [vehicleRateBeingEdited, setVehicleRateBeingEdited] = useState<{
+    id: number;
+    perNight: number;
+    perStay: number;
+  } | null>(null);
 
   // ----------
   // QUERIES
@@ -98,6 +134,28 @@ const RatesEditor = () => {
   );
 
   // ----------
+  // USEEFFECTS
+  // ----------
+
+  useEffect(() => {
+    if (
+      baseRateBeingEdited &&
+      guestRatesBeingEdited &&
+      petRateBeingEdited &&
+      vehicleRateBeingEdited
+    ) {
+      setRatesEditorOpen(true);
+    } else {
+      setRatesEditorOpen(false);
+    }
+  }, [
+    baseRateBeingEdited,
+    guestRatesBeingEdited,
+    petRateBeingEdited,
+    vehicleRateBeingEdited,
+  ]);
+
+  // ----------
   // HELPERS
   // ----------
 
@@ -110,6 +168,7 @@ const RatesEditor = () => {
     );
     if (!unitRateDataForDate) return null;
     return {
+      id: unitRateDataForDate.id,
       perNight: unitRateDataForDate.feePerNight,
       perStay: unitRateDataForDate.feePerStay,
     };
@@ -127,6 +186,7 @@ const RatesEditor = () => {
       return [
         guestRate.guestType.name,
         {
+          id: guestRate.id,
           perNight: guestRate.feePerNight,
           perStay: guestRate.feePerStay,
         },
@@ -146,6 +206,7 @@ const RatesEditor = () => {
     if (!petRateDataForDate) return null;
 
     return {
+      id: petRateDataForDate.id,
       perNight: petRateDataForDate.feePerNight,
       perStay: petRateDataForDate.feePerStay,
     };
@@ -160,10 +221,26 @@ const RatesEditor = () => {
     );
     if (!vehicleRateDataForDate) return null;
     return {
+      id: vehicleRateDataForDate.id,
       perNight: vehicleRateDataForDate.feePerNight,
       perStay: vehicleRateDataForDate.feePerStay,
     };
   };
+
+  // ----------
+  // EVENT HANDLERS
+  // ----------
+
+  function resetRatesBeingEdited() {
+    setBaseRateBeingEdited(null);
+    setGuestRatesBeingEdited(null);
+    setPetRateBeingEdited(null);
+    setVehicleRateBeingEdited(null);
+  }
+
+  function handleRatesEdit(changedItems: ChangedItems) {
+    console.log(changedItems);
+  }
 
   // ----------
   // RENDER
@@ -183,7 +260,25 @@ const RatesEditor = () => {
     );
 
   return (
-    <div id="rates-editor">
+    <div id="rates-display">
+      {ratesEditorOpen && (
+        <Modal open={true} onClose={() => resetRatesBeingEdited()}>
+          <ModalHeader
+            title="Edit Rates"
+            onClose={() => resetRatesBeingEdited()}
+          />
+          <RatesTable
+            baseRate={baseRateBeingEdited}
+            guestRates={guestRatesBeingEdited}
+            petRate={petRateBeingEdited}
+            vehicleRate={vehicleRateBeingEdited}
+            contentEditable
+            onCancel={() => resetRatesBeingEdited()}
+            onSave={(changedItems: ChangedItems) => handleRatesEdit(changedItems)}
+          />
+        </Modal>
+      )}
+
       <PageHeader title="Rates Editor" />
       <ContentBlock title="Site Details">
         <LabelAndValuePair label="Site ID" value={siteId} />
@@ -193,38 +288,54 @@ const RatesEditor = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{minWidth: "200px"}}>Unit Type</TableCell>
+                <TableCell sx={{ minWidth: "200px" }}>Unit Type</TableCell>
                 {dateArray.map((date) => (
-                  <TableCell>{date.toLocaleDateString()}</TableCell>
+                  <TableCell key={date.toLocaleDateString()}>{date.toLocaleDateString()}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {ratesData?.data.map((unitType) => (
-                <TableRow>
-                  <TableCell style={{ verticalAlign: 'top' }}>{unitType.name}</TableCell>
-                  {dateArray.map((date) => (
-                    <TableCell>
-                      <RatesTable
-                        baseRate={generateBaseRate(
-                          date,
-                          unitType.unitTypeFeesCalendarEntries!
-                        )}
-                        guestRates={generateGuestRates(
-                          date,
-                          unitType.guestFeesCalendarEntries!
-                        )}
-                        petRate={generatePetRate(
-                          date,
-                          unitType.petFeesCalendarEntries!
-                        )}
-                        vehicleRate={generateVehicleRate(
-                          date,
-                          unitType.vehicleFeesCalendarEntries!
-                        )}
-                      />
-                    </TableCell>
-                  ))}
+                <TableRow key={unitType.id}>
+                  <TableCell style={{ verticalAlign: "top" }}>
+                    {unitType.name}
+                  </TableCell>
+                  {dateArray.map((date) => {
+                    const baseRate = generateBaseRate(
+                      date,
+                      unitType.unitTypeFeesCalendarEntries!
+                    );
+                    const guestRates = generateGuestRates(
+                      date,
+                      unitType.guestFeesCalendarEntries!
+                    );
+                    const petRate = generatePetRate(
+                      date,
+                      unitType.petFeesCalendarEntries!
+                    );
+                    const vehicleRate = generateVehicleRate(
+                      date,
+                      unitType.vehicleFeesCalendarEntries!
+                    );
+                    return (
+                      <TableCell
+                        key={date.toLocaleDateString()}
+                        onClick={() => {
+                          setBaseRateBeingEdited(baseRate);
+                          setGuestRatesBeingEdited(guestRates);
+                          setPetRateBeingEdited(petRate);
+                          setVehicleRateBeingEdited(vehicleRate);
+                        }}
+                      >
+                        <RatesTable
+                          baseRate={baseRate}
+                          guestRates={guestRates}
+                          petRate={petRate}
+                          vehicleRate={vehicleRate}
+                        />
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>
@@ -235,4 +346,4 @@ const RatesEditor = () => {
   );
 };
 
-export default RatesEditor;
+export default RatesPage;

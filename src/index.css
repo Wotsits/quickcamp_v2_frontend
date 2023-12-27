@@ -31,6 +31,10 @@ body {
   justify-content: space-between;
 }
 
+.margin-top-1 {
+  margin-top: 1rem !important;
+}
+
 .margin-bottom-1 {
   margin-bottom: 1rem !important;
 }

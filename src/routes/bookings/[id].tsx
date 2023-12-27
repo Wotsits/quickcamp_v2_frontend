@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -16,7 +16,6 @@ import EditLeadGuestForm from "../../components/EditBookingForms/EditLeadGuestFo
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import LabelAndValuePair from "../../components/LabelAndValuePair";
-import { Label } from "@mui/icons-material";
 
 const IndividualBooking = () => {
   // -------------

@@ -23,7 +23,7 @@ import IndividualDeparture from "./routes/departures/[id]";
 import IndividualGuest from "./routes/guests/[id]";
 import NewSiteForm from "./routes/admin/sites/new";
 import IndividualSite from "./routes/admin/sites/[id]";
-import RatesEditor from "./routes/admin/sites/[id]/rates";
+import RatesPage from "./routes/admin/sites/[id]/ratesPage";
 
 export const router = createBrowserRouter([
   {
@@ -126,7 +126,7 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: ROUTES.RATES,
-                    element: <RatesEditor />
+                    element: <RatesPage />
                   }
                 ]
               }
