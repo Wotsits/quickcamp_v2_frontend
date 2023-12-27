@@ -54,11 +54,6 @@ const RatesTable = ({
     );
   }
 
-  if (!baseRate) return <div>No base rate</div>;
-  if (!guestRates) return <div>No guest rates</div>;
-  if (!petRate) return <div>No pet rate</div>;
-  if (!vehicleRate) return <div>No vehicle rate</div>;
-
   // --------
   // EVENT HANDLERS
   // --------
@@ -92,6 +87,11 @@ const RatesTable = ({
   // --------
   // RENDER
   // --------
+
+  if (!baseRate) return <div>No base rate</div>;
+  if (!guestRates) return <div>No guest rates</div>;
+  if (!petRate) return <div>No pet rate</div>;
+  if (!vehicleRate) return <div>No vehicle rate</div>;
 
   const baseRateId = baseRate.id;
   const baseRatePerNight = baseRate.perNight.toFixed(2);
