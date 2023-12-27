@@ -4,14 +4,14 @@ import {
   UnitTypeFeesCalendar,
   VehicleFeesCalendar,
 } from "../../../../../types";
-import { isSameDate } from "../../../../../utils/helpers";
+import { isSameDay } from "../../../../../utils/helpers";
 
 export const generateBaseRate = (
   date: Date,
   unitTypeFeesCalendarEntries: UnitTypeFeesCalendar[]
 ) => {
   const unitRateDataForDate = unitTypeFeesCalendarEntries.find((entry) =>
-    isSameDate(new Date(entry.date), new Date(date))
+    isSameDay(new Date(entry.date), new Date(date))
   );
   if (!unitRateDataForDate) return null;
   return {
@@ -26,7 +26,7 @@ export const generateGuestRates = (
   guestFeesCalendarEntries: GuestFeesCalendar[]
 ) => {
   const guestRateDataForDate = guestFeesCalendarEntries?.filter((entry) =>
-    isSameDate(new Date(entry.date), date)
+    isSameDay(new Date(entry.date), date)
   );
   if (!guestRateDataForDate || guestRateDataForDate.length === 0) return null;
   const dataForReturn = guestRateDataForDate.map((guestRate) => {
@@ -48,7 +48,7 @@ export const generatePetRate = (
   petFeesCalendarEntries: PetFeesCalendar[]
 ) => {
   const petRateDataForDate = petFeesCalendarEntries?.find((entry) =>
-    isSameDate(new Date(entry.date), date)
+    isSameDay(new Date(entry.date), date)
   );
   if (!petRateDataForDate) return null;
 
@@ -64,7 +64,7 @@ export const generateVehicleRate = (
   vehicleFeesCalendarEntries: VehicleFeesCalendar[]
 ) => {
   const vehicleRateDataForDate = vehicleFeesCalendarEntries?.find((entry) =>
-    isSameDate(new Date(entry.date), date)
+    isSameDay(new Date(entry.date), date)
   );
   if (!vehicleRateDataForDate) return null;
   return {

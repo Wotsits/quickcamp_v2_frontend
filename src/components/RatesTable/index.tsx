@@ -40,6 +40,7 @@ const RatesTable = ({
   const [itemsChanged, setItemsChanged] = useState<
     {
       id: number;
+      type: "BASE" | "GUEST" | "PET" | "VEHICLE"
       newValuePerNight: number | null;
       newValuePerStay: number | null;
     }[]
@@ -61,15 +62,17 @@ const RatesTable = ({
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement>,
     id: number,
+    type: "BASE" | "GUEST" | "PET" | "VEHICLE",
     perNightOrPerStay: "PER_NIGHT" | "PER_STAY"
   ) {
     const newValue = e.target.value;
-
+    
     const itemsChangedCpy = [...itemsChanged];
-    const itemInArr = itemsChangedCpy.find((item) => item.id === id);
+    const itemInArr = itemsChangedCpy.find((item) => item.id === id && item.type === type);
     if (!itemInArr) {
       itemsChangedCpy.push({
         id,
+        type,
         newValuePerNight:
           perNightOrPerStay === "PER_NIGHT" ? Number(newValue) : null,
         newValuePerStay:
@@ -82,6 +85,7 @@ const RatesTable = ({
         itemInArr.newValuePerStay = Number(newValue);
       }
     }
+    setItemsChanged(itemsChangedCpy)
   }
 
   // --------
@@ -122,7 +126,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, baseRateId, "PER_NIGHT");
+                    handleChange(e, baseRateId, "BASE", "PER_NIGHT");
                   }}
                   defaultValue={baseRatePerNight}
                 />
@@ -134,7 +138,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, baseRateId, "PER_STAY");
+                    handleChange(e, baseRateId, "BASE", "PER_STAY");
                   }}
                   defaultValue={baseRatePerStay}
                 />
@@ -162,7 +166,7 @@ const RatesTable = ({
                     {contentEditable ? (
                       <TextField
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleChange(e, guestTypeRateId, "PER_NIGHT");
+                          handleChange(e, guestTypeRateId, "GUEST", "PER_NIGHT");
                         }}
                         defaultValue={guestTypeRatePerNight}
                       />
@@ -174,7 +178,7 @@ const RatesTable = ({
                     {contentEditable ? (
                       <TextField
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleChange(e, guestTypeRateId, "PER_STAY");
+                          handleChange(e, guestTypeRateId, "GUEST", "PER_STAY");
                         }}
                         defaultValue={guestTypeRatePerStay}
                       />
@@ -192,7 +196,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, petRateId, "PER_NIGHT");
+                    handleChange(e, petRateId, "PET", "PER_NIGHT");
                   }}
                   defaultValue={petRatePerNight}
                 />
@@ -204,7 +208,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, petRateId, "PER_STAY");
+                    handleChange(e, petRateId, "PET", "PER_STAY");
                   }}
                   defaultValue={petRatePerStay}
                 />
@@ -219,7 +223,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, vehicleRateId, "PER_NIGHT");
+                    handleChange(e, vehicleRateId, "VEHICLE", "PER_NIGHT");
                   }}
                   defaultValue={vehicleRatePerNight}
                 />
@@ -231,7 +235,7 @@ const RatesTable = ({
               {contentEditable ? (
                 <TextField
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, vehicleRate.id, "PER_STAY");
+                    handleChange(e, vehicleRate.id, "VEHICLE", "PER_STAY");
                   }}
                   defaultValue={vehicleRatePerStay}
                 />

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PageHeader from "../../../../../components/PageHeader";
 import LabelAndValuePair from "../../../../../components/LabelAndValuePair";
 import ContentBlock from "../../../../../components/ContentBlock";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { today1200 } from "../../../../../utils/dateTimeManipulation";
 import { getSite } from "../../../../../services/queries/getSite";
 import { Site, UnitType } from "../../../../../types";
@@ -30,8 +30,11 @@ import {
   generateVehicleRate,
 } from "./helpers";
 
+import { updateRates } from "../../../../../services/mutations/updateRates";
+
 export type ChangedItems = {
   id: number;
+  type: "BASE" | "GUEST" | "PET" | "VEHICLE";
   newValuePerNight: number | null;
   newValuePerStay: number | null;
 }[];
@@ -46,6 +49,8 @@ const RatesPage = () => {
   // ----------
   // HOOKS
   // ----------
+
+  const queryClient = useQueryClient();
 
   const { id } = useParams();
 
@@ -134,6 +139,18 @@ const RatesPage = () => {
   );
 
   // ----------
+  // MUTATIONS
+  // ----------
+
+  const { mutate, isError: isErrorRatesUpdate, error: errorRatesUpdate } = useMutation({
+    mutationFn: updateRates,
+    onSuccess: (res) => {
+      queryClient.invalidateQueries(["UnitTypes"]);
+      resetRatesBeingEdited();
+    }
+  });
+
+  // ----------
   // USEEFFECTS
   // ----------
 
@@ -167,7 +184,10 @@ const RatesPage = () => {
   }
 
   function handleRatesEdit(changedItems: ChangedItems) {
-    console.log(changedItems);
+    mutate({
+      token: user.token,
+      changedItems
+    });
   }
 
   // ----------
@@ -175,7 +195,7 @@ const RatesPage = () => {
   // ----------
 
   if (siteIsLoading || ratesIsLoading) return <div>Loading...</div>;
-  if (siteIsError || ratesIsError)
+  if (siteIsError || ratesIsError || isErrorRatesUpdate )
     return (
       <>
         <Alert severity="error" className="margin-bottom-1">
@@ -184,8 +204,13 @@ const RatesPage = () => {
         <Alert severity="error" className="margin-bottom-1">
           {ratesError?.message}
         </Alert>
+        <Alert severity="error" className="margin-bottom-1">
+          {(errorRatesUpdate as Error)?.message}
+        </Alert>
       </>
     );
+
+  if (!ratesData?.data || !siteData?.data) return <div>No data</div>;
 
   return (
     <div id="rates-display">
@@ -249,6 +274,7 @@ const RatesPage = () => {
                       date,
                       unitType.vehicleFeesCalendarEntries!
                     );
+                    if (!baseRate || !guestRates || !petRate || !vehicleRate) return null;
                     return (
                       <TableCell
                         key={date.toLocaleDateString()}
