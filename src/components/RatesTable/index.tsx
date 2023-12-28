@@ -1,7 +1,4 @@
-import React, { useState } from "react";
 import {
-  Alert,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,108 +6,56 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { ChangedItems } from "../../routes/admin/sites/[id]/ratesPage";
+import React from "react";
 
 type RatesTableProps = {
-  /** mandatory, baseRate to be displayed in the table */
-  baseRate: { id: number; perNight: number; perStay: number } | null;
-  /** mandatory, guestRates to be displayed in the table */
-  guestRates: any; // [guestTypeName, { id, perNight, perStay }]
-  /** mandatory, guestRates to be displayed in the table */
-  petRate: { id: number; perNight: number; perStay: number } | null;
-  /** mandatory, guestRates to be displayed in the table */
-  vehicleRate: { id: number; perNight: number; perStay: number } | null;
-  /** optional, boolean flag controlling whether the content of the table is editable */
-  contentEditable?: boolean;
-  /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking cancel button */
-  onCancel?: () => void;
-  /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking save button */
-  onSave?: (changedItems: ChangedItems) => void;
-};
-
-const RatesTable = ({
-  baseRate,
-  guestRates,
-  petRate,
-  vehicleRate,
-  contentEditable = false,
-  onCancel,
-  onSave,
-}: RatesTableProps) => {
-  const [itemsChanged, setItemsChanged] = useState<
-    {
-      id: number;
-      type: "BASE" | "GUEST" | "PET" | "VEHICLE"
-      newValuePerNight: number | null;
-      newValuePerStay: number | null;
-    }[]
-  >([]);
-
-  if (contentEditable && (!onCancel || !onSave)) {
-    return (
-      <Alert severity="error">
-        Oops! A system error has occurred. Please notify support. Error Details:
-        Content editable but no onCancel & onSave events specified.
-      </Alert>
-    );
-  }
-
-  // --------
-  // EVENT HANDLERS
-  // --------
-
-  function handleChange(
+  /** callback when a field value is changed */
+  handleChange: (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number,
     type: "BASE" | "GUEST" | "PET" | "VEHICLE",
     perNightOrPerStay: "PER_NIGHT" | "PER_STAY"
-  ) {
-    const newValue = e.target.value;
-    
-    const itemsChangedCpy = [...itemsChanged];
-    const itemInArr = itemsChangedCpy.find((item) => item.id === id && item.type === type);
-    if (!itemInArr) {
-      itemsChangedCpy.push({
-        id,
-        type,
-        newValuePerNight:
-          perNightOrPerStay === "PER_NIGHT" ? Number(newValue) : null,
-        newValuePerStay:
-          perNightOrPerStay === "PER_STAY" ? Number(newValue) : null,
-      });
-    } else {
-      if (perNightOrPerStay === "PER_NIGHT") {
-        itemInArr.newValuePerNight = Number(newValue);
-      } else {
-        itemInArr.newValuePerStay = Number(newValue);
-      }
-    }
-    setItemsChanged(itemsChangedCpy)
-  }
+  ) => void;
+  /** ID of the base rate being displayed */
+  baseRateId: number;
+  /** per night value of the base rate being displayed */
+  baseRatePerNight: string;
+  /** per stay value of the base rate being displayed */
+  baseRatePerStay: string;
+  /** guest rates to be displayed in the table */
+  guestRates: any; // [guestTypeName, { id, perNight, perStay }]
+  /** ID of the pet rate being displayed */
+  petRateId: number;
+  /** per night value of the pet rate being displayed */
+  petRatePerNight: string;
+  /** per stay value of the pet rate being displayed */
+  petRatePerStay: string;
+  /** ID of the vehicle rate being displayed */
+  vehicleRateId: number;
+  /** per night value of the vehicle rate being displayed */
+  vehicleRatePerNight: string;
+  /** per stay value of the vehicle rate being displayed */
+  vehicleRatePerStay: string;
+  /** optional, boolean flag controlling whether the content of the table is editable */
+  contentEditable?: boolean;
+};
 
-  // --------
-  // RENDER
-  // --------
-
-  if (!baseRate) return <div>No base rate</div>;
-  if (!guestRates) return <div>No guest rates</div>;
-  if (!petRate) return <div>No pet rate</div>;
-  if (!vehicleRate) return <div>No vehicle rate</div>;
-
-  const baseRateId = baseRate.id;
-  const baseRatePerNight = baseRate.perNight.toFixed(2);
-  const baseRatePerStay = baseRate.perStay.toFixed(2);
-
-  const petRateId = petRate.id;
-  const petRatePerNight = petRate.perNight.toFixed(2);
-  const petRatePerStay = petRate.perStay.toFixed(2);
-
-  const vehicleRateId = vehicleRate.id;
-  const vehicleRatePerNight = vehicleRate.perNight.toFixed(2);
-  const vehicleRatePerStay = vehicleRate.perStay.toFixed(2);
-
+const RatesTable = ({
+  contentEditable = false,
+  handleChange,
+  baseRateId,
+  baseRatePerNight,
+  baseRatePerStay,
+  guestRates,
+  petRateId,
+  petRatePerNight,
+  petRatePerStay,
+  vehicleRateId,
+  vehicleRatePerNight,
+  vehicleRatePerStay,
+}: RatesTableProps) => {
   return (
-    <div className="rates-table">
+    <div className={"rates-table"}>
       <Table>
         <TableHead>
           <TableRow>
@@ -125,6 +70,7 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, baseRateId, "BASE", "PER_NIGHT");
                   }}
@@ -137,6 +83,7 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, baseRateId, "BASE", "PER_STAY");
                   }}
@@ -165,8 +112,14 @@ const RatesTable = ({
                   <TableCell>
                     {contentEditable ? (
                       <TextField
+                        type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleChange(e, guestTypeRateId, "GUEST", "PER_NIGHT");
+                          handleChange(
+                            e,
+                            guestTypeRateId,
+                            "GUEST",
+                            "PER_NIGHT"
+                          );
                         }}
                         defaultValue={guestTypeRatePerNight}
                       />
@@ -177,6 +130,7 @@ const RatesTable = ({
                   <TableCell>
                     {contentEditable ? (
                       <TextField
+                        type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           handleChange(e, guestTypeRateId, "GUEST", "PER_STAY");
                         }}
@@ -195,6 +149,7 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, petRateId, "PET", "PER_NIGHT");
                   }}
@@ -207,6 +162,7 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, petRateId, "PET", "PER_STAY");
                   }}
@@ -222,6 +178,7 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, vehicleRateId, "VEHICLE", "PER_NIGHT");
                   }}
@@ -234,8 +191,9 @@ const RatesTable = ({
             <TableCell>
               {contentEditable ? (
                 <TextField
+                  type="number"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, vehicleRate.id, "VEHICLE", "PER_STAY");
+                    handleChange(e, vehicleRateId, "VEHICLE", "PER_STAY");
                   }}
                   defaultValue={vehicleRatePerStay}
                 />
@@ -246,29 +204,6 @@ const RatesTable = ({
           </TableRow>
         </TableBody>
       </Table>
-      {contentEditable && onCancel && onSave && (
-        <div
-          className={
-            "container-flex-row-space-between-center-full-width margin-top-1"
-          }
-        >
-          <Button
-            onClick={onCancel}
-            disabled={!itemsChanged}
-            variant="outlined"
-            color="error"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => onSave(itemsChanged as ChangedItems)}
-            disabled={!itemsChanged}
-            variant="contained"
-          >
-            Save
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

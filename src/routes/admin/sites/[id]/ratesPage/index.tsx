@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { generateDateArray } from "../../../../../utils/helpers";
-import RatesTable from "../../../../../components/RatesTable";
+import RatesForm from "../../../../../components/RatesForm";
 
 import Modal, { ModalHeader } from "../../../../../components/Modal";
 
@@ -34,6 +34,7 @@ import {
 import { updateRates } from "../../../../../services/mutations/updateRates";
 
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import BulkUpdateRateForm from "../../../../../components/BulkUpdateRateForm";
 
 export type ChangedItems = {
   id: number;
@@ -225,7 +226,7 @@ const RatesPage = () => {
             title="Edit Rates"
             onClose={() => resetRatesBeingEdited()}
           />
-          <RatesTable
+          <RatesForm
             baseRate={baseRateBeingEdited}
             guestRates={guestRatesBeingEdited}
             petRate={petRateBeingEdited}
@@ -245,7 +246,7 @@ const RatesPage = () => {
             title="Bulk Update"
             onClose={() => setBulkUpdateModalOpen(false)}
           />
-          <div>Bulk Update</div>
+          <BulkUpdateRateForm onCancel={() => setBulkUpdateModalOpen(false)} onSave={console.log} />
         </Modal>
       )}
 
@@ -304,7 +305,7 @@ const RatesPage = () => {
                           setVehicleRateBeingEdited(vehicleRate);
                         }}
                       >
-                        <RatesTable
+                        <RatesForm
                           baseRate={baseRate}
                           guestRates={guestRates}
                           petRate={petRate}
