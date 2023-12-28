@@ -11,6 +11,7 @@ import AuthContext from "../../../../../contexts/authContext";
 import { getUnitTypes } from "../../../../../services/queries/getUnitTypes";
 import {
   Alert,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -31,6 +32,8 @@ import {
 } from "./helpers";
 
 import { updateRates } from "../../../../../services/mutations/updateRates";
+
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 export type ChangedItems = {
   id: number;
@@ -74,6 +77,8 @@ const RatesPage = () => {
   const [dateArray, setDateArray] = useState(
     generateDateArray(startDate, numberOfNights)
   );
+
+  const [bulkUpdateModalOpen, setBulkUpdateModalOpen] = useState(false);
 
   const [ratesEditorOpen, setRatesEditorOpen] = useState(false);
   const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<{
@@ -234,10 +239,24 @@ const RatesPage = () => {
         </Modal>
       )}
 
-      <PageHeader title="Rates Editor" />
+      {bulkUpdateModalOpen && (
+        <Modal open={true} onClose={() => setBulkUpdateModalOpen(false)}>
+          <ModalHeader
+            title="Bulk Update"
+            onClose={() => setBulkUpdateModalOpen(false)}
+          />
+          <div>Bulk Update</div>
+        </Modal>
+      )}
+
+      <PageHeader title="Rates Editor">
+            <Button variant="contained" startIcon={<UpgradeIcon />} onClick={() => setBulkUpdateModalOpen(true)} >Bulk Update</Button>
+      </PageHeader>
+
       <ContentBlock title="Site Details">
         <LabelAndValuePair label="Site ID" value={siteId} />
       </ContentBlock>
+      
       <ContentBlock title="Rates">
         <TableContainer>
           <Table>
