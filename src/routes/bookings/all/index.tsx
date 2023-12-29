@@ -14,10 +14,10 @@ import {
 import AuthContext from "../../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_PAGE_SIZE, ROUTES } from "../../../settings";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
-import TablePaginationControls from "../../../components/Table/TablePaginationControls";
+import TablePaginationControls from "../../../components/atoms/Table/TablePaginationControls";
 
 const Bookings = () => {
   // -----------

@@ -12,10 +12,10 @@ import {
   TableRow,
 } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { DEFAULT_PAGE_SIZE, ROUTES } from "../../../settings";
-import TablePaginationControls from "../../../components/Table/TablePaginationControls";
+import TablePaginationControls from "../../../components/atoms/Table/TablePaginationControls";
 import { useNavigate } from "react-router-dom";
 
 const columns: {

@@ -13,7 +13,7 @@ import {
   TableRow,
   IconButton,
 } from "@mui/material";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ROUTES } from '../../../settings';
 import { Routes, useNavigate } from "react-router-dom";

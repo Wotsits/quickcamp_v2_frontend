@@ -12,7 +12,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import LargeButton from "../../components/LargeButton";
+import LargeButton from "../../components/atoms/LargeButton";
 import "./style.css";
 import { isGuestDue } from "../../utils/helpers";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,7 +20,7 @@ import { ROUTES } from "../../settings";
 import { checkoutAll, checkoutOne } from "./helpers";
 import { checkOutManyGuests } from "../../services/mutations/checkOutManyGuests";
 import { checkOutOneGuest } from "../../services/mutations/checkOutOneGuest";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/molecules/PageHeader";
 
 const IndividualDeparture = () => {
   // -------------

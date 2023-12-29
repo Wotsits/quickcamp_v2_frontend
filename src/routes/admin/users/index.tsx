@@ -16,7 +16,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getUsers } from "../../../services/queries/getUsers";
 

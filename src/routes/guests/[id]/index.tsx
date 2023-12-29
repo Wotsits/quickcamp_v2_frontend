@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import AuthContext from "../../../contexts/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import PageHeader from "../../../components/PageHeader";
-import ContentBlock from "../../../components/ContentBlock";
+import PageHeader from "../../../components/molecules/PageHeader";
+import ContentBlock from "../../../components/atoms/ContentBlock";
 import {
   Button,
   IconButton,
@@ -21,13 +21,13 @@ import { getLeadGuestById } from "../../../services/queries/getLeadGuestById";
 import { ROUTES } from "../../../settings";
 import { generateStandardizedDateFormat } from "../../../utils/dateTimeManipulation";
 import ArticleIcon from "@mui/icons-material/Article";
-import Modal from "../../../components/Modal";
-import { ModalHeader } from "../../../components/Modal";
-import NameEditForm from "../../../components/EditLeadGuestForms/NameEditForm";
-import ContactDetailsEditForm from "../../../components/EditLeadGuestForms/ContactDetailsEditForm";
-import AddressEditForm from "../../../components/EditLeadGuestForms/AddressEditForm";
+import Modal from "../../../components/molecules/Modal";
+import { ModalHeader } from "../../../components/molecules/Modal";
+import NameEditForm from "../../../components/organisms/EditLeadGuestForms/NameEditForm";
+import ContactDetailsEditForm from "../../../components/organisms/EditLeadGuestForms/ContactDetailsEditForm";
+import AddressEditForm from "../../../components/organisms/EditLeadGuestForms/AddressEditForm";
 import AddCircleIconOutline from "@mui/icons-material/AddCircleOutline";
-import NotesEditForm from "../../../components/EditLeadGuestForms/NotesEditForm";
+import NotesEditForm from "../../../components/organisms/EditLeadGuestForms/NotesEditForm";
 
 import "./style.css";
 import { updateLeadGuest } from "../../../services/mutations/updateLeadGuest";

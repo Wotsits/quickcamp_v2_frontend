@@ -3,7 +3,7 @@ import React from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../settings";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/molecules/PageHeader";
 
 const Admin = () => {
   return (

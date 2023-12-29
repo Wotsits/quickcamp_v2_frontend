@@ -10,10 +10,10 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./style.css";
-import LeadGuestDetails from "../../../components/NewBookingForm/LeadGuestDetails";
-import EquipmentDetails from "../../../components/NewBookingForm/EquipmentDetails";
-import BookingDetails from "../../../components/NewBookingForm/BookingDetails";
-import PaymentDetails from "../../../components/NewBookingForm/PaymentDetails";
+import LeadGuestDetails from "../../../components/organisms/NewBookingForm/LeadGuestDetails";
+import EquipmentDetails from "../../../components/organisms/NewBookingForm/EquipmentDetails";
+import BookingDetails from "../../../components/organisms/NewBookingForm/BookingDetails";
+import PaymentDetails from "../../../components/organisms/NewBookingForm/PaymentDetails";
 import AuthContext from "../../../contexts/authContext";
 import {
   EquipmentType,
@@ -35,9 +35,9 @@ import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
 import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
-import BookingConfirmation from "../../../components/NewBookingForm/BookingConfirmation";
+import BookingConfirmation from "../../../components/organisms/NewBookingForm/BookingConfirmation";
 import { getFeeCalc } from "../../../services/queries/getFeeCalc";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 
 const steps = [
   "Lead Guest Details",

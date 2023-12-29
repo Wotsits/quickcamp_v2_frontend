@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PageHeader from "../../../../../components/PageHeader";
-import LabelAndValuePair from "../../../../../components/LabelAndValuePair";
-import ContentBlock from "../../../../../components/ContentBlock";
+import PageHeader from "../../../../../components/molecules/PageHeader";
+import LabelAndValuePair from "../../../../../components/molecules/LabelAndValuePair";
+import ContentBlock from "../../../../../components/atoms/ContentBlock";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { today1200 } from "../../../../../utils/dateTimeManipulation";
 import { getSite } from "../../../../../services/queries/getSite";
@@ -20,9 +20,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { generateDateArray } from "../../../../../utils/helpers";
-import RatesForm from "../../../../../components/RatesForm";
+import RatesForm from "../../../../../components/organisms/RatesForm";
 
-import Modal, { ModalHeader } from "../../../../../components/Modal";
+import Modal, { ModalHeader } from "../../../../../components/molecules/Modal";
 
 import {
   generateBaseRate,
@@ -34,7 +34,7 @@ import {
 import { updateRates } from "../../../../../services/mutations/updateRates";
 
 import UpgradeIcon from '@mui/icons-material/Upgrade';
-import BulkUpdateRateForm from "../../../../../components/BulkUpdateRateForm";
+import BulkUpdateRateForm from "../../../../../components/organisms/BulkUpdateRateForm";
 
 export type ChangedItems = {
   id: number;

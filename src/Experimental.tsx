@@ -1,5 +1,5 @@
 import React from "react";
-import OccupantCard from "./components/OccupantCard";
+import OccupantCard from "./components/molecules/OccupantCard";
 import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES, PRIMARYCOLOR, SECONDARYCOLOR } from "./settings";
 import { LineChart } from "@mui/x-charts";
 

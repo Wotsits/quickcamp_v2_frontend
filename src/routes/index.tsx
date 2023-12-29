@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation,} from "react-router-dom";
 import { ROUTES } from "../settings";
-import AppFrame from "../components/AppFrame";
+import AppFrame from "../components/organisms/AppFrame";
 
 const Root = () => {
   const location = useLocation();

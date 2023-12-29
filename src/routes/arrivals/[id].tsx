@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import { Alert, Box, Button, Divider, IconButton } from "@mui/material";
-import LargeButton from "../../components/LargeButton";
+import LargeButton from "../../components/atoms/LargeButton";
 import "./style.css";
 import { isGuestDue } from "../../utils/helpers";
 import EditIcon from "@mui/icons-material/Edit";
@@ -13,7 +13,7 @@ import { ROUTES } from "../../settings";
 import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
 import { checkInManyGuests } from "../../services/mutations/checkInManyGuests";
 import { checkinAll, checkinOne } from "./helpers";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/molecules/PageHeader";
 
 const IndividualArrival = () => {
   // -------------

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import ResourceCalendar from "../../../components/ResourceCalendar";
+import ResourceCalendar from "../../../components/organisms/ResourceCalendar";
 import { Alert, Box, IconButton, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import ColumnWidthControls from "../../../components/ResourceCalendar/ColumnWidthControls";
+import ColumnWidthControls from "../../../components/organisms/ResourceCalendar/ColumnWidthControls";
 import { useQuery } from "react-query";
 import { BookingSumm, Unit, UnitType } from "../../../types";
 import { getBookingsByDateRange } from "../../../services/queries/getBookingsByDateRange";
@@ -12,11 +12,11 @@ import {
   today1200,
 } from "../../../utils/dateTimeManipulation";
 import AuthContext from "../../../contexts/authContext";
-import { ResourceGroup } from "../../../components/ResourceCalendar/types";
+import { ResourceGroup } from "../../../components/organisms/ResourceCalendar/types";
 import { getUnitTypes } from "../../../services/queries/getUnitTypes";
 import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 // -------------

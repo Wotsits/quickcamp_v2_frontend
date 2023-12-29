@@ -1,16 +1,16 @@
-import Awning from "./components/Icons/Awning";
-import Caravan from "./components/Icons/Caravan";
-import Electricity from "./components/Icons/Electricity";
-import Hiker from "./components/Icons/Hiker";
-import LargeVan from "./components/Icons/LargeVan";
-import SmallVan from "./components/Icons/SmallVan";
-import Tent from "./components/Icons/Tent";
-import Adult from "./components/Icons/Adult";
-import Child from "./components/Icons/Child";
-import Infant from "./components/Icons/Infant";
-import Youth from "./components/Icons/Youth";
-import Pet from "./components/Icons/Pet";
-import Car from "./components/Icons/Car";
+import Awning from "./components/atoms/Icons/Awning";
+import Caravan from "./components/atoms/Icons/Caravan";
+import Electricity from "./components/atoms/Icons/Electricity";
+import Hiker from "./components/atoms/Icons/Hiker";
+import LargeVan from "./components/atoms/Icons/LargeVan";
+import SmallVan from "./components/atoms/Icons/SmallVan";
+import Tent from "./components/atoms/Icons/Tent";
+import Adult from "./components/atoms/Icons/Adult";
+import Child from "./components/atoms/Icons/Child";
+import Infant from "./components/atoms/Icons/Infant";
+import Youth from "./components/atoms/Icons/Youth";
+import Pet from "./components/atoms/Icons/Pet";
+import Car from "./components/atoms/Icons/Car";
 
 export const APIURL = process.env.APIURL || "http://localhost:8000";
 

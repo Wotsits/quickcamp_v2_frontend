@@ -28,10 +28,10 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import SummaryBlock from "../../../components/SummaryBlock";
+import SummaryBlock from "../../../components/molecules/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PageHeader from "../../../components/PageHeader";
-import ArrivalsGraph from "../../../components/ArrivalsGraph";
+import PageHeader from "../../../components/molecules/PageHeader";
+import ArrivalsGraph from "../../../components/organisms/ArrivalsGraph";
 import { ROUTES } from "../../../settings";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 

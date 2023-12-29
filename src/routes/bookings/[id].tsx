@@ -6,16 +6,16 @@ import AuthContext from "../../contexts/authContext";
 import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
-import OccupantCard from "../../components/OccupantCard";
+import OccupantCard from "../../components/molecules/OccupantCard";
 import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES, ROUTES } from "../../settings";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/molecules/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
-import ContentBlock from "../../components/ContentBlock";
-import Modal, { ModalHeader } from "../../components/Modal";
-import EditLeadGuestForm from "../../components/EditBookingForms/EditLeadGuestForm";
+import ContentBlock from "../../components/atoms/ContentBlock";
+import Modal, { ModalHeader } from "../../components/molecules/Modal";
+import EditLeadGuestForm from "../../components/organisms/EditBookingForms/EditLeadGuestForm";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
-import LabelAndValuePair from "../../components/LabelAndValuePair";
+import LabelAndValuePair from "../../components/molecules/LabelAndValuePair";
 
 const IndividualBooking = () => {
   // -------------

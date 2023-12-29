@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PageHeader from "../../../../components/PageHeader";
+import PageHeader from "../../../../components/molecules/PageHeader";
 import { useQuery } from "react-query";
 import { Site } from "../../../../types";
 import { getSite } from "../../../../services/queries/getSite";
 import AuthContext from "../../../../contexts/authContext";
 import {
   Button,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -17,9 +16,9 @@ import {
   Typography,
 } from "@mui/material";
 import { ROUTES } from "../../../../settings";
-import ContentBlock from "../../../../components/ContentBlock";
-import LabelAndValuePair from "../../../../components/LabelAndValuePair";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import ContentBlock from "../../../../components/atoms/ContentBlock";
+import LabelAndValuePair from "../../../../components/molecules/LabelAndValuePair";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import TollIcon from "@mui/icons-material/Toll";
 
 import "./style.css";
