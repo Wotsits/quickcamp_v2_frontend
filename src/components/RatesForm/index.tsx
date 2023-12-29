@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import { ChangedItems } from "../../routes/admin/sites/[id]/ratesPage";
 import RatesTable from "../RatesTable";
-import ButtonContainer from "./ButtonContainer";
+import ButtonContainer from "../ButtonContainer";
 
 type RatesTableProps = {
   /** mandatory, baseRate to be displayed in the table */
@@ -91,16 +91,16 @@ const RatesForm = ({
   if (!vehicleRate) return <div>No vehicle rate</div>;
 
   const baseRateId = baseRate.id;
-  const baseRatePerNight = baseRate.perNight.toFixed(2);
-  const baseRatePerStay = baseRate.perStay.toFixed(2);
+  const baseRatePerNight = baseRate.perNight;
+  const baseRatePerStay = baseRate.perStay;
 
   const petRateId = petRate.id;
-  const petRatePerNight = petRate.perNight.toFixed(2);
-  const petRatePerStay = petRate.perStay.toFixed(2);
+  const petRatePerNight = petRate.perNight;
+  const petRatePerStay = petRate.perStay;
 
   const vehicleRateId = vehicleRate.id;
-  const vehicleRatePerNight = vehicleRate.perNight.toFixed(2);
-  const vehicleRatePerStay = vehicleRate.perStay.toFixed(2);
+  const vehicleRatePerNight = vehicleRate.perNight;
+  const vehicleRatePerStay = vehicleRate.perStay;
 
   return (
     <div className="rates-form">

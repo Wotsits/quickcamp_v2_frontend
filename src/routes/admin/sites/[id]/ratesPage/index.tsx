@@ -246,7 +246,7 @@ const RatesPage = () => {
             title="Bulk Update"
             onClose={() => setBulkUpdateModalOpen(false)}
           />
-          <BulkUpdateRateForm onCancel={() => setBulkUpdateModalOpen(false)} onSave={console.log} />
+          <BulkUpdateRateForm unitTypes={ratesData.data} onCancel={() => setBulkUpdateModalOpen(false)} onSave={console.log} />
         </Modal>
       )}
 

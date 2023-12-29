@@ -19,23 +19,23 @@ type RatesTableProps = {
   /** ID of the base rate being displayed */
   baseRateId: number;
   /** per night value of the base rate being displayed */
-  baseRatePerNight: string;
+  baseRatePerNight: number;
   /** per stay value of the base rate being displayed */
-  baseRatePerStay: string;
+  baseRatePerStay: number;
   /** guest rates to be displayed in the table */
   guestRates: any; // [guestTypeName, { id, perNight, perStay }]
   /** ID of the pet rate being displayed */
   petRateId: number;
   /** per night value of the pet rate being displayed */
-  petRatePerNight: string;
+  petRatePerNight: number;
   /** per stay value of the pet rate being displayed */
-  petRatePerStay: string;
+  petRatePerStay: number;
   /** ID of the vehicle rate being displayed */
   vehicleRateId: number;
   /** per night value of the vehicle rate being displayed */
-  vehicleRatePerNight: string;
+  vehicleRatePerNight: number;
   /** per stay value of the vehicle rate being displayed */
-  vehicleRatePerStay: string;
+  vehicleRatePerStay: number;
   /** optional, boolean flag controlling whether the content of the table is editable */
   contentEditable?: boolean;
 };
@@ -74,10 +74,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, baseRateId, "BASE", "PER_NIGHT");
                   }}
-                  defaultValue={baseRatePerNight}
+                  defaultValue={baseRatePerNight.toFixed(2)}
                 />
               ) : (
-                baseRatePerNight
+                baseRatePerNight.toFixed(2)
               )}
             </TableCell>
             <TableCell>
@@ -87,10 +87,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, baseRateId, "BASE", "PER_STAY");
                   }}
-                  defaultValue={baseRatePerStay}
+                  defaultValue={baseRatePerStay.toFixed(2)}
                 />
               ) : (
-                baseRatePerStay
+                baseRatePerStay.toFixed(2)
               )}
             </TableCell>
           </TableRow>
@@ -153,10 +153,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, petRateId, "PET", "PER_NIGHT");
                   }}
-                  defaultValue={petRatePerNight}
+                  defaultValue={petRatePerNight.toFixed(2)}
                 />
               ) : (
-                petRatePerNight
+                petRatePerNight.toFixed(2)
               )}
             </TableCell>
             <TableCell>
@@ -166,10 +166,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, petRateId, "PET", "PER_STAY");
                   }}
-                  defaultValue={petRatePerStay}
+                  defaultValue={petRatePerStay.toFixed(2)}
                 />
               ) : (
-                petRatePerStay
+                petRatePerStay.toFixed(2)
               )}
             </TableCell>
           </TableRow>
@@ -182,10 +182,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, vehicleRateId, "VEHICLE", "PER_NIGHT");
                   }}
-                  defaultValue={vehicleRatePerNight}
+                  defaultValue={vehicleRatePerNight.toFixed(2)}
                 />
               ) : (
-                vehicleRatePerNight
+                vehicleRatePerNight.toFixed(2)
               )}
             </TableCell>
             <TableCell>
@@ -195,10 +195,10 @@ const RatesTable = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     handleChange(e, vehicleRateId, "VEHICLE", "PER_STAY");
                   }}
-                  defaultValue={vehicleRatePerStay}
+                  defaultValue={vehicleRatePerStay.toFixed(2)}
                 />
               ) : (
-                vehicleRatePerStay
+                vehicleRatePerStay.toFixed(2)
               )}
             </TableCell>
           </TableRow>
