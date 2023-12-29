@@ -310,3 +310,18 @@ export type BookingProcessPet = {
   start: Date;
   end: Date;
 };
+
+export type BulkRateUpdateObj = {
+  unitTypeId: number;
+  type: "BASE" | "GUEST" | "PET" | "VEHICLE";
+  guestTypeId: number | undefined;
+  perNight: number | undefined;
+  perStay: number | undefined;
+};
+
+export type ChangedItems = {
+  id: number;
+  type: "BASE" | "GUEST" | "PET" | "VEHICLE";
+  newValuePerNight: number | null;
+  newValuePerStay: number | null;
+}[];

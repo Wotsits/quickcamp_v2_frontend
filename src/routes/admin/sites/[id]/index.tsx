@@ -42,9 +42,9 @@ const IndividualSite = () => {
     return <div>Site not found</div>;
   }
 
-  let parsedId = -1;
+  let siteId = -1;
   try {
-    parsedId = parseInt(id);
+    siteId = parseInt(id);
   } catch (e) {
     return <div>SiteId not valid.</div>;
   }
@@ -58,10 +58,10 @@ const IndividualSite = () => {
     isError,
     data: siteData,
     error,
-  } = useQuery<{ data: Site }, Error>(["Site", id], () =>
+  } = useQuery<{ data: Site }, Error>(["Site", siteId], () =>
     getSite({
       token: user.token,
-      id: parsedId,
+      id: siteId,
     })
   );
 

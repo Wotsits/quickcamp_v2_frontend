@@ -4,7 +4,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { setDateToMidday } from "../../../utils/dateTimeManipulation";
 import "./style.css";
 import { add } from "date-fns";
-import { UnitType } from "../../../types";
+import { BulkRateUpdateObj, UnitType } from "../../../types";
 import {
   Accordion,
   AccordionDetails,
@@ -19,10 +19,34 @@ import AuthContext from "../../../contexts/authContext";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
 import { GuestType } from "../../../types";
 
+// ---------------------
+// DEBUG
+const dummyReturn: BulkRateUpdateObj[] = [
+  {
+    unitTypeId: 1,
+    type: "BASE",
+    guestTypeId: 99,
+    perNight: 10,
+    perStay: 10,
+  },
+  {
+    unitTypeId: 2,
+    type: "PET",
+    guestTypeId: 99,
+    perNight: 10,
+    perStay: 10,
+  },
+];
+//---------------------
+
 type BulkUpdateRateFormProps = {
   unitTypes: UnitType[];
   onCancel: () => void;
-  onSave: () => void;
+  onSave: (
+    changedItems: BulkRateUpdateObj[],
+    startDate: Date,
+    endDate: Date
+  ) => void;
 };
 
 const BulkUpdateRateForm = ({
@@ -169,7 +193,7 @@ const BulkUpdateRateForm = ({
               text: "Cancel",
             },
             {
-              onClick: () => onSave(),
+              onClick: () => onSave(dummyReturn, startDate, endDate),
               disabled: false,
               variant: "contained",
               color: "primary",

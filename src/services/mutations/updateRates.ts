@@ -1,6 +1,6 @@
 import axios from "axios";
 import { APIURL } from "../../settings";
-import { ChangedItems } from "../../routes/admin/sites/[id]/ratesPage";
+import { ChangedItems } from "../../types";
 
 type UpdateRatesArgs = {
   token: string;

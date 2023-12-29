@@ -6,7 +6,12 @@ import ContentBlock from "../../../../../components/atoms/ContentBlock";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { today1200 } from "../../../../../utils/dateTimeManipulation";
 import { getSite } from "../../../../../services/queries/getSite";
-import { Site, UnitType } from "../../../../../types";
+import {
+  BulkRateUpdateObj,
+  ChangedItems,
+  Site,
+  UnitType,
+} from "../../../../../types";
 import AuthContext from "../../../../../contexts/authContext";
 import { getUnitTypes } from "../../../../../services/queries/getUnitTypes";
 import {
@@ -33,15 +38,9 @@ import {
 
 import { updateRates } from "../../../../../services/mutations/updateRates";
 
-import UpgradeIcon from '@mui/icons-material/Upgrade';
+import UpgradeIcon from "@mui/icons-material/Upgrade";
 import BulkUpdateRateForm from "../../../../../components/organisms/BulkUpdateRateForm";
-
-export type ChangedItems = {
-  id: number;
-  type: "BASE" | "GUEST" | "PET" | "VEHICLE";
-  newValuePerNight: number | null;
-  newValuePerStay: number | null;
-}[];
+import { updateRatesByDates } from "../../../../../services/mutations/updateRatesByDates";
 
 const RatesPage = () => {
   // ----------
@@ -148,12 +147,27 @@ const RatesPage = () => {
   // MUTATIONS
   // ----------
 
-  const { mutate, isError: isErrorRatesUpdate, error: errorRatesUpdate } = useMutation({
+  const {
+    mutate: updateRatesByIdMutate,
+    isError: updateRatesByIdIsError,
+    error: updateRatesByIdError,
+  } = useMutation({
     mutationFn: updateRates,
     onSuccess: (res) => {
       queryClient.invalidateQueries(["UnitTypes"]);
       resetRatesBeingEdited();
-    }
+    },
+  });
+
+  const {
+    mutate: updateRatesByDatesMutate,
+    isError: updateRatesByDatesIsError,
+    error: updateRatesByDatesError,
+  } = useMutation({
+    mutationFn: updateRatesByDates,
+    onSuccess: (res) => {
+      queryClient.invalidateQueries(["UnitTypes"]);
+    },
   });
 
   // ----------
@@ -190,10 +204,24 @@ const RatesPage = () => {
   }
 
   function handleRatesEdit(changedItems: ChangedItems) {
-    mutate({
+    updateRatesByIdMutate({
       token: user.token,
-      changedItems
+      changedItems,
     });
+  }
+
+  function handleBulkRatesEdit(
+    changedItems: BulkRateUpdateObj[],
+    startDate: Date,
+    endDate: Date
+  ) {
+    console.log(changedItems, startDate, endDate)
+    // updateRatesByDatesMutate({
+    //   token: user.token,
+    //   changedItems,
+    //   startDate,
+    //   endDate,
+    // });
   }
 
   // ----------
@@ -201,7 +229,7 @@ const RatesPage = () => {
   // ----------
 
   if (siteIsLoading || ratesIsLoading) return <div>Loading...</div>;
-  if (siteIsError || ratesIsError || isErrorRatesUpdate )
+  if (siteIsError || ratesIsError || updateRatesByIdIsError)
     return (
       <>
         <Alert severity="error" className="margin-bottom-1">
@@ -211,7 +239,7 @@ const RatesPage = () => {
           {ratesError?.message}
         </Alert>
         <Alert severity="error" className="margin-bottom-1">
-          {(errorRatesUpdate as Error)?.message}
+          {(updateRatesByIdError as Error)?.message}
         </Alert>
       </>
     );
@@ -220,6 +248,8 @@ const RatesPage = () => {
 
   return (
     <div id="rates-display">
+      {/** SINGLE RATE UPDATE MODAL */}
+
       {ratesEditorOpen && (
         <Modal open={true} onClose={() => resetRatesBeingEdited()}>
           <ModalHeader
@@ -240,24 +270,40 @@ const RatesPage = () => {
         </Modal>
       )}
 
+      {/** BULK RATE UPDATE MODAL */}
+
       {bulkUpdateModalOpen && (
         <Modal open={true} onClose={() => setBulkUpdateModalOpen(false)}>
           <ModalHeader
             title="Bulk Update"
             onClose={() => setBulkUpdateModalOpen(false)}
           />
-          <BulkUpdateRateForm unitTypes={ratesData.data} onCancel={() => setBulkUpdateModalOpen(false)} onSave={console.log} />
+          <BulkUpdateRateForm
+            unitTypes={ratesData.data}
+            onCancel={() => setBulkUpdateModalOpen(false)}
+            onSave={(
+              changedItems: BulkRateUpdateObj[],
+              startDate: Date,
+              endDate: Date
+            ) => handleBulkRatesEdit(changedItems, startDate, endDate)}
+          />
         </Modal>
       )}
 
       <PageHeader title="Rates Editor">
-            <Button variant="contained" startIcon={<UpgradeIcon />} onClick={() => setBulkUpdateModalOpen(true)} >Bulk Update</Button>
+        <Button
+          variant="contained"
+          startIcon={<UpgradeIcon />}
+          onClick={() => setBulkUpdateModalOpen(true)}
+        >
+          Bulk Update
+        </Button>
       </PageHeader>
 
       <ContentBlock title="Site Details">
         <LabelAndValuePair label="Site ID" value={siteId} />
       </ContentBlock>
-      
+
       <ContentBlock title="Rates">
         <TableContainer>
           <Table>
@@ -294,7 +340,8 @@ const RatesPage = () => {
                       date,
                       unitType.vehicleFeesCalendarEntries!
                     );
-                    if (!baseRate || !guestRates || !petRate || !vehicleRate) return null;
+                    if (!baseRate || !guestRates || !petRate || !vehicleRate)
+                      return null;
                     return (
                       <TableCell
                         key={date.toLocaleDateString()}

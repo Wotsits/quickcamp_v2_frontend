@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Alert,
 } from "@mui/material";
-import { ChangedItems } from "../../../routes/admin/sites/[id]/ratesPage";
+import { ChangedItems } from "../../../types";
 import RatesTable from "../../molecules/RatesTable";
 import ButtonContainer from "../../atoms/ButtonContainer";
 
