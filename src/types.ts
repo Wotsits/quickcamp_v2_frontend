@@ -325,3 +325,18 @@ export type ChangedItems = {
   newValuePerNight: number | null;
   newValuePerStay: number | null;
 }[];
+
+export type RateSummary = {
+  id: number;
+  perNight: number;
+  perStay: number;
+}
+
+export type GuestRatesSummary = [
+  string, 
+  {
+    id: number;
+    perNight: number;
+    perStay: number;
+  }
+][]

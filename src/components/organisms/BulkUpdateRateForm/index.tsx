@@ -21,6 +21,8 @@ import { GuestType } from "../../../types";
 
 // ---------------------
 // DEBUG
+
+// TODO: replace this with some state to track the changes and pass it to the onSave callback
 const dummyReturn: BulkRateUpdateObj[] = [
   {
     unitTypeId: 1,

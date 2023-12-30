@@ -9,6 +9,8 @@ import { getSite } from "../../../../../services/queries/getSite";
 import {
   BulkRateUpdateObj,
   ChangedItems,
+  GuestRatesSummary,
+  RateSummary,
   Site,
   UnitType,
 } from "../../../../../types";
@@ -81,32 +83,10 @@ const RatesPage = () => {
   const [bulkUpdateModalOpen, setBulkUpdateModalOpen] = useState(false);
 
   const [ratesEditorOpen, setRatesEditorOpen] = useState(false);
-  const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<{
-    id: number;
-    perNight: number;
-    perStay: number;
-  } | null>(null);
-  const [guestRatesBeingEdited, setGuestRatesBeingEdited] = useState<
-    | (
-        | string
-        | {
-            id: number;
-            perNight: number;
-            perStay: number;
-          }
-      )[][]
-    | null
-  >(null);
-  const [petRateBeingEdited, setPetRateBeingEdited] = useState<{
-    id: number;
-    perNight: number;
-    perStay: number;
-  } | null>(null);
-  const [vehicleRateBeingEdited, setVehicleRateBeingEdited] = useState<{
-    id: number;
-    perNight: number;
-    perStay: number;
-  } | null>(null);
+  const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<RateSummary | null>(null);
+  const [guestRatesBeingEdited, setGuestRatesBeingEdited] = useState<GuestRatesSummary | null>(null);
+  const [petRateBeingEdited, setPetRateBeingEdited] = useState<RateSummary | null>(null);
+  const [vehicleRateBeingEdited, setVehicleRateBeingEdited] = useState<RateSummary | null>(null);
 
   // ----------
   // QUERIES

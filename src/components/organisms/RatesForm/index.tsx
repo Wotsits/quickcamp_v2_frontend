@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import {
   Alert,
 } from "@mui/material";
-import { ChangedItems } from "../../../types";
+import { ChangedItems, GuestRatesSummary, RateSummary } from "../../../types";
 import RatesTable from "../../molecules/RatesTable";
 import ButtonContainer from "../../atoms/ButtonContainer";
 
-type RatesTableProps = {
+type RatesFormProps = {
   /** mandatory, baseRate to be displayed in the table */
-  baseRate: { id: number; perNight: number; perStay: number } | null;
+  baseRate: RateSummary | null;
   /** mandatory, guestRates to be displayed in the table */
-  guestRates: any; // [guestTypeName, { id, perNight, perStay }]
+  guestRates: GuestRatesSummary | null;
   /** mandatory, guestRates to be displayed in the table */
-  petRate: { id: number; perNight: number; perStay: number } | null;
+  petRate: RateSummary | null;
   /** mandatory, guestRates to be displayed in the table */
-  vehicleRate: { id: number; perNight: number; perStay: number } | null;
+  vehicleRate: RateSummary | null;
   /** optional, boolean flag controlling whether the content of the table is editable */
   contentEditable?: boolean;
   /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking cancel button */
@@ -34,7 +34,7 @@ const RatesForm = ({
   onCancel,
   onSave,
   validOverride = true,
-}: RatesTableProps) => {
+}: RatesFormProps) => {
   const [itemsChanged, setItemsChanged] = useState<ChangedItems>([]);
 
   if (contentEditable && (!onCancel || !onSave)) {
