@@ -311,13 +311,22 @@ export type BookingProcessPet = {
   end: Date;
 };
 
+export type SimpleRate = {
+  id: number;
+  perNight: number;
+  perStay: number;
+};
+
 export type BulkRateUpdateObj = {
   unitTypeId: number;
-  type: "BASE" | "GUEST" | "PET" | "VEHICLE";
-  guestTypeId: number | undefined;
-  perNight: number | undefined;
-  perStay: number | undefined;
-};
+  unitTypeName: string;
+  rates: {
+    base: SimpleRate;
+    guest: GuestRatesSummary;
+    pet: SimpleRate;
+    vehicle: SimpleRate;
+  };
+}[];
 
 export type ChangedItems = {
   id: number;
@@ -330,13 +339,14 @@ export type RateSummary = {
   id: number;
   perNight: number;
   perStay: number;
-}
+};
 
-export type GuestRatesSummary = [
-  string, 
-  {
-    id: number;
-    perNight: number;
-    perStay: number;
+export type GuestRatesSummary = {
+  guestTypeId: number,
+  guestTypeName: string,
+  rate: {
+    id: number,
+    perNight: number,
+    perStay: number
   }
-][]
+}[]

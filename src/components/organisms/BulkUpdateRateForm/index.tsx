@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RatesTable from "../../molecules/RatesTable";
 import { DatePicker } from "@mui/x-date-pickers";
 import { setDateToMidday } from "../../../utils/dateTimeManipulation";
 import "./style.css";
 import { add } from "date-fns";
-import { BulkRateUpdateObj, UnitType } from "../../../types";
+import { BulkRateUpdateObj, GuestRatesSummary, SimpleRate, UnitType } from "../../../types";
 import {
   Accordion,
   AccordionDetails,
@@ -18,34 +18,13 @@ import { useParams } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
 import { GuestType } from "../../../types";
-
-// ---------------------
-// DEBUG
-
-// TODO: replace this with some state to track the changes and pass it to the onSave callback
-const dummyReturn: BulkRateUpdateObj[] = [
-  {
-    unitTypeId: 1,
-    type: "BASE",
-    guestTypeId: 99,
-    perNight: 10,
-    perStay: 10,
-  },
-  {
-    unitTypeId: 2,
-    type: "PET",
-    guestTypeId: 99,
-    perNight: 10,
-    perStay: 10,
-  },
-];
-//---------------------
+import { generateFormState } from "./helpers";
 
 type BulkUpdateRateFormProps = {
   unitTypes: UnitType[];
   onCancel: () => void;
   onSave: (
-    changedItems: BulkRateUpdateObj[],
+    changedItems: BulkRateUpdateObj,
     startDate: Date,
     endDate: Date
   ) => void;
@@ -86,6 +65,7 @@ const BulkUpdateRateForm = ({
   // STATE
   // ----------
 
+  const [formState, setFormState] = useState<BulkRateUpdateObj | null>(null);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(add(new Date(), { days: 7 }));
 
@@ -93,12 +73,26 @@ const BulkUpdateRateForm = ({
   // QUERIES
   // ----------
 
-  const { isLoading, isError, data, error } = useQuery<
-    { data: GuestType[] },
-    Error
-  >(["guestTypes", siteId], () =>
+  const {
+    isLoading,
+    isError,
+    data: guestTypes,
+    error,
+  } = useQuery<{ data: GuestType[] }, Error>(["guestTypes", siteId], () =>
     getGuestTypes({ token: user.token, siteId: parsedSiteId })
   );
+
+  // ----------
+  // EFFECTS
+  // ----------
+
+  useEffect(() => {
+    // when guestTypes are recieved, build the formState obj
+    if (guestTypes) {
+      const newFormState = generateFormState(unitTypes, guestTypes.data);
+      setFormState(newFormState);
+    }
+  }, [guestTypes]);
 
   // ----------
   // EVENT HANDLERS
@@ -106,21 +100,6 @@ const BulkUpdateRateForm = ({
 
   function onChange() {
     console.log("onChange");
-  }
-
-  // ----------
-  // HELPERS
-  // ----------
-
-  function generateEmptyGuestRates(guestTypes: GuestType[]) {
-    return guestTypes.map((guestType) => [
-      guestType.name,
-      {
-        id: -1,
-        perNight: 0,
-        perStay: 0,
-      },
-    ]);
   }
 
   // ----------
@@ -134,6 +113,8 @@ const BulkUpdateRateForm = ({
   if (isError) {
     return <Alert severity="error">{(error as Error).message}</Alert>;
   }
+
+  if (formState === null) return <div>Loading...</div>;
 
   return (
     <div className={"bulk-update-rate-form"}>
@@ -154,37 +135,39 @@ const BulkUpdateRateForm = ({
         />
       </div>
       <div className="update-form">
-        {unitTypes.map((unitType) => (
-          <Accordion
-            key={unitType.id}
-            className="unit-type-accordion"
-            TransitionProps={{ unmountOnExit: false }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1a-content"
-              id={`accordion-${unitType.id}-header`}
+        {formState.map((unitType) => {
+          return (
+            <Accordion
+              key={unitType.unitTypeId}
+              className="unit0type-acccordion"
+              TransitionProps={{ unmountOnExit: false }}
             >
-              {unitType.name}
-            </AccordionSummary>
-            <AccordionDetails>
-              <RatesTable
-                contentEditable={true}
-                handleChange={onCancel}
-                baseRateId={-1}
-                baseRatePerNight={0}
-                baseRatePerStay={0}
-                guestRates={generateEmptyGuestRates(data!.data)}
-                petRateId={-1}
-                petRatePerNight={0}
-                petRatePerStay={0}
-                vehicleRateId={-1}
-                vehicleRatePerNight={0}
-                vehicleRatePerStay={0}
-              />
-            </AccordionDetails>
-          </Accordion>
-        ))}
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls={`accordion-${unitType.unitTypeId}-content`}
+                id={`accordion-${unitType.unitTypeId}-header`}
+              >
+                {unitType.unitTypeName}
+              </AccordionSummary>
+              <AccordionDetails>
+                <RatesTable
+                  contentEditable={true}
+                  handleChange={onCancel}
+                  baseRateId={unitType.rates.base.id}
+                  baseRatePerNight={unitType.rates.base.perNight}
+                  baseRatePerStay={unitType.rates.base.perStay}
+                  guestRates={unitType.rates.guest}
+                  petRateId={unitType.rates.pet.id}
+                  petRatePerNight={unitType.rates.pet.perNight}
+                  petRatePerStay={unitType.rates.pet.perStay}
+                  vehicleRateId={unitType.rates.vehicle.id}
+                  vehicleRatePerNight={unitType.rates.vehicle.perNight}
+                  vehicleRatePerStay={unitType.rates.vehicle.perStay}
+                />
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
         <ButtonContainer
           config={[
             {
@@ -195,7 +178,7 @@ const BulkUpdateRateForm = ({
               text: "Cancel",
             },
             {
-              onClick: () => onSave(dummyReturn, startDate, endDate),
+              onClick: () => onSave(formState, startDate, endDate),
               disabled: false,
               variant: "contained",
               color: "primary",

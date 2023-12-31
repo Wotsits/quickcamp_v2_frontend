@@ -32,14 +32,15 @@ export const generateGuestRates = (
   );
   if (!guestRateDataForDate || guestRateDataForDate.length === 0) return null;
   const dataForReturn = guestRateDataForDate.map((guestRate) => {
-    return [
-      guestRate.guestType.name,
-      {
+    return {
+      guestTypeId: guestRate.guestType.id,
+      guestTypeName: guestRate.guestType.name,
+      rate: {
         id: guestRate.id,
         perNight: guestRate.feePerNight,
         perStay: guestRate.feePerStay,
-      },
-    ];
+      }
+    }
   });
   if (dataForReturn.length === 0) return null;
   return dataForReturn as GuestRatesSummary;

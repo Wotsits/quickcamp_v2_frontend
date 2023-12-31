@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
+import { GuestRatesSummary } from "../../../types";
 
 type RatesTableProps = {
   /** callback when a field value is changed */
@@ -23,7 +24,7 @@ type RatesTableProps = {
   /** per stay value of the base rate being displayed */
   baseRatePerStay: number;
   /** guest rates to be displayed in the table */
-  guestRates: any; // [guestTypeName, { id, perNight, perStay }]
+  guestRates: GuestRatesSummary;
   /** ID of the pet rate being displayed */
   petRateId: number;
   /** per night value of the pet rate being displayed */
@@ -94,17 +95,11 @@ const RatesTable = ({
               )}
             </TableCell>
           </TableRow>
-          {guestRates.map(
-            (
-              guestRate: [
-                string,
-                { id: number; perNight: number; perStay: number }
-              ]
-            ) => {
-              const guestTypeName = guestRate[0];
-              const guestTypeRateId = guestRate[1].id;
-              const guestTypeRatePerNight = guestRate[1].perNight.toFixed(2);
-              const guestTypeRatePerStay = guestRate[1].perStay.toFixed(2);
+          {guestRates.map(guestRate => {
+              const guestTypeName = guestRate.guestTypeName;
+              const guestTypeRateId = guestRate.guestTypeId;
+              const guestTypeRatePerNight = guestRate.rate.perNight.toFixed(2);
+              const guestTypeRatePerStay = guestRate.rate.perStay.toFixed(2);
 
               return (
                 <TableRow key={guestTypeName}>

@@ -191,7 +191,7 @@ const RatesPage = () => {
   }
 
   function handleBulkRatesEdit(
-    changedItems: BulkRateUpdateObj[],
+    changedItems: BulkRateUpdateObj,
     startDate: Date,
     endDate: Date
   ) {
@@ -262,7 +262,7 @@ const RatesPage = () => {
             unitTypes={ratesData.data}
             onCancel={() => setBulkUpdateModalOpen(false)}
             onSave={(
-              changedItems: BulkRateUpdateObj[],
+              changedItems: BulkRateUpdateObj,
               startDate: Date,
               endDate: Date
             ) => handleBulkRatesEdit(changedItems, startDate, endDate)}
