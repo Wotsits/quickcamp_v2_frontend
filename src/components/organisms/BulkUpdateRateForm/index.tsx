@@ -4,7 +4,12 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { setDateToMidday } from "../../../utils/dateTimeManipulation";
 import "./style.css";
 import { add } from "date-fns";
-import { BulkRateUpdateObj, GuestRatesSummary, SimpleRate, UnitType } from "../../../types";
+import {
+  BulkRateUpdateObj,
+  GuestRatesSummary,
+  SimpleRate,
+  UnitType,
+} from "../../../types";
 import {
   Accordion,
   AccordionDetails,
@@ -69,6 +74,9 @@ const BulkUpdateRateForm = ({
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(add(new Date(), { days: 7 }));
 
+  // DECIDING WHETHER THE USER NEEDS A WARNING AS THERE ARE RATES WHICH ARE SET TO ZERO.
+  const [warning, setWarning] = useState(true)
+
   // ----------
   // QUERIES
   // ----------
@@ -94,6 +102,10 @@ const BulkUpdateRateForm = ({
     }
   }, [guestTypes]);
 
+  useEffect(() => {
+    // each time the formState changes, check whether there are any items that have no 
+  }, [formState])
+
   // ----------
   // EVENT HANDLERS
   // ----------
@@ -118,6 +130,8 @@ const BulkUpdateRateForm = ({
 
   return (
     <div className={"bulk-update-rate-form"}>
+      {/* START / END DATE CONTAINER */}
+
       <div className={"date-range-container"}>
         <DatePicker
           onChange={(value: Date | null) =>
@@ -134,40 +148,44 @@ const BulkUpdateRateForm = ({
           label={"End date"}
         />
       </div>
+
+      {/* ACCORDIONS FOR EACH UNIT TYPE */}
+
       <div className="update-form">
-        {formState.map((unitType) => {
-          return (
-            <Accordion
-              key={unitType.unitTypeId}
-              className="unit0type-acccordion"
-              TransitionProps={{ unmountOnExit: false }}
+        {formState.map((unitType) => (
+          <Accordion
+            key={unitType.unitTypeId}
+            className="unit0type-acccordion"
+            TransitionProps={{ unmountOnExit: false }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              aria-controls={`accordion-${unitType.unitTypeId}-content`}
+              id={`accordion-${unitType.unitTypeId}-header`}
             >
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls={`accordion-${unitType.unitTypeId}-content`}
-                id={`accordion-${unitType.unitTypeId}-header`}
-              >
-                {unitType.unitTypeName}
-              </AccordionSummary>
-              <AccordionDetails>
-                <RatesTable
-                  contentEditable={true}
-                  handleChange={onCancel}
-                  baseRateId={unitType.rates.base.id}
-                  baseRatePerNight={unitType.rates.base.perNight}
-                  baseRatePerStay={unitType.rates.base.perStay}
-                  guestRates={unitType.rates.guest}
-                  petRateId={unitType.rates.pet.id}
-                  petRatePerNight={unitType.rates.pet.perNight}
-                  petRatePerStay={unitType.rates.pet.perStay}
-                  vehicleRateId={unitType.rates.vehicle.id}
-                  vehicleRatePerNight={unitType.rates.vehicle.perNight}
-                  vehicleRatePerStay={unitType.rates.vehicle.perStay}
-                />
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+              {unitType.unitTypeName}
+            </AccordionSummary>
+            <AccordionDetails>
+              <RatesTable
+                contentEditable={true}
+                handleChange={onCancel}
+                baseRateId={unitType.rates.base.id}
+                baseRatePerNight={unitType.rates.base.perNight}
+                baseRatePerStay={unitType.rates.base.perStay}
+                guestRates={unitType.rates.guest}
+                petRateId={unitType.rates.pet.id}
+                petRatePerNight={unitType.rates.pet.perNight}
+                petRatePerStay={unitType.rates.pet.perStay}
+                vehicleRateId={unitType.rates.vehicle.id}
+                vehicleRatePerNight={unitType.rates.vehicle.perNight}
+                vehicleRatePerStay={unitType.rates.vehicle.perStay}
+              />
+            </AccordionDetails>
+          </Accordion>
+        ))}
+
+        {/* SAVE / RESET BUTTON CONTAINER */}
+
         <ButtonContainer
           config={[
             {

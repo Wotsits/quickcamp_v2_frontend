@@ -79,15 +79,15 @@ export const router = createBrowserRouter([
         ],
       },
       {
+        path: ROUTES.CALENDAR,
+        element: <BookingCalendar />,
+      },
+      {
         path: ROUTES.BOOKINGS,
         children: [
           {
             index: true,
             element: <Bookings />,
-          },
-          {
-            path: ROUTES.CALENDAR,
-            element: <BookingCalendar />,
           },
           {
             path: ROUTES.NEW,

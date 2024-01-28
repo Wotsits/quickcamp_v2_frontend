@@ -16,7 +16,7 @@ export const primaryNavOptions = [
     },
     {
       text: "Booking Calendar",
-      path: ROUTES.BOOKINGS + ROUTES.CALENDAR,
+      path: ROUTES.CALENDAR,
       icon: <CalendarTodayIcon />,
     },
     {
