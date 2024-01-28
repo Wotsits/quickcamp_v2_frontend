@@ -55,7 +55,6 @@ const NavMenu = ({ primaryNavOptions, secondaryNavOptions }: NavMenuProps) => {
         <List>
           {secondaryNavOptions.map((option) => {
           const active = location.pathname.startsWith("/" + option.path)
-          console.log(location.pathname)
           return (
               <Link key={option.path} style={linkStyle} to={option.path}>
                 <ListItem disablePadding sx={{ display: "block" }}>
