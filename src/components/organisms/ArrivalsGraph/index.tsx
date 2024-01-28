@@ -66,6 +66,7 @@ const ArrivalsGraph = ({ arrivalsData, padding, height, width }: ArrivalsGraphPr
         {
           data: yAxis,
           area: true,
+          showMark: false
         },
       ]}
       height={height}
