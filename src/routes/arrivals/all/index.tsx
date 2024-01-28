@@ -2,11 +2,9 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Button,
-  Icon,
+  Chip,
   IconButton,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -67,81 +65,80 @@ function countTotalToday(
   if (status === "DUE") {
     return arrivingToday.length;
   }
-};
+  return 0;
+}
 
-function calculatePeopleArrivedToday (arrivals: Booking[]) {
+function calculatePeopleArrivedToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.guests, "CHECKED-IN", arrivalDate) || 0;
+    total += countTotalToday(arrival.guests, "CHECKED-IN", arrivalDate);
   });
 
   return total;
 }
 
-function calculatePeopleArrivingToday (arrivals: Booking[]) {
+function calculatePeopleArrivingToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.guests, "DUE", arrivalDate) || 0;
+    total += countTotalToday(arrival.guests, "DUE", arrivalDate);
   });
 
   return total;
 }
 
-function calculatePetsArrivedToday (arrivals: Booking[]) {
+function calculatePetsArrivedToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate) || 0;
+    total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate);
   });
 
   return total;
 }
 
-function calculatePetsArrivingToday (arrivals: Booking[]) {
+function calculatePetsArrivingToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.pets, "DUE", arrivalDate) || 0;
+    total += countTotalToday(arrival.pets, "DUE", arrivalDate);
   });
 
   return total;
 }
 
-function calculateVehiclesArrivedToday (arrivals: Booking[]) {
+function calculateVehiclesArrivedToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate) || 0;
+    total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate);
   });
 
   return total;
 }
 
-function calculateVehiclesArrivingToday (arrivals: Booking[]) {
+function calculateVehiclesArrivingToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
   arrivals.forEach((arrival) => {
     const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.vehicles, "DUE", arrivalDate) || 0;
+    total += countTotalToday(arrival.vehicles, "DUE", arrivalDate);
   });
 
   return total;
 }
-
-
 
 const Arrivals = () => {
   // -------------
@@ -173,7 +170,7 @@ const Arrivals = () => {
     isError: arrivalsAreError,
     data: arrivalsData,
     error: arrivalsError,
-  } = useQuery<{data: Booking[]}, Error>(["ArrivalsByDate", date], () =>
+  } = useQuery<{ data: Booking[] }, Error>(["ArrivalsByDate", date], () =>
     getArrivalsByDate({
       date: date as Date,
       token: user.token,
@@ -191,7 +188,6 @@ const Arrivals = () => {
 
   return (
     <div id="arrivals" className="full-width">
-      
       <PageHeader title="Arrivals">
         <IconButton
           onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
@@ -246,22 +242,28 @@ const Arrivals = () => {
             <div id="summary-blocks">
               <SummaryBlock
                 label="Bookings With Arrivals Today"
-                content={`${arrivalsData!.data.length}` } 
+                content={`${arrivalsData!.data.length}`}
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="People Arriving Today"
-                content={`${calculatePeopleArrivedToday(arrivalsData!.data)} in of ${calculatePeopleArrivingToday(arrivalsData!.data)}`}
+                content={`${calculatePeopleArrivedToday(
+                  arrivalsData!.data
+                )} in of ${calculatePeopleArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Cars Arriving Today"
-                content={`${calculateVehiclesArrivedToday(arrivalsData!.data)} in of ${calculateVehiclesArrivingToday(arrivalsData!.data)}`}
+                content={`${calculateVehiclesArrivedToday(
+                  arrivalsData!.data
+                )} in of ${calculateVehiclesArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Pets Arriving Today"
-                content={`${calculatePetsArrivedToday(arrivalsData!.data)} in of ${calculatePetsArrivingToday(arrivalsData!.data)}`}
+                content={`${calculatePetsArrivedToday(
+                  arrivalsData!.data
+                )} in of ${calculatePetsArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
             </div>
@@ -273,7 +275,11 @@ const Arrivals = () => {
                 justifyContent: "center",
               }}
             >
-              <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300} width={500}/>
+              <ArrivalsGraph
+                arrivalsData={arrivalsData!.data}
+                height={300}
+                width={500}
+              />
             </div>
           </AccordionDetails>
         </Accordion>
@@ -325,6 +331,51 @@ const Arrivals = () => {
                         <TableCell component="th" scope="row">
                           {arrival.leadGuest.firstName}{" "}
                           {arrival.leadGuest.lastName}
+                          {arrival.guests!.length ===
+                            countTotalToday(
+                              arrival.guests,
+                              "CHECKED-IN",
+                              date as Date
+                            ) && (
+                            <Chip
+                              label={"all arrived"}
+                              variant="filled"
+                              size="small"
+                              color="success"
+                              sx={{ marginLeft: 1 }}
+                            />
+                          )}
+                          {countTotalToday(arrival.guests, "CHECKED-IN", date as Date) === 0 && (
+                            <Chip
+                              label={"none arrived"}
+                              variant="filled"
+                              size="small"
+                              color="error"
+                              sx={{ marginLeft: 1 }}
+                            />
+                          )}
+                          {
+                            countTotalToday(
+                              arrival.guests,
+                              "DUE",
+                              date as Date
+                            ) > countTotalToday(
+                              arrival.guests,
+                              "CHECKED-IN",
+                              date as Date
+                            ) && countTotalToday(
+                              arrival.guests,
+                              "CHECKED-IN",
+                              date as Date
+                            ) !== 0 && (
+                            <Chip
+                              label={"some arrived"}
+                              variant="filled"
+                              size="small"
+                              color="warning"
+                              sx={{ marginLeft: 1 }}
+                            />
+                          )}
                         </TableCell>
                         <TableCell align="right">
                           {countTotalToday(
