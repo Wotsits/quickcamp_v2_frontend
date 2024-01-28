@@ -39,7 +39,7 @@ const summaryBlockSettings = {
   background:
     "linear-gradient(90deg, rgba(0,4,40,1) 35%, rgba(0,78,146,1) 100%)",
   foregroundColor: "white",
-  width: "200px",
+  minWidth: "300px",
   height: "200px",
 };
 

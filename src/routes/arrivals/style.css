@@ -11,7 +11,7 @@
 #arrivals #summary-blocks {
     margin-bottom: 20px;
     display: flex;
-    justify-content: center;
+    align-content: stretch;
     gap: 20px;
     width: 100%;
     flex-wrap: wrap;

@@ -1,24 +1,23 @@
 .summary-block {
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 .summary-block .summary-block-label {
     font-size: 120%;
     font-weight: 400;
-    text-align: center;
+    text-align: left;
     margin: 0;
     padding: 0;
 }
 
-.summary-block .summary-block-content {
-    font-size: 500%;
-    font-weight: 300;
-    margin: 0;
-    padding: 0;
+.summary-block .summary-block-content-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
 }

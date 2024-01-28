@@ -10,12 +10,18 @@ type SummaryBlockProps = {
   background: string;
   /** mandatory, foreground color of summary block */
   foregroundColor: string;
-  /** mandatory, summaryBlock width */
-  width: string;
-  /** mandatory, summaryBlock height */
-  height: string;
-  /** optional, boolean dictating whether the display is inverted or not */
-  inverted?: boolean;
+  /** optional, summaryBlock width */
+  width?: string;
+  /** optional, summaryBlock height */
+  height?: string;
+  /** optional, summmaryBlock minWidth */
+  minWidth?: string;
+  /** optional, summaryBlock maxWidth */
+  maxWidth?: string;
+  /** optional, summaryBlock minHeight */
+  minHeight?: string;
+  /** optional, summaryBlock maxHeight */
+  maxHeight?: string;
 };
 
 const SummaryBlock = ({
@@ -24,16 +30,29 @@ const SummaryBlock = ({
   background,
   foregroundColor,
   width,
+  minWidth,
+  maxWidth,
   height,
-  inverted = false
+  minHeight,
+  maxHeight
 }: SummaryBlockProps) => {
   return (
     <div
       className="summary-block"
-      style={{ background, color: foregroundColor, width, minWidth: width, height, minHeight: height }}
+      style={{
+        background: background,
+        color: foregroundColor,
+        width: width,
+        minWidth: minWidth,
+        maxWidth: maxWidth,        
+        height: height,
+        minHeight: minHeight,
+        maxHeight: maxHeight,
+        flex: 1
+      }}
     >
-      {!inverted ? <p className="summary-block-label">{label}</p> : <p className="summary-block-content">{content}</p>}
-      {!inverted ? <p className="summary-block-content">{content}</p> : <p className="summary-block-label">{label}</p>}
+      <h6 className="summary-block-label">{label}</h6>
+      <div className="summary-block-content-container">{content}</div>
     </div>
   );
 };

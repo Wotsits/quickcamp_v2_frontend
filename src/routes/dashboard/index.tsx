@@ -176,8 +176,7 @@ const Dashboard = () => {
 
       <div id="on-site-summary">
         <SummaryBlock
-          inverted
-          label="on site now"
+          label="On Site Now"
           content={`${totalOnSiteData!.data.totalOnSite}`}
           background={"purple"}
           foregroundColor="white"
@@ -190,8 +189,7 @@ const Dashboard = () => {
 
       <div id="arrived-summary">
         <SummaryBlock
-          inverted
-          label="arrived"
+          label="Arrived Today"
           content={`${generateCompletePercentage("ARRIVALS")}`}
           background={SECONDARYCOLOR}
           foregroundColor="white"
@@ -204,8 +202,7 @@ const Dashboard = () => {
 
       <div id="departed-summary">
         <SummaryBlock
-          inverted
-          label="departed"
+          label="Departed Today"
           content={`${generateCompletePercentage("DEPARTURES")}`}
           background={PRIMARYCOLOR}
           foregroundColor="white"
@@ -218,8 +215,7 @@ const Dashboard = () => {
 
       <div id="on-site-tonight">
         <SummaryBlock
-          inverted
-          label="on site tonight"
+          label="On Site Tonight"
           content="-"
           background={"purple"}
           foregroundColor="white"
@@ -232,8 +228,7 @@ const Dashboard = () => {
 
       <div id="income-summary">
         <SummaryBlock
-          inverted
-          label="total income today"
+          label="Total Income Today"
           content="£-"
           background={SECONDARYCOLOR}
           foregroundColor="white"
@@ -246,8 +241,7 @@ const Dashboard = () => {
 
       <div id="pending-bookings">
         <SummaryBlock
-          inverted
-          label="pending bookings"
+          label="Pending Bookings"
           content="-"
           background={PRIMARYCOLOR}
           foregroundColor="white"
