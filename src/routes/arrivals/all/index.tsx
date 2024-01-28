@@ -306,7 +306,6 @@ const Arrivals = () => {
                     <TableCell align="right">People Arriving Today</TableCell>
                     <TableCell align="right">Pets Arriving Today</TableCell>
                     <TableCell align="right">Vehicles Arriving Today</TableCell>
-                    <TableCell align="right">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -327,6 +326,9 @@ const Arrivals = () => {
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
+                        onClick={() => navigate(`/arrivals/${arrival.id}/`)}
+                        hover
+                        className="clickable"
                       >
                         <TableCell component="th" scope="row">
                           {arrival.leadGuest.firstName}{" "}
@@ -407,16 +409,7 @@ const Arrivals = () => {
                             date as Date
                           )}
                         </TableCell>
-                        <TableCell align="right">
-                          <Button
-                            color="success"
-                            size="small"
-                            sx={{ mr: -1 }}
-                            onClick={() => navigate(`/arrivals/${arrival.id}/`)}
-                          >
-                            CheckIn
-                          </Button>
-                        </TableCell>
+                        
                       </TableRow>
                     ))}
                 </TableBody>
