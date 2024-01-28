@@ -74,7 +74,8 @@ function calculatePeopleArrivedToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.guests, "CHECKED-IN", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.guests, "CHECKED-IN", arrivalDate) || 0;
   });
 
   return total;
@@ -85,7 +86,8 @@ function calculatePeopleArrivingToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.guests, "DUE", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.guests, "DUE", arrivalDate) || 0;
   });
 
   return total;
@@ -96,7 +98,8 @@ function calculatePetsArrivedToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.pets, "CHECKED-IN", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate) || 0;
   });
 
   return total;
@@ -107,7 +110,8 @@ function calculatePetsArrivingToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.pets, "DUE", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.pets, "DUE", arrivalDate) || 0;
   });
 
   return total;
@@ -118,7 +122,8 @@ function calculateVehiclesArrivedToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.vehicles, "CHECKED-IN", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate) || 0;
   });
 
   return total;
@@ -129,7 +134,8 @@ function calculateVehiclesArrivingToday (arrivals: Booking[]) {
 
   let total = 0;
   arrivals.forEach((arrival) => {
-    total += countTotalToday(arrival.vehicles, "DUE", today1200()) || 0;
+    const arrivalDate = setDateToMidday(new Date(arrival.start));
+    total += countTotalToday(arrival.vehicles, "DUE", arrivalDate) || 0;
   });
 
   return total;
@@ -183,7 +189,6 @@ const Arrivals = () => {
 
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
 
-  console.log(arrivalsData!.data)
   return (
     <div id="arrivals" className="full-width">
       
