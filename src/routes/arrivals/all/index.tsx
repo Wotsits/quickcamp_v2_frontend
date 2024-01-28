@@ -43,11 +43,11 @@ const summaryBlockSettings = {
   height: "200px",
 };
 
-const countTotalToday = (
+function countTotalToday(
   array: Booking["guests"] | Booking["pets"] | Booking["vehicles"],
   status: "CHECKED-IN" | "DUE",
   today: Date
-) => {
+) {
   if (!array) return 0;
   if (!status) return array.length;
   if (!today) return array.length;
@@ -68,6 +68,74 @@ const countTotalToday = (
     return arrivingToday.length;
   }
 };
+
+function calculatePeopleArrivedToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.guests, "CHECKED-IN", today1200()) || 0;
+  });
+
+  return total;
+}
+
+function calculatePeopleArrivingToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.guests, "DUE", today1200()) || 0;
+  });
+
+  return total;
+}
+
+function calculatePetsArrivedToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.pets, "CHECKED-IN", today1200()) || 0;
+  });
+
+  return total;
+}
+
+function calculatePetsArrivingToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.pets, "DUE", today1200()) || 0;
+  });
+
+  return total;
+}
+
+function calculateVehiclesArrivedToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.vehicles, "CHECKED-IN", today1200()) || 0;
+  });
+
+  return total;
+}
+
+function calculateVehiclesArrivingToday (arrivals: Booking[]) {
+  if (!arrivals) return 0;
+
+  let total = 0;
+  arrivals.forEach((arrival) => {
+    total += countTotalToday(arrival.vehicles, "DUE", today1200()) || 0;
+  });
+
+  return total;
+}
+
+
 
 const Arrivals = () => {
   // -------------
@@ -115,6 +183,7 @@ const Arrivals = () => {
 
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
 
+  console.log(arrivalsData!.data)
   return (
     <div id="arrivals" className="full-width">
       
@@ -171,23 +240,23 @@ const Arrivals = () => {
           <AccordionDetails>
             <div id="summary-blocks">
               <SummaryBlock
-                label="Bookings Arriving Today"
-                content={arrivalsData!.data.length} // TODO correct this!
+                label="Bookings With Arrivals Today"
+                content={`${arrivalsData!.data.length}` } 
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="People Arriving Today"
-                content={arrivalsData!.data.length} // TODO correct this!
+                content={`${calculatePeopleArrivedToday(arrivalsData!.data)} in of ${calculatePeopleArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Cars Arriving Today"
-                content={arrivalsData!.data.length} // TODO correct this!
+                content={`${calculateVehiclesArrivedToday(arrivalsData!.data)} in of ${calculateVehiclesArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
               <SummaryBlock
                 label="Pets Arriving Today"
-                content={arrivalsData!.data.length} // TODO correct this!
+                content={`${calculatePetsArrivedToday(arrivalsData!.data)} in of ${calculatePetsArrivingToday(arrivalsData!.data)}`}
                 {...summaryBlockSettings}
               />
             </div>
