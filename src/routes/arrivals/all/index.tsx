@@ -320,98 +320,91 @@ const Arrivals = () => {
                     </TableRow>
                   )}
                   {arrivalsData &&
-                    arrivalsData.data.map((arrival) => (
-                      <TableRow
-                        key={arrival.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                        onClick={() => navigate(`/arrivals/${arrival.id}/`)}
-                        hover
-                        className="clickable"
-                      >
-                        <TableCell component="th" scope="row">
-                          {arrival.leadGuest.firstName}{" "}
-                          {arrival.leadGuest.lastName}
-                          {arrival.guests!.length ===
-                            countTotalToday(
-                              arrival.guests,
-                              "CHECKED-IN",
-                              date as Date
-                            ) && (
-                            <Chip
-                              label={"all arrived"}
-                              variant="filled"
-                              size="small"
-                              color="success"
-                              sx={{ marginLeft: 1 }}
-                            />
-                          )}
-                          {countTotalToday(arrival.guests, "CHECKED-IN", date as Date) === 0 && (
-                            <Chip
-                              label={"none arrived"}
-                              variant="filled"
-                              size="small"
-                              color="error"
-                              sx={{ marginLeft: 1 }}
-                            />
-                          )}
-                          {
-                            countTotalToday(
-                              arrival.guests,
-                              "DUE",
-                              date as Date
-                            ) > countTotalToday(
-                              arrival.guests,
-                              "CHECKED-IN",
-                              date as Date
-                            ) && countTotalToday(
-                              arrival.guests,
-                              "CHECKED-IN",
-                              date as Date
-                            ) !== 0 && (
-                            <Chip
-                              label={"some arrived"}
-                              variant="filled"
-                              size="small"
-                              color="warning"
-                              sx={{ marginLeft: 1 }}
-                            />
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          {countTotalToday(
-                            arrival.guests,
-                            "CHECKED-IN",
-                            date as Date
-                          )}
-                          /
-                          {countTotalToday(arrival.guests, "DUE", date as Date)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {countTotalToday(
-                            arrival.pets,
-                            "CHECKED-IN",
-                            date as Date
-                          )}
-                          /{countTotalToday(arrival.pets, "DUE", date as Date)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {countTotalToday(
-                            arrival.vehicles,
-                            "CHECKED-IN",
-                            date as Date
-                          )}
-                          /
-                          {countTotalToday(
-                            arrival.vehicles,
-                            "DUE",
-                            date as Date
-                          )}
-                        </TableCell>
-                        
-                      </TableRow>
-                    ))}
+                    arrivalsData.data.map((arrival) => {
+                      const peopleArrivedToday = countTotalToday(
+                        arrival.guests,
+                        "CHECKED-IN",
+                        date as Date
+                      );
+                      const peopleDueToday = countTotalToday(
+                        arrival.guests,
+                        "DUE",
+                        date as Date
+                      );
+                      const petsArrivedToday = countTotalToday(
+                        arrival.pets,
+                        "CHECKED-IN",
+                        date as Date
+                      );
+                      const petsDueToday = countTotalToday(
+                        arrival.pets,
+                        "DUE",
+                        date as Date
+                      );
+                      const vehiclesArrivedToday = countTotalToday(
+                        arrival.vehicles,
+                        "CHECKED-IN",
+                        date as Date
+                      );
+                      const vehiclesDueToday = countTotalToday(
+                        arrival.vehicles,
+                        "DUE",
+                        date as Date
+                      );
+                      return (
+                        <TableRow
+                          key={arrival.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                          onClick={() => navigate(`/arrivals/${arrival.id}/`)}
+                          hover
+                          className="clickable"
+                        >
+                          <TableCell component="th" scope="row">
+                            {arrival.leadGuest.firstName}{" "}
+                            {arrival.leadGuest.lastName}
+                            {peopleDueToday === peopleArrivedToday && (
+                              <Chip
+                                label={"all arrived"}
+                                variant="filled"
+                                size="small"
+                                color="success"
+                                sx={{ marginLeft: 1 }}
+                              />
+                            )}
+                            {peopleArrivedToday === 0 && (
+                              <Chip
+                                label={"none arrived"}
+                                variant="filled"
+                                size="small"
+                                color="error"
+                                sx={{ marginLeft: 1 }}
+                              />
+                            )}
+                            {peopleDueToday > peopleArrivedToday &&
+                              peopleArrivedToday !== 0 && (
+                                <Chip
+                                  label={"some arrived"}
+                                  variant="filled"
+                                  size="small"
+                                  color="warning"
+                                  sx={{ marginLeft: 1 }}
+                                />
+                              )}
+                          </TableCell>
+                          <TableCell align="right">
+                            {peopleArrivedToday}/{peopleDueToday}
+                          </TableCell>
+                          <TableCell align="right">
+                            {petsArrivedToday}/{petsDueToday}
+                          </TableCell>
+                          <TableCell align="right">
+                            {vehiclesArrivedToday}/{vehiclesDueToday}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </TableContainer>
