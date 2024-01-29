@@ -55,7 +55,7 @@ export const API_ENDPOINTS = {
   BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range/",
   BOOKING_BY_ID: "booking-by-id/",
   BOOKING_NEW: "new-booking/",
-  ARRIVALS_BY_DATE: "arrivals-by-date/",
+  ARRIVALS: "arrivals/",
   DEPARTURES_BY_DATE: "departures-by-date/",
   AVAILABLE_UNITS: "available-units/",
   EXTRA_TYPES: "extra-types/",

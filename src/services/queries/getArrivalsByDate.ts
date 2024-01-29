@@ -17,7 +17,7 @@ export const getArrivalsByDate = async ({
   token,
 }: GetArrivalsByDate) => {
   const response = await axios.get<{ data: Booking[] }>(
-    APIURL + API_ENDPOINTS.ARRIVALS_BY_DATE,
+    APIURL + API_ENDPOINTS.ARRIVALS,
     {
       headers: { Authorization: "Bearer " + token },
       params: {
