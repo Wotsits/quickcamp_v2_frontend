@@ -1,14 +1,10 @@
-import { BookingGuest, BookingPet, BookingVehicle } from "../../types";
-import { isGuestDue } from "../../utils/helpers";
+import { BookingGuest } from "../../types";
 
 export function checkoutOne(
   guestId: number,
   type: "GUEST" | "PET" | "VEHICLE",
-  state: BookingGuest[] | BookingPet[] | BookingVehicle[],
-  setState:
-    | React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>
-    | React.Dispatch<React.SetStateAction<BookingPet[] | undefined>>
-    | React.Dispatch<React.SetStateAction<BookingVehicle[] | undefined>>,
+  state: BookingGuest[],
+  setState:React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   mutationFunc: any,
   token: string,
   reverse: boolean
@@ -36,10 +32,6 @@ export function checkoutOne(
 export function checkoutAll(
   guestState: BookingGuest[],
   setGuestState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
-  petState: BookingPet[],
-  setPetState: React.Dispatch<React.SetStateAction<BookingPet[] | undefined>>,
-  vehicleState: BookingVehicle[],
-  setVehicleState: React.Dispatch<React.SetStateAction<BookingVehicle[] | undefined>>,
   mutationFunc: any,
   token: string,
   reverse: boolean
@@ -47,8 +39,6 @@ export function checkoutAll(
   const now = new Date();
 
   const guestStateCpy = [...guestState];
-  const petStateCpy = [...petState];
-  const vehicleStateCpy = [...vehicleState];
 
   const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] =
     [];
@@ -59,22 +49,8 @@ export function checkoutAll(
       toUpdateOnServer.push({ id: guest.id, type: "GUEST" });
     }
   });
-  petStateCpy.forEach((pet) => {
-    if (pet.checkedIn) {
-      pet.checkedOut = !reverse ? now : null;
-      toUpdateOnServer.push({ id: pet.id, type: "PET" });
-    }
-  });
-  vehicleStateCpy.forEach((vehicle) => {
-    if (vehicle.checkedIn) {
-      vehicle.checkedOut = !reverse ? now : null;
-      toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
-    }
-  });
 
   setGuestState(guestState);
-  setPetState(petState);
-  setVehicleState(vehicleState);
 
   // Update the server
   mutationFunc.mutate({

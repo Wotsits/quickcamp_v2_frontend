@@ -1,4 +1,4 @@
-import { BookingGuest, BookingPet, BookingVehicle } from "../types";
+import { BookingGuest} from "../types";
 
 export function generateDateArray(startDate: Date, numberOfNights: number) {
   const startDateCpy = new Date(startDate);
@@ -65,7 +65,7 @@ export function getInitials(inputString: string) {
 }
 
 
-export function isGuestDue(guest: BookingGuest | BookingPet | BookingVehicle) {
+export function isGuestDue(guest: BookingGuest) {
   const now = new Date();
 
   const start = new Date(guest.start);

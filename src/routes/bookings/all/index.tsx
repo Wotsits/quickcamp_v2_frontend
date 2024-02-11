@@ -157,8 +157,12 @@ const Bookings = () => {
                         </TableCell>
                       );
                     })}
-                    <TableCell>{booking.pets!.length}</TableCell>
-                    <TableCell>{booking.vehicles!.length}</TableCell>
+                    <TableCell>
+                      Todo - fix this
+                    </TableCell>
+                    <TableCell>
+                      Todo - fix this
+                    </TableCell>
                   </TableRow>
                 );
               })}

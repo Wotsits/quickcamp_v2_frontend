@@ -29,12 +29,6 @@ const IndividualArrival = () => {
   const [guests, setGuests] = React.useState<Booking["guests"] | undefined>(
     undefined
   );
-  const [pets, setPets] = React.useState<Booking["pets"] | undefined>(
-    undefined
-  );
-  const [vehicles, setVehicles] = React.useState<
-    Booking["vehicles"] | undefined
-  >(undefined);
 
   const [error, setError] = React.useState<string | undefined>(undefined);
 
@@ -67,8 +61,6 @@ const IndividualArrival = () => {
     {
       onSuccess(arrivalsData) {
         setGuests(arrivalsData.data.guests);
-        setPets(arrivalsData.data.pets);
-        setVehicles(arrivalsData.data.vehicles);
       },
     }
   );
@@ -125,9 +117,7 @@ const IndividualArrival = () => {
 
   if (
     isArrivalLoading ||
-    guests === undefined ||
-    pets === undefined ||
-    vehicles === undefined
+    guests === undefined
   ) {
     return <div>Loading...</div>;
   }
@@ -158,19 +148,13 @@ const IndividualArrival = () => {
               checkinAll(
                 guests,
                 setGuests,
-                pets,
-                setPets,
-                vehicles,
-                setVehicles,
                 checkInManyGuestsMutation,
                 user.token,
                 false
               )
             }
             disabled={
-              guests.every((guest) => guest.checkedIn !== null) &&
-              pets.every((pet) => pet.checkedIn !== null) &&
-              vehicles.every((vehicle) => vehicle.checkedIn !== null)
+              guests.every((guest) => guest.checkedIn !== null) 
             }
           >
             CheckIn All
@@ -181,22 +165,14 @@ const IndividualArrival = () => {
               checkinAll(
                 guests,
                 setGuests,
-                pets,
-                setPets,
-                vehicles,
-                setVehicles,
                 checkInManyGuestsMutation,
                 user.token,
                 true
               )
             }
             disabled={
-              (guests.every((guest) => guest.checkedIn === null) &&
-                pets.every((pet) => pet.checkedIn === null) &&
-                vehicles.every((vehicle) => vehicle.checkedIn === null)) ||
-              (guests.every((guest) => guest.checkedOut !== null) &&
-                pets.every((pet) => pet.checkedOut !== null) &&
-                vehicles.every((vehicle) => vehicle.checkedOut !== null))
+              guests.every((guest) => guest.checkedIn === null) ||
+              guests.every((guest) => guest.checkedOut !== null)
             }
           >
             Un-CheckIn All
@@ -265,47 +241,7 @@ const IndividualArrival = () => {
           Pets
         </Divider>
 
-        <Box
-          className={
-            pets!.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {pets.map((pet) => (
-            <LargeButton
-              onClick={
-                !pet.checkedIn
-                  ? () =>
-                      checkinOne(
-                        pet.id,
-                        "PET",
-                        pets,
-                        setPets,
-                        checkInOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkinOne(
-                        pet.id,
-                        "PET",
-                        pets,
-                        setPets,
-                        checkInOneGuestMutation,
-                        user.token,
-                        true
-                      )
-              }
-              highlighted={pet.checkedIn !== null}
-              disabled={!isGuestDue(pet) || pet.checkedOut !== null}
-            >
-              <div>
-                {pet.name}
-                {!isGuestDue(pet) && <div>Not yet due</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
+        
 
         {/* VEHICLES */}
 
@@ -313,47 +249,7 @@ const IndividualArrival = () => {
           Vehicles
         </Divider>
 
-        <Box
-          className={
-            vehicles.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {vehicles!.map((vehicle) => (
-            <LargeButton
-              onClick={
-                !vehicle.checkedIn
-                  ? () =>
-                      checkinOne(
-                        vehicle.id,
-                        "VEHICLE",
-                        vehicles,
-                        setVehicles,
-                        checkInOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkinOne(
-                        vehicle.id,
-                        "VEHICLE",
-                        vehicles,
-                        setVehicles,
-                        checkInOneGuestMutation,
-                        user.token,
-                        true
-                      )
-              }
-              highlighted={vehicle.checkedIn !== null}
-              disabled={!isGuestDue(vehicle) || vehicle.checkedOut !== null}
-            >
-              <div>
-                {vehicle.vehicleReg}
-                {!isGuestDue(vehicle) && <div>Not yet due</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
+
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ const summaryBlockSettings = {
 };
 
 function countTotalToday(
-  array: Booking["guests"] | Booking["pets"] | Booking["vehicles"],
+  array: Booking["guests"],
   status: "CHECKED-IN" | "DUE",
   today: Date
 ) {
@@ -96,22 +96,22 @@ function calculatePetsArrivedToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate);
-  });
+  // arrivals.forEach((arrival) => {
+  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
+  //   total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate);
+  // });
 
   return total;
 }
 
 function calculatePetsArrivingToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
-
+  
   let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.pets, "DUE", arrivalDate);
-  });
+  // arrivals.forEach((arrival) => {
+  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
+  //   total += countTotalToday(arrival.pets, "DUE", arrivalDate);
+  // });
 
   return total;
 }
@@ -120,10 +120,10 @@ function calculateVehiclesArrivedToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate);
-  });
+  // arrivals.forEach((arrival) => {
+  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
+  //   total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate);
+  // });
 
   return total;
 }
@@ -132,10 +132,10 @@ function calculateVehiclesArrivingToday(arrivals: Booking[]) {
   if (!arrivals) return 0;
 
   let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.vehicles, "DUE", arrivalDate);
-  });
+  // arrivals.forEach((arrival) => {
+  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
+  //   total += countTotalToday(arrival.vehicles, "DUE", arrivalDate);
+  // });
 
   return total;
 }
@@ -331,26 +331,30 @@ const Arrivals = () => {
                         "DUE",
                         date as Date
                       );
-                      const petsArrivedToday = countTotalToday(
-                        arrival.pets,
-                        "CHECKED-IN",
-                        date as Date
-                      );
-                      const petsDueToday = countTotalToday(
-                        arrival.pets,
-                        "DUE",
-                        date as Date
-                      );
-                      const vehiclesArrivedToday = countTotalToday(
-                        arrival.vehicles,
-                        "CHECKED-IN",
-                        date as Date
-                      );
-                      const vehiclesDueToday = countTotalToday(
-                        arrival.vehicles,
-                        "DUE",
-                        date as Date
-                      );
+                      const petsArrivedToday = 0;
+                      const petsDueToday = 0;
+                      const vehiclesArrivedToday = 0;
+                      const vehiclesDueToday = 0;
+                      // const petsArrivedToday = countTotalToday(
+                      //   arrival.pets,
+                      //   "CHECKED-IN",
+                      //   date as Date
+                      // );
+                      // const petsDueToday = countTotalToday(
+                      //   arrival.pets,
+                      //   "DUE",
+                      //   date as Date
+                      // );
+                      // const vehiclesArrivedToday = countTotalToday(
+                      //   arrival.vehicles,
+                      //   "CHECKED-IN",
+                      //   date as Date
+                      // );
+                      // const vehiclesDueToday = countTotalToday(
+                      //   arrival.vehicles,
+                      //   "DUE",
+                      //   date as Date
+                      // );
                       return (
                         <TableRow
                           key={arrival.id}

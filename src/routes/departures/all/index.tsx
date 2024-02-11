@@ -41,7 +41,7 @@ const summaryBlockSettings = {
 };
 
 const countTotalToday = (
-  array: Booking["guests"] | Booking["pets"] | Booking["vehicles"],
+  array: Booking["guests"],
   status: "CHECKED-OUT" | "DUE",
   today: Date
 ) => {
@@ -249,25 +249,10 @@ const Departures = () => {
                           {countTotalToday(departure.guests, "DUE", date as Date)}
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(
-                            departure.pets,
-                            "CHECKED-OUT",
-                            date as Date
-                          )}
-                          /{countTotalToday(departure.pets, "DUE", date as Date)}
+                          Todo - Fix this
                         </TableCell>
                         <TableCell align="right">
-                          {countTotalToday(
-                            departure.vehicles,
-                            "CHECKED-OUT",
-                            date as Date
-                          )}
-                          /
-                          {countTotalToday(
-                            departure.vehicles,
-                            "DUE",
-                            date as Date
-                          )}
+                          Todo - Fix this
                         </TableCell>
                         <TableCell align="right">
                           <Button

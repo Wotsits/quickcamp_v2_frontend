@@ -47,12 +47,8 @@ const BookingSummary = ({
     start,
     end,
     guests,
-    pets,
-    vehicles,
     paid,
     peopleCheckedIn,
-    petsCheckedIn,
-    vehiclesCheckedIn,
   } = booking;
 
   const guestTypes = Object.keys(guests);
@@ -92,8 +88,6 @@ const BookingSummary = ({
               {guestType}: {guests[guestType]}
             </div>
           ))}
-          <div>Pets: {pets}</div>
-          <div>Vehicles: {vehicles}</div>
         </div>
 
         <div className="booking-summary-finance-details">
@@ -102,8 +96,6 @@ const BookingSummary = ({
 
         <div className="booking-summary-checkedin-details">
           <div>People Checked In: {peopleCheckedIn}</div>
-          <div>Pets Checked In: {petsCheckedIn}</div>
-          <div>Vehicles Checked In: {vehiclesCheckedIn}</div>
         </div>
       </CardContent>
 

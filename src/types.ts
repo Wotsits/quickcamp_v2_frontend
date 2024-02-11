@@ -84,14 +84,26 @@ export type LeadGuest = {
   notes?: Note[];
 };
 
+export type GuestTypeGroup = {
+  id: number;
+  name: string;
+  siteId: number;
+  site?: Site;
+  order: number;
+  getAndReportArrivalTime: boolean;
+  guestTypes: GuestType[]
+}
+
 export type GuestType = {
   id: number;
   name: string;
   description: string;
   icon: string;
-  siteId: number;
-  site?: Site;
-  guests?: LeadGuest[];
+  identifierLabel: string;
+  guestTypeGroupId: number;
+  guestTypeGroup?: GuestTypeGroup;
+  bookingGuests?: BookingGuest[];
+  feesCalendarEntries: GuestFeesCalendar[];
 };
 
 export type EquipmentType = {
@@ -122,8 +134,6 @@ export type Booking = {
   leadGuestId: number;
   leadGuest: LeadGuest;
   guests?: BookingGuest[];
-  vehicles?: BookingVehicle[];
-  pets?: BookingPet[];
   payments?: Payment[];
   status: string;
 };
@@ -144,29 +154,7 @@ export type BookingGuest = {
   guestType?: GuestType;
   start: Date;
   end: Date;
-  checkedIn: Date | null;
-  checkedOut: Date | null;
-};
-
-export type BookingVehicle = {
-  id: number;
-  bookingId: number;
-  booking?: Booking;
-  vehicleReg: string;
-  start: Date;
-  end: Date;
-  checkedIn: Date | null;
-  checkedOut: Date | null;
-  expectedArrival: string;
-};
-
-export type BookingPet = {
-  id: number;
-  bookingId: number;
-  booking?: Booking;
-  name: string;
-  start: Date;
-  end: Date;
+  arrivalTime?: string;
   checkedIn: Date | null;
   checkedOut: Date | null;
 };
@@ -255,8 +243,6 @@ export type BookingSumm = {
   guests: {
     [key: string]: number;
   };
-  pets: number;
-  vehicles: number;
   unit: number;
   start: string;
   end: string;
@@ -277,10 +263,6 @@ export type Note = {
   payment?: Payment;
   bookingGuestId?: number;
   bookingGuest?: BookingGuest;
-  bookingPetId?: number;
-  bookingPet?: BookingPet;
-  bookingVehicleId?: number;
-  bookingVehicle?: BookingVehicle;
   createdOn: Date;
   userId: number;
   user: User;

@@ -43,12 +43,12 @@ const ArrivalsGraph = ({ arrivalsData, padding, height, width }: ArrivalsGraphPr
   const yAxis = xAxis.map((xAxis) => 0);
   // iterate through the arrivals and add to the yAxis array.
   arrivalsData.forEach((arrival) => {
-    const { vehicles } = arrival;
-    if (!vehicles) return;
-    vehicles.forEach((vehicle) => {
-      const { expectedArrival } = vehicle;
-      if (!expectedArrival) return;
-      const indexOfTime = xAxis.findIndex((time) => time === expectedArrival);
+    const { guests } = arrival;
+    if (!guests) return;
+    guests.forEach((guest) => {
+      const { arrivalTime } = guest;
+      if (!arrivalTime) return;
+      const indexOfTime = xAxis.findIndex((time) => time === arrivalTime);
       if (indexOfTime === -1) return;
       yAxis[indexOfTime] += 1;
     });

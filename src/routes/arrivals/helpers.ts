@@ -1,14 +1,11 @@
-import { BookingGuest, BookingPet, BookingVehicle } from "../../types";
+import { BookingGuest} from "../../types";
 import { isGuestDue } from "../../utils/helpers";
 
 export function checkinOne(
   guestId: number,
   type: "GUEST" | "PET" | "VEHICLE",
-  state: BookingGuest[] | BookingPet[] | BookingVehicle[],
-  setState:
-    | React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>
-    | React.Dispatch<React.SetStateAction<BookingPet[] | undefined>>
-    | React.Dispatch<React.SetStateAction<BookingVehicle[] | undefined>>,
+  state: BookingGuest[],
+  setState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   mutationFunc: any,
   token: string,
   reverse: boolean
@@ -36,10 +33,6 @@ export function checkinOne(
 export function checkinAll(
   guestState: BookingGuest[],
   setGuestState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
-  petState: BookingPet[],
-  setPetState: React.Dispatch<React.SetStateAction<BookingPet[] | undefined>>,
-  vehicleState: BookingVehicle[],
-  setVehicleState: React.Dispatch<React.SetStateAction<BookingVehicle[] | undefined>>,
   checkInManyGuestsMutation: any,
   token: string,
   reverse: boolean
@@ -48,8 +41,6 @@ export function checkinAll(
   const now = new Date();
 
   const guestStateCpy = [...guestState];
-  const petStateCpy = [...petState];
-  const vehicleStateCpy = [...vehicleState];
 
   const toUpdateOnServer: { id: number; type: "GUEST" | "PET" | "VEHICLE" }[] =
     [];
@@ -70,42 +61,8 @@ export function checkinAll(
       }
     }
   });
-  petStateCpy.forEach((pet) => {
-    if (isGuestDue(pet)) {
-      if (!reverse) {
-        if (!pet.checkedIn && !pet.checkedOut) {
-          pet.checkedIn = now;
-          toUpdateOnServer.push({ id: pet.id, type: "PET" });
-        }
-      }
-      else {
-        if (pet.checkedIn && !pet.checkedOut) {
-          pet.checkedIn = null;
-          toUpdateOnServer.push({ id: pet.id, type: "PET" });
-        }
-      }
-    }
-  });
-  vehicleStateCpy.forEach((vehicle) => {
-    if (isGuestDue(vehicle)) {
-      if (!reverse) {
-        if (!vehicle.checkedIn && !vehicle.checkedOut) {
-          vehicle.checkedIn = now;
-          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
-        }
-      }
-      else {
-        if (vehicle.checkedIn && !vehicle.checkedOut) {
-          vehicle.checkedIn = null;
-          toUpdateOnServer.push({ id: vehicle.id, type: "VEHICLE" });
-        }
-      }
-    }
-  });
 
   setGuestState(guestState);
-  setPetState(petState);
-  setVehicleState(vehicleState);
 
   // Update the server
   checkInManyGuestsMutation.mutate({

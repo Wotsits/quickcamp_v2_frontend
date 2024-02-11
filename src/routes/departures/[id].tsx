@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Booking, BookingGuest, BookingPet, BookingVehicle } from "../../types";
+import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import {
   Alert,
@@ -10,11 +10,9 @@ import {
   Button,
   Divider,
   IconButton,
-  Typography,
 } from "@mui/material";
 import LargeButton from "../../components/atoms/LargeButton";
 import "./style.css";
-import { isGuestDue } from "../../utils/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import { ROUTES } from "../../settings";
 import { checkoutAll, checkoutOne } from "./helpers";
@@ -36,12 +34,6 @@ const IndividualDeparture = () => {
   const [guests, setGuests] = React.useState<Booking["guests"] | undefined>(
     undefined
   );
-  const [pets, setPets] = React.useState<Booking["pets"] | undefined>(
-    undefined
-  );
-  const [vehicles, setVehicles] = React.useState<
-    Booking["vehicles"] | undefined
-  >(undefined);
 
   const [error, setError] = React.useState<string | undefined>(undefined);
 
@@ -74,8 +66,6 @@ const IndividualDeparture = () => {
     {
       onSuccess(res) {
         setGuests(res.data.guests);
-        setPets(res.data.pets);
-        setVehicles(res.data.vehicles);
       },
     }
   );
@@ -134,9 +124,7 @@ const IndividualDeparture = () => {
 
   if (
     isDepartureLoading ||
-    guests === undefined ||
-    pets === undefined ||
-    vehicles === undefined
+    guests === undefined
   ) {
     return <div>Loading...</div>;
   }
@@ -168,19 +156,13 @@ const IndividualDeparture = () => {
               checkoutAll(
                 guests,
                 setGuests,
-                pets,
-                setPets,
-                vehicles,
-                setVehicles,
                 checkOutManyGuestsMutation,
                 user.token,
                 false
               )
             }
             disabled={
-              guests.every((guest) => guest.checkedOut !== null) &&
-              pets.every((pet) => pet.checkedOut !== null) &&
-              vehicles.every((vehicle) => vehicle.checkedOut !== null)
+              guests.every((guest) => guest.checkedOut !== null)
             }
           >
             Check Out All
@@ -191,19 +173,13 @@ const IndividualDeparture = () => {
               checkoutAll(
                 guests,
                 setGuests,
-                pets,
-                setPets,
-                vehicles,
-                setVehicles,
                 checkOutManyGuestsMutation,
                 user.token,
                 true
               )
             }
             disabled={
-              guests.every((guest) => guest.checkedOut === null) &&
-              pets.every((pet) => pet.checkedOut === null) &&
-              vehicles.every((vehicle) => vehicle.checkedOut === null)
+              guests.every((guest) => guest.checkedOut === null)
             }
           >
             Un-Check Out All
@@ -272,47 +248,6 @@ const IndividualDeparture = () => {
           Pets
         </Divider>
 
-        <Box
-          className={
-            pets!.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {pets.map((pet) => (
-            <LargeButton
-              onClick={
-                !pet.checkedOut
-                  ? () =>
-                      checkoutOne(
-                        pet.id,
-                        "PET",
-                        pets,
-                        setPets,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkoutOne(
-                        pet.id,
-                        "PET",
-                        pets,
-                        setPets,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        true
-                      )
-              }
-              highlighted={pet.checkedOut !== null}
-              disabled={!pet.checkedIn}
-            >
-              <div>
-                {pet.name}
-                {!pet.checkedIn && <div>Not yet checked in</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
 
         {/* VEHICLES */}
 
@@ -320,47 +255,6 @@ const IndividualDeparture = () => {
           Vehicles
         </Divider>
 
-        <Box
-          className={
-            vehicles.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {vehicles!.map((vehicle) => (
-            <LargeButton
-              onClick={
-                !vehicle.checkedOut
-                  ? () =>
-                      checkoutOne(
-                        vehicle.id,
-                        "VEHICLE",
-                        vehicles,
-                        setVehicles,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkoutOne(
-                        vehicle.id,
-                        "VEHICLE",
-                        vehicles,
-                        setVehicles,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        true
-                      )
-              }
-              highlighted={vehicle.checkedOut !== null}
-              disabled={!vehicle.checkedIn}
-            >
-              <div>
-                {vehicle.vehicleReg}
-                {!vehicle.checkedIn && <div>Not yet checked in</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
       </div>
     </div>
   );

@@ -233,7 +233,7 @@ const IndividualBooking = () => {
             <Typography variant="h6" component="h2" gutterBottom>
               Pets
             </Typography>
-            <div className="occupant-cards">
+            {/* <div className="occupant-cards">
               {bookingData.data.pets?.map((pet) => {
                 const name = pet.name;
                 const start = new Date(pet.start).toUTCString();
@@ -252,13 +252,13 @@ const IndividualBooking = () => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
           </Box>
           <Box sx={{ mb: 3 }} justifyContent="space-between">
             <Typography variant="h6" component="h2" gutterBottom>
               Vehicles
             </Typography>
-            <div className="occupant-cards">
+            {/* <div className="occupant-cards">
               {bookingData.data.vehicles?.map((vehicle) => {
                 const reg = vehicle.vehicleReg;
                 const start = new Date(vehicle.start).toUTCString();
@@ -274,7 +274,7 @@ const IndividualBooking = () => {
                   />
                 );
               })}
-            </div>
+            </div> */}
           </Box>
         </ContentBlock>
 
