@@ -16,9 +16,9 @@ export const APIURL = process.env.APIURL || "http://localhost:8000";
 
 export const DRAWERWIDTH = 240;
 
-export const APPLICATIONNAME = "QuickCamp";
+export const APPLICATIONNAME = "YouBook";
 
-export const INFOWEBSITEADDRESS = "https://www.quickcamp.co.uk";
+export const INFOWEBSITEADDRESS = "https://www.you-book.co.uk";
 
 export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
 

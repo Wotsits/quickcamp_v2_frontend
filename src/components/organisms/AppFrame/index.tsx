@@ -8,7 +8,7 @@ import "./style.css";
 import { Avatar, Box, Typography } from "@mui/material";
 import SearchField from "../../atoms/SearchField";
 import { getInitials } from "../../../utils/helpers";
-import { SECONDARYCOLOR } from "../../../settings";
+import { APPLICATIONNAME, SECONDARYCOLOR } from "../../../settings";
 import SiteSelector from "../../molecules/SiteSelector";
 import NavMenu from "./NavMenu";
 
@@ -23,7 +23,7 @@ const AppFrame = () => {
     <div id="app-frame" >
       <div id="app-top-bar" >
         <div id="app-top-bar-left">
-          <Typography variant="h5" component="h1">QuickCamp</Typography>
+          <Typography variant="h5" component="h1">{APPLICATIONNAME}</Typography>
         </div>
         <div id="app-top-bar-right">
           <Box sx={{ display: "flex" }}>
