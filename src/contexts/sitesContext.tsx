@@ -59,10 +59,6 @@ export const SitesContextProvider = ({ children }: { children: ReactNode }) => {
   // RENDER
   // ----------------
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <SiteContext.Provider
       value={{ selectedSite, setSelectedSite: handleSelectedSiteChange }}

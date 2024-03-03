@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { APPLICATIONNAME, INFOWEBSITEADDRESS, ROUTES } from "../../../settings";
+import { ROUTES } from "../../../settings";
 import "./style.css";
 import { useContext, useState } from "react";
 import { Alert } from "@mui/material";
