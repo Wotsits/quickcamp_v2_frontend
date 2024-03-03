@@ -14,6 +14,7 @@ import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate"
 import { isSameDate } from "../../utils/helpers";
 import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
 import { BarChart } from "@mui/x-charts";
+import SiteContext from "../../contexts/sitesContext";
 
 const now = today1200();
 
@@ -22,7 +23,8 @@ const Dashboard = () => {
   // CONTEXTS
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext);
 
   // -------------
   // HOOKS

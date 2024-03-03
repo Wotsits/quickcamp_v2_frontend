@@ -32,6 +32,7 @@ import PageHeader from "../../../components/molecules/PageHeader";
 import ArrivalsGraph from "../../../components/organisms/ArrivalsGraph";
 import { ROUTES } from "../../../settings";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import SiteContext from "../../../contexts/sitesContext";
 
 const summaryBlockSettings = {
   background:
@@ -145,7 +146,8 @@ const Arrivals = () => {
   // CONTEXT
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext);
 
   // -------------
   // HOOKS

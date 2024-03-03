@@ -17,13 +17,15 @@ import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ROUTES } from '../../../settings';
 import { Routes, useNavigate } from "react-router-dom";
+import SiteContext from "../../../contexts/sitesContext";
 
 const SitesAdmin = () => {
   // -------------
   // CONTEXT
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext);
 
   // -------------
   // HOOKS

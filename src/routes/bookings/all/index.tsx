@@ -18,13 +18,15 @@ import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
 import TablePaginationControls from "../../../components/atoms/Table/TablePaginationControls";
+import SiteContext from "../../../contexts/sitesContext";
 
 const Bookings = () => {
   // -----------
   // CONTEXT
   // -----------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext);
 
   // -----------
   // HOOKS

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 
 import AuthContext from "../../../contexts/authContext";
@@ -12,12 +12,19 @@ import { APPLICATIONNAME, SECONDARYCOLOR } from "../../../settings";
 import SiteSelector from "../../molecules/SiteSelector";
 import NavMenu from "./NavMenu";
 
+import SiteContext from "../../../contexts/sitesContext";
+
 const AppFrame = () => {
   // -----------
-  // STATE
+  // CONTEXT
   // -----------
 
-  const { user, selectedSite, setSelectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite, setSelectedSite } = useContext(SiteContext);
+
+  // -----------
+  // RENDER
+  // -----------
 
   return (
     <div id="app-frame" >

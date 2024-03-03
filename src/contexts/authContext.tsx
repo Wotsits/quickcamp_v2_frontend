@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
-import React, { ReactNode, createContext, useState } from "react";
+import React, { ReactNode, createContext, useEffect, useState } from "react";
 import { APIURL } from "../settings";
-import { Role, Site, User, UserResponse } from "../types";
+import { UserResponse } from "../types";
 
 // *****************
 // TYPES
@@ -24,8 +24,6 @@ type AuthContextType = {
     username: string;
     password: string;
   }) => Promise<LoginResult>;
-  selectedSite: Site | null;
-  setSelectedSite: (a: number) => void;
 };
 
 // *****************
@@ -44,7 +42,11 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   // ----------------
 
   const [user, setUser] = useState< UserResponse | null>(null);
-  const [selectedSite, setSelectedSite] = useState<Site | null>(null);
+
+  // DEBUG
+  useEffect(() => {
+    console.log("AuthContextProvider user", user);
+  }, [user])
 
   // ----------------
   // HELPERS
@@ -56,7 +58,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       .then((response) => {
         if (response.status === 200) {
           setUser(response.data);
-          setSelectedSite(response.data.sites[0]);
           return { success: true, error: "" };
         }
         return { success: false, error: response.data };
@@ -67,23 +68,12 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   // ----------------
-  // HANDLERS
-  // ----------------
-
-  function handleSelectedSiteChange(siteId: number) {
-    const site = user!.sites.find((site: Site) => site.id === siteId);
-    if (site) {
-      setSelectedSite(site);
-    }
-  }
-
-  // ----------------
   // RENDER
   // ----------------
 
   return (
     <AuthContext.Provider
-      value={{ user, login, selectedSite, setSelectedSite: handleSelectedSiteChange }}
+      value={{ user, login }}
     >
       {children}
     </AuthContext.Provider>

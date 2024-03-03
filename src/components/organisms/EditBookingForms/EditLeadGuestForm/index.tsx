@@ -38,7 +38,7 @@ const EditLeadGuestForm = ({
   // CONTEXT
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // -------------
   // STATE

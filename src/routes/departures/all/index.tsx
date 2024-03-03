@@ -31,6 +31,7 @@ import { ROUTES } from "../../../settings";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getDeparturesByDate } from "../../../services/queries/getDeparturesByDate";
 import "../style.css";
+import SitesContext from "../../../contexts/sitesContext";
 
 const summaryBlockSettings = {
   background:
@@ -71,7 +72,8 @@ const Departures = () => {
   // CONTEXT
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SitesContext);
 
   // -------------
   // HOOKS

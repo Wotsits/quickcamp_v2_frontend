@@ -15,9 +15,10 @@ import { theme } from "./muiTheme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthContextProvider } from "./contexts/authContext";
 
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { enGB } from 'date-fns/locale';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { enGB } from "date-fns/locale";
+import { SitesContextProvider } from "./contexts/sitesContext";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -30,8 +31,10 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
           <AuthContextProvider>
-            <CssBaseline />
-            <RouterProvider router={router} />
+            <SitesContextProvider>
+              <CssBaseline />
+              <RouterProvider router={router} />
+            </SitesContextProvider>
           </AuthContextProvider>
         </LocalizationProvider>
       </QueryClientProvider>

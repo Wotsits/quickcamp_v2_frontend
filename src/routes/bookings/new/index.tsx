@@ -39,6 +39,8 @@ import BookingConfirmation from "../../../components/organisms/NewBookingForm/Bo
 import { getFeeCalc } from "../../../services/queries/getFeeCalc";
 import PageHeader from "../../../components/molecules/PageHeader";
 
+import SitesContext from "../../../contexts/sitesContext";
+
 const steps = [
   "Lead Guest Details",
   "Equipment Details",
@@ -65,7 +67,8 @@ const NewBooking = () => {
   // CONTEXT
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SitesContext);
 
   // -------------
   // STATE

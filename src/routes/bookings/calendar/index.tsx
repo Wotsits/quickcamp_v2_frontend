@@ -18,6 +18,7 @@ import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import SiteContext from "../../../contexts/sitesContext";
 
 // -------------
 // MAIN
@@ -25,10 +26,16 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const BookingCalendar = () => {
   // -------------
+  // CONTEXT
+  // -------------
+
+  const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext);
+  
+  // -------------
   // STATE
   // -------------
 
-  const { user, selectedSite } = useContext(AuthContext);
   const [startDate, setStartDate] = useState<Date | null>(today1200());
   const [columnWidth, setColumnWidth] = useState<number>(100);
 
