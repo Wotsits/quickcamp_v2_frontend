@@ -43,11 +43,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const [user, setUser] = useState< UserResponse | null>(null);
 
-  // DEBUG
-  useEffect(() => {
-    console.log("AuthContextProvider user", user);
-  }, [user])
-
   // ----------------
   // HELPERS
   // ----------------
