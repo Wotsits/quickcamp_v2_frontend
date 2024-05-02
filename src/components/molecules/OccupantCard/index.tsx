@@ -12,10 +12,13 @@ type OccupantCardProps = {
 }
 
 const OccupantCard = ({name, type, start, end, checkedIn}: OccupantCardProps) => {
+
+    let occupantTypeIconRetrievalFunc = occupantTypeIconMap[type]
+
     return (
         <div className="occupant-card">
                 <div className="occupant-card-icon-container"> 
-                    {occupantTypeIconMap[type]({className: "occupant-card-icon-svg"})}
+                    {occupantTypeIconRetrievalFunc ? occupantTypeIconRetrievalFunc({className: "occupant-card-icon-svg"}) : <p>{type}</p>}
                 </div>
                 <div className="occupant-card-detail-container">
                     <Typography variant="subtitle1">{name}</Typography>
