@@ -44,6 +44,7 @@ export const ROUTES = {
   UNIT_TYPES: "unit-types/",
   UNITS: "units/",
   GUEST_TYPES: "guest-types/",
+  GUEST_TYPE_GROUPS: "guest-type-groups/",
   EQUIPMENT_TYPES: "equipment-types/",
   EXTRA_TYPES: "extra-types/",
   USERS: "users/",

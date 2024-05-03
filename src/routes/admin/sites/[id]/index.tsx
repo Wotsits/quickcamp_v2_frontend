@@ -182,7 +182,7 @@ const IndividualSite = () => {
         </TableContainer>
       </ContentBlock>
 
-      <ContentBlock title="Guest Types">
+      <ContentBlock title="Guest Type Groups">
         <TableContainer>
           <Table sx={{ minWidth: 300, width: "100%" }}>
             <TableHead>
@@ -194,7 +194,7 @@ const IndividualSite = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!siteData?.data.guestTypes && (
+              {!siteData?.data.guestTypeGroups && (
                 <TableRow>
                   <TableCell colSpan={3}>
                     <Typography variant="body1" gutterBottom>
@@ -203,8 +203,8 @@ const IndividualSite = () => {
                   </TableCell>
                 </TableRow>
               )}
-              {siteData?.data.guestTypes &&
-                siteData.data.guestTypes.length === 0 && (
+              {siteData?.data.guestTypeGroups &&
+                siteData.data.guestTypeGroups.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={3}>
                       <Typography variant="body1" gutterBottom>
@@ -213,10 +213,10 @@ const IndividualSite = () => {
                     </TableCell>
                   </TableRow>
                 )}
-              {siteData?.data.guestTypes &&
-                siteData.data.guestTypes.map((guestType) => (
+              {siteData?.data.guestTypeGroups &&
+                siteData.data.guestTypeGroups.map((guestTypeGroup) => (
                   <TableRow
-                    key={guestType.id}
+                    key={guestTypeGroup.id}
                     className="clickable"
                     hover
                     onClick={() =>
@@ -224,15 +224,13 @@ const IndividualSite = () => {
                         ROUTES.ROOT +
                           ROUTES.ADMIN +
                           ROUTES.SITES +
-                          ROUTES.GUEST_TYPES +
-                          guestType.id
+                          ROUTES.GUEST_TYPE_GROUPS +
+                          guestTypeGroup.id
                       )
                     }
                   >
-                    <TableCell>{guestType.id}</TableCell>
-                    <TableCell>{guestType.name}</TableCell>
-                    <TableCell>{guestType.description}</TableCell>
-                    <TableCell>{guestType.icon}</TableCell>
+                    <TableCell>{guestTypeGroup.id}</TableCell>
+                    <TableCell>{guestTypeGroup.name}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

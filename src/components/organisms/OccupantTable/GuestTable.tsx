@@ -1,13 +1,13 @@
 import { Divider, IconButton, MenuItem, Select, TextField } from "@mui/material";
 import React from "react";
 import "./style.css";
-import { BookingProcessGuest, GuestType } from "../../../types";
+import { BookingProcessGuest, GuestTypeGroup } from "../../../types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DatePicker } from "@mui/x-date-pickers";
 
 type GuestTableProps = {
   guests: BookingProcessGuest[];
-  guestTypes: GuestType[];
+  guestTypeGroups: GuestTypeGroup[];
   callbackOnGuestEdit: (
     index: number,
     value: string | Date | number | null,
@@ -20,7 +20,7 @@ type GuestTableProps = {
 
 const GuestTable = ({
   guests,
-  guestTypes,
+  guestTypeGroups,
   callbackOnGuestEdit,
   callbackOnGuestDelete,
   bookingStartDate,
@@ -56,10 +56,10 @@ const GuestTable = ({
                   }
                   fullWidth
                 >
-                  {guestTypes.map((guestType) => {
+                  {guestTypeGroups.map((guestTypeGroup) => {
                     return (
-                      <MenuItem key={guestType.id} value={guestType.id}>
-                        {guestType.name}
+                      <MenuItem key={guestTypeGroup.id} value={guestTypeGroup.id}>
+                        {guestTypeGroup.name}
                       </MenuItem>
                     );
                   })}

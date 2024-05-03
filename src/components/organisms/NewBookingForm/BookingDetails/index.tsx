@@ -13,13 +13,11 @@ import {
   BookingProcessGuest,
   BookingProcessPet,
   BookingProcessVehicle,
-  GuestType,
+  GuestTypeGroup,
   Unit,
 } from "../../../../types";
 import OccupantTableWrapper from "../../../organisms/OccupantTable";
 import GuestTable from "../../../organisms/OccupantTable/GuestTable";
-import PetTable from "../../../organisms/OccupantTable/PetTable";
-import VehicleTable from "../../../organisms/OccupantTable/VehicleTable";
 
 type BookingDetailsProps = {
   formUnitId: number | null;
@@ -31,7 +29,7 @@ type BookingDetailsProps = {
   availableUnitsAreLoading: boolean;
   availableUnits: Unit[] | undefined;
   dateError: string | null;
-  guestTypes: GuestType[];
+  guestTypeGroups: GuestTypeGroup[];
   guests: BookingProcessGuest[];
   pets: BookingProcessPet[];
   vehicles: BookingProcessVehicle[];
@@ -50,7 +48,7 @@ const BookingDetails = ({
   availableUnitsAreLoading,
   availableUnits,
   dateError,
-  guestTypes,
+  guestTypeGroups,
   guests,
   pets,
   vehicles,
@@ -251,35 +249,9 @@ const BookingDetails = ({
         >
           <GuestTable
             guests={guests}
-            guestTypes={guestTypes}
+            guestTypeGroups={guestTypeGroups}
             callbackOnGuestEdit={handleGuestEdit}
             callbackOnGuestDelete={handleGuestDelete}
-            bookingStartDate={formStartDate as Date}
-            bookingEndDate={formEndDate as Date}
-          />
-        </OccupantTableWrapper>
-        <OccupantTableWrapper
-          type="Pets"
-          chipContent={pets.length.toString()}
-          callbackOnAddClick={handleAddPet}
-        >
-          <PetTable
-            pets={pets}
-            callbackOnPetEdit={handlePetEdit}
-            callbackOnPetDelete={handlePetDelete}
-            bookingStartDate={formStartDate as Date}
-            bookingEndDate={formEndDate as Date}
-          />
-        </OccupantTableWrapper>
-        <OccupantTableWrapper
-          type="Vehicles"
-          chipContent={vehicles.length.toString()}
-          callbackOnAddClick={handleAddVehicle}
-        >
-          <VehicleTable
-            vehicles={vehicles}
-            callbackOnVehicleEdit={handleVehicleEdit}
-            callbackOnVehicleDelete={handleVehicleDelete}
             bookingStartDate={formStartDate as Date}
             bookingEndDate={formEndDate as Date}
           />

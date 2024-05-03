@@ -24,7 +24,7 @@ export type Site = {
   tenant?: Tenant;
   unitTypes?: UnitType[];
   equipmentTypes?: EquipmentType[];
-  guestTypes?: GuestType[];
+  guestTypeGroups?: GuestTypeGroup[];
 };
 
 export type User = {

@@ -19,7 +19,7 @@ import {
   EquipmentType,
   ExtraType,
   FeeCalcResponse,
-  GuestType,
+  GuestTypeGroup,
   LeadGuest,
   Unit,
 } from "../../../types";
@@ -672,7 +672,7 @@ const NewBooking = () => {
               availableUnitsAreLoading={availableUnitsAreLoading}
               availableUnits={availableUnitsData && availableUnitsData.data}
               dateError={dateError}
-              guestTypes={selectedSite?.guestTypes as GuestType[]}
+              guestTypeGroups={selectedSite?.guestTypeGroups as GuestTypeGroup[]}
               guests={formBookingGuests}
               setGuests={setFormBookingGuests}
               pets={formBookingPets}
