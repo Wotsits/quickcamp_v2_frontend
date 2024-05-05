@@ -229,53 +229,6 @@ const IndividualBooking = () => {
               })}
             </div>
           </Box>
-          <Box sx={{ mb: 3 }} justifyContent="space-between">
-            <Typography variant="h6" component="h2" gutterBottom>
-              Pets
-            </Typography>
-            {/* <div className="occupant-cards">
-              {bookingData.data.pets?.map((pet) => {
-                const name = pet.name;
-                const start = new Date(pet.start).toUTCString();
-                const end = new Date(pet.end).toUTCString();
-                const checkedIn = pet.checkedIn !== null;
-                return (
-                  <div className="occupant-card-container">
-                    <OccupantCard
-                      name={name}
-                      type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.PET}
-                      start={new Date(start)}
-                      end={new Date(end)}
-                      checkedIn={checkedIn}
-                    />
-                    ;
-                  </div>
-                );
-              })}
-            </div> */}
-          </Box>
-          <Box sx={{ mb: 3 }} justifyContent="space-between">
-            <Typography variant="h6" component="h2" gutterBottom>
-              Vehicles
-            </Typography>
-            {/* <div className="occupant-cards">
-              {bookingData.data.vehicles?.map((vehicle) => {
-                const reg = vehicle.vehicleReg;
-                const start = new Date(vehicle.start).toUTCString();
-                const end = new Date(vehicle.end).toUTCString();
-                const checkedIn = vehicle.checkedIn !== null;
-                return (
-                  <OccupantCard
-                    name={reg}
-                    type={OFFICIALLY_SUPPORTED_OCCUPANT_TYPES.VEHICLE}
-                    start={new Date(start)}
-                    end={new Date(end)}
-                    checkedIn={checkedIn}
-                  />
-                );
-              })}
-            </div> */}
-          </Box>
         </ContentBlock>
 
         {/* Finance Details */}

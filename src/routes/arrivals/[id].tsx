@@ -14,6 +14,7 @@ import { checkInOneGuest } from "../../services/mutations/checkInOneGuest";
 import { checkInManyGuests } from "../../services/mutations/checkInManyGuests";
 import { checkinAll, checkinOne } from "./helpers";
 import PageHeader from "../../components/molecules/PageHeader";
+import SiteContext from "../../contexts/sitesContext";
 
 const IndividualArrival = () => {
   // -------------
@@ -21,6 +22,7 @@ const IndividualArrival = () => {
   // -------------
 
   const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext)
 
   // -------------
   // STATE
@@ -154,7 +156,7 @@ const IndividualArrival = () => {
               )
             }
             disabled={
-              guests.every((guest) => guest.checkedIn !== null) 
+              guests.every((guest) => guest.checkedIn !== null)
             }
           >
             CheckIn All
@@ -186,68 +188,60 @@ const IndividualArrival = () => {
         </div>
       )}
 
-      {/* PEOPLE */}
+      {/* GUEST BUTTONS */}
 
       <div id="arrival-button-container">
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          People
-        </Divider>
+        {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => (
+          <>
+            <Divider variant="middle" sx={{ mb: 3 }}>
+              {guestTypeGroup.name}
+            </Divider>
 
-        <Box
-          className={
-            guests.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {guests!.map((guest) => (
-            <LargeButton
-              onClick={
-                !guest.checkedIn
-                  ? () =>
-                      checkinOne(
-                        guest.id,
-                        "GUEST",
-                        guests,
-                        setGuests,
-                        checkInOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkinOne(
-                        guest.id,
-                        "GUEST",
-                        guests,
-                        setGuests,
-                        checkInOneGuestMutation,
-                        user.token,
-                        true
-                      )
+            <Box
+              className={
+                guests.length === 1 ? "button-grid one-column" : "button-grid"
               }
-              highlighted={guest.checkedIn !== null}
-              disabled={!isGuestDue(guest) || guest.checkedOut !== null}
+              sx={{ mb: 3 }}
             >
-              <div>
-                {guest.name}
-                {!isGuestDue(guest) && <div>Not yet due</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
+              {guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id).map(guest => (
+                <LargeButton
+                  onClick={
+                    !guest.checkedIn
+                      ? () =>
+                        checkinOne(
+                          guest.id,
+                          "GUEST",
+                          guests,
+                          setGuests,
+                          checkInOneGuestMutation,
+                          user.token,
+                          false
+                        )
+                      : () =>
+                        checkinOne(
+                          guest.id,
+                          "GUEST",
+                          guests,
+                          setGuests,
+                          checkInOneGuestMutation,
+                          user.token,
+                          true
+                        )
+                  }
+                  highlighted={guest.checkedIn !== null}
+                  disabled={!isGuestDue(guest) || guest.checkedOut !== null}
+                >
+                  <div>
+                    {guest.name}
+                    {!isGuestDue(guest) && <div>Not yet due</div>}
+                  </div>
+                </LargeButton>
+              ))}
+            </Box>
+          </>
 
-        {/* PETS */}
+        ))}
 
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          Pets
-        </Divider>
-
-        
-
-        {/* VEHICLES */}
-
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          Vehicles
-        </Divider>
 
 
       </div>
