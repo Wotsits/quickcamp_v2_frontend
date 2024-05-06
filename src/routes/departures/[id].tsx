@@ -19,6 +19,7 @@ import { checkoutAll, checkoutOne } from "./helpers";
 import { checkOutManyGuests } from "../../services/mutations/checkOutManyGuests";
 import { checkOutOneGuest } from "../../services/mutations/checkOutOneGuest";
 import PageHeader from "../../components/molecules/PageHeader";
+import SiteContext from "../../contexts/sitesContext";
 
 const IndividualDeparture = () => {
   // -------------
@@ -26,6 +27,7 @@ const IndividualDeparture = () => {
   // -------------
 
   const { user } = useContext(AuthContext);
+  const { selectedSite } = useContext(SiteContext)
 
   // -------------
   // STATE
@@ -91,7 +93,7 @@ const IndividualDeparture = () => {
     onError: (err: Error) => {
       setError(
         err.message ||
-          "There has been an error checking out the party member.  Please reload the application and try again."
+        "There has been an error checking out the party member.  Please reload the application and try again."
       );
     },
   });
@@ -113,7 +115,7 @@ const IndividualDeparture = () => {
     onError: (err: Error) => {
       setError(
         err.message ||
-          "There has been an error checking out the party member.  Please reload the application and try again."
+        "There has been an error checking out the party member.  Please reload the application and try again."
       );
     },
   });
@@ -142,14 +144,14 @@ const IndividualDeparture = () => {
 
       <PageHeader title={`Departure ${id}`}>
         <div id="individual-departure-header-right">
-        <IconButton
-              size="small"
-              onClick={() => {
-                navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => {
+              navigate(`${ROUTES.ROOT}${ROUTES.BOOKINGS}${id}`);
+            }}
+          >
+            <EditIcon />
+          </IconButton>
           <Button
             variant="contained"
             onClick={() =>
@@ -193,68 +195,64 @@ const IndividualDeparture = () => {
         </div>
       )}
 
-      {/* PEOPLE */}
+      {/* GUEST BUTTONS */}
 
-      <div id="departure-button-container">
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          People
-        </Divider>
+      <div id="arrival-button-container">
+        {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => (
+          <div key={guestTypeGroup.id}>
+            <Divider variant="middle" sx={{ mb: 3 }}>
+              {guestTypeGroup.name}
+            </Divider>
 
-        <Box
-          className={
-            guests.length === 1 ? "button-grid one-column" : "button-grid"
-          }
-          sx={{ mb: 3 }}
-        >
-          {guests!.map((guest) => (
-            <LargeButton
-              onClick={
-                !guest.checkedOut
-                  ? () =>
-                      checkoutOne(
-                        guest.id,
-                        "GUEST",
-                        guests,
-                        setGuests,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        false
-                      )
-                  : () =>
-                      checkoutOne(
-                        guest.id,
-                        "GUEST",
-                        guests,
-                        setGuests,
-                        checkOutOneGuestMutation,
-                        user.token,
-                        true
-                      )
+            <Box
+              className={
+                guests.length === 1 ? "button-grid one-column" : "button-grid"
               }
-              highlighted={guest.checkedOut !== null}
-              disabled={!guest.checkedIn}
+              sx={{ mb: 3 }}
             >
-              <div>
-                {guest.name}
-                {!guest.checkedIn && <div>Not yet checked in</div>}
-              </div>
-            </LargeButton>
-          ))}
-        </Box>
-
-        {/* PETS */}
-
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          Pets
-        </Divider>
-
-
-        {/* VEHICLES */}
-
-        <Divider variant="middle" sx={{ mb: 3 }}>
-          Vehicles
-        </Divider>
-
+              {guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id).length === 0 && <div>No guests in this category</div>}
+              {guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id).map(guest => {
+                console.log(guest)
+                return (
+                  <LargeButton
+                    key={guest.id}
+                    onClick={
+                      !guest.checkedOut
+                        ? () =>
+                          checkoutOne(
+                            guest.id,
+                            "GUEST",
+                            guests,
+                            setGuests,
+                            checkOutOneGuestMutation,
+                            user.token,
+                            false
+                          )
+                        : () =>
+                          checkoutOne(
+                            guest.id,
+                            "GUEST",
+                            guests,
+                            setGuests,
+                            checkOutOneGuestMutation,
+                            user.token,
+                            true
+                          )
+                    }
+                    highlighted={guest.checkedOut !== null}
+                    disabled={!guest.checkedIn}
+                  >
+                    <div>
+                      {guest.name}
+                      {!guest.checkedIn && <div>Not yet checked in</div>}
+                    </div>
+                  </LargeButton>
+                )
+              }
+              )}
+            </Box>
+          </div>
+        ))}
       </div>
     </div>
   );
