@@ -33,6 +33,7 @@ import ArrivalsGraph from "../../../components/organisms/ArrivalsGraph";
 import { ROUTES } from "../../../settings";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SiteContext from "../../../contexts/sitesContext";
+import { calculateNumberOfType, countTotalToday } from "../helpers";
 
 const summaryBlockSettings = {
   background:
@@ -41,105 +42,6 @@ const summaryBlockSettings = {
   minWidth: "300px",
   height: "200px",
 };
-
-function countTotalToday(
-  array: Booking["guests"],
-  status: "CHECKED-IN" | "DUE",
-  today: Date
-) {
-  if (!array) return 0;
-  if (!status) return array.length;
-  if (!today) return array.length;
-
-  const arrivingToday = array.filter((item) => {
-    const arrivalDate = new Date(item.start);
-    return (
-      arrivalDate.getDate() === today.getDate() &&
-      arrivalDate.getMonth() === today.getMonth() &&
-      arrivalDate.getFullYear() === today.getFullYear()
-    );
-  });
-
-  if (status === "CHECKED-IN") {
-    return arrivingToday.filter((item) => item.checkedIn).length;
-  }
-  if (status === "DUE") {
-    return arrivingToday.length;
-  }
-  return 0;
-}
-
-function calculatePeopleArrivedToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-
-  let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.guests, "CHECKED-IN", arrivalDate);
-  });
-
-  return total;
-}
-
-function calculatePeopleArrivingToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-
-  let total = 0;
-  arrivals.forEach((arrival) => {
-    const arrivalDate = setDateToMidday(new Date(arrival.start));
-    total += countTotalToday(arrival.guests, "DUE", arrivalDate);
-  });
-
-  return total;
-}
-
-function calculatePetsArrivedToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-
-  let total = 0;
-  // arrivals.forEach((arrival) => {
-  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
-  //   total += countTotalToday(arrival.pets, "CHECKED-IN", arrivalDate);
-  // });
-
-  return total;
-}
-
-function calculatePetsArrivingToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-  
-  let total = 0;
-  // arrivals.forEach((arrival) => {
-  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
-  //   total += countTotalToday(arrival.pets, "DUE", arrivalDate);
-  // });
-
-  return total;
-}
-
-function calculateVehiclesArrivedToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-
-  let total = 0;
-  // arrivals.forEach((arrival) => {
-  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
-  //   total += countTotalToday(arrival.vehicles, "CHECKED-IN", arrivalDate);
-  // });
-
-  return total;
-}
-
-function calculateVehiclesArrivingToday(arrivals: Booking[]) {
-  if (!arrivals) return 0;
-
-  let total = 0;
-  // arrivals.forEach((arrival) => {
-  //   const arrivalDate = setDateToMidday(new Date(arrival.start));
-  //   total += countTotalToday(arrival.vehicles, "DUE", arrivalDate);
-  // });
-
-  return total;
-}
 
 const Arrivals = () => {
   // -------------
@@ -231,6 +133,9 @@ const Arrivals = () => {
           expanded={summaryExpanded}
           onChange={() => setSummaryExpanded(!summaryExpanded)}
         >
+
+          {/* SUMMARY BLOCKS SECTION HEADING */}
+
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="daily-arrival-summary-content"
@@ -240,6 +145,9 @@ const Arrivals = () => {
               Today's Summary
             </Typography>
           </AccordionSummary>
+
+          {/* SUMMARY BLOCKS */}
+
           <AccordionDetails>
             <div id="summary-blocks">
               <SummaryBlock
@@ -247,28 +155,23 @@ const Arrivals = () => {
                 content={`${arrivalsData!.data.length}`}
                 {...summaryBlockSettings}
               />
-              <SummaryBlock
-                label="People Arriving Today"
-                content={`${calculatePeopleArrivedToday(
-                  arrivalsData!.data
-                )} in of ${calculatePeopleArrivingToday(arrivalsData!.data)}`}
-                {...summaryBlockSettings}
-              />
-              <SummaryBlock
-                label="Cars Arriving Today"
-                content={`${calculateVehiclesArrivedToday(
-                  arrivalsData!.data
-                )} in of ${calculateVehiclesArrivingToday(arrivalsData!.data)}`}
-                {...summaryBlockSettings}
-              />
-              <SummaryBlock
-                label="Pets Arriving Today"
-                content={`${calculatePetsArrivedToday(
-                  arrivalsData!.data
-                )} in of ${calculatePetsArrivingToday(arrivalsData!.data)}`}
-                {...summaryBlockSettings}
-              />
+              {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                const guestTypeGroupId = guestTypeGroup.id
+                const numberOfTypeDue = calculateNumberOfType(guestTypeGroupId, arrivalsData!.data, "DUE")
+                const numberOfTypeArrived = calculateNumberOfType(guestTypeGroupId, arrivalsData!.data, "ARRIVED")
+                
+                return (
+                  <SummaryBlock
+                    label={`${guestTypeGroup.name} Arriving Today`}
+                    content={`${numberOfTypeArrived} in of ${numberOfTypeDue}`}
+                    {...summaryBlockSettings}
+                  />
+                )
+              })}
             </div>
+
+            {/* ARRIVALS PROGRESS GRAPH */}
+
             <div
               id="arrival-progress"
               style={{
@@ -283,6 +186,7 @@ const Arrivals = () => {
                 width={500}
               />
             </div>
+
           </AccordionDetails>
         </Accordion>
 
@@ -302,14 +206,20 @@ const Arrivals = () => {
           <AccordionDetails>
             <TableContainer>
               <Table aria-label="simple table">
+
+                {/* TABLE HEADER */}
+
                 <TableHead>
                   <TableRow>
                     <TableCell>Booking Name</TableCell>
-                    <TableCell align="right">People Arriving Today</TableCell>
-                    <TableCell align="right">Pets Arriving Today</TableCell>
-                    <TableCell align="right">Vehicles Arriving Today</TableCell>
+                    {selectedSite?.guestTypeGroups?.map(guestTypeGroup => (
+                      <TableCell align="right">{`${guestTypeGroup.name}`}</TableCell>
+                    ))}
                   </TableRow>
                 </TableHead>
+
+                {/* TABLE BODY */}
+
                 <TableBody>
                   {arrivalsData && arrivalsData.data.length === 0 && (
                     <TableRow
@@ -321,42 +231,20 @@ const Arrivals = () => {
                       </TableCell>
                     </TableRow>
                   )}
+
                   {arrivalsData &&
                     arrivalsData.data.map((arrival) => {
-                      const peopleArrivedToday = countTotalToday(
+                      const arrivedToday = countTotalToday(
                         arrival.guests,
                         "CHECKED-IN",
                         date as Date
                       );
-                      const peopleDueToday = countTotalToday(
+                      const dueToday = countTotalToday(
                         arrival.guests,
                         "DUE",
                         date as Date
                       );
-                      const petsArrivedToday = 0;
-                      const petsDueToday = 0;
-                      const vehiclesArrivedToday = 0;
-                      const vehiclesDueToday = 0;
-                      // const petsArrivedToday = countTotalToday(
-                      //   arrival.pets,
-                      //   "CHECKED-IN",
-                      //   date as Date
-                      // );
-                      // const petsDueToday = countTotalToday(
-                      //   arrival.pets,
-                      //   "DUE",
-                      //   date as Date
-                      // );
-                      // const vehiclesArrivedToday = countTotalToday(
-                      //   arrival.vehicles,
-                      //   "CHECKED-IN",
-                      //   date as Date
-                      // );
-                      // const vehiclesDueToday = countTotalToday(
-                      //   arrival.vehicles,
-                      //   "DUE",
-                      //   date as Date
-                      // );
+                      
                       return (
                         <TableRow
                           key={arrival.id}
@@ -367,10 +255,13 @@ const Arrivals = () => {
                           hover
                           className="clickable"
                         >
+
+                          {/* NAME AND CHIP */}
+
                           <TableCell component="th" scope="row">
                             {arrival.leadGuest.firstName}{" "}
                             {arrival.leadGuest.lastName}
-                            {peopleDueToday === peopleArrivedToday && (
+                            {dueToday === arrivedToday && (
                               <Chip
                                 label={"all arrived"}
                                 variant="filled"
@@ -379,7 +270,7 @@ const Arrivals = () => {
                                 sx={{ marginLeft: 1 }}
                               />
                             )}
-                            {peopleArrivedToday === 0 && (
+                            {arrivedToday === 0 && (
                               <Chip
                                 label={"none arrived"}
                                 variant="filled"
@@ -388,8 +279,8 @@ const Arrivals = () => {
                                 sx={{ marginLeft: 1 }}
                               />
                             )}
-                            {peopleDueToday > peopleArrivedToday &&
-                              peopleArrivedToday !== 0 && (
+                            {dueToday > arrivedToday &&
+                              arrivedToday !== 0 && (
                                 <Chip
                                   label={"some arrived"}
                                   variant="filled"
@@ -399,15 +290,21 @@ const Arrivals = () => {
                                 />
                               )}
                           </TableCell>
-                          <TableCell align="right">
-                            {peopleArrivedToday}/{peopleDueToday}
-                          </TableCell>
-                          <TableCell align="right">
-                            {petsArrivedToday}/{petsDueToday}
-                          </TableCell>
-                          <TableCell align="right">
-                            {vehiclesArrivedToday}/{vehiclesDueToday}
-                          </TableCell>
+
+                          {/* GUEST TYPE COLUMNS */}
+
+                          {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                            const guestTypeGroupId = guestTypeGroup.id
+                            const numberOfTypeDue = calculateNumberOfType(guestTypeGroupId, [arrival], "DUE")
+                            const numberOfTypeArrived = calculateNumberOfType(guestTypeGroupId, [arrival], "ARRIVED")
+
+                            return (
+                              <TableCell align="right">
+                                {numberOfTypeArrived}/{numberOfTypeDue}
+                              </TableCell>
+                            )
+                          })}
+          
                         </TableRow>
                       );
                     })}
