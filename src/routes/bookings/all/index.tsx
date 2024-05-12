@@ -126,8 +126,6 @@ const Bookings = () => {
                     </TableCell>
                   );
                 })}
-                <TableCell>Pets</TableCell>
-                <TableCell>Vehicles</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -159,12 +157,6 @@ const Bookings = () => {
                         </TableCell>
                       );
                     })}
-                    <TableCell>
-                      Todo - fix this
-                    </TableCell>
-                    <TableCell>
-                      Todo - fix this
-                    </TableCell>
                   </TableRow>
                 );
               })}
