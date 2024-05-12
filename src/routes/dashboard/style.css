@@ -14,6 +14,12 @@
 
 #dashboard #arrival-forecast { 
     grid-area: arrival-forecast; 
+    display: flex;
+    flex-direction: column;
+}
+
+#dashboard #arrival-forecast .custom-tab-pane { 
+    flex-grow: 1
 }
 
 #dashboard #quick-menu { 

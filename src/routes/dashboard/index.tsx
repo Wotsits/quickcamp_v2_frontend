@@ -1,7 +1,7 @@
-import { Button, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import { Tab, Tabs, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { Booking, BookingGuest } from "../../types";
+import { Booking } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/organisms/ArrivalsGraph";
@@ -15,6 +15,7 @@ import { isSameDate } from "../../utils/helpers";
 import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
 import { BarChart } from "@mui/x-charts";
 import SiteContext from "../../contexts/sitesContext";
+import CustomTabPanel from "../../components/molecules/CustomTabPanel"
 
 const now = today1200();
 
@@ -31,6 +32,12 @@ const Dashboard = () => {
   // -------------
 
   const navigate = useNavigate();
+
+  // -------------
+  // STATE
+  // -------------
+
+  const [arrivalsGraphActiveIndex, setArrivalsGraphActiveIndex] = useState(0)
 
   // -------------
   // QUERIES
@@ -117,6 +124,10 @@ const Dashboard = () => {
     return `${Math.floor((totalComplete / totalExpected) * 100)}%`;
   }
 
+  const handleArrivalsGraphActiveIndexChange = (event: React.SyntheticEvent, newActiveIndex: number) => {
+    setArrivalsGraphActiveIndex(newActiveIndex);
+  };
+
   // -------------
   // RENDER
   // -------------
@@ -142,7 +153,22 @@ const Dashboard = () => {
         className="container-white-bg-rounded-full-width"
       >
         <Typography variant="h6">Arrival Forecast</Typography>
-        <ArrivalsGraph arrivalsData={arrivalsData!.data} />
+
+        {/* Tab selector */}
+        <div>
+          <Tabs value={arrivalsGraphActiveIndex} onChange={handleArrivalsGraphActiveIndexChange} aria-label="arrivals graph tabs">
+            {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order-b.order).map(guestTypeGroup => (
+              <Tab label={guestTypeGroup.name} />
+            ))}
+          </Tabs>
+        </div>
+
+        {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order-b.order).map(guestTypeGroup => (
+            <CustomTabPanel value={arrivalsGraphActiveIndex} index={0} >
+              <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300}/>
+            </CustomTabPanel>
+        ))}
+      
       </div>
 
       { /* QUICK MENU */ }

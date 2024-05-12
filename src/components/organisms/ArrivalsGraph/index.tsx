@@ -59,21 +59,24 @@ const ArrivalsGraph = ({ arrivalsData, padding, height, width }: ArrivalsGraphPr
   // -------------
 
   return (
-    <LineChart
-      xAxis={[{ scaleType: "band", data: [...xAxis] }]}
-      yAxis={[{ min: 0, max: Math.max(...yAxis) || 1, tickMinStep: 1 }]}
-      series={[
-        {
-          data: yAxis,
-          area: true,
-          showMark: false
-        },
-      ]}
-      height={height}
-      width={width}
-      colors={[PRIMARYCOLOR]}
-      sx={{ padding }}
-    />
+    <div className="arrivals-chart">
+      <LineChart
+            xAxis={[{ scaleType: "band", data: [...xAxis] }]}
+            yAxis={[{ min: 0, max: Math.max(...yAxis) || 1, tickMinStep: 1 }]}
+            series={[
+              {
+                data: yAxis,
+                area: true,
+                showMark: false
+              },
+            ]}
+            height={height}
+            width={width}
+            colors={[PRIMARYCOLOR]}
+            sx={{ padding }}
+          />
+    </div>
+   
   );
 };
 
