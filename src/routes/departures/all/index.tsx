@@ -99,7 +99,7 @@ const Departures = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<{data: Booking[]}, Error>(["DeparturesByDate", date], () =>
+  } = useQuery<{ data: Booking[] }, Error>(["DeparturesByDate", date], () =>
     getDeparturesByDate({
       date: date as Date,
       token: user.token,
@@ -117,7 +117,7 @@ const Departures = () => {
 
   return (
     <div id="departures" className="full-width">
-      
+
       {/* PAGE HEADER */}
 
       <PageHeader title="Departures">
@@ -161,6 +161,9 @@ const Departures = () => {
           expanded={summaryExpanded}
           onChange={() => setSummaryExpanded(!summaryExpanded)}
         >
+
+          {/* SUMMARY BLOCKS SECTION HEADING */}
+
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="daily-departure-summary-content"
@@ -170,6 +173,9 @@ const Departures = () => {
               Today's Summary
             </Typography>
           </AccordionSummary>
+
+          {/* SUMMARY BLOCKS */}
+
           <AccordionDetails>
             <div id="summary-blocks">
               <SummaryBlock
@@ -181,7 +187,7 @@ const Departures = () => {
                 const guestTypeGroupId = guestTypeGroup.id
                 const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DUE")
                 const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DEPARTED")
-                
+
                 return (
                   <SummaryBlock
                     label={`${guestTypeGroup.name} Departing Today`}
@@ -192,6 +198,7 @@ const Departures = () => {
               })}
             </div>
           </AccordionDetails>
+
         </Accordion>
 
         <Accordion
@@ -209,16 +216,18 @@ const Departures = () => {
           </AccordionSummary>
           <AccordionDetails>
             <TableContainer>
+
               <Table aria-label="simple table">
+
                 <TableHead>
                   <TableRow>
                     <TableCell>Booking Name</TableCell>
-                    <TableCell align="right">People Departing Today</TableCell>
-                    <TableCell align="right">Pets Departing Today</TableCell>
-                    <TableCell align="right">Vehicles Departing Today</TableCell>
-                    <TableCell align="right">Actions</TableCell>
+                    {selectedSite?.guestTypeGroups?.map(guestTypeGroup => (
+                      <TableCell align="right">{`${guestTypeGroup.name}`}</TableCell>
+                    ))}
                   </TableRow>
                 </TableHead>
+
                 <TableBody>
                   {departuresData && departuresData.data.length === 0 && (
                     <TableRow
@@ -230,6 +239,7 @@ const Departures = () => {
                       </TableCell>
                     </TableRow>
                   )}
+
                   {departuresData &&
                     departuresData.data.map((departure) => (
                       <TableRow
@@ -237,36 +247,27 @@ const Departures = () => {
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
+                        onClick={() => navigate(`/departures/${departure.id}/`)}
+                        hover
+                        className="clickable"
                       >
                         <TableCell component="th" scope="row">
                           {departure.leadGuest.firstName}{" "}
                           {departure.leadGuest.lastName}
                         </TableCell>
-                        <TableCell align="right">
-                          {countTotalToday(
-                            departure.guests,
-                            "CHECKED-OUT",
-                            date as Date
-                          )}
-                          /
-                          {countTotalToday(departure.guests, "DUE", date as Date)}
-                        </TableCell>
-                        <TableCell align="right">
-                          Todo - Fix this
-                        </TableCell>
-                        <TableCell align="right">
-                          Todo - Fix this
-                        </TableCell>
-                        <TableCell align="right">
-                          <Button
-                            color="success"
-                            size="small"
-                            sx={{ mr: -1 }}
-                            onClick={() => navigate(`/departures/${departure.id}/`)}
-                          >
-                            Check Out
-                          </Button>
-                        </TableCell>
+
+                        {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                          const guestTypeGroupId = guestTypeGroup.id
+                          const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DUE")
+                          const numberOfTypeDeparting = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DEPARTED")
+
+                          return (
+                            <TableCell align="right">
+                              {numberOfTypeDeparting}/{numberOfTypeDueToDepart}
+                            </TableCell>
+                          )
+                        })}
+
                       </TableRow>
                     ))}
                 </TableBody>
