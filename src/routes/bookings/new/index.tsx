@@ -19,7 +19,7 @@ import {
   EquipmentType,
   ExtraType,
   FeeCalcResponse,
-  GuestTypeGroup,
+  GuestType,
   LeadGuest,
   Unit,
 } from "../../../types";
@@ -142,10 +142,6 @@ const NewBooking = () => {
     dateError,
     formBookingGuests,
     setFormBookingGuests,
-    formBookingPets,
-    setFormBookingPets,
-    formBookingVehicles,
-    setFormBookingVehicles,
   } = useBookingDetailsState({
     requestedUnitTypeId: requestedUnitTypeId
       ? parseInt(requestedUnitTypeId)
@@ -274,8 +270,6 @@ const NewBooking = () => {
         endDate: formEndDate!,
         extras: formExtras,
         bookingGuests: formBookingGuests,
-        bookingPets: formBookingPets,
-        bookingVehicles: formBookingVehicles,
       }),
     {
       enabled: fireFeeCalc,
@@ -315,8 +309,6 @@ const NewBooking = () => {
         endDate: formEndDate!,
         extras: formExtras,
         bookingGuests: formBookingGuests,
-        bookingPets: formBookingPets,
-        bookingVehicles: formBookingVehicles,
         paymentAmount: formPaymentAmount,
         paymentMethod: formPaymentMethod,
         paymentDate: formPaymentDate!,
@@ -444,57 +436,22 @@ const NewBooking = () => {
       return guest.guestTypeId !== -1;
     });
     if (!everyGuestHasType) return setIsSectionThreeValid(false);
-    const everyPetHasName = formBookingPets.every((pet) => {
-      return pet.name !== "";
-    });
-    if (!everyPetHasName) return setIsSectionThreeValid(false);
-    const everyVehicleHasVehicleReg = formBookingVehicles.every((vehicle) => {
-      return vehicle.vehicleReg !== "";
-    });
-    if (!everyVehicleHasVehicleReg) return setIsSectionThreeValid(false);
     const everyGuestHasStartAndEndDates = formBookingGuests.every((guest) => {
       return guest.start !== null && guest.end !== null;
     });
     if (!everyGuestHasStartAndEndDates) return setIsSectionThreeValid(false);
-    const everyPetHasStartAndEndDates = formBookingPets.every((pet) => {
-      return pet.start !== null && pet.end !== null;
-    });
-    if (!everyPetHasStartAndEndDates) return setIsSectionThreeValid(false);
-    const everyVehicleHasStartAndEndDates = formBookingVehicles.every(
-      (vehicle) => {
-        return vehicle.start !== null && vehicle.end !== null;
-      }
-    );
-    if (!everyVehicleHasStartAndEndDates) return setIsSectionThreeValid(false);
+
     const everyGuestStartBeforeEnd = formBookingGuests.every((guest) => {
       return guest.start! < guest.end!;
     });
     if (!everyGuestStartBeforeEnd) return setIsSectionThreeValid(false);
-    const everyPetStartBeforeEnd = formBookingPets.every((pet) => {
-      return pet.start! < pet.end!;
-    });
-    if (!everyPetStartBeforeEnd) return setIsSectionThreeValid(false);
-    const everyVehicleStartBeforeEnd = formBookingVehicles.every((vehicle) => {
-      return vehicle.start! < vehicle.end!;
-    });
-    if (!everyVehicleStartBeforeEnd) return setIsSectionThreeValid(false);
     // if you get this far, it's all good
     return setIsSectionThreeValid(true);
   }, [
     formUnitId,
     formStartDate,
     formEndDate,
-    formBookingGuests,
-    formBookingPets,
-    formBookingVehicles,
-  ]);
-
-  // -------------
-
-  useEffect(() => {}, [
-    formBookingGuests,
-    formBookingPets,
-    formBookingVehicles,
+    formBookingGuests
   ]);
 
   // -------------
@@ -672,13 +629,17 @@ const NewBooking = () => {
               availableUnitsAreLoading={availableUnitsAreLoading}
               availableUnits={availableUnitsData && availableUnitsData.data}
               dateError={dateError}
-              guestTypeGroups={selectedSite?.guestTypeGroups as GuestTypeGroup[]}
+              guestTypes={function() {
+                let guestTypes: GuestType[] = []
+                selectedSite?.guestTypeGroups?.forEach(guestTypeGroup => {
+                  guestTypeGroup.guestTypes.forEach(guestType => {
+                    guestTypes.push(guestType)
+                  })
+                })
+                return guestTypes;
+              }()}
               guests={formBookingGuests}
               setGuests={setFormBookingGuests}
-              pets={formBookingPets}
-              setPets={setFormBookingPets}
-              vehicles={formBookingVehicles}
-              setVehicles={setFormBookingVehicles}
             />
           )}
 

@@ -2,8 +2,6 @@ import axios from "axios";
 import { APIURL } from "../../settings";
 import {
   BookingProcessGuest,
-  BookingProcessPet,
-  BookingProcessVehicle,
 } from "../../types";
 
 type MakeNewBookingArgs = {
@@ -26,8 +24,6 @@ type MakeNewBookingArgs = {
   equipmentTypeId: number;
   extras: number[];
   bookingGuests: BookingProcessGuest[];
-  bookingPets: BookingProcessPet[];
-  bookingVehicles: BookingProcessVehicle[];
   paymentAmount: number | null;
   paymentMethod: string | null;
   paymentDate: Date | null;
@@ -53,8 +49,6 @@ export const makeNewBooking = async ({
   equipmentTypeId,
   extras,
   bookingGuests,
-  bookingPets,
-  bookingVehicles,
   paymentAmount,
   paymentMethod,
   paymentDate,
@@ -80,8 +74,6 @@ export const makeNewBooking = async ({
       endDate,
       extras,
       bookingGuests,
-      bookingPets,
-      bookingVehicles,
       paymentAmount,
       paymentMethod,
       paymentDate,

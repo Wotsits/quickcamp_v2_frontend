@@ -11,9 +11,8 @@ import React from "react";
 import "./style.css";
 import {
   BookingProcessGuest,
-  BookingProcessPet,
-  BookingProcessVehicle,
-  GuestTypeGroup,
+
+  GuestType,
   Unit,
 } from "../../../../types";
 import OccupantTableWrapper from "../../../organisms/OccupantTable";
@@ -29,13 +28,9 @@ type BookingDetailsProps = {
   availableUnitsAreLoading: boolean;
   availableUnits: Unit[] | undefined;
   dateError: string | null;
-  guestTypeGroups: GuestTypeGroup[];
+  guestTypes: GuestType[];
   guests: BookingProcessGuest[];
-  pets: BookingProcessPet[];
-  vehicles: BookingProcessVehicle[];
   setGuests: React.Dispatch<React.SetStateAction<BookingProcessGuest[]>>;
-  setPets: React.Dispatch<React.SetStateAction<BookingProcessPet[]>>;
-  setVehicles: React.Dispatch<React.SetStateAction<BookingProcessVehicle[]>>;
 };
 
 const BookingDetails = ({
@@ -48,13 +43,9 @@ const BookingDetails = ({
   availableUnitsAreLoading,
   availableUnits,
   dateError,
-  guestTypeGroups,
+  guestTypes,
   guests,
-  pets,
-  vehicles,
   setGuests,
-  setPets,
-  setVehicles,
 }: BookingDetailsProps) => {
   // --------------------
   // EVENT HANDLERS
@@ -71,42 +62,10 @@ const BookingDetails = ({
     setGuests([...guests, newBlankGuest]);
   };
 
-  const handleAddPet = () => {
-    const newBlankPet: BookingProcessPet = {
-      id: -1,
-      name: "Unnamed Pet",
-      start: formStartDate as Date,
-      end: formEndDate as Date,
-    };
-    setPets([...pets, newBlankPet]);
-  };
-
-  const handleAddVehicle = () => {
-    const newBlankVehicle: BookingProcessVehicle = {
-      id: -1,
-      vehicleReg: "Vehicle Reg Unknown",
-      start: formStartDate as Date,
-      end: formEndDate as Date,
-    };
-    setVehicles([...vehicles, newBlankVehicle]);
-  };
-
   const handleGuestDelete = (index: number) => {
     const guestsCopy = [...guests];
     guestsCopy.splice(index, 1);
     setGuests(guestsCopy);
-  };
-
-  const handlePetDelete = (index: number) => {
-    const petsCopy = [...pets];
-    petsCopy.splice(index, 1);
-    setPets(petsCopy);
-  };
-
-  const handleVehicleDelete = (index: number) => {
-    const vehiclesCopy = [...vehicles];
-    vehiclesCopy.splice(index, 1);
-    setVehicles(vehiclesCopy);
   };
 
   const handleGuestEdit = (
@@ -135,52 +94,6 @@ const BookingDetails = ({
         break;
     }
     setGuests(guestsCopy);
-  };
-
-  const handlePetEdit = (
-    index: number,
-    value: string | Date | number | null,
-    field: string
-  ) => {
-    const petsCopy = [...pets];
-    switch (field) {
-      case "name":
-        if (typeof value !== "string") return;
-        petsCopy[index].name = value;
-        break;
-      case "start":
-        if (typeof value !== "object" && value !== null) return;
-        petsCopy[index].start = value as Date;
-        break;
-      case "end":
-        if (typeof value !== "object" && value !== null) return;
-        petsCopy[index].end = value as Date;
-        break;
-    }
-    setPets(petsCopy);
-  };
-
-  const handleVehicleEdit = (
-    index: number,
-    value: string | Date | number | null,
-    field: string
-  ) => {
-    const vehiclesCopy = [...vehicles];
-    switch (field) {
-      case "vehicleReg":
-        if (typeof value !== "string") return;
-        vehiclesCopy[index].vehicleReg = value;
-        break;
-      case "start":
-        if (typeof value !== "object" && value !== null) return;
-        vehiclesCopy[index].start = value as Date;
-        break;
-      case "end":
-        if (typeof value !== "object" && value !== null) return;
-        vehiclesCopy[index].end = value as Date;
-        break;
-    }
-    setVehicles(vehiclesCopy);
   };
 
   // --------------------
@@ -249,7 +162,7 @@ const BookingDetails = ({
         >
           <GuestTable
             guests={guests}
-            guestTypeGroups={guestTypeGroups}
+            guestTypes={guestTypes}
             callbackOnGuestEdit={handleGuestEdit}
             callbackOnGuestDelete={handleGuestDelete}
             bookingStartDate={formStartDate as Date}

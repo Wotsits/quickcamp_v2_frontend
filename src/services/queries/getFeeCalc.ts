@@ -2,8 +2,6 @@ import axios from "axios";
 import { APIURL, API_ENDPOINTS } from "../../settings";
 import {
   BookingProcessGuest,
-  BookingProcessPet,
-  BookingProcessVehicle,
   FeeCalcResponse,
 } from "../../types";
 
@@ -20,10 +18,6 @@ type GetFeeCalc = {
   extras: number[];
   /** mandatory, array of guests */
   bookingGuests: BookingProcessGuest[];
-  /** mandatory, array of pets */
-  bookingPets: BookingProcessPet[];
-  /** mandatory, array of vehicles */
-  bookingVehicles: BookingProcessVehicle[];
 };
 
 export const getFeeCalc = async ({
@@ -33,8 +27,7 @@ export const getFeeCalc = async ({
   endDate,
   extras,
   bookingGuests,
-  bookingPets,
-  bookingVehicles,
+
 }: GetFeeCalc) => {
   const response = await axios.get<{ data: FeeCalcResponse }>(
     APIURL + API_ENDPOINTS.GET_FEE_CALC,
@@ -46,8 +39,6 @@ export const getFeeCalc = async ({
         endDate,
         extras,
         bookingGuests,
-        bookingPets,
-        bookingVehicles,
       },
       headers: { Authorization: "Bearer " + token },
     }
