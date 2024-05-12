@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SiteContext from "../../../contexts/sitesContext";
+import { addDays } from "date-fns";
 
 // -------------
 // MAIN
@@ -59,7 +60,7 @@ const BookingCalendar = () => {
     () =>
       getBookingsByDateRange({
         start: startDate as Date,
-        end: addOneMonth(startDate as Date),
+        end: addDays(startDate as Date, 29),
         token: user.token,
         siteId: selectedSite!.id,
       })
@@ -136,7 +137,7 @@ const BookingCalendar = () => {
     <div id="booking-calendar" className="full-width">
       
       <PageHeader title="Booking Calendar">
-        <IconButton onClick={() => console.log("Add Booking")} size="large">
+        <IconButton onClick={() => navigate(`/${ROUTES.BOOKINGS + ROUTES.NEW}`)} size="large">
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
