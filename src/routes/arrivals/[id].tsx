@@ -134,6 +134,9 @@ const IndividualArrival = () => {
 
   return (
     <div id="individual-arrival">
+
+      {/* HEADER */}
+
       <PageHeader title={`Arrival ${id}`}>
         <div id="individual-arrival-header-right">
           <IconButton
@@ -182,6 +185,8 @@ const IndividualArrival = () => {
         </div>
       </PageHeader>
 
+      {/* ERROR MESSAGE */}
+
       {error && (
         <div id="individual-arrival-error">
           <Alert severity="error">{error}</Alert>
@@ -191,58 +196,61 @@ const IndividualArrival = () => {
       {/* GUEST BUTTONS */}
 
       <div id="arrival-button-container">
-        {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => (
-          <>
-            <Divider variant="middle" sx={{ mb: 3 }}>
-              {guestTypeGroup.name}
-            </Divider>
+        {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => {
+          const guestTypeGroupName = guestTypeGroup.name
+          const guestsOfType = guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id)
+          
+          return (
+            <>
+              <Divider variant="middle" sx={{ mb: 3 }}>
+                {guestTypeGroupName}
+              </Divider>
 
-            <Box
-              className={
-                guests.length === 1 ? "button-grid one-column" : "button-grid"
-              }
-              sx={{ mb: 3 }}
-            >
-              {guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id).map(guest => (
-                <LargeButton
-                  onClick={
-                    !guest.checkedIn
-                      ? () =>
-                        checkinOne(
-                          guest.id,
-                          "GUEST",
-                          guests,
-                          setGuests,
-                          checkInOneGuestMutation,
-                          user.token,
-                          false
-                        )
-                      : () =>
-                        checkinOne(
-                          guest.id,
-                          "GUEST",
-                          guests,
-                          setGuests,
-                          checkInOneGuestMutation,
-                          user.token,
-                          true
-                        )
-                  }
-                  highlighted={guest.checkedIn !== null}
-                  disabled={!isGuestDue(guest) || guest.checkedOut !== null}
-                >
-                  <div>
-                    {guest.name}
-                    {!isGuestDue(guest) && <div>Not yet due</div>}
-                  </div>
-                </LargeButton>
-              ))}
-            </Box>
-          </>
-
-        ))}
-
-
+              <Box
+                className={
+                  guests.length === 1 ? "button-grid one-column" : "button-grid"
+                }
+                sx={{ mb: 3 }}
+              >
+                {guestsOfType.length === 0 && <div>{`No ${guestTypeGroupName.toLowerCase()} expected`}</div>}
+                {guestsOfType.length > 0 && guestsOfType.map(guest => (
+                  <LargeButton
+                    onClick={
+                      !guest.checkedIn
+                        ? () =>
+                          checkinOne(
+                            guest.id,
+                            "GUEST",
+                            guests,
+                            setGuests,
+                            checkInOneGuestMutation,
+                            user.token,
+                            false
+                          )
+                        : () =>
+                          checkinOne(
+                            guest.id,
+                            "GUEST",
+                            guests,
+                            setGuests,
+                            checkInOneGuestMutation,
+                            user.token,
+                            true
+                          )
+                    }
+                    highlighted={guest.checkedIn !== null}
+                    disabled={!isGuestDue(guest) || guest.checkedOut !== null}
+                  >
+                    <div>
+                      {guest.name}
+                      {!isGuestDue(guest) && <div>Not yet due</div>}
+                    </div>
+                  </LargeButton>
+                ))}
+              </Box>
+            </>
+          )
+        })}
 
       </div>
     </div>
