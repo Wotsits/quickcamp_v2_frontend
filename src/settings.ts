@@ -24,6 +24,8 @@ export const BOOKINGCALENDARCOLUMNWIDTHMIN = 50;
 
 export const DEFAULT_PAGE_SIZE = 5;
 
+export const WIDTH_OF_BOOKING_CALENDAR = 28;
+
 export const ROUTES = {
   ROOT: "/",
   DASHBOARD: "dashboard/",

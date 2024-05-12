@@ -14,7 +14,7 @@ import {
 import AuthContext from "../../../contexts/authContext";
 import { ResourceGroup } from "../../../components/organisms/ResourceCalendar/types";
 import { getUnitTypes } from "../../../services/queries/getUnitTypes";
-import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES } from "../../../settings";
+import { BOOKINGCALENDARCOLUMNWIDTHMIN, ROUTES, WIDTH_OF_BOOKING_CALENDAR } from "../../../settings";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -60,7 +60,7 @@ const BookingCalendar = () => {
     () =>
       getBookingsByDateRange({
         start: startDate as Date,
-        end: addDays(startDate as Date, 29),
+        end: addDays(startDate as Date, WIDTH_OF_BOOKING_CALENDAR + 1),
         token: user.token,
         siteId: selectedSite!.id,
       })

@@ -6,6 +6,7 @@ import { generateDateArray } from "../../../utils/helpers";
 import ResourceCalendarHeaderRow from "./ResourceCalendarHeaderRow";
 import ResourceCalendarBody from "./ResourceCalendarBody";
 import { BookingSumm } from "../../../types";
+import { WIDTH_OF_BOOKING_CALENDAR } from "../../../settings";
 
 type ResourceCalendarComponentProps = {
   /** mandatory, resources array */
@@ -31,7 +32,7 @@ const ResourceCalendar = ({
   // STATE
   // --------------------
 
-  const [numberOfNights] = useState(28);
+  const [numberOfNights] = useState(WIDTH_OF_BOOKING_CALENDAR);
   const [dateArray, setDateArray] = useState(
     generateDateArray(startDate, numberOfNights)
   );
