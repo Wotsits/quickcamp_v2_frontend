@@ -1,4 +1,4 @@
-import { BookingGuest } from "../../types";
+import { Booking, BookingGuest } from "../../types";
 
 export function checkoutOne(
   guestId: number,
@@ -60,3 +60,33 @@ export function checkoutAll(
   });
 }
 
+/**
+ * @description This function takes in a guestTypeGroupId, a list of a bookings and a string indicating what should be counted.  
+ * @returns : number - Total guests of the given guestTypeGroup who hare either due (total) or departed.
+ */
+export function calculateNumberOfTypeDeparting(guestTypeGroupId: number, bookings: Booking[], dueOrDeparted: "DUE" | "DEPARTED"): number {
+  if (!bookings || bookings.length === 0) return 0;
+
+  let total = 0
+  bookings.forEach(departure => {
+    const guests = departure.guests
+    if (!guests || guests.length === 0) {
+      return
+    }
+    guests.forEach(guest => {
+      const guestType = guest.guestType
+      const guestTypeGroup = guestType?.guestTypeGroup
+      if (!guestTypeGroup) return
+      if (guestTypeGroup.id === guestTypeGroupId) {
+        if (dueOrDeparted === "DUE") total += 1
+        if (dueOrDeparted === "DEPARTED") {
+          if (guest.checkedOut) {
+            total += 1
+          }
+        }
+      }
+    })
+  })
+
+  return total
+}

@@ -32,6 +32,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getDeparturesByDate } from "../../../services/queries/getDeparturesByDate";
 import "../style.css";
 import SitesContext from "../../../contexts/sitesContext";
+import { calculateNumberOfTypeDeparting } from "../helpers";
 
 const summaryBlockSettings = {
   background:
@@ -117,6 +118,8 @@ const Departures = () => {
   return (
     <div id="departures" className="full-width">
       
+      {/* PAGE HEADER */}
+
       <PageHeader title="Departures">
         <IconButton
           onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
@@ -174,21 +177,19 @@ const Departures = () => {
                 content={departuresData!.data.length} // TODO correct this
                 {...summaryBlockSettings}
               />
-              <SummaryBlock
-                label="People Departing Today"
-                content={departuresData!.data.length} // TODO correct this
-                {...summaryBlockSettings}
-              />
-              <SummaryBlock
-                label="Cars Departing Today"
-                content={departuresData!.data.length} // TODO correct this
-                {...summaryBlockSettings}
-              />
-              <SummaryBlock
-                label="Pets Departing Today"
-                content={departuresData!.data.length} // TODO correct this
-                {...summaryBlockSettings}
-              />
+              {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                const guestTypeGroupId = guestTypeGroup.id
+                const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DUE")
+                const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DEPARTED")
+                
+                return (
+                  <SummaryBlock
+                    label={`${guestTypeGroup.name} Departing Today`}
+                    content={`${numberOfTypeDeparted} in of ${numberOfTypeDueToDepart}`}
+                    {...summaryBlockSettings}
+                  />
+                )
+              })}
             </div>
           </AccordionDetails>
         </Accordion>
