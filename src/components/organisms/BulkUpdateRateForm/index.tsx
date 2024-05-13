@@ -173,12 +173,6 @@ const BulkUpdateRateForm = ({
                 baseRatePerNight={unitType.rates.base.perNight}
                 baseRatePerStay={unitType.rates.base.perStay}
                 guestRates={unitType.rates.guest}
-                petRateId={unitType.rates.pet.id}
-                petRatePerNight={unitType.rates.pet.perNight}
-                petRatePerStay={unitType.rates.pet.perStay}
-                vehicleRateId={unitType.rates.vehicle.id}
-                vehicleRatePerNight={unitType.rates.vehicle.perNight}
-                vehicleRatePerStay={unitType.rates.vehicle.perStay}
               />
             </AccordionDetails>
           </Accordion>

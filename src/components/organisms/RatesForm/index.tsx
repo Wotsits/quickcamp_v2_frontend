@@ -11,10 +11,6 @@ type RatesFormProps = {
   baseRate: RateSummary | null;
   /** mandatory, guestRates to be displayed in the table */
   guestRates: GuestRatesSummary | null;
-  /** mandatory, guestRates to be displayed in the table */
-  petRate: RateSummary | null;
-  /** mandatory, guestRates to be displayed in the table */
-  vehicleRate: RateSummary | null;
   /** optional, boolean flag controlling whether the content of the table is editable */
   contentEditable?: boolean;
   /** optional, but mandatory if contentEditable flag is true, callback triggered by clicking cancel button */
@@ -28,8 +24,6 @@ type RatesFormProps = {
 const RatesForm = ({
   baseRate,
   guestRates,
-  petRate,
-  vehicleRate,
   contentEditable = false,
   onCancel,
   onSave,
@@ -87,20 +81,10 @@ const RatesForm = ({
 
   if (!baseRate) return <div>No base rate</div>;
   if (!guestRates) return <div>No guest rates</div>;
-  if (!petRate) return <div>No pet rate</div>;
-  if (!vehicleRate) return <div>No vehicle rate</div>;
 
   const baseRateId = baseRate.id;
   const baseRatePerNight = baseRate.perNight;
   const baseRatePerStay = baseRate.perStay;
-
-  const petRateId = petRate.id;
-  const petRatePerNight = petRate.perNight;
-  const petRatePerStay = petRate.perStay;
-
-  const vehicleRateId = vehicleRate.id;
-  const vehicleRatePerNight = vehicleRate.perNight;
-  const vehicleRatePerStay = vehicleRate.perStay;
 
   return (
     <div className="rates-form">
@@ -111,12 +95,6 @@ const RatesForm = ({
         baseRatePerNight={baseRatePerNight}
         baseRatePerStay={baseRatePerStay}
         guestRates={guestRates}
-        petRateId={petRateId}
-        petRatePerNight={petRatePerNight}
-        petRatePerStay={petRatePerStay}
-        vehicleRateId={vehicleRateId}
-        vehicleRatePerNight={vehicleRatePerNight}
-        vehicleRatePerStay={vehicleRatePerStay}
       />
       {contentEditable && onCancel && onSave && (
         <ButtonContainer 

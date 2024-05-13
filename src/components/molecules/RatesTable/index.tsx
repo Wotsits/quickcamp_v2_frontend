@@ -25,18 +25,6 @@ type RatesTableProps = {
   baseRatePerStay: number;
   /** guest rates to be displayed in the table */
   guestRates: GuestRatesSummary;
-  /** ID of the pet rate being displayed */
-  petRateId: number;
-  /** per night value of the pet rate being displayed */
-  petRatePerNight: number;
-  /** per stay value of the pet rate being displayed */
-  petRatePerStay: number;
-  /** ID of the vehicle rate being displayed */
-  vehicleRateId: number;
-  /** per night value of the vehicle rate being displayed */
-  vehicleRatePerNight: number;
-  /** per stay value of the vehicle rate being displayed */
-  vehicleRatePerStay: number;
   /** optional, boolean flag controlling whether the content of the table is editable */
   contentEditable?: boolean;
 };
@@ -47,13 +35,7 @@ const RatesTable = ({
   baseRateId,
   baseRatePerNight,
   baseRatePerStay,
-  guestRates,
-  petRateId,
-  petRatePerNight,
-  petRatePerStay,
-  vehicleRateId,
-  vehicleRatePerNight,
-  vehicleRatePerStay,
+  guestRates
 }: RatesTableProps) => {
   return (
     <div className={"rates-table"}>
@@ -139,64 +121,6 @@ const RatesTable = ({
               );
             }
           )}
-          <TableRow>
-            <TableCell>Pet</TableCell>
-            <TableCell>
-              {contentEditable ? (
-                <TextField
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, petRateId, "PET", "PER_NIGHT");
-                  }}
-                  defaultValue={petRatePerNight.toFixed(2)}
-                />
-              ) : (
-                petRatePerNight.toFixed(2)
-              )}
-            </TableCell>
-            <TableCell>
-              {contentEditable ? (
-                <TextField
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, petRateId, "PET", "PER_STAY");
-                  }}
-                  defaultValue={petRatePerStay.toFixed(2)}
-                />
-              ) : (
-                petRatePerStay.toFixed(2)
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Vehicle</TableCell>
-            <TableCell>
-              {contentEditable ? (
-                <TextField
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, vehicleRateId, "VEHICLE", "PER_NIGHT");
-                  }}
-                  defaultValue={vehicleRatePerNight.toFixed(2)}
-                />
-              ) : (
-                vehicleRatePerNight.toFixed(2)
-              )}
-            </TableCell>
-            <TableCell>
-              {contentEditable ? (
-                <TextField
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e, vehicleRateId, "VEHICLE", "PER_STAY");
-                  }}
-                  defaultValue={vehicleRatePerStay.toFixed(2)}
-                />
-              ) : (
-                vehicleRatePerStay.toFixed(2)
-              )}
-            </TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </div>

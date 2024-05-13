@@ -85,8 +85,6 @@ const RatesPage = () => {
   const [ratesEditorOpen, setRatesEditorOpen] = useState(false);
   const [baseRateBeingEdited, setBaseRateBeingEdited] = useState<RateSummary | null>(null);
   const [guestRatesBeingEdited, setGuestRatesBeingEdited] = useState<GuestRatesSummary | null>(null);
-  const [petRateBeingEdited, setPetRateBeingEdited] = useState<RateSummary | null>(null);
-  const [vehicleRateBeingEdited, setVehicleRateBeingEdited] = useState<RateSummary | null>(null);
 
   // ----------
   // QUERIES
@@ -157,9 +155,7 @@ const RatesPage = () => {
   useEffect(() => {
     if (
       baseRateBeingEdited &&
-      guestRatesBeingEdited &&
-      petRateBeingEdited &&
-      vehicleRateBeingEdited
+      guestRatesBeingEdited
     ) {
       setRatesEditorOpen(true);
     } else {
@@ -167,9 +163,7 @@ const RatesPage = () => {
     }
   }, [
     baseRateBeingEdited,
-    guestRatesBeingEdited,
-    petRateBeingEdited,
-    vehicleRateBeingEdited,
+    guestRatesBeingEdited
   ]);
 
   // ----------
@@ -179,8 +173,6 @@ const RatesPage = () => {
   function resetRatesBeingEdited() {
     setBaseRateBeingEdited(null);
     setGuestRatesBeingEdited(null);
-    setPetRateBeingEdited(null);
-    setVehicleRateBeingEdited(null);
   }
 
   function handleRatesEdit(changedItems: ChangedItems) {
@@ -239,8 +231,6 @@ const RatesPage = () => {
           <RatesForm
             baseRate={baseRateBeingEdited}
             guestRates={guestRatesBeingEdited}
-            petRate={petRateBeingEdited}
-            vehicleRate={vehicleRateBeingEdited}
             contentEditable
             onCancel={() => resetRatesBeingEdited()}
             onSave={(changedItems: ChangedItems) =>
@@ -269,6 +259,8 @@ const RatesPage = () => {
           />
         </Modal>
       )}
+
+      {/* MODALS END HERE */}
 
       <PageHeader title="Rates Editor">
         <Button
@@ -312,15 +304,7 @@ const RatesPage = () => {
                       date,
                       unitType.guestFeesCalendarEntries!
                     );
-                    const petRate = generatePetRate(
-                      date,
-                      unitType.petFeesCalendarEntries!
-                    );
-                    const vehicleRate = generateVehicleRate(
-                      date,
-                      unitType.vehicleFeesCalendarEntries!
-                    );
-                    if (!baseRate || !guestRates || !petRate || !vehicleRate)
+                    if (!baseRate || !guestRates)
                       return null;
                     return (
                       <TableCell
@@ -328,15 +312,11 @@ const RatesPage = () => {
                         onClick={() => {
                           setBaseRateBeingEdited(baseRate);
                           setGuestRatesBeingEdited(guestRates);
-                          setPetRateBeingEdited(petRate);
-                          setVehicleRateBeingEdited(vehicleRate);
                         }}
                       >
                         <RatesForm
                           baseRate={baseRate}
                           guestRates={guestRates}
-                          petRate={petRate}
-                          vehicleRate={vehicleRate}
                         />
                       </TableCell>
                     );
