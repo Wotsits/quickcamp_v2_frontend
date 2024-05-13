@@ -189,8 +189,6 @@ const IndividualSite = () => {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Icon</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
