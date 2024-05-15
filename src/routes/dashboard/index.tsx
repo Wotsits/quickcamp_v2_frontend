@@ -1,5 +1,5 @@
 import { Tab, Tabs, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Booking } from "../../types";
 import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
@@ -16,6 +16,7 @@ import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
 import { BarChart } from "@mui/x-charts";
 import SiteContext from "../../contexts/sitesContext";
 import CustomTabPanel from "../../components/molecules/CustomTabPanel"
+import { getTotalOnSiteTonight } from "../../services/queries/getTotalOnSiteTonight";
 
 const now = today1200();
 
@@ -38,6 +39,7 @@ const Dashboard = () => {
   // -------------
 
   const [arrivalsGraphActiveIndex, setArrivalsGraphActiveIndex] = useState(0)
+  const [onSiteTonightIndexActive, setOnSiteTonightIndexActive] = useState(0)
 
   // -------------
   // QUERIES
@@ -49,7 +51,7 @@ const Dashboard = () => {
     isError: arrivalsAreError,
     data: arrivalsData,
     error: arrivalsError,
-  } = useQuery<{data: Booking[]}, Error>(["ArrivalsByDate", now], () =>
+  } = useQuery<{ data: Booking[] }, Error>(["ArrivalsByDate", now], () =>
     getArrivalsByDate({
       date: now,
       token: user.token,
@@ -63,7 +65,7 @@ const Dashboard = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<{data: Booking[]}, Error>(["DeparturesByDate", now], () =>
+  } = useQuery<{ data: Booking[] }, Error>(["DeparturesByDate", now], () =>
     getDeparturesByDate({
       date: now,
       token: user.token,
@@ -71,14 +73,27 @@ const Dashboard = () => {
     })
   );
 
-  // COUNT ON SITE QUERY
+  // COUNT ON SITE NOW QUERY
   const {
     isLoading: totalOnSiteIsLoading,
     isError: totalOnSiteIsError,
     data: totalOnSiteData,
     error: totalOnSiteError,
-  } = useQuery<{data: {totalOnSite: number}}, Error>(["TotalOnSite"], () =>
+  } = useQuery<{ data: { totalOnSite: number } }, Error>(["TotalOnSite"], () =>
     getTotalOnSite({
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
+
+  // COUNT ON SITE TONIGHT QUERY
+  const {
+    isLoading: totalOnSiteTonightIsLoading,
+    isError: totalOnSiteTonightIsError,
+    data: totalOnSiteTonightData,
+    error: totalOnSiteTonightError,
+  } = useQuery<{ data: { totalOnSiteTonight: [{ guestTypeGroupName: string, count: number }] } }, Error>(["TotalOnSiteTonight"], () =>
+    getTotalOnSiteTonight({
       token: user.token,
       siteId: selectedSite!.id,
     })
@@ -87,6 +102,27 @@ const Dashboard = () => {
   // TOTAL INCOME QUERY
 
   // PENDING BOOKINGS QUERY
+
+  // -------------
+  // USEEFFECTS
+  // -------------
+
+  // This useEffect iterates the active index for the onSiteTonight summary box.
+  useEffect(() => {
+    if (totalOnSiteTonightData) {
+      const timeout = setTimeout(() => {
+        const length = totalOnSiteTonightData.data.totalOnSiteTonight.length
+        if (onSiteTonightIndexActive === length - 1) {
+          setOnSiteTonightIndexActive(0)
+        } else {
+          setOnSiteTonightIndexActive(onSiteTonightIndexActive + 1)
+        }
+      }, 5000)
+
+      // clean up
+      return () => clearTimeout(timeout)
+    }
+  }, [totalOnSiteTonightData, onSiteTonightIndexActive])
 
   // -------------
   // HELPERS
@@ -132,21 +168,22 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteIsLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteIsLoading || totalOnSiteTonightIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError || totalOnSiteIsError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteIsError || totalOnSiteTonightIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
         {departuresError && <div>{departuresError.message}</div>}
         {totalOnSiteError && <div>{totalOnSiteError.message}</div>}
+        {totalOnSiteTonightError && <div>{totalOnSiteTonightError.message}</div>}
       </>
     );
 
   return (
     <div id="dashboard">
 
-      { /* ARRIVALS FORECAST CHART */ }
+      { /* ARRIVALS FORECAST CHART */}
 
       <div
         id="arrival-forecast"
@@ -157,21 +194,21 @@ const Dashboard = () => {
         {/* Tab selector */}
         <div>
           <Tabs value={arrivalsGraphActiveIndex} onChange={handleArrivalsGraphActiveIndexChange} aria-label="arrivals graph tabs">
-            {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order-b.order).map(guestTypeGroup => (
+            {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order - b.order).map(guestTypeGroup => (
               <Tab label={guestTypeGroup.name} />
             ))}
           </Tabs>
         </div>
 
-        {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order-b.order).map(guestTypeGroup => (
-            <CustomTabPanel value={arrivalsGraphActiveIndex} index={0} >
-              <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300}/>
-            </CustomTabPanel>
+        {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order - b.order).map(guestTypeGroup => (
+          <CustomTabPanel value={arrivalsGraphActiveIndex} index={0} >
+            <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300} />
+          </CustomTabPanel>
         ))}
-      
+
       </div>
 
-      { /* QUICK MENU */ }
+      { /* QUICK MENU */}
 
       <div id="quick-menu" className="container-white-bg-rounded-full-width">
         <Typography variant="h6">Quick Links</Typography>
@@ -244,7 +281,8 @@ const Dashboard = () => {
       <div id="on-site-tonight">
         <SummaryBlock
           label="On Site Tonight"
-          content="-"
+          content={totalOnSiteTonightData?.data.totalOnSiteTonight[onSiteTonightIndexActive].count!}
+          subLabel={totalOnSiteTonightData?.data.totalOnSiteTonight[onSiteTonightIndexActive].guestTypeGroupName}
           background={"purple"}
           foregroundColor="white"
           width="100%"
@@ -287,12 +325,12 @@ const Dashboard = () => {
         <Typography variant="h6">Daily Income Breakdown</Typography>
         {/* TODO: add data to the chart */}
         <BarChart
-          series={[{ data: [4300], label: "Online Payment"}, { data: [2523], label: "Cash Payment"}, { data: [1200], label: "Card Payment"}]}
+          series={[{ data: [4300], label: "Online Payment" }, { data: [2523], label: "Cash Payment" }, { data: [1200], label: "Card Payment" }]}
           xAxis={[{ scaleType: "band", data: ["Today"] }]}
           colors={[PRIMARYCOLOR, SECONDARYCOLOR, "purple"]}
         />
       </div>
-      
+
     </div>
   );
 };

@@ -6,6 +6,8 @@ type SummaryBlockProps = {
   label: string;
   /** mandatory, content to appear in summary block */
   content: string | number;
+  /** optional, text for a subLabel rendered if provided */
+  subLabel?: string;
   /** mandatory, background setting string of summary block */
   background: string;
   /** mandatory, foreground color of summary block */
@@ -27,6 +29,7 @@ type SummaryBlockProps = {
 const SummaryBlock = ({
   label,
   content,
+  subLabel,
   background,
   foregroundColor,
   width,
@@ -53,6 +56,7 @@ const SummaryBlock = ({
     >
       <h6 className="summary-block-label">{label}</h6>
       <div className="summary-block-content-container">{content}</div>
+      {subLabel && <h6 className="summary-block-sublabel">{subLabel}</h6>}
     </div>
   );
 };

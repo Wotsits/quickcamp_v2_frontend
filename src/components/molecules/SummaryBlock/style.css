@@ -14,6 +14,14 @@
     padding: 0;
 }
 
+.summary-block .summary-block-sublabel {
+    font-size: 100%;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
 .summary-block .summary-block-content-container {
     flex-grow: 1;
     display: flex;

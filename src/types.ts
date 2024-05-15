@@ -91,6 +91,8 @@ export type GuestTypeGroup = {
   site?: Site;
   order: number;
   getAndReportArrivalTime: boolean;
+  reportOnSiteNow: boolean;
+  reportOnSiteTonight: boolean;
   guestTypes: GuestType[]
 }
 

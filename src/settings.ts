@@ -72,6 +72,7 @@ export const API_ENDPOINTS = {
   USERS: "users/",
   STATS: "stats/",
   TOTAL_ON_SITE: "total-on-site/",
+  TOTAL_ON_SITE_TONIGHT: "total-on-site-tonight/"
 };
 
 export const SUPPORTED_ICONS = {
