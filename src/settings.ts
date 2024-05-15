@@ -71,7 +71,7 @@ export const API_ENDPOINTS = {
   EQUIPMENT_TYPES: "equipment-types/",
   USERS: "users/",
   STATS: "stats/",
-  TOTAL_ON_SITE: "total-on-site/",
+  TOTAL_ON_SITE_NOW: "total-on-site-now/",
   TOTAL_ON_SITE_TONIGHT: "total-on-site-tonight/"
 };
 

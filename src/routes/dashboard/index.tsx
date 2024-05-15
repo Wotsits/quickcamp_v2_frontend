@@ -12,7 +12,7 @@ import SummaryBlock from "../../components/molecules/SummaryBlock";
 import { today1200 } from "../../utils/dateTimeManipulation";
 import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate";
 import { isSameDate } from "../../utils/helpers";
-import { getTotalOnSite } from "../../services/queries/getTotalOnSite";
+import { getTotalOnSiteNow } from "../../services/queries/getTotalOnSiteNow";
 import { BarChart } from "@mui/x-charts";
 import SiteContext from "../../contexts/sitesContext";
 import CustomTabPanel from "../../components/molecules/CustomTabPanel"
@@ -40,6 +40,7 @@ const Dashboard = () => {
 
   const [arrivalsGraphActiveIndex, setArrivalsGraphActiveIndex] = useState(0)
   const [onSiteTonightIndexActive, setOnSiteTonightIndexActive] = useState(0)
+  const [onSiteNowIndexActive, setOnSiteNowIndexActive] = useState(0)
 
   // -------------
   // QUERIES
@@ -75,12 +76,12 @@ const Dashboard = () => {
 
   // COUNT ON SITE NOW QUERY
   const {
-    isLoading: totalOnSiteIsLoading,
-    isError: totalOnSiteIsError,
-    data: totalOnSiteData,
-    error: totalOnSiteError,
-  } = useQuery<{ data: { totalOnSite: number } }, Error>(["TotalOnSite"], () =>
-    getTotalOnSite({
+    isLoading: totalOnSiteNowIsLoading,
+    isError: totalOnSiteNowIsError,
+    data: totalOnSiteNowData,
+    error: totalOnSiteNowError,
+  } = useQuery<{ data: { totalOnSiteNow: [{guestTypeGroupName: string, count: number}] } }, Error>(["TotalOnSite"], () =>
+    getTotalOnSiteNow({
       token: user.token,
       siteId: selectedSite!.id,
     })
@@ -123,6 +124,23 @@ const Dashboard = () => {
       return () => clearTimeout(timeout)
     }
   }, [totalOnSiteTonightData, onSiteTonightIndexActive])
+
+  // This useEffect iterates the active index for the onSiteNow summary box.
+  useEffect(() => {
+    if (totalOnSiteNowData) {
+      const timeout = setTimeout(() => {
+        const length = totalOnSiteNowData.data.totalOnSiteNow.length
+        if (onSiteNowIndexActive === length - 1) {
+          setOnSiteNowIndexActive(0)
+        } else {
+          setOnSiteNowIndexActive(onSiteNowIndexActive + 1)
+        }
+      }, 5000)
+
+      // clean up
+      return () => clearTimeout(timeout)
+    }
+  }, [totalOnSiteNowData, onSiteNowIndexActive])
 
   // -------------
   // HELPERS
@@ -168,17 +186,19 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteIsLoading || totalOnSiteTonightIsLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError || totalOnSiteIsError || totalOnSiteTonightIsError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
         {departuresError && <div>{departuresError.message}</div>}
-        {totalOnSiteError && <div>{totalOnSiteError.message}</div>}
+        {totalOnSiteNowError && <div>{totalOnSiteNowError.message}</div>}
         {totalOnSiteTonightError && <div>{totalOnSiteTonightError.message}</div>}
       </>
     );
+
+    console.log(totalOnSiteNowData)
 
   return (
     <div id="dashboard">
@@ -242,7 +262,8 @@ const Dashboard = () => {
       <div id="on-site-summary">
         <SummaryBlock
           label="On Site Now"
-          content={`${totalOnSiteData!.data.totalOnSite}`}
+          content={`${totalOnSiteNowData!.data.totalOnSiteNow[onSiteNowIndexActive].count}`}
+          subLabel={totalOnSiteTonightData?.data.totalOnSiteTonight[onSiteNowIndexActive].guestTypeGroupName}
           background={"purple"}
           foregroundColor="white"
           width="100%"
