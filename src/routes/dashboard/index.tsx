@@ -18,6 +18,7 @@ import SiteContext from "../../contexts/sitesContext";
 import CustomTabPanel from "../../components/molecules/CustomTabPanel"
 import { getTotalOnSiteTonight } from "../../services/queries/getTotalOnSiteTonight";
 import { getTotalPaymentsToday } from "../../services/queries/getTotalPaymentsToday";
+import { getPaymentsBreakdownToday } from "../../services/queries/getPaymentsBreakdownToday";
 
 const now = today1200();
 
@@ -116,6 +117,19 @@ const Dashboard = () => {
 
   // PENDING BOOKINGS QUERY
 
+  // PAYMENTS BREAKDOWN TODAY QUERY
+  const {
+    isLoading: paymentsBreakdownTodayIsLoading,
+    isError: paymentsBreakdownTodayIsError,
+    data: paymentsBreakdownTodayData,
+    error: paymentsBreakdownTodayError,
+  } = useQuery<{ data: [{_sum: {paymentAmount: number}, paymentMethod: string}]}, Error>(["PaymentsBreakdownToday"], () =>
+    getPaymentsBreakdownToday({
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
+
   // -------------
   // USEEFFECTS
   // -------------
@@ -198,9 +212,9 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading || totalPaymentsTodayIsLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading || totalPaymentsTodayIsLoading || paymentsBreakdownTodayIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError || totalPaymentsTodayIsError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError || totalPaymentsTodayIsError || paymentsBreakdownTodayIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
@@ -208,9 +222,11 @@ const Dashboard = () => {
         {totalOnSiteNowError && <div>{totalOnSiteNowError.message}</div>}
         {totalOnSiteTonightError && <div>{totalOnSiteTonightError.message}</div>}
         {totalPaymentsTodayError && <div>{totalPaymentsTodayError.message}</div>}
+        {paymentsBreakdownTodayError && <div>{paymentsBreakdownTodayError.message}</div>}
       </>
     );
 
+    console.log(paymentsBreakdownTodayData)
   return (
     <div id="dashboard">
 
@@ -357,7 +373,7 @@ const Dashboard = () => {
         <Typography variant="h6">Daily Income Breakdown</Typography>
         {/* TODO: add data to the chart */}
         <BarChart
-          series={[{ data: [4300], label: "Online Payment" }, { data: [2523], label: "Cash Payment" }, { data: [1200], label: "Card Payment" }]}
+          series={paymentsBreakdownTodayData ? paymentsBreakdownTodayData.data.map(datapoint => ({data: [datapoint._sum.paymentAmount], label: datapoint.paymentMethod})) : []}
           xAxis={[{ scaleType: "band", data: ["Today"] }]}
           colors={[PRIMARYCOLOR, SECONDARYCOLOR, "purple"]}
         />
