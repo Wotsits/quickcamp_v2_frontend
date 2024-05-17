@@ -17,6 +17,7 @@ import { BarChart } from "@mui/x-charts";
 import SiteContext from "../../contexts/sitesContext";
 import CustomTabPanel from "../../components/molecules/CustomTabPanel"
 import { getTotalOnSiteTonight } from "../../services/queries/getTotalOnSiteTonight";
+import { getTotalPaymentsToday } from "../../services/queries/getTotalPaymentsToday";
 
 const now = today1200();
 
@@ -100,7 +101,18 @@ const Dashboard = () => {
     })
   );
 
-  // TOTAL INCOME QUERY
+  // TOTAL PAYMENTS QUERY
+  const {
+    isLoading: totalPaymentsTodayIsLoading,
+    isError: totalPaymentsTodayIsError,
+    data: totalPaymentsTodayData,
+    error: totalPaymentsTodayError,
+  } = useQuery<{ data: {_sum: {paymentAmount: number}}}, Error>(["TotalPaymentsToday"], () =>
+    getTotalPaymentsToday({
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
 
   // PENDING BOOKINGS QUERY
 
@@ -186,19 +198,18 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading || totalPaymentsTodayIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError || totalPaymentsTodayIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
         {departuresError && <div>{departuresError.message}</div>}
         {totalOnSiteNowError && <div>{totalOnSiteNowError.message}</div>}
         {totalOnSiteTonightError && <div>{totalOnSiteTonightError.message}</div>}
+        {totalPaymentsTodayError && <div>{totalPaymentsTodayError.message}</div>}
       </>
     );
-
-    console.log(totalOnSiteNowData)
 
   return (
     <div id="dashboard">
@@ -316,7 +327,7 @@ const Dashboard = () => {
       <div id="income-summary">
         <SummaryBlock
           label="Total Income Today"
-          content="£-"
+          content={`£${totalPaymentsTodayData?.data._sum.paymentAmount ? totalPaymentsTodayData?.data._sum.paymentAmount : 0}`}
           background={SECONDARYCOLOR}
           foregroundColor="white"
           width="100%"
