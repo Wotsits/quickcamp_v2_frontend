@@ -19,6 +19,7 @@ import CustomTabPanel from "../../components/molecules/CustomTabPanel"
 import { getTotalOnSiteTonight } from "../../services/queries/getTotalOnSiteTonight";
 import { getTotalPaymentsToday } from "../../services/queries/getTotalPaymentsToday";
 import { getPaymentsBreakdownToday } from "../../services/queries/getPaymentsBreakdownToday";
+import { getUnconfirmedBookingsCount } from "../../services/queries/getUnconfirmedBookingsCount";
 
 const now = today1200();
 
@@ -82,7 +83,7 @@ const Dashboard = () => {
     isError: totalOnSiteNowIsError,
     data: totalOnSiteNowData,
     error: totalOnSiteNowError,
-  } = useQuery<{ data: { totalOnSiteNow: [{guestTypeGroupName: string, count: number}] } }, Error>(["TotalOnSite"], () =>
+  } = useQuery<{ data: { totalOnSiteNow: [{ guestTypeGroupName: string, count: number }] } }, Error>(["TotalOnSite"], () =>
     getTotalOnSiteNow({
       token: user.token,
       siteId: selectedSite!.id,
@@ -108,7 +109,7 @@ const Dashboard = () => {
     isError: totalPaymentsTodayIsError,
     data: totalPaymentsTodayData,
     error: totalPaymentsTodayError,
-  } = useQuery<{ data: {_sum: {paymentAmount: number}}}, Error>(["TotalPaymentsToday"], () =>
+  } = useQuery<{ data: { _sum: { paymentAmount: number } } }, Error>(["TotalPaymentsToday"], () =>
     getTotalPaymentsToday({
       token: user.token,
       siteId: selectedSite!.id,
@@ -116,6 +117,17 @@ const Dashboard = () => {
   );
 
   // PENDING BOOKINGS QUERY
+  const {
+    isLoading: unconfirmedBookingsCountIsLoading,
+    isError: unconfirmedBookingsCountIsError,
+    data: unconfirmedBookingsCountData,
+    error: unconfirmedBookingsCountError,
+  } = useQuery<{ data: number }, Error>(["UnconfirmedBookingsCount"], () =>
+    getUnconfirmedBookingsCount({
+      token: user.token,
+      siteId: selectedSite!.id,
+    })
+  );
 
   // PAYMENTS BREAKDOWN TODAY QUERY
   const {
@@ -123,7 +135,7 @@ const Dashboard = () => {
     isError: paymentsBreakdownTodayIsError,
     data: paymentsBreakdownTodayData,
     error: paymentsBreakdownTodayError,
-  } = useQuery<{ data: [{_sum: {paymentAmount: number}, paymentMethod: string}]}, Error>(["PaymentsBreakdownToday"], () =>
+  } = useQuery<{ data: [{ _sum: { paymentAmount: number }, paymentMethod: string }] }, Error>(["PaymentsBreakdownToday"], () =>
     getPaymentsBreakdownToday({
       token: user.token,
       siteId: selectedSite!.id,
@@ -212,9 +224,9 @@ const Dashboard = () => {
   // RENDER
   // -------------
 
-  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading || totalPaymentsTodayIsLoading || paymentsBreakdownTodayIsLoading) return <div>Loading...</div>;
+  if (arrivalsAreLoading || departuresAreLoading || totalOnSiteNowIsLoading || totalOnSiteTonightIsLoading || totalPaymentsTodayIsLoading || paymentsBreakdownTodayIsLoading || unconfirmedBookingsCountIsLoading) return <div>Loading...</div>;
 
-  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError || totalPaymentsTodayIsError || paymentsBreakdownTodayIsError)
+  if (arrivalsAreError || departuresAreError || totalOnSiteNowIsError || totalOnSiteTonightIsError || totalPaymentsTodayIsError || paymentsBreakdownTodayIsError || unconfirmedBookingsCountIsError)
     return (
       <>
         {arrivalsError && <div>{arrivalsError.message}</div>}
@@ -223,10 +235,10 @@ const Dashboard = () => {
         {totalOnSiteTonightError && <div>{totalOnSiteTonightError.message}</div>}
         {totalPaymentsTodayError && <div>{totalPaymentsTodayError.message}</div>}
         {paymentsBreakdownTodayError && <div>{paymentsBreakdownTodayError.message}</div>}
+        {unconfirmedBookingsCountError && <div>{unconfirmedBookingsCountError.message}</div>}
       </>
     );
 
-    console.log(paymentsBreakdownTodayData)
   return (
     <div id="dashboard">
 
@@ -356,7 +368,7 @@ const Dashboard = () => {
       <div id="pending-bookings">
         <SummaryBlock
           label="Pending Bookings"
-          content="-"
+          content={unconfirmedBookingsCountData ? unconfirmedBookingsCountData.data : 0}
           background={PRIMARYCOLOR}
           foregroundColor="white"
           width="100%"
@@ -373,7 +385,7 @@ const Dashboard = () => {
         <Typography variant="h6">Daily Income Breakdown</Typography>
         {/* TODO: add data to the chart */}
         <BarChart
-          series={paymentsBreakdownTodayData ? paymentsBreakdownTodayData.data.map(datapoint => ({data: [datapoint._sum.paymentAmount], label: datapoint.paymentMethod})) : []}
+          series={paymentsBreakdownTodayData ? paymentsBreakdownTodayData.data.map(datapoint => ({ data: [datapoint._sum.paymentAmount], label: datapoint.paymentMethod })) : []}
           xAxis={[{ scaleType: "band", data: ["Today"] }]}
           colors={[PRIMARYCOLOR, SECONDARYCOLOR, "purple"]}
         />

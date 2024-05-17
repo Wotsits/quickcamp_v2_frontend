@@ -74,7 +74,8 @@ export const API_ENDPOINTS = {
   TOTAL_ON_SITE_NOW: "total-on-site-now/",
   TOTAL_ON_SITE_TONIGHT: "total-on-site-tonight/",
   TOTAL_PAYMENTS_TODAY: "total-payments-today/",
-  PAYMENTS_BREAKDOWN_TODAY: "payments-breakdown-today/"
+  PAYMENTS_BREAKDOWN_TODAY: "payments-breakdown-today/",
+  UNCONFIRMED_BOOKINGS_COUNT: "unconfirmed-bookings-count/"
 };
 
 export const SUPPORTED_ICONS = {
