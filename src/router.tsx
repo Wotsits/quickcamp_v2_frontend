@@ -24,6 +24,7 @@ import IndividualGuest from "./routes/guests/[id]";
 import NewSiteForm from "./routes/admin/sites/new";
 import IndividualSite from "./routes/admin/sites/[id]";
 import RatesPage from "./routes/admin/sites/[id]/ratesPage";
+import { IndividualBookingGroup } from "./routes/bookingGroups/[id]";
 
 export const router = createBrowserRouter([
   {
@@ -81,6 +82,15 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.CALENDAR,
         element: <BookingCalendar />,
+      },
+      { 
+        path: ROUTES.BOOKING_GROUPS,
+        children: [
+          {
+            path: ROUTES.ID,
+            element: <IndividualBookingGroup/>
+          }
+        ]
       },
       {
         path: ROUTES.BOOKINGS,

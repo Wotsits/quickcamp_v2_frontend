@@ -33,6 +33,7 @@ export const ROUTES = {
   ARRIVALS: "arrivals/",
   DEPARTURES: "departures/",
   GUESTS: "guests/",
+  BOOKING_GROUPS: "booking-groups/",
   BOOKINGS: "bookings/",
   LOGIN: "login/",
   ID: ":id/",
@@ -54,6 +55,7 @@ export const ROUTES = {
 };
 
 export const API_ENDPOINTS = {
+  BOOKING_GROUPS: "booking-groups/",
   BOOKINGS_BY_SITE: "bookings-by-site/",
   BOOKINGS_BY_SITE_AND_DATE_RANGE: "bookings-by-site-and-date-range/",
   BOOKING_BY_ID: "booking-by-id/",

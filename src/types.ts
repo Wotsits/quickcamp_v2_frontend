@@ -126,6 +126,13 @@ export type ExtraType = {
   unitTypes?: UnitType[];
 };
 
+export type BookingGroup = {
+  id: number;
+  siteId?: number;
+  site?: Site;
+  bookings: Booking[]
+}
+
 export type Booking = {
   id: number;
   start: Date;
@@ -138,6 +145,8 @@ export type Booking = {
   guests?: BookingGuest[];
   payments?: Payment[];
   status: string;
+  bookingGroupId: number;
+  bookingGroup?: BookingGroup;
 };
 
 export type Calendar = {
@@ -252,6 +261,8 @@ export type BookingSumm = {
   peopleCheckedIn: number;
   petsCheckedIn: number;
   vehiclesCheckedIn: number;
+  bookingGroupId: number;
+  sizeOfGroup: number
 };
 
 export type Note = {

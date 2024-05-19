@@ -1,4 +1,4 @@
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
 import OccupantCard from "../../components/molecules/OccupantCard";
-import { OFFICIALLY_SUPPORTED_OCCUPANT_TYPES, ROUTES } from "../../settings";
+import { ROUTES } from "../../settings";
 import PageHeader from "../../components/molecules/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentBlock from "../../components/atoms/ContentBlock";
@@ -92,6 +92,8 @@ const IndividualBooking = () => {
     return <div>Booking not found</div>;
   }
 
+  const isPartOfGroupOfBookings = bookingData.data.bookingGroup && bookingData.data.bookingGroup.bookings.length > 1; 
+
   return (
     <div id="booking">
 
@@ -149,7 +151,19 @@ const IndividualBooking = () => {
         </Modal>
       )}
 
-      <PageHeader title="Booking" subTitle={`Booking ID: ${bookingData.data.id}`} />
+      <PageHeader title="Booking" subTitle={`Booking ID: ${bookingData.data.id}`}>
+      <div id="individual-booking-header-right">
+          {isPartOfGroupOfBookings && (
+          <Button
+            variant="contained"
+            onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKING_GROUPS + bookingData.data.bookingGroupId)
+            }
+          >
+            View Booking Group
+          </Button>
+          )}
+        </div>
+      </PageHeader>
 
       <div id="booking-information-container">
         {/* Lead Guest Details */}
@@ -171,7 +185,6 @@ const IndividualBooking = () => {
               <EditIcon onClick={() => setLeadGuestEditModalOpen(true)} />
             </IconButton>
             </div>
-            
           }
         >
           <LabelAndValuePair label="Name" value={bookingData.data.leadGuest.firstName + " " + bookingData.data.leadGuest.lastName} />
