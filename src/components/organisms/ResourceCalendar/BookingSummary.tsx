@@ -9,6 +9,7 @@ import {
 import LockIcon from "@mui/icons-material/Lock";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { BookingSumm } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../settings";
@@ -49,6 +50,8 @@ const BookingSummary = ({
     guests,
     paid,
     peopleCheckedIn,
+    bookingGroupId,
+    sizeOfGroup
   } = booking;
 
   const guestTypes = Object.keys(guests);
@@ -103,6 +106,11 @@ const BookingSummary = ({
         <IconButton aria-label="lock">
           <LockIcon />
         </IconButton>
+        {sizeOfGroup > 1 && (
+          <IconButton aria-label="view booking group" onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKING_GROUPS + bookingGroupId)}>
+            <Diversity3Icon/>
+          </IconButton>
+        )}
       </CardActions>
     </Card>
   );
