@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import BookingSummary from "./BookingSummary";
 import { BookingSumm } from "../../../types";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 type BookingBlockProps = {
   /** mandatory, booking object */
@@ -56,6 +57,10 @@ const BookingBlock = ({
     }
   }
 
+  function isPartOfGroup() {
+    return booking.sizeOfGroup > 1
+  }
+
   // -------------
   // RENDER
   // -------------
@@ -75,6 +80,7 @@ const BookingBlock = ({
       >
         {booking.bookingName}
         <span className="occupant-summary">{getTotalOccupants()}</span>
+        {isPartOfGroup() && <Diversity3Icon sx={{ml: 1}}/>}
       </div>
       {bookingSummaryVisible &&
         createPortal(

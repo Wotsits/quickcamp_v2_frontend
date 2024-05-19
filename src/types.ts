@@ -261,6 +261,7 @@ export type BookingSumm = {
   peopleCheckedIn: number;
   petsCheckedIn: number;
   vehiclesCheckedIn: number;
+  sizeOfGroup: number
 };
 
 export type Note = {
