@@ -68,13 +68,6 @@ const Bookings = () => {
     getGuestTypes({ token: user.token, siteId: selectedSite!.id })
   );
 
-  // -------------
-  // DEBUG
-
-  useEffect(() => {
-    console.log(page)
-  }, [page])
-
   // -----------
   // RENDER
   // -----------
