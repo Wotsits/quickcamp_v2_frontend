@@ -15,6 +15,10 @@ type BookingBlockProps = {
   columnWidth: number;
   /** mandatory, number of nights remaining in booking */
   numberOfNightsRemaining: number;
+  /** optional, boolean flag indicating whether the item is highlighted */
+  highlighted?: boolean;
+  /** optional, callback to set the hovered item state in the parent. */
+  setHighlighted?: (id: number) => void
 };
 
 const BookingBlock = ({
@@ -23,6 +27,8 @@ const BookingBlock = ({
   positionTop,
   columnWidth,
   numberOfNightsRemaining,
+  highlighted,
+  setHighlighted
 }: BookingBlockProps) => {
   // -------------
   // STATE
@@ -74,9 +80,12 @@ const BookingBlock = ({
           top: positionTop,
           width: width,
           backgroundColor: getBackgroundColor(),
+          boxShadow: highlighted ? "0 0 5px 0 rgba(0,0,0,0.5)" : "none"
         }}
         className="cell-overlay"
         onClick={() => setBookingSummaryVisible(true)}
+        onMouseOver={setHighlighted ? () => setHighlighted(booking.bookingGroupId) : undefined}
+        onMouseLeave={setHighlighted ? () => setHighlighted(-1) : undefined}
       >
         {booking.bookingName}
         <span className="occupant-summary">{getTotalOccupants()}</span>

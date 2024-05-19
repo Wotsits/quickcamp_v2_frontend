@@ -10,9 +10,13 @@ type BookingOverlayComponentProps = {
     cells: HTMLTableCellElement[]
     /** mandatory, column width */
     columnWidth: number
+    /** optional, hovered item id */
+    hoveredItem: number
+    /** optional, callback to set hovered item */
+    setHoveredItem: (id: number) => void
 }
 
-const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponentProps) => {
+const BookingsOverlay = ({bookings, cells, columnWidth, hoveredItem, setHoveredItem}: BookingOverlayComponentProps) => {
 
     // --------------
     // HELPER
@@ -45,7 +49,7 @@ const BookingsOverlay = ({bookings, cells, columnWidth}: BookingOverlayComponent
     return bookings.map(booking => {
         const {x, y, numberOfNightsRemaining} = getPosition(booking)
         return (
-            <BookingBlock key={booking.id} booking={booking} positionLeft={x} positionTop={y} columnWidth={columnWidth} numberOfNightsRemaining={numberOfNightsRemaining}/>
+            <BookingBlock key={booking.id} booking={booking} positionLeft={x} positionTop={y} columnWidth={columnWidth} numberOfNightsRemaining={numberOfNightsRemaining} highlighted={booking.bookingGroupId === hoveredItem} setHighlighted={setHoveredItem}/>
         )
       })
 

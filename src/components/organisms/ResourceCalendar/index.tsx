@@ -37,6 +37,7 @@ const ResourceCalendar = ({
     generateDateArray(startDate, numberOfNights)
   );
   const [cells, setCells] = useState<HTMLTableCellElement[]>([]);
+  const [hoveredItem, setHoveredItem] = useState(-1);
 
   // --------------------
   // USEEFFECTS
@@ -73,6 +74,8 @@ const ResourceCalendar = ({
         bookings={bookings}
         cells={cells}
         columnWidth={columnWidth}
+        hoveredItem={hoveredItem}
+        setHoveredItem={setHoveredItem}
       />
       
     </div>
