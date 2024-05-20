@@ -37,7 +37,7 @@ const UsersAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data: userData, error } = useQuery<{data: User[]}, Error>(
+  const { isLoading, isError, data: userData, error } = useQuery<{ data: User[] }, Error>(
     ["Users"],
     () =>
       getUsers({
@@ -54,14 +54,14 @@ const UsersAdmin = () => {
       // no filter
       if (selectedRole === "") {
         return userData.data.map((user: User) => {
-          const {id, username, name, email, roles} = user
+          const { id, username, name, email, roles } = user
           return (
             <TableRow key={id}>
               <TableCell>{id}</TableCell>
               <TableCell>{username}</TableCell>
               <TableCell>{name}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>{roles!.map(role => role.role).join(", ")}</TableCell>  
+              <TableCell>{roles!.map(role => role.role).join(", ")}</TableCell>
             </TableRow>
           );
         });
@@ -80,14 +80,14 @@ const UsersAdmin = () => {
           );
         }
         return filteredUsers.map((user: User) => {
-          const {id, username, name, email, roles} = user
+          const { id, username, name, email, roles } = user
           return (
             <TableRow key={id}>
               <TableCell>{id}</TableCell>
               <TableCell>{username}</TableCell>
               <TableCell>{name}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>{roles!.map(role => role.role).join(", ")}</TableCell>  
+              <TableCell>{roles!.map(role => role.role).join(", ")}</TableCell>
             </TableRow>
           );
         });
@@ -103,7 +103,7 @@ const UsersAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="users-admin" className="full-width">
+    <div id="users-admin" className="full-width flex-column h-full">
 
       {/* PAGE HEADER */}
 
@@ -115,7 +115,7 @@ const UsersAdmin = () => {
 
       {/* FILTERS */}
 
-      <div className="container-white-bg-rounded-full-width margin-bottom-1">
+      <div className="container-white-bg-rounded-full-width margin-bottom-1" >
         <FormControl fullWidth>
           <InputLabel id="site-select">Filter by Role</InputLabel>
           <Select
@@ -136,7 +136,7 @@ const UsersAdmin = () => {
         </FormControl>
       </div>
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1 flex-grow overflow-y-auto">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableRow>

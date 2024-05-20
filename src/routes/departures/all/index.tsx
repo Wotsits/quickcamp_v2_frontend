@@ -116,7 +116,7 @@ const Departures = () => {
   if (departuresAreError) return <div>Error: {departuresError?.message}</div>;
 
   return (
-    <div id="departures" className="full-width">
+    <div id="departures" className="full-width flex-column h-full">
 
       {/* PAGE HEADER */}
 
@@ -156,126 +156,129 @@ const Departures = () => {
         </div>
       </div>
 
-      <div id="accordion-container">
-        <Accordion
-          expanded={summaryExpanded}
-          onChange={() => setSummaryExpanded(!summaryExpanded)}
-        >
-
-          {/* SUMMARY BLOCKS SECTION HEADING */}
-
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="daily-departure-summary-content"
-            id="daily-departure-summary-header"
+      <div className="flex-grow overflow-y-auto">
+        <div id="accordion-container">
+          <Accordion
+            expanded={summaryExpanded}
+            onChange={() => setSummaryExpanded(!summaryExpanded)}
           >
-            <Typography component="h2" variant="h6">
-              Today's Summary
-            </Typography>
-          </AccordionSummary>
 
-          {/* SUMMARY BLOCKS */}
+            {/* SUMMARY BLOCKS SECTION HEADING */}
 
-          <AccordionDetails>
-            <div id="summary-blocks">
-              <SummaryBlock
-                label="Bookings Departing Today"
-                content={departuresData!.data.length} // TODO correct this
-                {...summaryBlockSettings}
-              />
-              {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
-                const guestTypeGroupId = guestTypeGroup.id
-                const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DUE")
-                const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DEPARTED")
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="daily-departure-summary-content"
+              id="daily-departure-summary-header"
+            >
+              <Typography component="h2" variant="h6">
+                Today's Summary
+              </Typography>
+            </AccordionSummary>
 
-                return (
-                  <SummaryBlock
-                    label={`${guestTypeGroup.name} Departing Today`}
-                    content={`${numberOfTypeDeparted} in of ${numberOfTypeDueToDepart}`}
-                    {...summaryBlockSettings}
-                  />
-                )
-              })}
-            </div>
-          </AccordionDetails>
+            {/* SUMMARY BLOCKS */}
 
-        </Accordion>
+            <AccordionDetails>
+              <div id="summary-blocks">
+                <SummaryBlock
+                  label="Bookings Departing Today"
+                  content={departuresData!.data.length} // TODO correct this
+                  {...summaryBlockSettings}
+                />
+                {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                  const guestTypeGroupId = guestTypeGroup.id
+                  const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DUE")
+                  const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DEPARTED")
 
-        <Accordion
-          expanded={tableExpanded}
-          onChange={() => setTableExpanded(!tableExpanded)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="daily-departure-list-content"
-            id="daily-departure-list-header"
+                  return (
+                    <SummaryBlock
+                      label={`${guestTypeGroup.name} Departing Today`}
+                      content={`${numberOfTypeDeparted} in of ${numberOfTypeDueToDepart}`}
+                      {...summaryBlockSettings}
+                    />
+                  )
+                })}
+              </div>
+            </AccordionDetails>
+
+          </Accordion>
+
+          <Accordion
+            expanded={tableExpanded}
+            onChange={() => setTableExpanded(!tableExpanded)}
           >
-            <Typography component="h2" variant="h6">
-              Today's Departures List
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <TableContainer>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="daily-departure-list-content"
+              id="daily-departure-list-header"
+            >
+              <Typography component="h2" variant="h6">
+                Today's Departures List
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <TableContainer>
 
-              <Table aria-label="simple table">
+                <Table aria-label="simple table">
 
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Booking Name</TableCell>
-                    {selectedSite?.guestTypeGroups?.map(guestTypeGroup => (
-                      <TableCell align="right">{`${guestTypeGroup.name}`}</TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {departuresData && departuresData.data.length === 0 && (
-                    <TableRow
-                      key="no-departures"
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row" colSpan={3}>
-                        No departures today
-                      </TableCell>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Booking Name</TableCell>
+                      {selectedSite?.guestTypeGroups?.map(guestTypeGroup => (
+                        <TableCell align="right">{`${guestTypeGroup.name}`}</TableCell>
+                      ))}
                     </TableRow>
-                  )}
+                  </TableHead>
 
-                  {departuresData &&
-                    departuresData.data.map((departure) => (
+                  <TableBody>
+                    {departuresData && departuresData.data.length === 0 && (
                       <TableRow
-                        key={departure.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                        onClick={() => navigate(`/departures/${departure.id}/`)}
-                        hover
-                        className="clickable"
+                        key="no-departures"
+                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                       >
-                        <TableCell component="th" scope="row">
-                          {departure.leadGuest.firstName}{" "}
-                          {departure.leadGuest.lastName}
+                        <TableCell component="th" scope="row" colSpan={3}>
+                          No departures today
                         </TableCell>
-
-                        {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
-                          const guestTypeGroupId = guestTypeGroup.id
-                          const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DUE")
-                          const numberOfTypeDeparting = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DEPARTED")
-
-                          return (
-                            <TableCell align="right">
-                              {numberOfTypeDeparting}/{numberOfTypeDueToDepart}
-                            </TableCell>
-                          )
-                        })}
-
                       </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </AccordionDetails>
-        </Accordion>
+                    )}
+
+                    {departuresData &&
+                      departuresData.data.map((departure) => (
+                        <TableRow
+                          key={departure.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                          onClick={() => navigate(`/departures/${departure.id}/`)}
+                          hover
+                          className="clickable"
+                        >
+                          <TableCell component="th" scope="row">
+                            {departure.leadGuest.firstName}{" "}
+                            {departure.leadGuest.lastName}
+                          </TableCell>
+
+                          {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
+                            const guestTypeGroupId = guestTypeGroup.id
+                            const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DUE")
+                            const numberOfTypeDeparting = calculateNumberOfTypeDeparting(guestTypeGroupId, [departure], "DEPARTED")
+
+                            return (
+                              <TableCell align="right">
+                                {numberOfTypeDeparting}/{numberOfTypeDueToDepart}
+                              </TableCell>
+                            )
+                          })}
+
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </AccordionDetails>
+          </Accordion>
+        </div>
       </div>
+
     </div>
   );
 };

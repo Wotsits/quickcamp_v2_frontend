@@ -48,6 +48,11 @@
     color: black;
 }
 
+.resource-calendar .resource-calendar-table-header {
+    position: sticky;
+    top: 0;
+}
+
 .resource-calendar th {
     text-align: left;
 }

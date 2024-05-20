@@ -240,7 +240,7 @@ const Dashboard = () => {
     );
 
   return (
-    <div id="dashboard">
+    <div id="dashboard" className="overflow-y-auto">
 
       { /* ARRIVALS FORECAST CHART */}
 

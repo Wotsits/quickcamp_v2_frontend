@@ -91,7 +91,7 @@ const Arrivals = () => {
   if (arrivalsAreError) return <div>Error: {arrivalsError?.message}</div>;
 
   return (
-    <div id="arrivals" className="full-width">
+    <div id="arrivals" className="full-width flex-column h-full">
       <PageHeader title="Arrivals">
         <IconButton
           onClick={() => navigate("/" + ROUTES.BOOKINGS + ROUTES.NEW)}
@@ -128,7 +128,8 @@ const Arrivals = () => {
         </div>
       </div>
 
-      <div id="accordion-container">
+      <div className="flex-grow overflow-y-auto">
+        <div id="accordion-container">
         <Accordion
           expanded={summaryExpanded}
           onChange={() => setSummaryExpanded(!summaryExpanded)}
@@ -314,6 +315,8 @@ const Arrivals = () => {
           </AccordionDetails>
         </Accordion>
       </div>
+      </div>
+      
     </div>
   );
 };

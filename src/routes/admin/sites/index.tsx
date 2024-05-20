@@ -37,7 +37,7 @@ const SitesAdmin = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data: sitesData, error } = useQuery<{data: Site[]}, Error>(
+  const { isLoading, isError, data: sitesData, error } = useQuery<{ data: Site[] }, Error>(
     ["Sites"],
     () =>
       getSites({
@@ -53,7 +53,7 @@ const SitesAdmin = () => {
   if (isError) return <div>{error.message}</div>;
 
   return (
-    <div id="sites-admin" className="full-width">
+    <div id="sites-admin" className="full-width h-full flex-column">
 
       {/* PAGE HEADER */}
 
@@ -62,16 +62,16 @@ const SitesAdmin = () => {
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </PageHeader>
-      
+
       {/* TABLE */}
 
-      <TableContainer component={Paper} className="container-white-bg-rounded-full-width margin-bottom-1">
+      <TableContainer component={Paper} sx={{ overflowY: "initial" }} className="container-white-bg-rounded-full-width margin-bottom-1 flex-grow overflow-y-auto">
         <Table sx={{ minWidth: 300, width: "100%" }}>
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Site Name</TableCell>
-              <TableCell sx={{minWidth: 600}}>Description</TableCell>
+              <TableCell sx={{ minWidth: 600 }}>Description</TableCell>
               <TableCell>Address Line 1</TableCell>
               <TableCell>Address Line 2</TableCell>
               <TableCell>Town/City</TableCell>

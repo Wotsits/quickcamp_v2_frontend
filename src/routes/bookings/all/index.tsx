@@ -86,7 +86,7 @@ const Bookings = () => {
   }
 
   return (
-    <div id="bookings">
+    <div id="bookings" className="full-width h-full flex-column">
 
       {/* PAGE HEADER */}
 
@@ -101,9 +101,9 @@ const Bookings = () => {
 
       {/* TABLE */}
 
-      <div className="container-white-bg-rounded-full-width">
-        <TableContainer sx={{ minWidth: "600px" }}>
-          <Table>
+      <div className="container-white-bg-rounded-full-width flex-grow overflow-y-auto">
+        <TableContainer sx={{ minWidth: "600px", overflowX: "initial" }}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>

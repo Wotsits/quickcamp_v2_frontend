@@ -538,7 +538,7 @@ const NewBooking = () => {
   }
 
   return (
-    <div id="new-booking">
+    <div id="new-booking" className="h-full flex-column">
       <PageHeader title="New Booking" />
 
       <div id="new-booking-stepper-container">
@@ -568,7 +568,7 @@ const NewBooking = () => {
 
       {/* Form container wrapper gives form a max-width */}
 
-      <div id="new-booking-content-container" ref={contentRef}>
+      <div id="new-booking-content-container" className="flex-grow" ref={contentRef}>
         <form id="new-booking-form" onSubmit={(e) => e.preventDefault()}>
           {/* LEAD GUEST DETAILS */}
 
@@ -699,6 +699,7 @@ const NewBooking = () => {
           <Box width="100%" display="flex" justifyContent="space-between">
             <Button
               variant="outlined"
+              disabled={activeStep === 0}
               onClick={() => {
                 if (activeStep > 0) {
                   setActiveStep(activeStep - 1);

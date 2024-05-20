@@ -133,7 +133,7 @@ const IndividualArrival = () => {
   }
 
   return (
-    <div id="individual-arrival">
+    <div id="individual-arrival" className="h-full flex-column">
 
       {/* HEADER */}
 
@@ -195,7 +195,7 @@ const IndividualArrival = () => {
 
       {/* GUEST BUTTONS */}
 
-      <div id="arrival-button-container">
+      <div id="arrival-button-container" className="flex-grow overflow-y-auto">
         {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => {
           const guestTypeGroupName = guestTypeGroup.name
           const guestsOfType = guests!.filter((guest) => guest.guestType?.guestTypeGroupId === guestTypeGroup.id)

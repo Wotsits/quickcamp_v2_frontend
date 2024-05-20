@@ -50,70 +50,75 @@ export const IndividualBookingGroup = () => {
 
     if (isError) return <div>{error.message}</div>
 
-    return <div className="individual-booking-group">
-        <PageHeader title="Booking Group" subTitle={`Booking Group ID: ${bookingGroupData!.data.id}`} />
+    return (
+        <div id="individual-booking-group" className="flex-column h-full">
 
-        <div id="booking-group-information-container">
-            {/* Lead Guest Details */}
+            {/* PAGE HEADER */}
+            
+            <PageHeader title="Booking Group" subTitle={`Booking Group ID: ${bookingGroupData!.data.id}`} />
 
-            <ContentBlock
-                title="Bookings"
-            >
-                <TableContainer sx={{ minWidth: "600px" }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Lead Guest Name</TableCell>
-                                <TableCell>Unit</TableCell>
-                                <TableCell>Start Date</TableCell>
-                                <TableCell>End Date</TableCell>
-                                <TableCell>Fee</TableCell>
-                                {selectedSite?.guestTypeGroups?.map(guestType => {
+            <div id="booking-group-information-container" className="flex-grow overflow-y-auto">
+                {/* Lead Guest Details */}
+
+                <ContentBlock
+                    title="Bookings"
+                >
+                    <TableContainer sx={{ minWidth: "600px" }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>Lead Guest Name</TableCell>
+                                    <TableCell>Unit</TableCell>
+                                    <TableCell>Start Date</TableCell>
+                                    <TableCell>End Date</TableCell>
+                                    <TableCell>Fee</TableCell>
+                                    {selectedSite?.guestTypeGroups?.map(guestType => {
+                                        return (
+                                            <TableCell key={guestType.id}>
+                                                {guestType.name}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {bookingGroupData?.data.bookings.map(booking => {
                                     return (
-                                        <TableCell key={guestType.id}>
-                                            {guestType.name}
-                                        </TableCell>
+                                        <TableRow
+                                            key={booking.id}
+                                            className="clickable"
+                                            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                            onClick={() =>
+                                                navigate(
+                                                    ROUTES.ROOT + ROUTES.BOOKINGS + booking.id
+                                                )
+                                            }
+                                            hover
+                                        >
+                                            <TableCell>{booking.id}</TableCell>
+                                            <TableCell>{booking.leadGuest.firstName + " " + booking.leadGuest.lastName}</TableCell>
+                                            <TableCell>{booking.unit.name}</TableCell>
+                                            <TableCell>{new Date(booking.start).toDateString() + ", " + new Date(booking.start).toLocaleTimeString()}</TableCell>
+                                            <TableCell>{new Date(booking.end).toDateString() + ", " + new Date(booking.end).toLocaleTimeString()}</TableCell>
+                                            <TableCell>{"£" + booking.totalFee}</TableCell>
+                                            {selectedSite!.guestTypeGroups!.map(guestType => {
+                                                return (
+                                                    <TableCell key={guestType.id}>
+                                                        {booking.guests!.filter(
+                                                            guest => guest.guestTypeId === guestType.id
+                                                        )?.length}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
                                     );
                                 })}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {bookingGroupData?.data.bookings.map(booking => {
-                                return (
-                                    <TableRow
-                                        key={booking.id}
-                                        className="clickable"
-                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                        onClick={() =>
-                                            navigate(
-                                                ROUTES.ROOT + ROUTES.BOOKINGS + booking.id
-                                            )
-                                        }
-                                        hover
-                                    >
-                                        <TableCell>{booking.id}</TableCell>
-                                        <TableCell>{booking.leadGuest.firstName + " " + booking.leadGuest.lastName}</TableCell>
-                                        <TableCell>{booking.unit.name}</TableCell>
-                                        <TableCell>{new Date(booking.start).toDateString() + ", " + new Date(booking.start).toLocaleTimeString()}</TableCell>
-                                        <TableCell>{new Date(booking.end).toDateString() + ", " + new Date(booking.end).toLocaleTimeString()}</TableCell>
-                                        <TableCell>{"£" + booking.totalFee}</TableCell>
-                                        {selectedSite!.guestTypeGroups!.map(guestType => {
-                                            return (
-                                                <TableCell key={guestType.id}>
-                                                    {booking.guests!.filter(
-                                                        guest => guest.guestTypeId === guestType.id
-                                                    )?.length}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </ContentBlock >
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </ContentBlock >
+            </div>
         </div>
-    </div>
+    )
 }

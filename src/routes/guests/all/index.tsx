@@ -116,7 +116,7 @@ const Guests = () => {
   }
 
   return (
-    <div id="guests" className="full-width">
+    <div id="guests" className="full-width flex-column h-full">
       {/* PAGE HEADER */}
 
       <PageHeader title="Guests">
@@ -126,9 +126,9 @@ const Guests = () => {
       </PageHeader>
 
       {/* TABLE */}
-      <div className="container-white-bg-rounded-full-width">
-        <TableContainer>
-          <Table size="small">
+      <div className="container-white-bg-rounded-full-width flex-grow overflow-y-auto">
+        <TableContainer sx={{overflowX: "initial"}}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (

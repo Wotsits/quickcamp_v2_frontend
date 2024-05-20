@@ -150,7 +150,7 @@ const NewSiteForm = () => {
   // -------------
 
   return (
-    <div id="site-form" className="site-form full-width">
+    <div id="site-form" className="full-width flex-column h-full">
       <PageHeader title="New Site" />
 
       {createSiteError && (
@@ -160,7 +160,7 @@ const NewSiteForm = () => {
       )}
 
       <form
-        className="container-white-bg-rounded-full-width"
+        className="container-white-bg-rounded-full-width flex-grow overflow-y-auto"
         onSubmit={handleSubmission}
       >
         <TextField
@@ -309,7 +309,8 @@ const NewSiteForm = () => {
             setLongitude(longNumber);
           }}
         />
-        <div className="full-width space-between">
+      </form>
+      <div className="full-width space-between margin-top-1 margin-bottom-1">
           <Button
             variant="contained"
             onClick={resetFields}
@@ -327,7 +328,6 @@ const NewSiteForm = () => {
             Submit
           </Button>
         </div>
-      </form>
     </div>
   );
 };

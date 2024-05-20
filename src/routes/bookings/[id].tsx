@@ -95,7 +95,7 @@ const IndividualBooking = () => {
   const isPartOfGroupOfBookings = bookingData.data.bookingGroup && bookingData.data.bookingGroup.bookings.length > 1; 
 
   return (
-    <div id="booking">
+    <div id="booking" className="flex-column h-full">
 
       {/* Lead Guest Edit Modal */}
 
@@ -165,7 +165,7 @@ const IndividualBooking = () => {
         </div>
       </PageHeader>
 
-      <div id="booking-information-container">
+      <div id="booking-information-container" className="flex-grow">
         {/* Lead Guest Details */}
 
         <ContentBlock

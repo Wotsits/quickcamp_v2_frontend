@@ -204,7 +204,7 @@ const IndividualLeadGuest = () => {
   }
 
   return (
-    <div id="lead-guest">
+    <div id="lead-guest" className="h-full flex-column">
       {/* Name Edit Modal */}
       {nameEditModalOpen && (
         <Modal open={true}>
@@ -325,7 +325,7 @@ const IndividualLeadGuest = () => {
 
       {/* Lead Guest Information */}
 
-      <div id="lead-guest-information-container">
+      <div id="lead-guest-information-container" className="flex-grow overflow-y-auto">
         {/* Lead Guest Details */}
 
         <ContentBlock

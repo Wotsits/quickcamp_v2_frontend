@@ -12,18 +12,30 @@ body {
 
 #app-root, #protected-route-wrapper {
   width: 100%;
+  height: 100vh;
+  overflow: none;
 }
-
-#app-frame {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
 
 .full-width {
   width: 100%;
   box-sizing: border-box;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex: 1
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .space-between {

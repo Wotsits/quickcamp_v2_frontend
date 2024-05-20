@@ -7,9 +7,9 @@ import PageHeader from "../../components/molecules/PageHeader";
 
 const Admin = () => {
   return (
-    <div id="admin">
+    <div id="admin" className="h-full flex-column">
       <PageHeader title="Admin" />
-      <div className="admin-content-container">
+      <div id="admin-content-container" className="flex-grow overflow-y-auto">
         <Link to={ROUTES.ROOT + ROUTES.ADMIN + ROUTES.SITES} className="admin-content-item">
           <Typography variant="h6" gutterBottom>
             Sites

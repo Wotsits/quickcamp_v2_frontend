@@ -140,7 +140,9 @@ const IndividualDeparture = () => {
   }
 
   return (
-    <div id="individual-departure">
+    <div id="individual-departure" className="h-full flex-column">
+
+      {/* HEADER */}
 
       <PageHeader title={`Departure ${id}`}>
         <div id="individual-departure-header-right">
@@ -189,6 +191,8 @@ const IndividualDeparture = () => {
         </div>
       </PageHeader>
 
+      {/* ERROR DISPLAY */}
+
       {error && (
         <div id="individual-departure-error">
           <Alert severity="error">{error}</Alert>
@@ -197,7 +201,7 @@ const IndividualDeparture = () => {
 
       {/* GUEST BUTTONS */}
 
-      <div id="arrival-button-container">
+      <div id="arrival-button-container" className="flex-grow overflow-y-auto">
         {selectedSite && selectedSite.guestTypeGroups && selectedSite.guestTypeGroups.sort((a, b) => a.order - b.order).map(guestTypeGroup => (
           <div key={guestTypeGroup.id}>
             <Divider variant="middle" sx={{ mb: 3 }}>

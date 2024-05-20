@@ -219,7 +219,7 @@ const RatesPage = () => {
   if (!ratesData?.data || !siteData?.data) return <div>No data</div>;
 
   return (
-    <div id="rates-display">
+    <div id="rates-display" className="h-full flex-column">
       {/** SINGLE RATE UPDATE MODAL */}
 
       {ratesEditorOpen && (
@@ -272,61 +272,63 @@ const RatesPage = () => {
         </Button>
       </PageHeader>
 
-      <ContentBlock title="Site Details">
-        <LabelAndValuePair label="Site ID" value={siteId} />
-      </ContentBlock>
+      <div id="rates-main-content" className="flex-grow overflow-y-auto">
+        <ContentBlock title="Site Details">
+          <LabelAndValuePair label="Site ID" value={siteId} />
+        </ContentBlock>
 
-      <ContentBlock title="Rates">
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ minWidth: "200px" }}>Unit Type</TableCell>
-                {dateArray.map((date) => (
-                  <TableCell key={date.toLocaleDateString()}>
-                    {date.toLocaleDateString()}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {ratesData?.data.map((unitType) => (
-                <TableRow key={unitType.id}>
-                  <TableCell style={{ verticalAlign: "top" }}>
-                    {unitType.name}
-                  </TableCell>
-                  {dateArray.map((date) => {
-                    const baseRate = generateBaseRate(
-                      date,
-                      unitType.unitTypeFeesCalendarEntries!
-                    );
-                    const guestRates = generateGuestRates(
-                      date,
-                      unitType.guestFeesCalendarEntries!
-                    );
-                    if (!baseRate || !guestRates)
-                      return null;
-                    return (
-                      <TableCell
-                        key={date.toLocaleDateString()}
-                        onClick={() => {
-                          setBaseRateBeingEdited(baseRate);
-                          setGuestRatesBeingEdited(guestRates);
-                        }}
-                      >
-                        <RatesForm
-                          baseRate={baseRate}
-                          guestRates={guestRates}
-                        />
-                      </TableCell>
-                    );
-                  })}
+        <ContentBlock title="Rates">
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ minWidth: "200px" }}>Unit Type</TableCell>
+                  {dateArray.map((date) => (
+                    <TableCell key={date.toLocaleDateString()}>
+                      {date.toLocaleDateString()}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ContentBlock>
+              </TableHead>
+              <TableBody>
+                {ratesData?.data.map((unitType) => (
+                  <TableRow key={unitType.id}>
+                    <TableCell style={{ verticalAlign: "top" }}>
+                      {unitType.name}
+                    </TableCell>
+                    {dateArray.map((date) => {
+                      const baseRate = generateBaseRate(
+                        date,
+                        unitType.unitTypeFeesCalendarEntries!
+                      );
+                      const guestRates = generateGuestRates(
+                        date,
+                        unitType.guestFeesCalendarEntries!
+                      );
+                      if (!baseRate || !guestRates)
+                        return null;
+                      return (
+                        <TableCell
+                          key={date.toLocaleDateString()}
+                          onClick={() => {
+                            setBaseRateBeingEdited(baseRate);
+                            setGuestRatesBeingEdited(guestRates);
+                          }}
+                        >
+                          <RatesForm
+                            baseRate={baseRate}
+                            guestRates={guestRates}
+                          />
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ContentBlock>
+      </div>
     </div>
   );
 };

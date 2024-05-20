@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 #booking-calendar #booking-calendar-datepicker {
@@ -40,6 +41,7 @@
 #booking-calendar #booking-calendar-container {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: auto;
   background: white;
   padding: 20px;
   border-radius: 5px;
