@@ -380,10 +380,9 @@ const Dashboard = () => {
 
       <div
         id="daily-income-breakdown"
-        className="container-white-bg-rounded-full-width"
+        className="container-white-bg-rounded-full-width h-full"
       >
         <Typography variant="h6">Daily Income Breakdown</Typography>
-        {/* TODO: add data to the chart */}
         <BarChart
           series={paymentsBreakdownTodayData ? paymentsBreakdownTodayData.data.map(datapoint => ({ data: [datapoint._sum.paymentAmount], label: datapoint.paymentMethod })) : []}
           xAxis={[{ scaleType: "band", data: ["Today"] }]}

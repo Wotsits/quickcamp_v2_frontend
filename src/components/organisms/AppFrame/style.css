@@ -42,3 +42,19 @@
     flex-direction: column;
     overflow: hidden;
 }
+
+@media only screen and (max-width: 600px) {
+    #app-frame {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #app-frame #app-lh-menu {
+        display: none;
+    }
+
+    #app-frame #main-content-container {
+        height: auto;
+        flex-grow: 1;
+    }
+}

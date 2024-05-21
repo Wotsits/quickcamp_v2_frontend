@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import AuthContext from "../../../contexts/authContext";
-import { primaryNavOptions, secondaryNavOptions } from "./navSettings";
+import { mobileNavOptions, primaryNavOptions, secondaryNavOptions } from "./navSettings";
 
 import "./style.css";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, BottomNavigation, BottomNavigationAction, Box, Typography } from "@mui/material";
 import SearchField from "../../atoms/SearchField";
 import { getInitials } from "../../../utils/helpers";
 import { APPLICATIONNAME, SECONDARYCOLOR } from "../../../settings";
@@ -14,6 +14,9 @@ import NavMenu from "./NavMenu";
 
 import SiteContext from "../../../contexts/sitesContext";
 
+
+import MobileNav from "./MobileNavMenu";
+
 const AppFrame = () => {
   // -----------
   // CONTEXT
@@ -21,6 +24,12 @@ const AppFrame = () => {
 
   const { user } = useContext(AuthContext);
   const { selectedSite, setSelectedSite } = useContext(SiteContext);
+
+  // -----------
+  // STATE
+  // -----------
+
+  const [value, setValue] = useState(0);
 
   // -----------
   // RENDER
@@ -50,17 +59,18 @@ const AppFrame = () => {
           </Box>
         </div>
       </div>
-        <div id="app-lh-menu">
-          <NavMenu
-            primaryNavOptions={primaryNavOptions}
-            secondaryNavOptions={secondaryNavOptions}
-          />
-        </div>
-        <main
-          id="main-content-container"
-        >
-          <Outlet />
-        </main>
+      <div id="app-lh-menu">
+        <NavMenu
+          primaryNavOptions={primaryNavOptions}
+          secondaryNavOptions={secondaryNavOptions}
+        />
+      </div>
+      <main
+        id="main-content-container"
+      >
+        <Outlet />
+      </main>
+      <MobileNav primaryNavOptions={mobileNavOptions}/>
     </div>
   );
 };

@@ -12,6 +12,13 @@
       "pending-bookings daily-income-breakdown daily-income-breakdown daily-income-breakdown"; 
 }
 
+@media only screen and (max-width: 1000px) {
+    #dashboard {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 #dashboard #arrival-forecast { 
     grid-area: arrival-forecast; 
     display: flex;

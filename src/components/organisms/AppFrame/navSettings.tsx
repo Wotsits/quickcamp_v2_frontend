@@ -48,3 +48,26 @@ export const primaryNavOptions = [
       icon: <SettingsIcon />,
     },
   ];
+
+  export const mobileNavOptions = [
+    {
+      text: "Dashboard",
+      path: ROUTES.DASHBOARD,
+      icon: <DashboardIcon />,
+    },
+    {
+      text: "Bookings",
+      path: ROUTES.CALENDAR,
+      icon: <CalendarTodayIcon />,
+    },
+    {
+      text: "Arrivals",
+      path: ROUTES.ARRIVALS,
+      icon: <FlightLandIcon />,
+    },
+    {
+      text: "Departures",
+      path: ROUTES.DEPARTURES,
+      icon: <FlightTakeOffIcon />,
+    }
+  ];
