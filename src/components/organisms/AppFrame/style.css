@@ -43,6 +43,10 @@
     overflow: hidden;
 }
 
+#app-frame #app-bottom-menu {
+    display: none;
+}
+
 @media only screen and (max-width: 600px) {
     #app-frame {
         display: flex;
