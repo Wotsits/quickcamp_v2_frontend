@@ -61,4 +61,8 @@
         height: auto;
         flex-grow: 1;
     }
+
+    #app-frame #app-bottom-menu {
+        display: block;
+    }
 }
