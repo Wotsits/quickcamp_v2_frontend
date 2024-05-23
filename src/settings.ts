@@ -108,6 +108,12 @@ export const NEW_OR_EXISTING: { [key: string]: "new" | "existing" } = {
   EXISTING: "existing",
 };
 
+export const BOOKING_STATUSES = {
+  CONFIRMED: "CONFIRMED",
+  UNCONFIRMED: "UNCONFIRMED",
+  CANCELLED: "CANCELLED"
+}
+
 // -------------
 // Colors
 // -------------

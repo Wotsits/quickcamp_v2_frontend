@@ -7,6 +7,8 @@ type GetBookingSummaries = {
   start: Date;
   /** mandatory, end date */
   end: Date;
+  /** optional, status */
+  status: string;
   /** mandatory, siteId */
   siteId: number;
   /** mandatory, token */
@@ -16,6 +18,7 @@ type GetBookingSummaries = {
 export const getBookingsByDateRange = async ({
   start,
   end,
+  status,
   siteId,
   token,
 }: GetBookingSummaries) => {
@@ -26,6 +29,7 @@ export const getBookingsByDateRange = async ({
       params: {
         start: start.toISOString(),
         end: end.toISOString(),
+        status: status,
         siteId: siteId,
       },
     }
