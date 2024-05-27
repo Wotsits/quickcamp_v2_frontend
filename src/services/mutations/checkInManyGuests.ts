@@ -12,7 +12,7 @@ export const checkInManyGuests = async ({
   guests,
   reverse,
 }: CheckInManyGuestArgs) => {
-  return await axios.post(
+  return await axios.put(
     APIURL + "check-in-many-guests",
     {
       guests,

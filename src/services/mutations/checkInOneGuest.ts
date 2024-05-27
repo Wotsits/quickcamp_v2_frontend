@@ -14,7 +14,7 @@ export const checkInOneGuest = async ({
   type,
   reverse,
 }: CheckInOneGuestArgs) => {
-  return await axios.post(
+  return await axios.put(
     APIURL + "check-in-guest",
     {
       id, 
