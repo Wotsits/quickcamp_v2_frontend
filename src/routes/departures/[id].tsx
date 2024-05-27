@@ -16,8 +16,8 @@ import "./style.css";
 import EditIcon from "@mui/icons-material/Edit";
 import { ROUTES } from "../../settings";
 import { checkoutAll, checkoutOne } from "./helpers";
-import { checkOutManyGuests } from "../../services/mutations/checkOutManyGuests";
-import { checkOutOneGuest } from "../../services/mutations/checkOutOneGuest";
+import { checkOutManyGuests } from "../../services/mutations/put/checkOutManyGuests";
+import { checkOutOneGuest } from "../../services/mutations/put/checkOutOneGuest";
 import PageHeader from "../../components/molecules/PageHeader";
 import SiteContext from "../../contexts/sitesContext";
 

@@ -1,21 +1,21 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL } from "../../../settings";
 
-type CheckOutOneGuestArgs = {
+type CheckInOneGuestArgs = {
   token: string;
   id: number;
   type: "GUEST" | "PET" | "VEHICLE";
   reverse?: boolean;
 };
 
-export const checkOutOneGuest = async ({
+export const checkInOneGuest = async ({
   token,
   id,
   type,
   reverse,
-}: CheckOutOneGuestArgs) => {
+}: CheckInOneGuestArgs) => {
   return await axios.put(
-    APIURL + "check-out-guest",
+    APIURL + "check-in-guest",
     {
       id, 
       type,
