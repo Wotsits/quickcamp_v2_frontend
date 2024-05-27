@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ResourceCalendar from "../../../components/organisms/ResourceCalendar";
-import { Alert, Box, IconButton, Typography } from "@mui/material";
+import { Alert, Box, IconButton } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import ColumnWidthControls from "../../../components/organisms/ResourceCalendar/ColumnWidthControls";
 import { useQuery } from "react-query";
@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SiteContext from "../../../contexts/sitesContext";
-import { addDays } from "date-fns";
 import { getBookings } from "../../../services/queries/getBookings";
 
 // -------------

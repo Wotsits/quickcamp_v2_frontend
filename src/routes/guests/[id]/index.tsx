@@ -30,7 +30,7 @@ import AddCircleIconOutline from "@mui/icons-material/AddCircleOutline";
 import NotesEditForm from "../../../components/organisms/EditLeadGuestForms/NotesEditForm";
 
 import "./style.css";
-import { updateLeadGuest } from "../../../services/mutations/updateLeadGuest";
+import { updateLeadGuest } from "../../../services/mutations/put/updateLeadGuest";
 import { createNote } from "../../../services/mutations/post/createNote";
 
 const notesTableColumnSpec = ["Content", "Date", "User"];

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
-import { BulkRateUpdateObj } from "../../types";
+import { APIURL } from "../../../settings";
+import { BulkRateUpdateObj } from "../../../types";
 
 type UpdateRatesByDatesArgs = {
   token: string;

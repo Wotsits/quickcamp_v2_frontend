@@ -14,8 +14,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AuthContext from "../../../../contexts/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getLeadGuestsByQueryString } from "../../../../services/queries/getLeadGuestsByQueryString";
-import { updateBookingLeadGuestExisting } from "../../../../services/mutations/updateBookingLeadGuestExisting";
-import { updateBookingLeadGuestNew } from "../../../../services/mutations/updateBookingLeadGuestNew";
+import { updateBookingLeadGuestExisting } from "../../../../services/mutations/put/updateBookingLeadGuestExisting";
+import { updateBookingLeadGuestNew } from "../../../../services/mutations/put/updateBookingLeadGuestNew";
 import "./style.css";
 import { NEW_OR_EXISTING } from "../../../../settings";
 

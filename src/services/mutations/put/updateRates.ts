@@ -1,6 +1,6 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
-import { ChangedItems } from "../../types";
+import { APIURL } from "../../../settings";
+import { ChangedItems } from "../../../types";
 
 type UpdateRatesArgs = {
   token: string;

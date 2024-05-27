@@ -38,11 +38,11 @@ import {
   generateVehicleRate,
 } from "./helpers";
 
-import { updateRates } from "../../../../../services/mutations/updateRates";
+import { updateRates } from "../../../../../services/mutations/put/updateRates";
 
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import BulkUpdateRateForm from "../../../../../components/organisms/BulkUpdateRateForm";
-import { updateRatesByDates } from "../../../../../services/mutations/updateRatesByDates";
+import { updateRatesByDates } from "../../../../../services/mutations/put/updateRatesByDates";
 
 const RatesPage = () => {
   // ----------
