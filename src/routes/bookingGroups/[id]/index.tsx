@@ -38,7 +38,7 @@ export const IndividualBookingGroup = () => {
     // -----------
 
     const { isLoading, isError, data: bookingGroupData, error } = useQuery<{ data: BookingGroup }, Error>(
-        ["bookinggGroup", id],
+        ["bookingGroup", id],
         () => getBookingGroupById({ token: user.token, id: id })
     );
 

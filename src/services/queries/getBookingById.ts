@@ -11,10 +11,9 @@ type GetBookingByIdArgs = {
 
 export const getBookingById = async ({ token, id }: GetBookingByIdArgs) => {
   const response = await axios.get<{ data: Booking }>(
-    APIURL + API_ENDPOINTS.BOOKING_BY_ID,
+    APIURL + API_ENDPOINTS.BOOKING + id + "/",
     {
       headers: { Authorization: "Bearer " + token },
-      params: { id },
     }
   );
   return response.data;

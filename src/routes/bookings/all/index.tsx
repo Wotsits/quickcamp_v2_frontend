@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getBookings } from "../../../services/queries/getBookings";
-import { Booking, GuestType } from "../../../types";
+import { Booking, BookingSumm, GuestType } from "../../../types";
 import {
   IconButton,
   Table,
@@ -50,7 +50,7 @@ const Bookings = () => {
     isError: bookingsAreError,
     data: bookingsData,
     error: bookingsError,
-  } = useQuery<{data: Booking[], count: number}, Error>(["bookings", selectedSite!.id, page * pageSize - pageSize, pageSize], () =>
+  } = useQuery<{data: BookingSumm[] | Booking[], count: number | undefined}, Error>(["bookings", selectedSite!.id, page * pageSize - pageSize, pageSize], () =>
     getBookings({
       token: user.token,
       siteId: selectedSite!.id,
@@ -122,7 +122,7 @@ const Bookings = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bookingsData?.data.map(booking => {
+              {(bookingsData?.data as Booking[]).map(booking => {
                 return (
                   <TableRow
                     key={booking.id}

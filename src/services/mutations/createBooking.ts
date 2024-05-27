@@ -1,10 +1,10 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL, API_ENDPOINTS } from "../../settings";
 import {
   BookingProcessGuest,
 } from "../../types";
 
-type MakeNewBookingArgs = {
+type createBookingArgs = {
   token: string;
   siteId: number;
   leadGuestId: number;
@@ -29,7 +29,7 @@ type MakeNewBookingArgs = {
   paymentDate: Date | null;
 };
 
-export const makeNewBooking = async ({
+export const createBooking = async ({
   token,
   siteId,
   leadGuestId,
@@ -52,9 +52,9 @@ export const makeNewBooking = async ({
   paymentAmount,
   paymentMethod,
   paymentDate,
-}: MakeNewBookingArgs) => {
+}: createBookingArgs) => {
   return await axios.post(
-    APIURL + "new-booking",
+    APIURL + API_ENDPOINTS.BOOKING + "new/",
     {
       siteId,
       leadGuestId,

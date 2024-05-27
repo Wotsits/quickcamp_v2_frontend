@@ -1,29 +1,86 @@
 import axios from "axios";
 import { APIURL, API_ENDPOINTS, ROUTES } from "../../settings";
-import { Booking } from "../../types";
+import { Booking, BookingSumm } from "../../types";
 
-type GetBookingsArgs = {
+type GetBookings = {
+  /** optional, id to filter by */
+  id?: any;
+  /** optional, start date to filter by */
+  start?: any;
+  /** optional, end date to filter by */
+  end?: any;
+  /** optional, unitId to filter by */
+  unitId?: any;
+  /** optional, totalFee to filter by */
+  totalFee?: any;
+  /** optional, leadGuestId to filter by */
+  leadGuestId?: any;
+  /** optional, status to filter by */
+  status?: any;
+  /** optional, bookingGroupId to filter by */
+  bookingGroupId?: any;
+  /** optional, skip number for pagination */
+  skip?: number;
+  /** optional, take number for pagination */
+  take?: number;
+  /** optional, include object for inclusion of nested objects */
+  include?: any;
+  /** optional, summariesOnly boolean */
+  summariesOnly?: boolean;
+  /** optional, count boolean */
+  count?: boolean
+  /** optional, AND object for ANDd query formation */
+  AND?: any;
+  /** optional, OR object for ORd query formation */
+  OR?: any;
+  /** mandatory, token */
+  siteId: number;
   /** mandatory, token */
   token: string;
-  /** mandatory, siteId */
-  siteId: number;
-  /** mandatory, skip */
-  skip: number;
-  /** mandatory, first */
-  take: number;
 };
 
 export const getBookings = async ({
-  token,
+  id,
+  start,
+  end,
+  unitId,
+  totalFee,
+  leadGuestId,
+  status,
+  bookingGroupId,
   siteId,
   skip,
   take,
-}: GetBookingsArgs) => {
-  const response = await axios.get<{ data: Booking[]; count: number }>(
-    APIURL + API_ENDPOINTS.BOOKINGS_BY_SITE,
+  include,
+  summariesOnly,
+  count,
+  AND,
+  OR,
+  token,
+}: GetBookings) => {
+  const response = await axios.get<{ data: BookingSumm[] | Booking[], count: number | undefined 
+   }>(
+    APIURL + API_ENDPOINTS.BOOKING,
     {
       headers: { Authorization: "Bearer " + token },
-      params: { siteId, skip, take },
+      params: {
+        id,
+        start,
+        end,
+        unitId,
+        totalFee,
+        leadGuestId,
+        status,
+        bookingGroupId,
+        siteId,
+        skip,
+        take,
+        include,
+        summariesOnly,
+        count,
+        AND,
+        OR
+      },
     }
   );
   return response.data;

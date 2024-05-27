@@ -4,8 +4,7 @@ import { Alert, Box, IconButton, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import ColumnWidthControls from "../../../components/organisms/ResourceCalendar/ColumnWidthControls";
 import { useQuery } from "react-query";
-import { BookingSumm, Unit, UnitType } from "../../../types";
-import { getBookingsByDateRange } from "../../../services/queries/getBookingsByDateRange";
+import { Booking, BookingSumm, Unit, UnitType } from "../../../types";
 import {
   addOneMonth,
   setDateToMidday,
@@ -20,6 +19,7 @@ import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SiteContext from "../../../contexts/sitesContext";
 import { addDays } from "date-fns";
+import { getBookings } from "../../../services/queries/getBookings";
 
 // -------------
 // MAIN
@@ -32,7 +32,7 @@ const BookingCalendar = () => {
 
   const { user } = useContext(AuthContext);
   const { selectedSite } = useContext(SiteContext);
-  
+
   // -------------
   // STATE
   // -------------
@@ -55,15 +55,60 @@ const BookingCalendar = () => {
     isError: bookingsAreError,
     data: bookingsData,
     error: bookingsError,
-  } = useQuery<{data: BookingSumm[]}, Error>(
-    ["BookingsByDateRange", startDate, addOneMonth(startDate as Date)],
+  } = useQuery<{ data: BookingSumm[] | Booking[], count: number | undefined }, Error>(
+    ["bookings", selectedSite!.id, startDate, addOneMonth(startDate as Date)],
     () =>
-      getBookingsByDateRange({
-        start: startDate as Date,
-        end: addDays(startDate as Date, WIDTH_OF_BOOKING_CALENDAR + 1),
-        status: BOOKING_STATUSES.CONFIRMED,
-        token: user.token,
+      getBookings({
         siteId: selectedSite!.id,
+        token: user.token,
+        status: BOOKING_STATUSES.CONFIRMED,
+        OR: [
+          {
+            start: {
+              gte: startDate?.toISOString(),
+              lt: addOneMonth(startDate as Date).toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: startDate?.toISOString(),
+              lt: addOneMonth(startDate as Date).toISOString(),
+            },
+          },
+          {
+            AND: [
+              {
+                start: {
+                  lte: startDate?.toISOString(),
+                },
+                end: {
+                  gt: addOneMonth(startDate as Date).toISOString(),
+                },
+              },
+            ],
+          },
+        ],
+        include: {
+          unit: true,
+          leadGuest: true,
+          guests: {
+            select: {
+              checkedIn: true,
+              guestType: {
+                include: {
+                  guestTypeGroup: true,
+                },
+              },
+            },
+          },
+          bookingGroup: {
+            include: {
+              bookings: true
+            }
+          },
+          payments: true,
+        },
+        summariesOnly: true,
       })
   );
 
@@ -72,7 +117,7 @@ const BookingCalendar = () => {
     isError: unitTypesAreError,
     data: unitTypesData,
     error: unitTypesError,
-  } = useQuery<{data: UnitType[]}, Error>(["UnitTypes", selectedSite!.id], () =>
+  } = useQuery<{ data: UnitType[] }, Error>(["UnitTypes", selectedSite!.id], () =>
     getUnitTypes({
       token: user.token,
       siteId: selectedSite!.id,
@@ -91,14 +136,14 @@ const BookingCalendar = () => {
   ) {
     navigate(
       ROUTES.ROOT +
-        ROUTES.BOOKINGS +
-        ROUTES.NEW +
-        "?unitId=" +
-        resourceId +
-        "&unitTypeId=" +
-        resourceTypeId +
-        "&start=" +
-        start.toISOString()
+      ROUTES.BOOKINGS +
+      ROUTES.NEW +
+      "?unitId=" +
+      resourceId +
+      "&unitTypeId=" +
+      resourceTypeId +
+      "&start=" +
+      start.toISOString()
     );
   }
 
@@ -120,23 +165,23 @@ const BookingCalendar = () => {
 
   const resources: ResourceGroup[] = unitTypesData
     ? unitTypesData.data.map((unitType) => {
-        const units = unitType.units!.map((unit: Unit) => ({
-          id: unit.id,
-          name: unit.name,
-          unitTypeId: unit.unitTypeId,
-          unitType: unitType.name,
-        }));
-        return {
-          id: unitType.id,
-          resourceTypeName: unitType.name,
-          resources: units,
-        };
-      }, [])
+      const units = unitType.units!.map((unit: Unit) => ({
+        id: unit.id,
+        name: unit.name,
+        unitTypeId: unit.unitTypeId,
+        unitType: unitType.name,
+      }));
+      return {
+        id: unitType.id,
+        resourceTypeName: unitType.name,
+        resources: units,
+      };
+    }, [])
     : [];
 
   return (
     <div id="booking-calendar" className="full-width">
-      
+
       <PageHeader title="Booking Calendar">
         <IconButton onClick={() => navigate(`/${ROUTES.BOOKINGS + ROUTES.NEW}`)} size="large">
           <AddCircleOutlineIcon fontSize="large" />
@@ -162,7 +207,7 @@ const BookingCalendar = () => {
       <div id="booking-calendar-container">
         <ResourceCalendar
           resources={resources}
-          bookings={bookingsData.data}
+          bookings={bookingsData.data as BookingSumm[]}
           startDate={startDate as Date}
           columnWidth={columnWidth}
           onCellClick={handleCallbackOnCellClick}

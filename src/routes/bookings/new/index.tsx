@@ -34,7 +34,7 @@ import { useEquipmentDetailsState } from "./hooks/useEquipmentDetailsState";
 import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
-import { makeNewBooking } from "../../../services/mutations/makeNewBooking";
+import { createBooking } from "../../../services/mutations/createBooking";
 import BookingConfirmation from "../../../components/organisms/NewBookingForm/BookingConfirmation";
 import { getFeeCalc } from "../../../services/queries/getFeeCalc";
 import PageHeader from "../../../components/molecules/PageHeader";
@@ -289,7 +289,7 @@ const NewBooking = () => {
 
   const mutation = useMutation({
     mutationFn: () =>
-      makeNewBooking({
+      createBooking({
         token: user.token,
         siteId: selectedSite!.id,
         leadGuestId: formGuestId!,
@@ -313,7 +313,7 @@ const NewBooking = () => {
         paymentMethod: formPaymentMethod,
         paymentDate: formPaymentDate!,
       }),
-    onSuccess: (res) => {
+    onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       queryClient.invalidateQueries({
