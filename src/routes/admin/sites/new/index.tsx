@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import AuthContext from "../../../../contexts/authContext";
-import { createSite } from "../../../../services/mutations/createSite";
+import { createSite } from "../../../../services/mutations/post/createSite";
 
 const NewSiteForm = () => {
   // -------------

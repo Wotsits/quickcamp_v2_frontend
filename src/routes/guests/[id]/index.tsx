@@ -31,7 +31,7 @@ import NotesEditForm from "../../../components/organisms/EditLeadGuestForms/Note
 
 import "./style.css";
 import { updateLeadGuest } from "../../../services/mutations/updateLeadGuest";
-import { createNote } from "../../../services/mutations/createNote";
+import { createNote } from "../../../services/mutations/post/createNote";
 
 const notesTableColumnSpec = ["Content", "Date", "User"];
 

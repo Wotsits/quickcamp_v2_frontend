@@ -34,12 +34,12 @@ import { useEquipmentDetailsState } from "./hooks/useEquipmentDetailsState";
 import { useBookingDetailsState } from "./hooks/useBookingDetailsState";
 import { usePaymentDetailsState } from "./hooks/usePaymentDetailsState";
 import { getAvailableUnits } from "../../../services/queries/getAvailableUnits";
-import { createBooking } from "../../../services/mutations/createBooking";
 import BookingConfirmation from "../../../components/organisms/NewBookingForm/BookingConfirmation";
 import { getFeeCalc } from "../../../services/queries/getFeeCalc";
 import PageHeader from "../../../components/molecules/PageHeader";
 
 import SitesContext from "../../../contexts/sitesContext";
+import { createBooking } from "../../../services/mutations/post/createBooking";
 
 const steps = [
   "Lead Guest Details",

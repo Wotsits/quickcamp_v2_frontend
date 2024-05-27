@@ -1,5 +1,5 @@
 import axios from "axios";
-import { APIURL } from "../../settings";
+import { APIURL } from "../../../settings";
 
 type CreateSiteArgs = {
   token: string;

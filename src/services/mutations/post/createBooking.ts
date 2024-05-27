@@ -1,8 +1,6 @@
 import axios from "axios";
-import { APIURL, API_ENDPOINTS } from "../../settings";
-import {
-  BookingProcessGuest,
-} from "../../types";
+import { BookingProcessGuest } from "../../../types";
+import { APIURL, API_ENDPOINTS } from "../../../settings";
 
 type createBookingArgs = {
   token: string;
