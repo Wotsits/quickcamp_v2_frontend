@@ -3,13 +3,12 @@ import PageHeader from '../../../components/molecules/PageHeader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import AuthContext from '../../../contexts/authContext';
-import { getBookingGroupById } from '../../../services/queries/getBookingGroupById';
-import { BookingGroup } from '../../../types';
+import { Booking, BookingSumm } from '../../../types';
 import ContentBlock from '../../../components/atoms/ContentBlock';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import SiteContext from '../../../contexts/sitesContext';
 import { ROUTES } from '../../../settings';
-import TablePaginationControls from '../../../components/atoms/Table/TablePaginationControls';
+import { getBookings } from '../../../services/queries/getBookings';
 
 export const IndividualBookingGroup = () => {
     // -----------
@@ -37,9 +36,9 @@ export const IndividualBookingGroup = () => {
     // QUERIES
     // -----------
 
-    const { isLoading, isError, data: bookingGroupData, error } = useQuery<{ data: BookingGroup }, Error>(
-        ["bookingGroup", id],
-        () => getBookingGroupById({ token: user.token, id: id })
+    const { isLoading, isError, data: bookingGroupData, error } = useQuery<{ data: Booking[] | BookingSumm[] }, Error>(
+        ["bookings", {siteId: selectedSite!.id, bookingGroupId: id, orderBy: {id: "desc"}, include: {unit: true, leadGuest: true, guests: true}}],
+        () => getBookings({ token: user.token, siteId: selectedSite!.id, bookingGroupId: id, orderBy: {id: "desc"}, include: {unit: true, leadGuest: true, guests: true}})
     );
 
     // ----------
@@ -55,7 +54,7 @@ export const IndividualBookingGroup = () => {
 
             {/* PAGE HEADER */}
             
-            <PageHeader title="Booking Group" subTitle={`Booking Group ID: ${bookingGroupData!.data.id}`} />
+            <PageHeader title="Booking Group" subTitle={`Booking Group ID: ${id}`} />
 
             <div id="booking-group-information-container" className="flex-grow overflow-y-auto">
                 {/* Lead Guest Details */}
@@ -83,7 +82,7 @@ export const IndividualBookingGroup = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {bookingGroupData?.data.bookings.map(booking => {
+                                {(bookingGroupData?.data as Booking[]).map(booking => {
                                     return (
                                         <TableRow
                                             key={booking.id}

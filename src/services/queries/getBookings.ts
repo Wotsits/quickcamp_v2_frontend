@@ -19,12 +19,16 @@ type GetBookings = {
   status?: any;
   /** optional, bookingGroupId to filter by */
   bookingGroupId?: any;
+  /** optional, guests to filter by */
+  guests?: any;
   /** optional, skip number for pagination */
   skip?: number;
   /** optional, take number for pagination */
   take?: number;
   /** optional, include object for inclusion of nested objects */
   include?: any;
+  /** optional, orderBy object to control orderBy params passed to API */
+  orderBy?: any;
   /** optional, summariesOnly boolean */
   summariesOnly?: boolean;
   /** optional, count boolean */
@@ -49,6 +53,7 @@ export const getBookings = async ({
   status,
   bookingGroupId,
   siteId,
+  guests,
   skip,
   take,
   include,
@@ -56,6 +61,7 @@ export const getBookings = async ({
   count,
   AND,
   OR,
+  orderBy,
   token,
 }: GetBookings) => {
   const response = await axios.get<{ data: BookingSumm[] | Booking[], count: number | undefined 
@@ -73,13 +79,15 @@ export const getBookings = async ({
         status,
         bookingGroupId,
         siteId,
+        guests,
         skip,
         take,
         include,
         summariesOnly,
         count,
         AND,
-        OR
+        OR,
+        orderBy
       },
     }
   );
