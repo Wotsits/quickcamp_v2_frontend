@@ -19,7 +19,7 @@ import {
 } from "../../../utils/dateTimeManipulation";
 import AuthContext from "../../../contexts/authContext";
 import { useQuery } from "react-query";
-import { Booking } from "../../../types";
+import { Booking, BookingSumm } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -27,12 +27,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SummaryBlock from "../../../components/molecules/SummaryBlock";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHeader from "../../../components/molecules/PageHeader";
-import { ROUTES } from "../../../settings";
+import { BOOKING_STATUSES, ROUTES } from "../../../settings";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { getDeparturesByDate } from "../../../services/queries/getDeparturesByDate";
 import "../style.css";
 import SitesContext from "../../../contexts/sitesContext";
 import { calculateNumberOfTypeDeparting } from "../helpers";
+import { getBookings } from "../../../services/queries/getBookings";
 
 const summaryBlockSettings = {
   background:
@@ -99,11 +99,60 @@ const Departures = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<{ data: Booking[] }, Error>(["DeparturesByDate", date], () =>
-    getDeparturesByDate({
-      date: date as Date,
-      token: user.token,
+  } = useQuery<{ data: Booking[] | BookingSumm[] }, Error>(["Bookings", {guests: {
+    some: {
+      end: new Date(date as Date).toISOString(),
+    },
+  },
+  siteId: selectedSite!.id,
+  status: BOOKING_STATUSES.CONFIRMED,
+  orderBy: [
+    {
+      leadGuest: {
+        lastName: "asc",
+      },
+    },
+    {
+      leadGuest: {
+        firstName: "asc",
+      },
+    },
+  ]}], () =>
+    getBookings({
+      guests: {
+        some: {
+          end: new Date(date as Date).toISOString(),
+        },
+      },
       siteId: selectedSite!.id,
+      status: BOOKING_STATUSES.CONFIRMED,
+      orderBy: [
+        {
+          leadGuest: {
+            lastName: "asc",
+          },
+        },
+        {
+          leadGuest: {
+            firstName: "asc",
+          },
+        },
+      ],
+      include: {
+        unit: true,
+        leadGuest: true,
+        guests: {
+          include: {
+            guestType: {
+              include: {
+                guestTypeGroup: true,
+              },
+            },
+          },
+        },
+        payments: true,
+      },
+      token: user.token,
     })
   );
 
@@ -186,8 +235,8 @@ const Departures = () => {
                 />
                 {selectedSite?.guestTypeGroups?.map(guestTypeGroup => {
                   const guestTypeGroupId = guestTypeGroup.id
-                  const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DUE")
-                  const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, departuresData!.data, "DEPARTED")
+                  const numberOfTypeDueToDepart = calculateNumberOfTypeDeparting(guestTypeGroupId, (departuresData!.data as Booking[]), "DUE")
+                  const numberOfTypeDeparted = calculateNumberOfTypeDeparting(guestTypeGroupId, (departuresData!.data as Booking[]), "DEPARTED")
 
                   return (
                     <SummaryBlock
@@ -242,7 +291,7 @@ const Departures = () => {
                     )}
 
                     {departuresData &&
-                      departuresData.data.map((departure) => (
+                      (departuresData.data as Booking[]).map((departure) => (
                         <TableRow
                           key={departure.id}
                           sx={{

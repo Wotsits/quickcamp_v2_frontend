@@ -1,16 +1,14 @@
 import { Tab, Tabs, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Booking } from "../../types";
-import { getArrivalsByDate } from "../../services/queries/getArrivalsByDate";
+import { Booking, BookingGuest, BookingSumm } from "../../types";
 import AuthContext from "../../contexts/authContext";
 import ArrivalsGraph from "../../components/organisms/ArrivalsGraph";
 import "./style.css";
-import { PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../../settings";
+import { BOOKING_STATUSES, PRIMARYCOLOR, ROUTES, SECONDARYCOLOR } from "../../settings";
 import { useNavigate } from "react-router-dom";
 import SummaryBlock from "../../components/molecules/SummaryBlock";
 import { today1200 } from "../../utils/dateTimeManipulation";
-import { getDeparturesByDate } from "../../services/queries/getDeparturesByDate";
 import { isSameDate } from "../../utils/helpers";
 import { getTotalOnSiteNow } from "../../services/queries/getTotalOnSiteNow";
 import { BarChart } from "@mui/x-charts";
@@ -20,6 +18,7 @@ import { getTotalOnSiteTonight } from "../../services/queries/getTotalOnSiteToni
 import { getTotalPaymentsToday } from "../../services/queries/getTotalPaymentsToday";
 import { getPaymentsBreakdownToday } from "../../services/queries/getPaymentsBreakdownToday";
 import { getUnconfirmedBookingsCount } from "../../services/queries/getUnconfirmedBookingsCount";
+import { getBookings } from "../../services/queries/getBookings";
 
 const now = today1200();
 
@@ -55,11 +54,42 @@ const Dashboard = () => {
     isError: arrivalsAreError,
     data: arrivalsData,
     error: arrivalsError,
-  } = useQuery<{ data: Booking[] }, Error>(["ArrivalsByDate", now], () =>
-    getArrivalsByDate({
-      date: now,
-      token: user.token,
+  } = useQuery<{ data: Booking[] | BookingSumm[] }, Error>(["ArrivalsByDate", now], () =>
+    getBookings({
+      guests: {
+        some: {
+          start: new Date(now).toISOString(),
+        },
+      },
       siteId: selectedSite!.id,
+      status: BOOKING_STATUSES.CONFIRMED,
+      orderBy: [
+        {
+          leadGuest: {
+            lastName: "asc",
+          },
+        },
+        {
+          leadGuest: {
+            firstName: "asc",
+          },
+        },
+      ],
+      include: {
+        unit: true,
+        leadGuest: true,
+        guests: {
+          include: {
+            guestType: {
+              include: {
+                guestTypeGroup: true,
+              },
+            },
+          },
+        },
+        payments: true,
+      },
+      token: user.token,
     })
   );
 
@@ -69,11 +99,42 @@ const Dashboard = () => {
     isError: departuresAreError,
     data: departuresData,
     error: departuresError,
-  } = useQuery<{ data: Booking[] }, Error>(["DeparturesByDate", now], () =>
-    getDeparturesByDate({
-      date: now,
-      token: user.token,
+  } = useQuery<{ data: Booking[] | BookingSumm[] }, Error>(["DeparturesByDate", now], () =>
+    getBookings({
+      guests: {
+        some: {
+          end: new Date(now).toISOString(),
+        },
+      },
       siteId: selectedSite!.id,
+      status: BOOKING_STATUSES.CONFIRMED,
+      orderBy: [
+        {
+          leadGuest: {
+            lastName: "asc",
+          },
+        },
+        {
+          leadGuest: {
+            firstName: "asc",
+          },
+        },
+      ],
+      include: {
+        unit: true,
+        leadGuest: true,
+        guests: {
+          include: {
+            guestType: {
+              include: {
+                guestTypeGroup: true,
+              },
+            },
+          },
+        },
+        payments: true,
+      },
+      token: user.token,
     })
   );
 
@@ -195,9 +256,9 @@ const Dashboard = () => {
     let totalExpected = 0;
     let totalComplete = 0;
 
-    const arr = action === "ARRIVALS" ? arrivalsData!.data : departuresData!.data;
+    const arr: Booking[] = action === "ARRIVALS" ? (arrivalsData!.data as Booking[]) : (departuresData!.data as Booking[]);
     arr.forEach((booking) => {
-      booking.guests!.forEach((guest) => {
+      booking.guests!.forEach((guest: BookingGuest) => {
         const dateOfInterest = action === "ARRIVALS" ? guest.start : guest.end;
         // if guest is arriving today (remember there may be guests in the array that are arriving on other days)
         if (isSameDate(now, new Date(dateOfInterest))) {
@@ -261,7 +322,7 @@ const Dashboard = () => {
 
         {selectedSite?.guestTypeGroups?.filter(guestTypeGroup => guestTypeGroup.getAndReportArrivalTime === true).sort((a, b) => a.order - b.order).map(guestTypeGroup => (
           <CustomTabPanel value={arrivalsGraphActiveIndex} index={0} >
-            <ArrivalsGraph arrivalsData={arrivalsData!.data} height={300} />
+            <ArrivalsGraph arrivalsData={arrivalsData!.data as Booking[]} height={300} />
           </CustomTabPanel>
         ))}
 
