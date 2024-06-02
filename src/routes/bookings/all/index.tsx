@@ -50,12 +50,29 @@ const Bookings = () => {
     isError: bookingsAreError,
     data: bookingsData,
     error: bookingsError,
-  } = useQuery<{data: BookingSumm[] | Booking[], count: number | undefined}, Error>(["bookings", selectedSite!.id, page * pageSize - pageSize, pageSize], () =>
+  } = useQuery<{ data: BookingSumm[] | Booking[], count: number | undefined }, Error>(["bookings", {
+    token: user.token,
+    siteId: selectedSite!.id,
+    skip: page * pageSize - pageSize,
+    take: pageSize,
+    include: {
+      unit: true,
+      leadGuest: true,
+      guests: true,
+    },
+    orderBy: { id: "desc" },
+  }], () =>
     getBookings({
       token: user.token,
       siteId: selectedSite!.id,
       skip: page * pageSize - pageSize,
       take: pageSize,
+      include: {
+        unit: true,
+        leadGuest: true,
+        guests: true,
+      },
+      orderBy: { id: "desc" },
     })
   );
 
@@ -64,7 +81,7 @@ const Bookings = () => {
     isError: guestTypesAreError,
     data: guestTypesData,
     error: guestTypesError,
-  } = useQuery<{data: GuestType[]}, Error>(["guestTypes"], () =>
+  } = useQuery<{ data: GuestType[] }, Error>(["guestTypes"], () =>
     getGuestTypes({ token: user.token, siteId: selectedSite!.id })
   );
 
@@ -157,11 +174,11 @@ const Bookings = () => {
           </Table>
         </TableContainer>
         <TablePaginationControls
-          count={bookingsData?.count || 0} 
-          page={page} 
-          rowsPerPage={pageSize} 
+          count={bookingsData?.count || 0}
+          page={page}
+          rowsPerPage={pageSize}
           onPageChange={(_, page) => setPage(page)}
-        /> 
+        />
       </div>
     </div>
   );
