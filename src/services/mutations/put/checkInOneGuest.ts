@@ -6,6 +6,7 @@ type CheckInOneGuestArgs = {
   id: number;
   type: "GUEST" | "PET" | "VEHICLE";
   reverse?: boolean;
+  siteId: number;
 };
 
 export const checkInOneGuest = async ({
@@ -13,6 +14,7 @@ export const checkInOneGuest = async ({
   id,
   type,
   reverse,
+  siteId
 }: CheckInOneGuestArgs) => {
   return await axios.put(
     APIURL + "check-in-guest",
@@ -20,6 +22,7 @@ export const checkInOneGuest = async ({
       id, 
       type,
       reverse,
+      siteId
     },
     {
       headers: {

@@ -1,5 +1,4 @@
 import { Booking, BookingGuest} from "../../types";
-import { setDateToMidday } from "../../utils/dateTimeManipulation";
 import { isGuestDue } from "../../utils/helpers";
 
 export function checkinOne(
@@ -9,7 +8,8 @@ export function checkinOne(
   setState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   mutationFunc: any,
   token: string,
-  reverse: boolean
+  reverse: boolean,
+  siteId: number
 ) {
   const now = new Date();
 
@@ -28,7 +28,7 @@ export function checkinOne(
   setState(cpy);
 
   // Update the server
-  mutationFunc.mutate({ token, id: guestId, type, reverse });
+  mutationFunc.mutate({ token, id: guestId, type, reverse, siteId });
 }
 
 export function checkinAll(
@@ -36,7 +36,8 @@ export function checkinAll(
   setGuestState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   checkInManyGuestsMutation: any,
   token: string,
-  reverse: boolean
+  reverse: boolean,
+  siteId: number
 ) {
 
   const now = new Date();
@@ -70,6 +71,7 @@ export function checkinAll(
     token,
     guests: toUpdateOnServer,
     reverse,
+    siteId
   });
 }
 

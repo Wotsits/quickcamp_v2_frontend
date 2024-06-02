@@ -155,7 +155,8 @@ const IndividualArrival = () => {
                 setGuests,
                 checkInManyGuestsMutation,
                 user.token,
-                false
+                false,
+                selectedSite!.id
               )
             }
             disabled={
@@ -172,7 +173,8 @@ const IndividualArrival = () => {
                 setGuests,
                 checkInManyGuestsMutation,
                 user.token,
-                true
+                true,
+                selectedSite!.id
               )
             }
             disabled={
@@ -225,7 +227,8 @@ const IndividualArrival = () => {
                             setGuests,
                             checkInOneGuestMutation,
                             user.token,
-                            false
+                            false,
+                            selectedSite!.id
                           )
                         : () =>
                           checkinOne(
@@ -235,7 +238,8 @@ const IndividualArrival = () => {
                             setGuests,
                             checkInOneGuestMutation,
                             user.token,
-                            true
+                            true,
+                            selectedSite!.id
                           )
                     }
                     highlighted={guest.checkedIn !== null}
