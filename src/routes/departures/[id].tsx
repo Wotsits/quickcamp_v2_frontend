@@ -162,7 +162,8 @@ const IndividualDeparture = () => {
                 setGuests,
                 checkOutManyGuestsMutation,
                 user.token,
-                false
+                false,
+                selectedSite!.id
               )
             }
             disabled={
@@ -179,7 +180,8 @@ const IndividualDeparture = () => {
                 setGuests,
                 checkOutManyGuestsMutation,
                 user.token,
-                true
+                true,
+                selectedSite!.id
               )
             }
             disabled={
@@ -230,7 +232,8 @@ const IndividualDeparture = () => {
                             setGuests,
                             checkOutOneGuestMutation,
                             user.token,
-                            false
+                            false,
+                            selectedSite!.id
                           )
                         : () =>
                           checkoutOne(
@@ -240,7 +243,8 @@ const IndividualDeparture = () => {
                             setGuests,
                             checkOutOneGuestMutation,
                             user.token,
-                            true
+                            true,
+                            selectedSite!.id
                           )
                     }
                     highlighted={guest.checkedOut !== null}

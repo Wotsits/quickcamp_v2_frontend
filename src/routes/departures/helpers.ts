@@ -7,7 +7,8 @@ export function checkoutOne(
   setState:React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   mutationFunc: any,
   token: string,
-  reverse: boolean
+  reverse: boolean,
+  siteId: number
 ) {
   const now = new Date();
 
@@ -26,7 +27,7 @@ export function checkoutOne(
   setState(cpy);
 
   // Update the server
-  mutationFunc.mutate({ token, id: guestId, type, reverse });
+  mutationFunc.mutate({ token, id: guestId, type, reverse, siteId });
 }
 
 export function checkoutAll(
@@ -34,7 +35,8 @@ export function checkoutAll(
   setGuestState: React.Dispatch<React.SetStateAction<BookingGuest[] | undefined>>,
   mutationFunc: any,
   token: string,
-  reverse: boolean
+  reverse: boolean,
+  siteId: number
 ) {
   const now = new Date();
 
@@ -57,6 +59,7 @@ export function checkoutAll(
     token,
     guests: toUpdateOnServer,
     reverse,
+    siteId
   });
 }
 
