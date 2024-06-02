@@ -19,6 +19,7 @@ import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SiteContext from "../../../contexts/sitesContext";
 import { getBookings } from "../../../services/queries/getBookings";
+import { addDays } from "date-fns";
 
 // -------------
 // MAIN
@@ -65,13 +66,13 @@ const BookingCalendar = () => {
           {
             start: {
               gte: startDate?.toISOString(),
-              lt: addOneMonth(startDate as Date).toISOString(),
+              lt: addDays(startDate as Date, 29).toISOString(),
             },
           },
           {
             end: {
               gte: startDate?.toISOString(),
-              lt: addOneMonth(startDate as Date).toISOString(),
+              lt: addDays(startDate as Date, 29).toISOString(),
             },
           },
           {
@@ -81,7 +82,7 @@ const BookingCalendar = () => {
                   lte: startDate?.toISOString(),
                 },
                 end: {
-                  gt: addOneMonth(startDate as Date).toISOString(),
+                  gt: addDays(startDate as Date, 29).toISOString(),
                 },
               },
             ],
