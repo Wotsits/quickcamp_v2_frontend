@@ -16,7 +16,7 @@ const ResourceCalendarHeaderRow = ({dateArray, columnWidth}: ResourceCalendarHea
           className="resource-calendar-table-header"
         >
           <tr>
-            <Typography variant="body2" component="th" className="min-width-150"></Typography>
+            <Typography variant="body2" component="th" className="min-width-150 head-col"></Typography>
             {dateArray.map((date) => {
               return (
                 <Typography

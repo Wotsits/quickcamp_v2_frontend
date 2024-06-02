@@ -39,10 +39,9 @@
 }
 
 #booking-calendar #booking-calendar-container {
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: auto;
+  flex: 1;
   background: white;
+  overflow: hidden;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

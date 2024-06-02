@@ -22,11 +22,11 @@ const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalen
           {resources.map((resourceGroup) => (
             <Fragment key={resourceGroup.resourceTypeName}>
               <tr className="resource-class-section-header">
-                <Typography variant="subtitle2" component="td" colSpan={10000}>{resourceGroup.resourceTypeName}</Typography>
+                <Typography variant="subtitle2" component="td" colSpan={10000} className="head-col">{resourceGroup.resourceTypeName}</Typography>
               </tr>
               {resourceGroup.resources.map((resource) => (
                 <tr key={resource.id.toString()}>
-                  <Typography variant="body2" component="td">{resource.name}</Typography>
+                  <Typography variant="body2" component="td" className="head-col">{resource.name}</Typography>
                   {dateArray.map((date) => {
                     const start = new Date(new Date(date).setHours(12, 0, 0, 0));
                     return (

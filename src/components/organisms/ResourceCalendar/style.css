@@ -3,7 +3,7 @@
     width: 100%;
     overflow: auto;
     position: relative;
-    min-height: 100%;
+    height: 100%;
 }
 
 .resource-calendar-table {
@@ -12,8 +12,31 @@
     border-collapse: collapse;
 }
 
+.resource-calendar .resource-calendar-table-header {
+    background-color: #f5f5f5;
+    z-index: 1;
+}
+
+.resource-calendar .resource-calendar-table-header td {
+    overflow-y: visible;
+}
+
+.resource-calendar .resource-class-section-header {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+}
+
 .resource-calendar .resource-class-section-header td {
     padding-top: 20px;
+}
+
+.resource-calendar .head-col {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: #f5f5f5;
 }
 
 .resource-calendar .cell {
