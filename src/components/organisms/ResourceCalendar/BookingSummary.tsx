@@ -49,7 +49,7 @@ const BookingSummary = ({
     end,
     guests,
     paid,
-    peopleCheckedIn,
+    guestsCheckedIn,
     bookingGroupId,
     sizeOfGroup
   } = booking;
@@ -98,7 +98,7 @@ const BookingSummary = ({
         </div>
 
         <div className="booking-summary-checkedin-details">
-          <div>People Checked In: {peopleCheckedIn}</div>
+          <div>People Checked In: {guestsCheckedIn}</div>
         </div>
       </CardContent>
 

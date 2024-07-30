@@ -51,16 +51,15 @@ const BookingBlock = ({
   }
 
   function getBackgroundColor() {
-    if (booking.paid && booking.peopleCheckedIn === getTotalOccupants()) {
-      return "green";
-    } else if (
+    if (!booking.paid) return "orange";
+    if (!booking.paid && booking.guestsCheckedIn > 0) return "red";
+    if (booking.paid && booking.guestsCheckedIn === getTotalOccupants()) return "green";
+    if (booking.paid && !booking.guestsCheckedIn) return "lightgrey";
+    if (
       booking.paid &&
-      booking.peopleCheckedIn !== getTotalOccupants()
-    ) {
-      return "orange";
-    } else {
-      return "red";
-    }
+      booking.guestsCheckedIn !== getTotalOccupants()
+    ) return "lightgreen";
+    return "white";
   }
 
   function isPartOfGroup() {
@@ -89,7 +88,7 @@ const BookingBlock = ({
       >
         {booking.bookingName}
         <span className="occupant-summary">{getTotalOccupants()}</span>
-        {isPartOfGroup() && <Diversity3Icon sx={{ml: 1}}/>}
+        {isPartOfGroup() && <Diversity3Icon sx={{ ml: 1 }} />}
       </div>
       {bookingSummaryVisible &&
         createPortal(

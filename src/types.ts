@@ -258,9 +258,7 @@ export type BookingSumm = {
   start: string;
   end: string;
   paid: boolean;
-  peopleCheckedIn: number;
-  petsCheckedIn: number;
-  vehiclesCheckedIn: number;
+  guestsCheckedIn: number;
   bookingGroupId: number;
   sizeOfGroup: number
 };
