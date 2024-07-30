@@ -21,8 +21,8 @@ const ResourceCalendarBody = ({resources, dateArray, onCellClick}: ResourceCalen
         >
           {resources.map((resourceGroup) => (
             <Fragment key={resourceGroup.resourceTypeName}>
-              <tr className="resource-class-section-header">
-                <Typography variant="subtitle2" component="td" colSpan={10000} className="head-col">{resourceGroup.resourceTypeName}</Typography>
+              <tr className="resource-class-section-header head-col">
+                <td className="head-col">{resourceGroup.resourceTypeName}</td>
               </tr>
               {resourceGroup.resources.map((resource) => (
                 <tr key={resource.id.toString()}>
