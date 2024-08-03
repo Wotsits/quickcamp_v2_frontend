@@ -301,21 +301,12 @@ const IndividualBooking = () => {
         </div>
         <div className="right">
           <ContentBlock title="Summary">
-            <TextField
-              fullWidth
-              label="Status"
-              select
-              value={bookingData.data.status}
-              onChange={(e) => console.log("not yet implemented")}
-            >
-              {Object.values(BOOKING_STATUSES).sort().map((v: string) => {
-                return (
-                  <MenuItem key={v} value={v}>
-                    <Typography variant="body1">{v}</Typography>
-                  </MenuItem>
-                );
-              })}
-            </TextField>
+            <LabelAndValuePair label="Status" value={bookingData.data.status} />
+            <LabelAndValuePair label="Created On" value={new Date(bookingData.data.createdAt).toUTCString()} />
+            <LabelAndValuePair label="Updated On" value={new Date(bookingData.data.updatedAt).toUTCString()} />
+          </ContentBlock>
+          <ContentBlock title="Actions">
+            Action buttons here
           </ContentBlock>
         </div>
       </div>

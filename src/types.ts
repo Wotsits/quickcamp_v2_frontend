@@ -147,6 +147,8 @@ export type Booking = {
   status: string;
   bookingGroupId: number;
   bookingGroup?: BookingGroup;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Calendar = {
