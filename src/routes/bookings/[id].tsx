@@ -163,17 +163,17 @@ const IndividualBooking = () => {
             </Button>
           )}
           {bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED && (
-            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{marginLeft: "1rem"}} color="success" variant="contained" onClick={() => console.log("Not yet implemented")}>
               Confirm Booking
             </Button>
           )}
           {(bookingData.data.status === BOOKING_STATUSES.CONFIRMED || bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED) && (
-            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{marginLeft: "1rem"}} color="error" variant="contained" onClick={() => console.log("Not yet implemented")}>
               Cancel Booking
             </Button>
           )}
           {bookingData.data.status === BOOKING_STATUSES.CANCELLED && (
-            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{marginLeft: "1rem"}} color="warning" variant="contained" onClick={() => console.log("Not yet implemented")}>
               UnCancel Booking
             </Button>
           )}
