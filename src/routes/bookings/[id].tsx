@@ -317,6 +317,7 @@ const IndividualBooking = () => {
         <div className="right">
           <ContentBlock title="Summary">
             <LabelAndValuePair label="Status" value={bookingData.data.status} />
+            <LabelAndValuePair label="Balance" value={"£" + calculateBalance(bookingData.data)} />
             <LabelAndValuePair label="Created On" value={new Date(bookingData.data.createdAt).toUTCString()} />
             <LabelAndValuePair label="Updated On" value={new Date(bookingData.data.updatedAt).toUTCString()} />
           </ContentBlock>
