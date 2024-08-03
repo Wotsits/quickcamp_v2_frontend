@@ -4,9 +4,21 @@
   width: 100%;
 }
 
+#booking .left {
+  width: 70%
+}
+
+#booking .right {
+  height: 100%;
+  flex-grow: 1;
+}
+
 #booking #booking-information-container {
+  display: flex;
+  flex-direction: row;
   flex-grow: 1;
   overflow-y: auto;
+  gap: 1rem;
 }
 
 #booking .content-block .occupant-cards {

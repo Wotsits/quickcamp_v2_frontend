@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { Booking } from "../../types";
 import { getBookingById } from "../../services/queries/getBookingById";
 import "./style.css";
 import OccupantCard from "../../components/molecules/OccupantCard";
-import { ROUTES } from "../../settings";
+import { BOOKING_STATUSES, ROUTES } from "../../settings";
 import PageHeader from "../../components/molecules/PageHeader";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentBlock from "../../components/atoms/ContentBlock";
@@ -55,7 +55,7 @@ const IndividualBooking = () => {
   // QUERIES
   // -------------
 
-  const { isLoading, isError, data: bookingData, error } = useQuery<{data: Booking}, Error>(
+  const { isLoading, isError, data: bookingData, error } = useQuery<{ data: Booking }, Error>(
     ["booking", id],
     () => getBookingById({ token: user.token, id: id })
   );
@@ -92,7 +92,7 @@ const IndividualBooking = () => {
     return <div>Booking not found</div>;
   }
 
-  const isPartOfGroupOfBookings = bookingData.data.bookingGroup && bookingData.data.bookingGroup.bookings.length > 1; 
+  const isPartOfGroupOfBookings = bookingData.data.bookingGroup && bookingData.data.bookingGroup.bookings.length > 1;
 
   return (
     <div id="booking" className="flex-column h-full">
@@ -152,151 +152,174 @@ const IndividualBooking = () => {
       )}
 
       <PageHeader title="Booking" subTitle={`Booking ID: ${bookingData.data.id}`}>
-      <div id="individual-booking-header-right">
+        <div id="individual-booking-header-right">
           {isPartOfGroupOfBookings && (
-          <Button
-            variant="contained"
-            onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKING_GROUPS + bookingData.data.bookingGroupId)
-            }
-          >
-            View Booking Group
-          </Button>
+            <Button
+              variant="contained"
+              onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKING_GROUPS + bookingData.data.bookingGroupId)
+              }
+            >
+              View Booking Group
+            </Button>
           )}
         </div>
       </PageHeader>
 
       <div id="booking-information-container" className="flex-grow">
-        {/* Lead Guest Details */}
 
-        <ContentBlock
-          title="Booking Details"
-          topRightComponent={
-            <div>
+        <div className="left">
+          {/* Lead Guest Details */}
+
+          <ContentBlock
+            title="Booking Details"
+            topRightComponent={
+              <div>
+                <IconButton>
+                  <VisibilityIcon
+                    onClick={() => {
+                      navigate(
+                        ROUTES.ROOT + ROUTES.GUESTS + bookingData.data.leadGuest.id
+                      );
+                    }}
+                  />
+                </IconButton>
+                <IconButton>
+                  <EditIcon onClick={() => setLeadGuestEditModalOpen(true)} />
+                </IconButton>
+              </div>
+            }
+          >
+            <LabelAndValuePair label="Name" value={bookingData.data.leadGuest.firstName + " " + bookingData.data.leadGuest.lastName} />
+            <LabelAndValuePair label="Email" value={bookingData.data.leadGuest.email} />
+            <LabelAndValuePair label="Tel" value={bookingData.data.leadGuest.tel} />
+          </ContentBlock>
+
+          {/* Booking Details */}
+
+          <ContentBlock
+            title="Booking Details"
+            topRightComponent={
               <IconButton>
-                <VisibilityIcon
-                  onClick={() => {
-                    navigate(
-                      ROUTES.ROOT + ROUTES.GUESTS + bookingData.data.leadGuest.id
-                    );
-                  }}
-                />
+                <EditIcon onClick={() => setBookingDetailsEditModalOpen(true)} />
               </IconButton>
+            }
+          >
+            <LabelAndValuePair label="Unit" value={bookingData.data.unit.name} />
+            <LabelAndValuePair label="Dates" value={new Date(bookingData.data.start).toUTCString() + " - " +
+              new Date(bookingData.data.end).toUTCString()} />
+          </ContentBlock>
+
+          {/* Occupant Details */}
+
+          <ContentBlock
+            title="Occupant Details"
+            topRightComponent={
               <IconButton>
-              <EditIcon onClick={() => setLeadGuestEditModalOpen(true)} />
-            </IconButton>
+                <EditIcon onClick={() => setOccupantDetailsEditModalOpen(true)} />
+              </IconButton>
+            }
+          >
+            <Box sx={{ mb: 3 }} justifyContent="space-between">
+              <Typography variant="h6" component="h2" gutterBottom>
+                Guests
+              </Typography>
+              <div className="occupant-cards">
+                {bookingData.data.guests?.map((guest) => {
+                  const name = guest.name;
+                  const type = guest.guestType!.name;
+                  const start = new Date(guest.start);
+                  const end = new Date(guest.end);
+                  const checkedIn = guest.checkedIn !== null;
+                  return (
+                    <div className="occupant-card-container">
+                      <OccupantCard
+                        name={name}
+                        type={type}
+                        start={start}
+                        end={end}
+                        checkedIn={checkedIn}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </Box>
+          </ContentBlock>
+
+          {/* Finance Details */}
+
+          <ContentBlock
+            title="Finance Details"
+            topRightComponent={
+              <IconButton>
+                <EditIcon onClick={() => setFinanceDetailsEditModalOpen(true)} />
+              </IconButton>
+            }
+          >
+            <div>
+              <LabelAndValuePair label="Total Fee" value={"£" + bookingData.data.totalFee} />
             </div>
-          }
-        >
-          <LabelAndValuePair label="Name" value={bookingData.data.leadGuest.firstName + " " + bookingData.data.leadGuest.lastName} />
-          <LabelAndValuePair label="Email" value={bookingData.data.leadGuest.email} />
-          <LabelAndValuePair label="Tel" value={bookingData.data.leadGuest.tel} />
-        </ContentBlock>
 
-        {/* Booking Details */}
+            <div>
+              <LabelAndValuePair label="Total Paid" value={"£" + calculateTotalPaid(bookingData.data)} />
+            </div>
 
-        <ContentBlock
-          title="Booking Details"
-          topRightComponent={
-            <IconButton>
-              <EditIcon onClick={() => setBookingDetailsEditModalOpen(true)} />
-            </IconButton>
-          }
-        >
-          <LabelAndValuePair label="Unit" value={bookingData.data.unit.name} />
-          <LabelAndValuePair label="Dates" value={new Date(bookingData.data.start).toUTCString() + " - " + 
-            new Date(bookingData.data.end).toUTCString()} />
-        </ContentBlock>
+            <div>
+              <LabelAndValuePair label="Balance" value={"£" + calculateBalance(bookingData.data)} />
+            </div>
 
-        {/* Occupant Details */}
+            {/* Payments */}
 
-        <ContentBlock
-          title="Occupant Details"
-          topRightComponent={
-            <IconButton>
-              <EditIcon onClick={() => setOccupantDetailsEditModalOpen(true)} />
-            </IconButton>
-          }
-        >
-          <Box sx={{ mb: 3 }} justifyContent="space-between">
-            <Typography variant="h6" component="h2" gutterBottom>
-              Guests
-            </Typography>
-            <div className="occupant-cards">
-              {bookingData.data.guests?.map((guest) => {
-                const name = guest.name;
-                const type = guest.guestType!.name;
-                const start = new Date(guest.start);
-                const end = new Date(guest.end);
-                const checkedIn = guest.checkedIn !== null;
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} aria-label="payment table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Amount</TableCell>
+                    <TableCell>Method</TableCell>
+                    <TableCell>Notes</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bookingData.data.payments?.map((payment) => (
+                    <TableRow
+                      key={payment.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {new Date(payment.paymentDate).toUTCString()}
+                      </TableCell>
+                      <TableCell>{payment.paymentAmount}</TableCell>
+                      <TableCell>{payment.paymentMethod}</TableCell>
+                      <TableCell>{payment.paymentNotes || ""}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </ContentBlock>
+        </div>
+        <div className="right">
+          <ContentBlock title="Summary">
+            <TextField
+              fullWidth
+              label="Status"
+              select
+              value={bookingData.data.status}
+              onChange={(e) => console.log("not yet implemented")}
+            >
+              {Object.values(BOOKING_STATUSES).sort().map((v: string) => {
                 return (
-                  <div className="occupant-card-container">
-                    <OccupantCard
-                      name={name}
-                      type={type}
-                      start={start}
-                      end={end}
-                      checkedIn={checkedIn}
-                    />
-                  </div>
+                  <MenuItem key={v} value={v}>
+                    <Typography variant="body1">{v}</Typography>
+                  </MenuItem>
                 );
               })}
-            </div>
-          </Box>
-        </ContentBlock>
-
-        {/* Finance Details */}
-
-        <ContentBlock
-          title="Finance Details"
-          topRightComponent={
-            <IconButton>
-              <EditIcon onClick={() => setFinanceDetailsEditModalOpen(true)} />
-            </IconButton>
-          }
-        >
-          <div>
-          <LabelAndValuePair label="Total Fee" value={"£" + bookingData.data.totalFee} />
-          </div>
-
-          <div>
-            <LabelAndValuePair label="Total Paid" value={"£" + calculateTotalPaid(bookingData.data)} />
-          </div>
-
-          <div>
-            <LabelAndValuePair label="Balance" value={"£" + calculateBalance(bookingData.data)} />
-          </div>
-
-          {/* Payments */}
-
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="payment table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Method</TableCell>
-                  <TableCell>Notes</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {bookingData.data.payments?.map((payment) => (
-                  <TableRow
-                    key={payment.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {new Date(payment.paymentDate).toUTCString()}
-                    </TableCell>
-                    <TableCell>{payment.paymentAmount}</TableCell>
-                    <TableCell>{payment.paymentMethod}</TableCell>
-                    <TableCell>{payment.paymentNotes || ""}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </ContentBlock>
+            </TextField>
+          </ContentBlock>
+        </div>
       </div>
+
 
     </div>
 
