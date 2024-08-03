@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -162,6 +162,21 @@ const IndividualBooking = () => {
               View Booking Group
             </Button>
           )}
+          {bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED && (
+            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+              Confirm Booking
+            </Button>
+          )}
+          {(bookingData.data.status === BOOKING_STATUSES.CONFIRMED || bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED) && (
+            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+              Cancel Booking
+            </Button>
+          )}
+          {bookingData.data.status === BOOKING_STATUSES.CANCELLED && (
+            <Button variant="contained" onClick={() => console.log("Not yet implemented")}>
+              UnCancel Booking
+            </Button>
+          )}
         </div>
       </PageHeader>
 
@@ -304,9 +319,6 @@ const IndividualBooking = () => {
             <LabelAndValuePair label="Status" value={bookingData.data.status} />
             <LabelAndValuePair label="Created On" value={new Date(bookingData.data.createdAt).toUTCString()} />
             <LabelAndValuePair label="Updated On" value={new Date(bookingData.data.updatedAt).toUTCString()} />
-          </ContentBlock>
-          <ContentBlock title="Actions">
-            Action buttons here
           </ContentBlock>
         </div>
       </div>
