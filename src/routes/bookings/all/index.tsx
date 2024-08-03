@@ -73,7 +73,8 @@ const Bookings = () => {
       guests: true,
     },
     orderBy: { id: "desc" },
-    status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined
+    status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined,
+    count: true
   }], () =>
     getBookings({
       token: user.token,
@@ -86,7 +87,8 @@ const Bookings = () => {
         guests: true,
       },
       orderBy: { id: "desc" },
-      status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined
+      status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined,
+      count: true
     })
   );
 

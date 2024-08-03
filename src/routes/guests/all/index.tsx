@@ -94,7 +94,11 @@ const Guests = () => {
     data: leadGuestData,
     error,
   } = useQuery<{ data: LeadGuest[]; count: number }, Error>(
-    ["guests", page * pageSize - pageSize, pageSize],
+    ["guests", {
+      token: user.token,
+      skip: page * pageSize - pageSize,
+      take: pageSize,
+    }],
     () =>
       getLeadGuests({
         token: user.token,
