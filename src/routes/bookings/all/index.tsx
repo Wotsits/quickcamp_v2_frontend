@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getBookings } from "../../../services/queries/getBookings";
 import { Booking, BookingSumm, GuestType } from "../../../types";
@@ -12,13 +12,24 @@ import {
   TableRow,
 } from "@mui/material";
 import AuthContext from "../../../contexts/authContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DEFAULT_PAGE_SIZE, ROUTES } from "../../../settings";
 import PageHeader from "../../../components/molecules/PageHeader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getGuestTypes } from "../../../services/queries/getGuestTypes";
 import TablePaginationControls from "../../../components/atoms/Table/TablePaginationControls";
 import SiteContext from "../../../contexts/sitesContext";
+import Tick from "../../../components/atoms/Icons/Tick"
+import Question from "../../../components/atoms/Icons/Question"
+import Cross from "../../../components/atoms/Icons/Cross"
+
+function getBookingStatusIcon(status: string): ReactNode {
+  switch(status) {
+    case "CONFIRMED": return <Tick/>
+    case "UNCONFIRMED": return <Question/>
+    case "CANCELLED": return <Cross/>
+  }
+}
 
 const Bookings = () => {
   // -----------
@@ -33,6 +44,7 @@ const Bookings = () => {
   // -----------
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // -------------
   // STATE
@@ -61,6 +73,7 @@ const Bookings = () => {
       guests: true,
     },
     orderBy: { id: "desc" },
+    status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined
   }], () =>
     getBookings({
       token: user.token,
@@ -73,6 +86,7 @@ const Bookings = () => {
         guests: true,
       },
       orderBy: { id: "desc" },
+      status: location.search === "?unconfirmed=true" ? "UNCONFIRMED" : undefined
     })
   );
 
@@ -102,12 +116,13 @@ const Bookings = () => {
     );
   }
 
+
   return (
     <div id="bookings" className="full-width h-full flex-column">
 
       {/* PAGE HEADER */}
 
-      <PageHeader title="Bookings">
+      <PageHeader title={location.search === "?unconfirmed=true" ? "Unconfirmed Bookings" : "Bookings"}>
         <IconButton
           onClick={() => navigate(ROUTES.ROOT + ROUTES.BOOKINGS + ROUTES.NEW)}
           size="large"
@@ -124,6 +139,7 @@ const Bookings = () => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Lead Guest Name</TableCell>
                 <TableCell>Unit</TableCell>
                 <TableCell>Start Date</TableCell>
@@ -153,6 +169,7 @@ const Bookings = () => {
                     hover
                   >
                     <TableCell>{booking.id}</TableCell>
+                    <TableCell>{getBookingStatusIcon(booking.status)}</TableCell>
                     <TableCell>{booking.leadGuest.firstName + " " + booking.leadGuest.lastName}</TableCell>
                     <TableCell>{booking.unit.name}</TableCell>
                     <TableCell>{new Date(booking.start).toDateString() + ", " + new Date(booking.start).toLocaleTimeString()}</TableCell>

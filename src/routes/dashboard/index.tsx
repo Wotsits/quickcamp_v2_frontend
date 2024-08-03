@@ -426,14 +426,15 @@ const Dashboard = () => {
 
       { /* PENDING BOOKINGS SUMMARY BLOCK */}
 
-      <div id="pending-bookings">
+      <div id="unconfirmed-bookings">
         <SummaryBlock
-          label="Pending Bookings"
+          label="Unconfirmed Bookings"
           content={unconfirmedBookingsCountData ? unconfirmedBookingsCountData.data : 0}
           background={PRIMARYCOLOR}
           foregroundColor="white"
           width="100%"
           height="100%"
+          onClick={() => navigate("/" + ROUTES.BOOKINGS + "?unconfirmed=true")}
         />
       </div>
 

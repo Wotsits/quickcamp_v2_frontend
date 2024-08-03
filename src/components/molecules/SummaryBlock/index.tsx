@@ -24,6 +24,8 @@ type SummaryBlockProps = {
   minHeight?: string;
   /** optional, summaryBlock maxHeight */
   maxHeight?: string;
+  /** optional, function to call onClick */
+  onClick?: () => void
 };
 
 const SummaryBlock = ({
@@ -37,7 +39,8 @@ const SummaryBlock = ({
   maxWidth,
   height,
   minHeight,
-  maxHeight
+  maxHeight,
+  onClick
 }: SummaryBlockProps) => {
   return (
     <div
@@ -51,8 +54,10 @@ const SummaryBlock = ({
         height: height,
         minHeight: minHeight,
         maxHeight: maxHeight,
-        flex: 1
+        flex: 1,
+        cursor: onClick ? "pointer" : "auto"
       }}
+      onClick={onClick}
     >
       <h6 className="summary-block-label">{label}</h6>
       <div className="summary-block-content-container">{content}</div>

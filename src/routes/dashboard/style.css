@@ -9,7 +9,7 @@
       "arrival-forecast arrival-forecast arrival-forecast quick-menu"
       "on-site-now arrived-summary departed-summary on-site-tonight"
       "income-summary daily-income-breakdown daily-income-breakdown daily-income-breakdown"
-      "pending-bookings daily-income-breakdown daily-income-breakdown daily-income-breakdown"; 
+      "unconfirmed-bookings daily-income-breakdown daily-income-breakdown daily-income-breakdown"; 
 }
 
 @media only screen and (max-width: 1000px) {
@@ -86,6 +86,6 @@
     grid-area: daily-income-breakdown; 
 }
 
-#dashboard #pending-bookings { 
-    grid-area: pending-bookings; 
+#dashboard #unconfirmed-bookings { 
+    grid-area: unconfirmed-bookings; 
 }

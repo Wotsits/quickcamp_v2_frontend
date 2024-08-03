@@ -87,7 +87,7 @@ export const getBookings = async ({
         count,
         AND,
         OR,
-        orderBy
+        orderBy,
       },
     }
   );
