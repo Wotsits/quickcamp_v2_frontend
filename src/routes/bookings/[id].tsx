@@ -288,6 +288,7 @@ const IndividualBooking = () => {
             <LabelAndValuePair label="Unit" value={bookingData.data.unit.name} />
             <LabelAndValuePair label="Dates" value={new Date(bookingData.data.start).toUTCString() + " - " +
               new Date(bookingData.data.end).toUTCString()} />
+              <LabelAndValuePair label="Equipment Type" value={bookingData.data.equipmentType.name} />
           </ContentBlock>
 
           {/* Occupant Details */}
