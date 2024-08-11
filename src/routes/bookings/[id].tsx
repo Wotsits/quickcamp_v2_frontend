@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { Booking } from "../../types";
@@ -16,6 +16,7 @@ import EditLeadGuestForm from "../../components/organisms/EditBookingForms/EditL
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import LabelAndValuePair from "../../components/molecules/LabelAndValuePair";
+import { updateBooking } from "../../services/mutations/put/updateBooking";
 
 const IndividualBooking = () => {
   // -------------
@@ -38,6 +39,8 @@ const IndividualBooking = () => {
 
   const id = parseInt(params.id);
 
+  const queryClient = useQueryClient();
+
   // -------------
   // STATE
   // -------------
@@ -50,6 +53,8 @@ const IndividualBooking = () => {
     useState<boolean>(false);
   const [financeDetailsEditModalOpen, setFinanceDetailsEditModalOpen] =
     useState<boolean>(false);
+  const [statusChangeInProgress, setStatusChangeInProgress] =
+    useState<null | string>(null);
 
   // -------------
   // QUERIES
@@ -59,6 +64,18 @@ const IndividualBooking = () => {
     ["booking", id],
     () => getBookingById({ token: user.token, id: id })
   );
+
+  // -------------
+  // MUTATIONS
+  // -------------
+
+  const { mutate: updateBookingMutate, isError: updateBookingIsError, error: updateBookingError } = useMutation({
+    mutationFn: updateBooking,
+    onSuccess: (res) => {
+      queryClient.invalidateQueries(["bookings"])
+      queryClient.invalidateQueries(["booking", id])
+    }
+  })
 
   // -------------
   // HELPERS
@@ -96,6 +113,10 @@ const IndividualBooking = () => {
 
   return (
     <div id="booking" className="flex-column h-full">
+
+      {/* ------------------------ */}
+      {/* -------- MODALS -------- */}
+      {/* ------------------------ */}
 
       {/* Lead Guest Edit Modal */}
 
@@ -151,6 +172,51 @@ const IndividualBooking = () => {
         </Modal>
       )}
 
+      {/* Booking Status Confirmation Modal */}
+
+      {statusChangeInProgress && (
+        <Modal open={true}>
+          <ModalHeader
+            title="Change Status of this Booking?"
+            onClose={() => setStatusChangeInProgress(null)}
+          />
+          <div className="booking-status-confirmation-modal-content">
+            Are you sure you want to change the status of this booking?  You are changing the status from {bookingData.data.status} to {statusChangeInProgress}.
+          </div>
+          <div className="booking-status-confirmation-modal-buttons">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                setStatusChangeInProgress(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                updateBookingMutate({
+                  token: user.token,
+                  id: bookingData.data.id,
+                  changedItems: {
+                    status: statusChangeInProgress
+                  }
+                })
+                setStatusChangeInProgress(null);
+              }}
+            >
+              Set status to {statusChangeInProgress}
+            </Button>
+          </div>
+        </Modal>
+      )}
+
+      {/* ------------------------ */}
+      {/* -------- CONTENT ------- */}
+      {/* ------------------------ */}
+
       <PageHeader title="Booking" subTitle={`Booking ID: ${bookingData.data.id}`}>
         <div id="individual-booking-header-right">
           {isPartOfGroupOfBookings && (
@@ -163,17 +229,17 @@ const IndividualBooking = () => {
             </Button>
           )}
           {bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED && (
-            <Button sx={{marginLeft: "1rem"}} color="success" variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{ marginLeft: "1rem" }} color="success" variant="contained" onClick={() => setStatusChangeInProgress(BOOKING_STATUSES.CONFIRMED)}>
               Confirm Booking
             </Button>
           )}
           {(bookingData.data.status === BOOKING_STATUSES.CONFIRMED || bookingData.data.status === BOOKING_STATUSES.UNCONFIRMED) && (
-            <Button sx={{marginLeft: "1rem"}} color="error" variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{ marginLeft: "1rem" }} color="error" variant="contained" onClick={() => setStatusChangeInProgress(BOOKING_STATUSES.CANCELLED)}>
               Cancel Booking
             </Button>
           )}
           {bookingData.data.status === BOOKING_STATUSES.CANCELLED && (
-            <Button sx={{marginLeft: "1rem"}} color="warning" variant="contained" onClick={() => console.log("Not yet implemented")}>
+            <Button sx={{ marginLeft: "1rem" }} color="warning" variant="contained" onClick={() => setStatusChangeInProgress(BOOKING_STATUSES.CONFIRMED)}>
               UnCancel Booking
             </Button>
           )}
@@ -316,14 +382,16 @@ const IndividualBooking = () => {
         </div>
         <div className="right">
           <ContentBlock title="Summary">
-            <LabelAndValuePair label="Status" value={bookingData.data.status} />
+            <LabelAndValuePair label="Status" value={bookingData.data.status} valueColor={
+              bookingData.data.status === BOOKING_STATUSES.CONFIRMED ? "green" :
+                bookingData.data.status === BOOKING_STATUSES.CANCELLED ? "red" : "black"
+            } />
             <LabelAndValuePair label="Balance" value={"£" + calculateBalance(bookingData.data)} />
             <LabelAndValuePair label="Created On" value={new Date(bookingData.data.createdAt).toUTCString()} />
             <LabelAndValuePair label="Updated On" value={new Date(bookingData.data.updatedAt).toUTCString()} />
           </ContentBlock>
         </div>
       </div>
-
 
     </div>
 

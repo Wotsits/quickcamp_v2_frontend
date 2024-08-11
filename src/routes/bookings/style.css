@@ -13,6 +13,14 @@
   flex-grow: 1;
 }
 
+.booking-status-confirmation-modal-buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
 #booking #booking-information-container {
   display: flex;
   flex-direction: row;
