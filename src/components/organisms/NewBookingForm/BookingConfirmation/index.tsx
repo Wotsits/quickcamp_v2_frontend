@@ -23,10 +23,10 @@ const BookingConfirmation = ({bookingId}: BookingConfirmationProps) => {
             <Link to={`/bookings/${bookingId}`}>View the booking.</Link>
           </Typography>
           <Typography variant="body1">
-            <Link to="/bookings/all">Return to the bookings list.</Link>
+            <Link to="/bookings/">Return to the bookings list.</Link>
           </Typography>
           <Typography variant="body1">
-            <Link to="/bookings/calendar">
+            <Link to="/calendar/">
               Return to the bookings calendar.
             </Link>
           </Typography>

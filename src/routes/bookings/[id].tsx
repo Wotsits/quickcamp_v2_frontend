@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -245,6 +245,14 @@ const IndividualBooking = () => {
           )}
         </div>
       </PageHeader>
+      
+      {/* Error Container */}
+
+      <div id="error-container">
+        {updateBookingIsError && <Alert severity="warning">{(updateBookingError as {response: { data: {message: string}}}).response.data.message}</Alert>}
+      </div>
+      
+      {/* Booking Information Container */}
 
       <div id="booking-information-container" className="flex-grow">
 
